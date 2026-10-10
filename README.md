@@ -26,12 +26,15 @@ Bạn chỉ cần thực hiện 1 thao tác duy nhất:
 
 ## Cấu Trúc Thư Mục `web/`
 
-```
 web/
-├── index.html          # Khung giao diện chính (SPA gồm 6 Tabs chức năng, nút Sáng/Tối)
-├── style.css           # Hệ thống giao diện Dark / Light Mode tối giản, sạch sẽ
+├── docs/               # Chứa toàn bộ các file ghi chú Markdown (.md)
+├── index.html          # Khung giao diện chính (SPA gồm 7 Tabs chức năng, nút Sáng/Tối)
+├── style.css           # Hệ thống giao diện Dark / Light Mode, tối ưu Mobile & Bảng biểu
 ├── data_questions.js   # Ngân hàng 400 câu hỏi trắc nghiệm chuẩn kèm giải thích & trang slide
-├── app.js              # Xử lý toàn bộ logic: chấm điểm, giải thích, chuyển theme, localStorage
+├── data_docs.js        # Dữ liệu & manifest các file Markdown (tự động tạo bởi build_docs.js)
+├── build_docs.js       # Script tự động quét docs/*.md để cập nhật danh mục & hỗ trợ offline
+├── marked.min.js       # Thư viện Markdown parser chạy offline hoàn toàn
+├── app.js              # Xử lý toàn bộ logic: chấm điểm, giải thích, xem ghi chú, search, localStorage
 └── README.md           # Tài liệu hướng dẫn sử dụng chi tiết này
 ```
 
@@ -88,6 +91,34 @@ Ngân hàng câu hỏi được chia theo 6 chương, trong đó **các chương
 
 ### 5. 🃏 Lật thẻ Flashcards 3D
 - 400 thẻ flashcard lật 3D: Mặt trước là đề bài, click vào thẻ (hoặc bấm phím `Space`) sẽ lật sang mặt sau để xem đáp án đúng và lời giải cô đọng.
+
+### 6. 📖 Xem Ghi Chú Lý Thuyết (Markdown Docs Viewer)
+- Tích hợp toàn bộ 8 file ghi chú lý thuyết & sổ tay công thức, bẫy trắc nghiệm.
+- **Tối ưu Mobile:** Menu chọn nhanh theo danh mục dạng Dropdown trên điện thoại, thanh mục lục bên trái trên máy tính.
+- **Cuộn bảng mượt mà:** Tất cả bảng công thức và ma trận so sánh phức tạp đều có thanh cuộn ngang độc lập (`overflow-x: auto`), không bị vỡ giao diện hay co rúm chữ trên màn hình nhỏ.
+- **Tìm kiếm tức thì (In-page Search):** Tìm từ khóa nhanh và tự động highlight cụm từ tìm kiếm trong bài đọc.
+- **Lưu trạng thái bài đang đọc:** Tự động ghi nhớ bạn đang đọc chương nào để lần sau mở lại ngay chương đó.
+
+---
+
+## 🛠️ Hướng Dẫn Thêm / Sửa / Bớt File Ghi Chú Markdown (Không Cần Code)
+
+Hệ thống được thiết kế hoàn toàn **Dynamic (Không hardcode)**:
+1. **Sửa nội dung**: Chỉ cần mở file `.md` trong thư mục `web/docs/` (ví dụ `01_Note_Chuong_1_Tong_Quan_Hoc_May.md`) và sửa nội dung bình thường.
+2. **Thêm file mới**: Thả bất kỳ file `.md` mới nào vào thư mục `web/docs/`.
+3. **Cập nhật dữ liệu offline & manifest**: Mở terminal tại thư mục `web/` và chạy lệnh:
+   ```bash
+   node build_docs.js
+   ```
+   Script sẽ tự động quét toàn bộ file `.md` trong thư mục `docs/`, trích xuất tiêu đề `# Tiêu đề` và sinh file `data_docs.js`.
+4. **Đẩy lên GitHub / Vercel**:
+   ```bash
+   git add .
+   git commit -m "docs: cap nhat ghi chu"
+   git push origin main
+   ```
+   Web trên Vercel sẽ tự động cập nhật ngay lập tức!
+
 
 ---
 
