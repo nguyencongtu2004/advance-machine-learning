@@ -138,14 +138,61 @@
     if (!contentBody) return;
 
     let html = '';
-    if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+    const hasMarked = typeof marked !== 'undefined' && typeof marked.parse === 'function';
+    const hasKatex = typeof katex !== 'undefined' && typeof katex.renderToString === 'function';
+
+    if (hasMarked) {
       try {
-        html = marked.parse(mdText, {
+        const displayMath = [];
+        const inlineMath = [];
+
+        // 1. Tách và bảo vệ khối công thức toán học lớn ($$...$$)
+        let cleanText = mdText.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+          const idx = displayMath.length;
+          displayMath.push(formula.trim());
+          return `@@KATEX_DISPLAY_${idx}@@`;
+        });
+
+        // 2. Tách và bảo vệ công thức toán học nội dòng ($...$)
+        cleanText = cleanText.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+          const idx = inlineMath.length;
+          inlineMath.push(formula.trim());
+          return `@@KATEX_INLINE_${idx}@@`;
+        });
+
+        // 3. Render Markdown chuẩn
+        html = marked.parse(cleanText, {
           gfm: true,
           breaks: true
         });
+
+        // 4. Render công thức Toán học chuẩn LaTeX qua KaTeX
+        html = html.replace(/@@KATEX_DISPLAY_(\d+)@@/g, (match, idx) => {
+          const formula = displayMath[parseInt(idx, 10)] || '';
+          if (hasKatex) {
+            try {
+              return katex.renderToString(formula, { displayMode: true, throwOnError: false, strict: false });
+            } catch (e) {
+              return `<div class="katex-display-raw">$$${escapeHtml(formula)}$$</div>`;
+            }
+          }
+          return `<div class="katex-display-raw">$$${escapeHtml(formula)}$$</div>`;
+        });
+
+        html = html.replace(/@@KATEX_INLINE_(\d+)@@/g, (match, idx) => {
+          const formula = inlineMath[parseInt(idx, 10)] || '';
+          if (hasKatex) {
+            try {
+              return katex.renderToString(formula, { displayMode: false, throwOnError: false, strict: false });
+            } catch (e) {
+              return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+            }
+          }
+          return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+        });
+
       } catch (e) {
-        console.error('Lỗi parse marked:', e);
+        console.error('Lỗi parse marked/katex:', e);
         html = `<pre style="white-space: pre-wrap;">${escapeHtml(mdText)}</pre>`;
       }
     } else {

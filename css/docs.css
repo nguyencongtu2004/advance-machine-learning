@@ -379,3 +379,22 @@ mark.docs-highlight {
   padding: 0.1rem 0.2rem;
   border-radius: 3px;
 }
+
+/* KaTeX Math Formatting */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.6rem 0;
+  margin: 1.15rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex {
+  font-size: 1.08em;
+  color: inherit;
+}
+
+.katex-display > .katex {
+  white-space: normal;
+}
+
