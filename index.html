@@ -36,6 +36,9 @@
     </nav>
 
     <div class="header-actions">
+      <button id="btn-open-help" class="quiz-back-btn help-btn desktop-only" title="Phím tắt & Thông tin nhanh (Bấm phím ?)">
+        <span class="help-icon">?</span>
+      </button>
       <button id="btn-theme-toggle" class="quiz-back-btn theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">
         <span id="theme-icon">☀️</span> <span id="theme-label">Sáng</span>
       </button>
@@ -449,6 +452,96 @@
     </section>
 
   </main>
+
+  <!-- ==================== MODAL TRỢ GIÚP & PHÍM TẮT (DESKTOP) ==================== -->
+  <div id="help-modal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal-card help-modal-card" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="help-badge-pill">? TRỢ GIÚP & PHÍM TẮT</span>
+          <h2 id="help-modal-title">Phím Tắt & Thông Tin Ôn Thi Cấp Tốc</h2>
+        </div>
+        <button id="btn-close-help" class="modal-close-btn" title="Đóng (Esc)">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Phần 1: Bảng Phím Tắt Nhanh -->
+        <div class="help-section">
+          <h3 class="help-section-title">⌨️ Bảng Phím Tắt Điều Khiển Nhanh</h3>
+          <p class="help-section-desc">Thao tác siêu tốc không cần rê chuột:</p>
+          <div class="shortcuts-grid">
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>1</kbd> hoặc <kbd>A</kbd></div>
+              <div class="shortcut-desc">Chọn phương án <strong>A</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>2</kbd> hoặc <kbd>B</kbd></div>
+              <div class="shortcut-desc">Chọn phương án <strong>B</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>3</kbd> hoặc <kbd>C</kbd></div>
+              <div class="shortcut-desc">Chọn phương án <strong>C</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>4</kbd> hoặc <kbd>D</kbd></div>
+              <div class="shortcut-desc">Chọn phương án <strong>D</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>→</kbd> hoặc <kbd>N</kbd></div>
+              <div class="shortcut-desc">Chuyển sang <strong>Câu / Thẻ tiếp theo</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>←</kbd> hoặc <kbd>P</kbd></div>
+              <div class="shortcut-desc">Quay lại <strong>Câu / Thẻ trước đó</strong></div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>S</kbd></div>
+              <div class="shortcut-desc">Đánh dấu sao ⭐ câu hỏi quan trọng</div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>Space</kbd> / <kbd>Enter</kbd></div>
+              <div class="shortcut-desc"><strong>Lật thẻ Flashcard 3D</strong> xem đáp án</div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>?</kbd></div>
+              <div class="shortcut-desc">Mở / đóng bảng Trợ giúp này</div>
+            </div>
+            <div class="shortcut-item">
+              <div class="shortcut-keys"><kbd>Esc</kbd></div>
+              <div class="shortcut-desc">Đóng bảng Trợ giúp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phần 2: Thông Tin Nhanh Về Ứng Dụng & Đề Thi (README.md) -->
+        <div class="help-section">
+          <h3 class="help-section-title">📘 Thông Tin Nhanh Về Cấu Trúc Đề Thi (100 Câu)</h3>
+          <div class="help-info-cards">
+            <div class="help-info-box">
+              <h4>🎯 Tỷ lệ rút câu chuẩn từ 400 câu hỏi (Slide TS. Hà Minh Tân ~520 trang)</h4>
+              <ul>
+                <li><strong>Chương 1 (10 câu):</strong> Tổng quan ML, T-E-P (Tom Mitchell), Phân loại Học có/không giám sát, K-Fold CV.</li>
+                <li><strong>Chương 2 (12 câu):</strong> Tiền xử lý dữ liệu, Missing data (Imputation/Indicator), IQR, Z-score, Min-Max, Standard Scaler, PCA 7 bước & EVR.</li>
+                <li><strong>Chương 3 (25 câu - TRỌNG TÂM):</strong> OLS nghiệm đóng & ma trận suy biến, Ridge L2, Lasso L1, Elastic Net, Logistic Regression, Cross-Entropy gradient, Confusion Matrix, ROC-AUC, Micro/Macro F1.</li>
+                <li><strong>Chương 4 (22 câu - TRỌNG TÂM):</strong> Cây quyết định, Entropy/Gini, Pruning, Bagging, Random Forest OOB & $m=\sqrt{d}$, AdaBoost, Gradient Boosting (GBDT).</li>
+                <li><strong>Chương 5 (13 câu):</strong> K-Means cực tiểu WCSS, Khởi tạo K-Means++ theo khoảng cách $D(x)^2$, Silhouette $[-1, 1]$, GMM & thuật toán EM, DBSCAN mật độ.</li>
+                <li><strong>Chương 6 (18 câu - TRỌNG TÂM):</strong> Perceptron XOR, Hàm kích hoạt (Sigmoid, Tanh, ReLU, Softmax), Triệt tiêu gradient, Lan truyền ngược Chain Rule, Gradient Descent, Momentum, Adam, Đếm tham số.</li>
+              </ul>
+            </div>
+
+            <div class="help-info-box">
+              <h4>💾 Lưu Trữ & Chế Độ Offline</h4>
+              <p>Toàn bộ lịch sử câu hỏi, điểm thi thử, sổ câu sai và <strong>vị trí câu đang làm dở của từng chương</strong> đều được tự động lưu vào <code>localStorage</code> trên máy của bạn. Hoàn toàn bảo mật và không cần mạng internet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-close-help-footer" class="btn-primary">Đã hiểu (Bấm Esc hoặc Click ngoài để đóng)</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== SCRIPTS ==================== -->
   <script src="data_questions.js"></script>

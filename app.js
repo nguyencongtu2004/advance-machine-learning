@@ -1239,11 +1239,42 @@
   }
 
   // ============================================================================
+  // CỬA SỔ TRỢ GIÚP & PHÍM TẮT (HELP MODAL)
+  // ============================================================================
+  function openHelpModal() {
+    const modal = document.getElementById('help-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closeHelpModal() {
+    const modal = document.getElementById('help-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  // ============================================================================
   // EVENT LISTENERS & KEYBOARD SHORTCUTS
   // ============================================================================
   function setupEventListeners() {
     // Theme toggle
     document.getElementById('btn-theme-toggle')?.addEventListener('click', toggleTheme);
+
+    // Help modal buttons
+    document.getElementById('btn-open-help')?.addEventListener('click', openHelpModal);
+    document.getElementById('btn-close-help')?.addEventListener('click', closeHelpModal);
+    document.getElementById('btn-close-help-footer')?.addEventListener('click', closeHelpModal);
+
+    // Click backdrop to close
+    document.getElementById('help-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'help-modal') {
+        closeHelpModal();
+      }
+    });
 
     // Nav tabs
     document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -1402,6 +1433,29 @@
 
     // PHÍM TẮT BÀN PHÍM
     window.addEventListener('keydown', (e) => {
+      // Đóng modal khi bấm Escape
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('help-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          closeHelpModal();
+          return;
+        }
+      }
+
+      // Bật/tắt modal trợ giúp khi bấm '?'
+      if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
+        if (!['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+          e.preventDefault();
+          const modal = document.getElementById('help-modal');
+          if (modal && !modal.classList.contains('hidden')) {
+            closeHelpModal();
+          } else {
+            openHelpModal();
+          }
+          return;
+        }
+      }
+
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
       if (state.currentTab === 'practice') {
