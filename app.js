@@ -99,7 +99,11 @@
     flashcardChapter: 'all',
     flashcardQuestions: [],
     flashcardIndex: 0,
-    flashcardFlipped: false
+    flashcardFlipped: false,
+    flashcardPositions: {
+      currentChapter: 'all',
+      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 }
+    }
   };
 
   // --- LOCAL STORAGE HELPERS ---
@@ -109,7 +113,8 @@
     WRONG: 'ml_exam_wrong_ids_v2',
     STARRED: 'ml_exam_starred_ids_v2',
     HISTORY: 'ml_exam_history_v2',
-    PRACTICE_POS: 'ml_exam_practice_pos_v2'
+    PRACTICE_POS: 'ml_exam_practice_pos_v2',
+    FLASHCARD_POS: 'ml_exam_flashcard_pos_v2'
   };
 
   function loadStorage() {
@@ -134,9 +139,30 @@
           if (parsed.indices) state.practicePositions.indices = { ...state.practicePositions.indices, ...parsed.indices };
         } catch (e) { console.warn('Lỗi đọc practice pos:', e); }
       }
+
+      const savedFcPos = localStorage.getItem(STORAGE_KEYS.FLASHCARD_POS);
+      if (savedFcPos) {
+        try {
+          const parsedFc = JSON.parse(savedFcPos);
+          if (parsedFc.currentChapter) state.flashcardPositions.currentChapter = parsedFc.currentChapter;
+          if (parsedFc.indices) state.flashcardPositions.indices = { ...state.flashcardPositions.indices, ...parsedFc.indices };
+        } catch (e) { console.warn('Lỗi đọc flashcard pos:', e); }
+      }
     } catch (e) {
       console.warn('Không thể đọc dữ liệu localStorage:', e);
     }
+  }
+
+  function saveFlashcardPosition() {
+    try {
+      if (!state.flashcardPositions) {
+        state.flashcardPositions = { currentChapter: 'all', indices: {} };
+      }
+      state.flashcardPositions.currentChapter = state.flashcardChapter;
+      if (!state.flashcardPositions.indices) state.flashcardPositions.indices = {};
+      state.flashcardPositions.indices[state.flashcardChapter] = state.flashcardIndex;
+      localStorage.setItem(STORAGE_KEYS.FLASHCARD_POS, JSON.stringify(state.flashcardPositions));
+    } catch (e) { console.error(e); }
   }
 
   function savePracticePosition() {
@@ -218,8 +244,11 @@
     if (select) select.value = savedChapter;
     setPracticeChapter(savedChapter);
 
-    // Khởi tạo tab Flashcards
-    setFlashcardChapter('all');
+    // Khởi tạo tab Flashcards ban đầu từ vị trí và chương đã lưu
+    const savedFcChapter = (state.flashcardPositions && state.flashcardPositions.currentChapter) || 'all';
+    const fcSelect = document.getElementById('flashcard-chapter-select');
+    if (fcSelect) fcSelect.value = savedFcChapter;
+    setFlashcardChapter(savedFcChapter);
   }
 
   // --- CẬP NHẬT THỐNG KÊ TOÀN CỤC (HEADER & DASHBOARD) ---
@@ -1125,7 +1154,7 @@
   // ============================================================================
   // TAB 6: FLASHCARDS FLIP MODE
   // ============================================================================
-  function setFlashcardChapter(chVal) {
+  function setFlashcardChapter(chVal, targetIndex) {
     state.flashcardChapter = chVal;
     if (chVal === 'all') {
       state.flashcardQuestions = [...state.allQuestions];
@@ -1133,8 +1162,23 @@
       const cNum = parseInt(chVal, 10);
       state.flashcardQuestions = state.allQuestions.filter(q => q.chapter === cNum);
     }
-    state.flashcardIndex = 0;
+
+    if (typeof targetIndex === 'number' && targetIndex >= 0 && targetIndex < state.flashcardQuestions.length) {
+      state.flashcardIndex = targetIndex;
+    } else if (state.flashcardPositions && state.flashcardPositions.indices && typeof state.flashcardPositions.indices[chVal] === 'number') {
+      const savedIdx = state.flashcardPositions.indices[chVal];
+      state.flashcardIndex = (savedIdx >= 0 && savedIdx < state.flashcardQuestions.length) ? savedIdx : 0;
+    } else {
+      state.flashcardIndex = 0;
+    }
+
+    const select = document.getElementById('flashcard-chapter-select');
+    if (select && select.value !== chVal) {
+      select.value = chVal;
+    }
+
     state.flashcardFlipped = false;
+    saveFlashcardPosition();
     renderFlashcard();
   }
 
@@ -1145,12 +1189,25 @@
     if (state.flashcardIndex < 0) state.flashcardIndex = 0;
     if (state.flashcardIndex >= questions.length) state.flashcardIndex = questions.length - 1;
 
+    saveFlashcardPosition();
+
     const q = questions[state.flashcardIndex];
     const total = questions.length;
     const prefixes = ['A', 'B', 'C', 'D'];
 
     const counterEl = document.getElementById('flashcard-counter');
     if (counterEl) counterEl.textContent = `Thẻ ${state.flashcardIndex + 1} / ${total}`;
+
+    const prevBtn = document.getElementById('fc-prev-btn');
+    const nextBtn = document.getElementById('fc-next-btn');
+    if (prevBtn) {
+      prevBtn.disabled = (state.flashcardIndex === 0);
+      prevBtn.style.opacity = (state.flashcardIndex === 0) ? '0.4' : '1';
+    }
+    if (nextBtn) {
+      nextBtn.disabled = (state.flashcardIndex === total - 1);
+      nextBtn.style.opacity = (state.flashcardIndex === total - 1) ? '0.4' : '1';
+    }
 
     const badgeFront = document.getElementById('fc-badge-front');
     if (badgeFront) badgeFront.textContent = `Chương ${q.chapter} • Thẻ #${q.id}`;
@@ -1203,11 +1260,13 @@
         localStorage.removeItem(STORAGE_KEYS.STARRED);
         localStorage.removeItem(STORAGE_KEYS.HISTORY);
         localStorage.removeItem(STORAGE_KEYS.PRACTICE_POS);
+        localStorage.removeItem(STORAGE_KEYS.FLASHCARD_POS);
         state.userAnswers = {};
         state.wrongIds.clear();
         state.starredIds.clear();
         state.examHistory = [];
         state.practicePositions = { currentChapter: 'all', indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 } };
+        state.flashcardPositions = { currentChapter: 'all', indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 } };
         updateGlobalStats();
         renderDashboardChapters();
         renderPracticeGrid();
@@ -1328,6 +1387,7 @@
     document.getElementById('fc-prev-btn')?.addEventListener('click', () => {
       if (state.flashcardIndex > 0) {
         state.flashcardIndex--;
+        saveFlashcardPosition();
         renderFlashcard();
       }
     });
@@ -1335,6 +1395,7 @@
     document.getElementById('fc-next-btn')?.addEventListener('click', () => {
       if (state.flashcardIndex < state.flashcardQuestions.length - 1) {
         state.flashcardIndex++;
+        saveFlashcardPosition();
         renderFlashcard();
       }
     });
@@ -1386,14 +1447,16 @@
         if (e.key === ' ' || e.key === 'Enter') {
           e.preventDefault();
           flipFlashcard();
-        } else if (e.key === 'ArrowRight') {
+        } else if (e.key === 'ArrowRight' || e.key === 'n' || e.key === 'N') {
           if (state.flashcardIndex < state.flashcardQuestions.length - 1) {
             state.flashcardIndex++;
+            saveFlashcardPosition();
             renderFlashcard();
           }
-        } else if (e.key === 'ArrowLeft') {
+        } else if (e.key === 'ArrowLeft' || e.key === 'p' || e.key === 'P') {
           if (state.flashcardIndex > 0) {
             state.flashcardIndex--;
+            saveFlashcardPosition();
             renderFlashcard();
           }
         }
