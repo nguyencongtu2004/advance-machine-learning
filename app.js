@@ -153,12 +153,15 @@
     document.documentElement.setAttribute('data-theme', theme);
     const iconEl = document.getElementById('theme-icon');
     const labelEl = document.getElementById('theme-label');
+    const metaThemeColor = document.getElementById('meta-theme-color');
     if (theme === 'light') {
       if (iconEl) iconEl.textContent = '🌙';
       if (labelEl) labelEl.textContent = 'Tối';
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#f8fafc');
     } else {
       if (iconEl) iconEl.textContent = '☀️';
       if (labelEl) labelEl.textContent = 'Sáng';
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#0b0f19');
     }
     localStorage.setItem(STORAGE_KEYS.THEME, theme);
   }
