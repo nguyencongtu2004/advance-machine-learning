@@ -1,0 +1,604 @@
+/* ==============================================================================
+   RESPONSIVE DESIGN (TỐI ƯU TOÀN DIỆN CHO DI ĐỘNG & TABLET)
+============================================================================== */
+
+/* Cải thiện cảm ứng & tương tác trên thiết bị di động */
+button, select, input, .option-btn, .nav-tab, .chapter-card, .flashcard {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button:active, .nav-tab:active, .option-btn:active {
+  transform: scale(0.98);
+}
+
+/* Tablet & Màn hình vừa (<= 900px) */
+@media (max-width: 900px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .shortcuts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile docs layout */
+  .docs-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .docs-sidebar {
+    display: none !important;
+  }
+
+  .docs-article-card {
+    padding: 1.25rem 0.95rem;
+    border-radius: var(--radius-md);
+  }
+
+  .docs-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .docs-toolbar-left, .docs-toolbar-right {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .docs-select {
+    width: 100%;
+  }
+
+  .docs-search-box {
+    max-width: 100%;
+  }
+
+  .doc-active-title {
+    font-size: 1.2rem;
+  }
+
+  .markdown-body {
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .markdown-body h1 { font-size: 1.3rem; }
+  .markdown-body h2 { font-size: 1.18rem; }
+  .markdown-body h3 { font-size: 1.05rem; }
+
+  .app-header {
+    position: relative !important;
+    top: auto !important;
+    flex-wrap: wrap;
+    padding: 0.6rem 1rem;
+    gap: 0.65rem;
+  }
+
+  .brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-actions {
+    flex-shrink: 0;
+  }
+
+  .header-tabs {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.3rem 0.2rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .header-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-tab {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .exam-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .exam-sidebar {
+    position: static;
+    order: -1;
+  }
+
+  .chapters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Điện thoại di động (<= 640px) */
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0.5rem 0.65rem;
+    gap: 0.4rem;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 0.4rem;
+  }
+
+  .brand-badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-text h1 {
+    font-size: 0.9rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .title-full {
+    display: none;
+  }
+
+  .title-short {
+    display: inline;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .header-actions {
+    flex-shrink: 0;
+    gap: 0.25rem;
+  }
+
+  #theme-label {
+    display: none;
+  }
+
+  .theme-toggle-btn {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.8rem;
+    min-width: 30px;
+    justify-content: center;
+  }
+
+  .stat-badge {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.7rem;
+  }
+
+  #btn-reset-data {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.7rem;
+  }
+
+  .header-tabs {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.3rem 0.5rem;
+    margin-top: 0.2rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .main-container {
+    margin: 0.75rem auto;
+    padding: 0 0.75rem calc(3.5rem + env(safe-area-inset-bottom));
+  }
+
+  /* Dashboard & Hero Banner */
+  .hero-banner {
+    padding: 1.15rem 0.9rem;
+    margin-bottom: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .hero-title h2 {
+    font-size: 1.2rem;
+    line-height: 1.35;
+  }
+
+  .hero-title p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .stat-boxes-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  .mini-stat-box {
+    min-width: 0;
+    padding: 0.55rem 0.2rem;
+    text-align: center;
+    border-radius: var(--radius-sm);
+  }
+
+  .mini-stat-num {
+    font-size: 1.25rem;
+  }
+
+  .mini-stat-label {
+    font-size: 0.68rem;
+  }
+
+  .section-heading {
+    font-size: 1.1rem;
+    margin: 1.25rem 0 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .sub-hint {
+    font-size: 0.78rem;
+  }
+
+  .chapter-card {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius-md);
+  }
+
+  .chapter-card-header h3 {
+    font-size: 1.05rem;
+  }
+
+  .chapter-desc {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* Khung Luyện tập (Quiz) */
+  .quiz-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-bottom: 0.95rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .toolbar-left, .toolbar-right {
+    width: 100%;
+  }
+
+  .toolbar-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .custom-select {
+    width: 100%;
+    font-size: 0.84rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .question-card {
+    padding: 1.15rem 0.9rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
+  }
+
+  .question-meta {
+    margin-bottom: 0.85rem;
+  }
+
+  .q-badge, .slide-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.45rem;
+  }
+
+  .question-text {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin-bottom: 1.15rem;
+  }
+
+  .options-list {
+    gap: 0.6rem;
+  }
+
+  .option-btn {
+    padding: 0.8rem 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    align-items: flex-start;
+    min-height: 48px;
+    border-radius: var(--radius-sm);
+  }
+
+  .option-prefix {
+    margin-top: 2px;
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  .explanation-card {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius-sm);
+    margin-top: 1.15rem;
+  }
+
+  .explanation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .explanation-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  /* Ghim thanh điều hướng câu hỏi ở đáy màn hình trên mobile */
+  .quiz-nav-bottom-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    z-index: 100 !important;
+    background: #111827 !important;
+    border-top: 1px solid var(--border-glass) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.35rem !important;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45) !important;
+    overflow: hidden !important;
+  }
+
+  [data-theme="light"] .quiz-nav-bottom-bar {
+    background: #ffffff !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  [data-theme="dark"] .quiz-nav-bottom-bar {
+    background: #111827 !important;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .quiz-nav-bottom-bar .nav-btn-prev {
+    flex: 0 0 auto !important;
+    min-width: 78px !important;
+    height: 40px !important;
+    border-radius: var(--radius-full) !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    padding: 0 0.75rem !important;
+    white-space: nowrap !important;
+  }
+
+  .quiz-nav-bottom-bar .nav-btn-next {
+    flex: 0 0 auto !important;
+    min-width: 98px !important;
+    height: 40px !important;
+    border-radius: var(--radius-full) !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
+    padding: 0 0.85rem !important;
+    white-space: nowrap !important;
+  }
+
+  .quiz-nav-bottom-bar .nav-bar-center {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    white-space: nowrap !important;
+    padding: 0 0.2rem !important;
+    overflow: hidden !important;
+  }
+
+  .nav-text-full, .counter-full {
+    display: none !important;
+  }
+
+  .nav-text-short, .counter-short {
+    display: inline !important;
+  }
+
+  /* Chống che khuất nội dung dưới đáy */
+  #tab-practice {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+  }
+  #practice-card {
+    margin-bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
+  }
+  #tab-exam {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+  }
+  #tab-exam .question-card {
+    margin-bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
+  }
+
+  .grid-drawer {
+    padding: 1rem 0.85rem;
+  }
+
+  .question-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.3rem;
+  }
+
+  /* Chế độ Thi thử 100 câu */
+  .exam-start-card {
+    padding: 1.25rem 0.95rem;
+  }
+
+  .exam-start-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .exam-breakdown-list {
+    font-size: 0.82rem;
+    padding-left: 1.1rem;
+    gap: 0.3rem;
+  }
+
+  .exam-settings-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .exam-sidebar {
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+  }
+
+  .timer-box {
+    font-size: 1.35rem;
+    padding: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .question-grid#exam-question-grid {
+    grid-template-columns: repeat(8, 1fr);
+    max-height: 160px;
+    gap: 0.25rem;
+  }
+
+  .exam-nav-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .btn-submit-test {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Màn hình kết quả thi */
+  .result-header-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem 0.95rem;
+  }
+
+  .score-circle {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto;
+  }
+
+  .score-num {
+    font-size: 1.7rem;
+  }
+
+  .result-stats-pills {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .result-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .result-actions button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Flashcards Mobile */
+  .flashcard-wrapper {
+    margin: 0.85rem auto;
+    max-width: 100%;
+  }
+
+  .flashcard, .flashcard-inner {
+    min-height: 330px;
+  }
+
+  .flashcard-front, .flashcard-back {
+    padding: 1.15rem 0.95rem;
+  }
+
+  .flashcard-prompt {
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+
+  .fc-answer-text {
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .fc-explanation-text {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .flashcard-hint {
+    font-size: 0.72rem;
+    margin-top: 0.4rem;
+  }
+
+  .flashcard-controls {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 0.4rem;
+    width: 100%;
+    margin-top: 0.85rem;
+  }
+
+  .flashcard-controls button {
+    padding: 0.6rem 0.25rem;
+    font-size: 0.8rem;
+    justify-content: center;
+  }
+}

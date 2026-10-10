@@ -1,0 +1,381 @@
+/* ==============================================================================
+   TAB 7: GHI CHÚ LÝ THUYẾT & TÀI LIỆU (MARKDOWN VIEWER)
+============================================================================== */
+.docs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.docs-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.docs-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1 1 320px;
+}
+
+.docs-select-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.docs-select {
+  flex: 1;
+  min-width: 220px;
+}
+
+.docs-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1 1 240px;
+  justify-content: flex-end;
+}
+
+.docs-search-box {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.docs-search-input {
+  width: 100%;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.docs-search-input:focus {
+  border-color: var(--primary);
+  background: var(--bg-card);
+}
+
+.docs-search-status {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.docs-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.docs-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-glass);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.docs-count-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.docs-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.doc-file-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  line-height: 1.35;
+}
+
+.doc-file-btn:hover {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  border-color: var(--border-glass);
+}
+
+.doc-file-btn.active {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--primary);
+  font-weight: 700;
+  border-color: var(--border-glow);
+}
+
+.doc-badge-tag {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-full);
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--error);
+  font-weight: 600;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+
+.docs-article-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2.5rem;
+  box-shadow: var(--shadow-md);
+  min-width: 0;
+}
+
+.docs-article-header {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.docs-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.docs-filename-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.doc-active-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ==============================================================================
+   MARKDOWN BODY RENDERED STYLES (ĐẸP MẮT, DỄ ĐỌC, CHUẨN MOBILE)
+============================================================================== */
+.markdown-body {
+  font-family: var(--font-main);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-top: 1.85rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+
+.markdown-body h1 {
+  font-size: 1.55rem;
+  border-bottom: 2px solid var(--border-glass);
+  padding-bottom: 0.5rem;
+}
+
+.markdown-body h2 {
+  font-size: 1.32rem;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 0.4rem;
+  margin-top: 2rem;
+}
+
+.markdown-body h3 {
+  font-size: 1.15rem;
+  color: var(--primary);
+}
+
+.markdown-body h4 {
+  font-size: 1.02rem;
+}
+
+.markdown-body p {
+  margin-bottom: 1.1rem;
+}
+
+.markdown-body strong,
+.markdown-body b {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.markdown-body em,
+.markdown-body i {
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0.5rem 0 1.25rem 1.6rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.45rem;
+}
+
+.markdown-body li > p {
+  margin-bottom: 0.35rem;
+}
+
+/* Cuộn ngang bảng biểu mượt mà trên mobile */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.25rem 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.markdown-body th {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  font-weight: 700;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--border-glass);
+  white-space: nowrap;
+}
+
+.markdown-body td {
+  padding: 0.65rem 0.95rem;
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+}
+
+.markdown-body tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .markdown-body tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--primary);
+  background: var(--bg-glass);
+  padding: 0.85rem 1.25rem;
+  margin: 1.25rem 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+
+.markdown-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body pre {
+  background: #0d1117;
+  color: #e6edf3;
+  padding: 1.15rem;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  border: 1px solid var(--border-glass);
+  margin: 1.25rem 0;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  background: var(--bg-glass);
+  color: var(--primary);
+  padding: 0.18rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-glass);
+}
+
+.markdown-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--border-glass);
+  margin: 2.25rem 0;
+}
+
+mark.docs-highlight {
+  background: rgba(251, 191, 36, 0.35);
+  color: var(--text-primary);
+  padding: 0.1rem 0.2rem;
+  border-radius: 3px;
+}

@@ -1,0 +1,290 @@
+/* ==============================================================================
+   KHUNG LUYỆN TẬP CÂU HỎI (QUIZ PRACTICE CONTAINER)
+============================================================================== */
+.quiz-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.quiz-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-glass);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quiz-back-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: var(--transition-fast);
+}
+
+.quiz-back-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.question-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.question-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.q-badge {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--primary);
+  background: rgba(2, 132, 199, 0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+
+.star-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.35rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+}
+
+.star-btn:hover, .star-btn.starred {
+  color: var(--accent-amber);
+  transform: scale(1.15);
+}
+
+.question-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+/* Các phương án A, B, C, D */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-btn {
+  background: var(--option-bg);
+  border: 1px solid var(--option-border);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.2rem;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  position: relative;
+}
+
+.option-btn:hover:not(.disabled) {
+  background: var(--option-hover-bg);
+  border-color: var(--primary);
+  transform: translateX(3px);
+}
+
+.option-prefix {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.9rem;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--option-prefix-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-primary);
+  transition: var(--transition-fast);
+}
+
+/* Trạng thái đáp án Đúng / Sai */
+.option-btn.correct {
+  background: var(--success-bg) !important;
+  border-color: var(--success-border) !important;
+  color: var(--success) !important;
+  font-weight: 600;
+}
+
+.option-btn.correct .option-prefix {
+  background: var(--success) !important;
+  color: #ffffff !important;
+}
+
+.option-btn.wrong {
+  background: var(--error-bg) !important;
+  border-color: var(--error-border) !important;
+  color: var(--error) !important;
+}
+
+.option-btn.wrong .option-prefix {
+  background: var(--error) !important;
+  color: #ffffff !important;
+}
+
+.option-btn.disabled {
+  cursor: default;
+}
+
+/* ==============================================================================
+   HỘP GIẢI THÍCH NGAY SAU KHI CHỌN (EXPLANATION BOX)
+============================================================================== */
+.explanation-card {
+  margin-top: 1.5rem;
+  background: var(--explanation-bg);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  animation: slideDown 0.3s ease-out;
+  display: none;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.explanation-card.active {
+  display: block;
+}
+
+.explanation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.status-tag {
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.status-tag.correct { color: var(--success); }
+.status-tag.wrong { color: var(--error); }
+
+.slide-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--primary);
+  background: rgba(2, 132, 199, 0.1);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+
+.explanation-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--explanation-text);
+  margin-bottom: 1.25rem;
+}
+
+/* ==============================================================================
+   THANH ĐIỀU HƯỚNG CÂU HỎI TRƯỚC / SAU (BOTTOM BAR)
+============================================================================== */
+.quiz-nav-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+}
+
+.quiz-nav-bottom-bar .nav-btn-prev,
+.quiz-nav-bottom-bar .nav-btn-next {
+  min-width: 140px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+}
+
+.quiz-nav-bottom-bar .nav-bar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.nav-text-full, .counter-full {
+  display: inline;
+}
+
+.nav-text-short, .counter-short {
+  display: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+}

@@ -1,0 +1,371 @@
+/* ==============================================================================
+   MODULE: EXAM SIMULATOR (THI THỬ 100 CÂU BẤM GIỜ)
+   Bộ đếm giờ, rút 100 câu ngẫu nhiên theo tỷ lệ, bảng câu hỏi, chấm điểm, xem lại
+============================================================================== */
+
+  function startExam() {
+    const timeSelect = document.getElementById('exam-time-select');
+    const modeSelect = document.getElementById('exam-feedback-mode');
+
+    const durationMinutes = timeSelect ? parseInt(timeSelect.value, 10) : 90;
+    state.examTimeRemaining = durationMinutes * 60;
+    state.examMode = modeSelect ? modeSelect.value : 'submit';
+
+    // RÚT NGẪU NHIÊN 100 CÂU THEO TỶ LỆ CHUẨN 6 CHƯƠNG
+    const distribution = { 1: 10, 2: 12, 3: 25, 4: 22, 5: 13, 6: 18 };
+    let examPool = [];
+
+    for (let chId = 1; chId <= 6; chId++) {
+      const quota = distribution[chId];
+      const chQuestions = state.allQuestions.filter(q => q.chapter === chId);
+      const shuffled = [...chQuestions].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, quota);
+      examPool = examPool.concat(selected);
+    }
+
+    state.examQuestions = examPool.sort(() => 0.5 - Math.random());
+    state.examAnswers = {};
+    state.examIndex = 0;
+    state.examActive = true;
+
+    document.getElementById('exam-start-screen')?.classList.add('hidden');
+    document.getElementById('exam-result-screen')?.classList.add('hidden');
+    document.getElementById('exam-active-screen')?.classList.remove('hidden');
+
+    startExamTimer();
+    renderExamQuestionGrid();
+    renderCurrentExamQuestion();
+  }
+
+  function startExamTimer() {
+    if (state.examTimerInterval) clearInterval(state.examTimerInterval);
+
+    updateTimerDisplay();
+
+    state.examTimerInterval = setInterval(() => {
+      state.examTimeRemaining--;
+
+      if (state.examTimeRemaining <= 0) {
+        clearInterval(state.examTimerInterval);
+        alert('Đã hết thời gian làm bài! Hệ thống tự động nộp bài thi của bạn.');
+        submitExam();
+        return;
+      }
+
+      updateTimerDisplay();
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const timerEl = document.getElementById('exam-timer-display');
+    if (!timerEl) return;
+
+    const minutes = Math.floor(state.examTimeRemaining / 60);
+    const seconds = state.examTimeRemaining % 60;
+    const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    timerEl.textContent = timeStr;
+
+    if (state.examTimeRemaining <= 600) {
+      timerEl.style.color = 'var(--error)';
+      timerEl.style.borderColor = 'var(--error)';
+    } else {
+      timerEl.style.color = 'var(--error)';
+      timerEl.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+    }
+  }
+
+  function renderExamQuestionGrid() {
+    const gridEl = document.getElementById('exam-question-grid');
+    if (!gridEl) return;
+
+    gridEl.innerHTML = '';
+    state.examQuestions.forEach((q, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'grid-num-btn';
+      btn.textContent = idx + 1;
+
+      if (state.examAnswers[idx] !== undefined) {
+        btn.classList.add('answered');
+      }
+
+      if (idx === state.examIndex) {
+        btn.classList.add('current');
+      }
+
+      btn.addEventListener('click', () => {
+        state.examIndex = idx;
+        renderCurrentExamQuestion();
+      });
+
+      gridEl.appendChild(btn);
+    });
+
+    const answeredCountEl = document.getElementById('exam-answered-count');
+    if (answeredCountEl) {
+      answeredCountEl.textContent = Object.keys(state.examAnswers).length;
+    }
+  }
+
+  function renderCurrentExamQuestion() {
+    const q = state.examQuestions[state.examIndex];
+    if (!q) return;
+
+    // Meta
+    const badgeEl = document.getElementById('exam-q-badge');
+    if (badgeEl) badgeEl.textContent = `Câu ${state.examIndex + 1} / 100`;
+
+    const bottomExamCounter = document.getElementById('exam-bottom-counter');
+    if (bottomExamCounter) {
+      bottomExamCounter.innerHTML = `<span class="counter-full">Câu ${state.examIndex + 1} / 100</span><span class="counter-short">${state.examIndex + 1}/100</span>`;
+    }
+
+    const examPrevBtn = document.getElementById('exam-btn-prev');
+    const examNextBtn = document.getElementById('exam-btn-next');
+    if (examPrevBtn) {
+      examPrevBtn.disabled = (state.examIndex === 0);
+      examPrevBtn.style.opacity = (state.examIndex === 0) ? '0.4' : '1';
+      examPrevBtn.innerHTML = '<span class="nav-text-full">← Câu trước</span><span class="nav-text-short">← Trước</span>';
+    }
+    if (examNextBtn) {
+      if (state.examIndex === 99) {
+        examNextBtn.innerHTML = '<span class="nav-text-full">Câu cuối (Nộp bài)</span><span class="nav-text-short">Nộp bài</span>';
+      } else {
+        examNextBtn.innerHTML = '<span class="nav-text-full">Câu tiếp theo →</span><span class="nav-text-short">Tiếp theo →</span>';
+      }
+    }
+
+    const chapterTag = document.getElementById('exam-chapter-tag');
+    if (chapterTag) chapterTag.textContent = `Chương ${q.chapter}`;
+
+    const starBtn = document.getElementById('exam-star-btn');
+    if (starBtn) {
+      const isStarred = state.starredIds.has(q.id);
+      starBtn.textContent = isStarred ? '★' : '☆';
+      starBtn.classList.toggle('starred', isStarred);
+    }
+
+    // Question
+    const textEl = document.getElementById('exam-q-text');
+    if (textEl) textEl.textContent = q.question;
+
+    // Options
+    const listEl = document.getElementById('exam-options-list');
+    if (!listEl) return;
+    listEl.innerHTML = '';
+
+    const prefixes = ['A', 'B', 'C', 'D'];
+    const chosen = state.examAnswers[state.examIndex];
+
+    const instantExpCard = document.getElementById('exam-instant-exp-card');
+    if (instantExpCard) instantExpCard.classList.remove('active');
+
+    q.options.forEach((optText, optIdx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+
+      const prefixSpan = document.createElement('span');
+      prefixSpan.className = 'option-prefix';
+      prefixSpan.textContent = prefixes[optIdx];
+
+      const textSpan = document.createElement('span');
+      textSpan.textContent = optText;
+
+      btn.appendChild(prefixSpan);
+      btn.appendChild(textSpan);
+
+      if (chosen !== undefined) {
+        if (state.examMode === 'instant') {
+          btn.classList.add('disabled');
+          if (optIdx === q.answer) btn.classList.add('correct');
+          else if (optIdx === chosen && chosen !== q.answer) btn.classList.add('wrong');
+        } else {
+          if (optIdx === chosen) {
+            btn.style.borderColor = 'var(--primary)';
+            btn.style.background = 'rgba(2, 132, 199, 0.15)';
+          }
+        }
+      }
+
+      btn.addEventListener('click', () => {
+        handleSelectExamAnswer(optIdx);
+      });
+
+      listEl.appendChild(btn);
+    });
+
+    if (chosen !== undefined && state.examMode === 'instant' && instantExpCard) {
+      const isCorrect = (chosen === q.answer);
+      const statusTag = document.getElementById('exam-status-tag');
+      const slideTag = document.getElementById('exam-exp-slide-ref');
+      const expText = document.getElementById('exam-exp-text');
+
+      if (statusTag) {
+        statusTag.className = isCorrect ? 'status-tag correct' : 'status-tag wrong';
+        statusTag.textContent = isCorrect ? 'Chính xác!' : `Chưa đúng! Đáp án là ${prefixes[q.answer]}`;
+      }
+      if (slideTag) slideTag.textContent = q.slideRef || '';
+      if (expText) expText.textContent = q.explanation;
+      instantExpCard.classList.add('active');
+    }
+
+    const gridBtns = document.querySelectorAll('#exam-question-grid .grid-num-btn');
+    gridBtns.forEach((b, i) => b.classList.toggle('current', i === state.examIndex));
+  }
+
+  function handleSelectExamAnswer(optIdx) {
+    state.examAnswers[state.examIndex] = optIdx;
+
+    const q = state.examQuestions[state.examIndex];
+    const isCorrect = (optIdx === q.answer);
+    state.userAnswers[q.id] = { selected: optIdx, isCorrect: isCorrect, timestamp: Date.now() };
+    saveAnswers();
+
+    if (!isCorrect) {
+      state.wrongIds.add(q.id);
+      saveWrong();
+    }
+    updateGlobalStats();
+
+    renderExamQuestionGrid();
+    renderCurrentExamQuestion();
+  }
+
+  function submitExam() {
+    if (state.examTimerInterval) clearInterval(state.examTimerInterval);
+    state.examActive = false;
+
+    let correctCount = 0;
+    const chapterStats = {
+      1: { total: 0, correct: 0, title: "Chương 1: Tổng quan" },
+      2: { total: 0, correct: 0, title: "Chương 2: Tiền xử lý & PCA" },
+      3: { total: 0, correct: 0, title: "Chương 3: Tuyến tính & Đánh giá" },
+      4: { total: 0, correct: 0, title: "Chương 4: Cây quyết định & Ensemble" },
+      5: { total: 0, correct: 0, title: "Chương 5: Phân cụm" },
+      6: { total: 0, correct: 0, title: "Chương 6: MLP & Backpropagation" }
+    };
+
+    state.examQuestions.forEach((q, idx) => {
+      const chosen = state.examAnswers[idx];
+      const isCorrect = (chosen === q.answer);
+
+      if (chapterStats[q.chapter]) {
+        chapterStats[q.chapter].total++;
+        if (isCorrect) chapterStats[q.chapter].correct++;
+      }
+
+      if (isCorrect) {
+        correctCount++;
+      } else {
+        state.wrongIds.add(q.id);
+      }
+    });
+
+    saveWrong();
+    updateGlobalStats();
+
+    const score = ((correctCount / 100) * 10).toFixed(1);
+    const wrongCount = 100 - correctCount;
+
+    document.getElementById('exam-active-screen')?.classList.add('hidden');
+    document.getElementById('exam-result-screen')?.classList.remove('hidden');
+
+    const scoreValEl = document.getElementById('result-score-val');
+    if (scoreValEl) scoreValEl.textContent = score;
+
+    const correctCountEl = document.getElementById('result-correct-count');
+    if (correctCountEl) correctCountEl.textContent = correctCount;
+
+    const wrongCountEl = document.getElementById('result-wrong-count');
+    if (wrongCountEl) wrongCountEl.textContent = wrongCount;
+
+    const ratingTitleEl = document.getElementById('result-rating-title');
+    const ratingDescEl = document.getElementById('result-rating-desc');
+
+    if (score >= 8.5) {
+      if (ratingTitleEl) ratingTitleEl.textContent = 'Xuất Sắc! Điểm Tuyệt Đối Trong Tầm Tay';
+      if (ratingDescEl) ratingDescEl.textContent = `Bạn đã trả lời đúng ${correctCount}/100 câu! Kiến thức 6 chương của bạn rất vững vàng.`;
+    } else if (score >= 7.0) {
+      if (ratingTitleEl) ratingTitleEl.textContent = 'Rất Tốt! Đạt Mục Tiêu Điểm Giỏi';
+      if (ratingDescEl) ratingDescEl.textContent = `Bạn đã trả lời đúng ${correctCount}/100 câu. Hãy củng cố thêm các câu sai trong Sổ tay câu sai nhé!`;
+    } else if (score >= 5.0) {
+      if (ratingTitleEl) ratingTitleEl.textContent = 'Đạt Yêu Cầu! Cần Rà Soát Kỹ Các Chương Trọng Tâm';
+      if (ratingDescEl) ratingDescEl.textContent = `Bạn đúng ${correctCount}/100 câu. Đặc biệt chú ý ôn sâu Chương 3, 4, 6 để kéo điểm bứt phá.`;
+    } else {
+      if (ratingTitleEl) ratingTitleEl.textContent = 'Cần Nỗ Lực Ôn Lại Khẩn Trương';
+      if (ratingDescEl) ratingDescEl.textContent = `Đạt ${correctCount}/100 câu. Hãy đọc lại các file Note tóm tắt và luyện riêng từng chương.`;
+    }
+
+    // Render Chapter Breakdown
+    const breakdownContainer = document.getElementById('result-breakdown-container');
+    if (breakdownContainer) {
+      breakdownContainer.innerHTML = '';
+      for (let chId = 1; chId <= 6; chId++) {
+        const stat = chapterStats[chId];
+        const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+        const color = pct >= 80 ? 'var(--success)' : (pct >= 50 ? 'var(--primary)' : 'var(--error)');
+
+        const item = document.createElement('div');
+        item.className = 'breakdown-item';
+        item.innerHTML = `
+          <div class="breakdown-label-row">
+            <span><strong>${stat.title}</strong></span>
+            <span>${stat.correct}/${stat.total} câu (${pct}%)</span>
+          </div>
+          <div class="breakdown-bar">
+            <div class="breakdown-fill" style="width: ${pct}%; background: ${color};"></div>
+          </div>
+        `;
+        breakdownContainer.appendChild(item);
+      }
+    }
+
+    renderExamReviewList();
+  }
+
+  function renderExamReviewList(filterWrongOnly = false) {
+    const container = document.getElementById('result-review-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    const prefixes = ['A', 'B', 'C', 'D'];
+
+    state.examQuestions.forEach((q, idx) => {
+      const chosen = state.examAnswers[idx];
+      const isCorrect = (chosen === q.answer);
+
+      if (filterWrongOnly && isCorrect) return;
+
+      const card = document.createElement('div');
+      card.className = `review-card ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+
+      const userChoiceText = chosen !== undefined ? `${prefixes[chosen]}. ${q.options[chosen]}` : '<span style="color:var(--text-muted)">Chưa trả lời</span>';
+      const correctChoiceText = `${prefixes[q.answer]}. ${q.options[q.answer]}`;
+
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="q-badge">Câu #${idx + 1} • Chương ${q.chapter}</span>
+            <span class="slide-tag" style="margin-left: 0.5rem;">${q.slideRef || 'Slide bài giảng'}</span>
+          </div>
+          <span style="font-weight: 700; color: ${isCorrect ? 'var(--success)' : 'var(--error)'};">
+            ${isCorrect ? 'ĐÚNG' : 'SAI'}
+          </span>
+        </div>
+        <div style="font-weight: 600; font-size: 1.05rem; margin-bottom: 1rem; color: var(--text-primary);">
+          ${q.question}
+        </div>
+        <div style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+          <div>Bạn đã chọn: <strong style="color: ${isCorrect ? 'var(--success)' : 'var(--error)'}">${userChoiceText}</strong></div>
+          ${!isCorrect ? `<div>Đáp án đúng: <strong style="color: var(--success)">${correctChoiceText}</strong></div>` : ''}
+        </div>
+        <div style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 0.85rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+          <strong>Giải thích chi tiết:</strong> ${q.explanation}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ============================================================================
+  // TAB 4: SỔ TAY CÂU SAI (MISTAKES NOTEBOOK)
+  // ============================================================================

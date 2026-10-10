@@ -1,7 +1,7 @@
 /* ==============================================================================
    TẬP HỢP TÀI LIỆU VÀ GHI CHÚ ÔN THI (TỰ ĐỘNG TẠO TỪ THƯ MỤC docs/)
    Để thêm / sửa file: Chỉ cần chỉnh sửa các file .md trong thư mục docs/
-   và chạy lại: node build_docs.js (hoặc web sẽ tự động fetch file từ docs/)
+   và chạy: node scripts/build_docs.js
 ============================================================================== */
 
 window.DOCS_MANIFEST = [

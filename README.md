@@ -26,16 +26,44 @@ Bạn chỉ cần thực hiện 1 thao tác duy nhất:
 
 ## Cấu Trúc Thư Mục `web/`
 
+```
 web/
-├── docs/               # Chứa toàn bộ các file ghi chú Markdown (.md)
 ├── index.html          # Khung giao diện chính (SPA gồm 7 Tabs chức năng, nút Sáng/Tối)
-├── style.css           # Hệ thống giao diện Dark / Light Mode, tối ưu Mobile & Bảng biểu
-├── data_questions.js   # Ngân hàng 400 câu hỏi trắc nghiệm chuẩn kèm giải thích & trang slide
-├── data_docs.js        # Dữ liệu & manifest các file Markdown (tự động tạo bởi build_docs.js)
-├── build_docs.js       # Script tự động quét docs/*.md để cập nhật danh mục & hỗ trợ offline
-├── marked.min.js       # Thư viện Markdown parser chạy offline hoàn toàn
-├── app.js              # Xử lý toàn bộ logic: chấm điểm, giải thích, xem ghi chú, search, localStorage
-└── README.md           # Tài liệu hướng dẫn sử dụng chi tiết này
+├── vercel.json         # Cấu hình triển khai tự động CI/CD lên Vercel
+├── README.md           # Tài liệu hướng dẫn sử dụng chi tiết này
+├── docs/               # Chứa toàn bộ các file ghi chú Markdown (.md)
+│   ├── 00_CONTEXT_KE_HOACH_ON_TAP.md
+│   ├── 01_Note_Chuong_1_Tong_Quan_Hoc_May.md
+│   └── ... (02 đến 07)
+├── data/               # Dữ liệu tĩnh của hệ thống
+│   ├── data_questions.js  # Ngân hàng 400 câu hỏi trắc nghiệm chuẩn kèm giải thích & slide
+│   └── data_docs.js       # Manifest danh mục & nội dung bundle offline tài liệu
+├── vendor/             # Thư viện bên ngoài (chạy 100% offline)
+│   └── marked.min.js      # Bộ phân tích Markdown GFM siêu nhẹ
+├── scripts/            # Các công cụ bảo trì & tự động hóa
+│   ├── build_docs.js      # Script tự động quét docs/*.md và cập nhật data/data_docs.js
+│   ├── split_css.js       # Script module hóa CSS
+│   └── split_js.js        # Script module hóa JS
+├── css/                # Hệ thống CSS được phân bổ dạng module gọn nhẹ
+│   ├── variables.css      # Biến giao diện Dark/Light mode, font chữ, reset
+│   ├── layout.css         # Header, navigation tabs, container chính, dashboard
+│   ├── components.css     # Nút bấm, huy hiệu, modal trợ giúp phím tắt
+│   ├── practice.css       # Khung luyện tập, chọn đáp án, hộp giải thích tức thì, thanh ghim đáy
+│   ├── exam.css           # Bố cục thi thử 100 câu, đồng hồ bấm giờ, bảng điểm & xem lại
+│   ├── flashcards.css     # Lật thẻ Flashcards 3D, tối ưu chiều cao chống tràn chữ
+│   ├── notebook.css       # Sổ tay câu sai & danh sách câu hỏi đánh dấu sao
+│   ├── docs.css           # Giao diện xem ghi chú Markdown, cuộn bảng ngang di động
+│   ├── responsive.css     # Tối ưu giao diện toàn diện cho thiết bị di động & máy tính bảng
+│   └── style.css          # Master stylesheet gộp các module
+└── js/                 # Hệ thống JavaScript phân bổ theo module chức năng
+    ├── state.js           # Quản lý State toàn cục, thông tin 6 chương, localStorage, Theme
+    ├── practice.js        # Logic luyện tập: chọn đáp án, giải thích tức thì, lưu vị trí
+    ├── exam.js            # Logic thi thử 100 câu: đồng hồ bấm giờ, chấm điểm, lọc câu sai
+    ├── notebook.js        # Logic sổ tay câu sai & danh sách đánh dấu sao
+    ├── flashcards.js      # Logic lật thẻ 3D & chuyển thẻ theo chương
+    ├── docs.js            # Logic trình đọc tài liệu Markdown & tìm kiếm từ khóa
+    ├── shortcuts.js       # Logic cửa sổ trợ giúp & bảng phím tắt
+    └── app.js             # Khởi tạo ứng dụng, cập nhật thống kê, điều hướng Tabs
 ```
 
 ---

@@ -1,0 +1,190 @@
+/* ==============================================================================
+   FLASHCARD 3D FLIP MODE (CHỐNG TRÀN CHỮ, CHỐNG LỖI LẬT THẺ TRÊN MOBILE & DESKTOP)
+============================================================================== */
+.flashcard-wrapper {
+  max-width: 680px;
+  width: 100%;
+  margin: 1.5rem auto;
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+}
+
+.flashcard {
+  width: 100%;
+  min-height: 380px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: var(--radius-lg);
+  padding: 0 !important;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  text-align: center;
+  transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+[data-theme="dark"] .flashcard-front,
+[data-theme="dark"] .flashcard-back {
+  background: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="light"] .flashcard-front,
+[data-theme="light"] .flashcard-back {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.flashcard-front {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.flashcard.flipped .flashcard-front {
+  z-index: 1;
+}
+
+.flashcard.flipped .flashcard-back {
+  z-index: 2;
+}
+
+.fc-front-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+}
+
+.fc-prompt-wrapper {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0.25rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.flashcard-prompt {
+  font-family: var(--font-heading);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text-primary);
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  margin: 0;
+}
+
+.fc-back-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0.25rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  gap: 0.4rem;
+}
+
+.fc-answer-tag {
+  color: var(--success);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.fc-answer-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.fc-explanation-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 560px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  margin: 0.2rem auto;
+}
+
+.flashcard-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-glass);
+  border-radius: var(--radius-full);
+}
+
+.flashcard-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  width: 100%;
+}

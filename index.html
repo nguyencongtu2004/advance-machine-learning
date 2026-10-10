@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -450,6 +450,8 @@
           </div>
         </div>
       </div>
+    </section>
+
     <!-- TAB 7: GHI CHÚ LÝ THUYẾT & TÀI LIỆU (MARKDOWN VIEWER) -->
     <section id="tab-docs" class="tab-pane">
       <div class="docs-container">
@@ -595,9 +597,21 @@
   </div>
 
   <!-- ==================== SCRIPTS ==================== -->
-  <script src="marked.min.js"></script>
-  <script src="data_questions.js"></script>
-  <script src="data_docs.js"></script>
-  <script src="app.js"></script>
+  <!-- Dữ liệu ngân hàng câu hỏi & tài liệu -->
+  <script src="data/data_questions.js"></script>
+  <script src="data/data_docs.js"></script>
+
+  <!-- Thư viện Markdown Offline -->
+  <script src="vendor/marked.min.js"></script>
+
+  <!-- Các Module JavaScript độc lập -->
+  <script src="js/state.js"></script>
+  <script src="js/practice.js"></script>
+  <script src="js/exam.js"></script>
+  <script src="js/notebook.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/docs.js"></script>
+  <script src="js/shortcuts.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
