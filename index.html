@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b0f19" id="meta-theme-color">
-  <meta name="description" content="Ôn thi trắc nghiệm Học máy tiên tiến & Ứng dụng UIT - 240 câu hỏi, thi thử 100 câu bấm giờ, giải thích chi tiết bám sát giáo trình.">
+  <meta name="description" content="Ôn thi trắc nghiệm Học máy tiên tiến & Ứng dụng UIT - 400 câu hỏi, thi thử 100 câu bấm giờ, giải thích chi tiết bám sát giáo trình.">
   <title>Ôn Thi Trắc Nghiệm Học Máy Tiên Tiến (UIT) - 21/10</title>
   
   <!-- Google Fonts: Be Vietnam Pro (Chuẩn tiếng Việt tối ưu màn hình học tập) & Inter & JetBrains Mono -->
@@ -21,8 +21,8 @@
     <div class="brand">
       <div class="brand-badge">UIT</div>
       <div class="brand-text">
-        <h1>Machine Learning Exam Prep</h1>
-        <p class="brand-sub">100 câu trắc nghiệm đề đóng (21/10) • 6 Chương Giáo trình</p>
+        <h1 class="brand-title"><span class="title-full">Học Máy Tiên Tiến</span><span class="title-short">Học Máy</span></h1>
+        <p class="brand-sub">Ôn thi trắc nghiệm 21/10 • UIT</p>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
         <span id="theme-icon">☀️</span> <span id="theme-label">Sáng</span>
       </button>
       <div class="stat-badge" title="Tiến độ hoàn thành bộ câu hỏi">
-        <span id="global-progress-stat">0/240 (0%)</span>
+        <span id="global-progress-stat">0/400 (0%)</span>
       </div>
       <button id="btn-reset-data" class="quiz-back-btn" title="Đặt lại toàn bộ tiến độ">
         Đặt lại
@@ -57,11 +57,11 @@
         <div class="hero-content">
           <div class="hero-title">
             <h2>Kế hoạch Luyện thi Học máy Tiên tiến & Ứng dụng</h2>
-            <p>Ngân hàng 240 câu hỏi trọng tâm, bám sát 6 slide bài giảng TS. Hà Minh Tân.</p>
+            <p>Ngân hàng 400 câu hỏi trọng tâm, bám sát 6 slide bài giảng TS. Hà Minh Tân.</p>
           </div>
           <div class="stat-boxes-row">
             <div class="mini-stat-box">
-              <span class="mini-stat-num" id="dash-total-q">240</span>
+              <span class="mini-stat-num" id="dash-total-q">400</span>
               <span class="mini-stat-label">Tổng câu hỏi</span>
             </div>
             <div class="mini-stat-box">
@@ -97,18 +97,18 @@
         <div class="quiz-toolbar">
           <div class="toolbar-left">
             <select id="practice-chapter-select" class="custom-select">
-              <option value="all">Tất cả các chương (Toàn bộ 240 câu)</option>
-              <option value="1">Chương 1: Tổng quan Học máy (30 câu)</option>
-              <option value="2">Chương 2: Tiền xử lý & PCA (30 câu)</option>
-              <option value="3">Chương 3: Tuyến tính & Đánh giá (55 câu - Trọng tâm)</option>
-              <option value="4">Chương 4: Cây quyết định & Ensemble (50 câu - Trọng tâm)</option>
-              <option value="5">Chương 5: Bài toán Phân cụm (30 câu)</option>
-              <option value="6">Chương 6: MLP & Backpropagation (45 câu - Trọng tâm)</option>
+              <option value="all">Tất cả các chương (Toàn bộ 400 câu)</option>
+              <option value="1">Chương 1: Tổng quan Học máy (50 câu)</option>
+              <option value="2">Chương 2: Tiền xử lý & PCA (50 câu)</option>
+              <option value="3">Chương 3: Tuyến tính & Đánh giá (90 câu - Trọng tâm)</option>
+              <option value="4">Chương 4: Cây quyết định & Ensemble (80 câu - Trọng tâm)</option>
+              <option value="5">Chương 5: Bài toán Phân cụm (50 câu)</option>
+              <option value="6">Chương 6: MLP & Backpropagation (80 câu - Trọng tâm)</option>
             </select>
           </div>
 
           <div class="toolbar-right">
-            <span class="q-counter-text" id="practice-counter">Câu 1 / 240</span>
+            <span class="q-counter-text" id="practice-counter">Câu 1 / 400</span>
             <button id="btn-toggle-grid-drawer" class="quiz-back-btn" title="Mở danh sách câu hỏi">
               Mục lục câu
             </button>
@@ -155,11 +155,20 @@
             <div class="explanation-text" id="practice-exp-text">
               <!-- Nội dung giải thích chi tiết -->
             </div>
-            <div class="explanation-actions">
-              <button class="quiz-back-btn" id="practice-btn-prev">← Câu trước</button>
-              <button class="btn-primary" id="practice-btn-next">Câu tiếp theo →</button>
-            </div>
           </div>
+        </div>
+
+        <!-- THANH ĐIỀU HƯỚNG CÂU HỎI TRƯỚC / SAU (GHIM ĐÁY TRÊN MOBILE) -->
+        <div class="quiz-nav-bottom-bar" id="practice-bottom-bar">
+          <button class="quiz-back-btn nav-btn-prev" id="practice-btn-prev" title="Lùi lại câu trước (Phím ← hoặc P)">
+            ← Câu trước
+          </button>
+          <div class="nav-bar-center" id="practice-nav-center">
+            <span class="nav-counter" id="practice-bottom-counter">Câu 1 / 400</span>
+          </div>
+          <button class="btn-primary nav-btn-next" id="practice-btn-next" title="Chuyển sang câu tiếp theo (Phím → hoặc N)">
+            Câu tiếp theo →
+          </button>
         </div>
 
       </div>
@@ -241,9 +250,16 @@
               <div class="explanation-text" id="exam-exp-text"></div>
             </div>
 
-            <div class="exam-nav-buttons">
-              <button class="quiz-back-btn" id="exam-btn-prev">← Câu trước</button>
-              <button class="btn-primary" id="exam-btn-next">Câu tiếp theo →</button>
+            <div class="exam-nav-buttons quiz-nav-bottom-bar" id="exam-bottom-bar">
+              <button class="quiz-back-btn nav-btn-prev" id="exam-btn-prev" title="Lùi lại câu trước">
+                ← Câu trước
+              </button>
+              <div class="nav-bar-center" id="exam-nav-center">
+                <span class="nav-counter" id="exam-bottom-counter">Câu 1 / 100</span>
+              </div>
+              <button class="btn-primary nav-btn-next" id="exam-btn-next" title="Chuyển sang câu tiếp theo">
+                Câu tiếp theo →
+              </button>
             </div>
           </div>
         </div>
@@ -377,7 +393,7 @@
             </select>
           </div>
           <div class="toolbar-right">
-            <span class="q-counter-text" id="flashcard-counter">Thẻ 1 / 240</span>
+            <span class="q-counter-text" id="flashcard-counter">Thẻ 1 / 400</span>
           </div>
         </div>
 

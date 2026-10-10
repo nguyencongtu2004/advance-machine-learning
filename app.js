@@ -17,7 +17,7 @@
       num: "CHƯƠNG 1",
       title: "Tổng quan về Học máy",
       desc: "Định nghĩa Arthur Samuel & Tom Mitchell (T-E-P), Phân loại Học có giám sát, Không giám sát, Bán giám sát, Tăng cường; Phân chia Train/Validation/Test, K-Fold CV.",
-      total: 30,
+      total: 50,
       weight: "10 câu trong đề thi"
     },
     {
@@ -25,7 +25,7 @@
       num: "CHƯƠNG 2",
       title: "Tiền xử lý & PCA",
       desc: "Xử lý dữ liệu khuyết (Imputation, Indicator), Ngoại lai (IQR, Z-score 3-sigma), Chuẩn hóa Min-Max Scaling vs Standard Scaler, Giảm chiều dữ liệu PCA 7 bước & EVR.",
-      total: 30,
+      total: 50,
       weight: "12 câu trong đề thi"
     },
     {
@@ -33,7 +33,7 @@
       num: "CHƯƠNG 3",
       title: "Tuyến tính & Đánh giá",
       desc: "Hồi quy OLS nghiệm đóng, Hiện tượng đa cộng tuyến & giả nghịch đảo, Chính quy hóa L2 Ridge & L1 Lasso & Elastic Net, Logistic Regression, Confusion Matrix, Precision, Recall, F1, ROC-AUC.",
-      total: 55,
+      total: 90,
       weight: "TRỌNG TÂM (25 câu trong đề)"
     },
     {
@@ -41,7 +41,7 @@
       num: "CHƯƠNG 4",
       title: "Cây quyết định & Ensemble",
       desc: "Entropy, Information Gain (ID3), Gain Ratio (C4.5), Gini Index (CART), Cắt tỉa Pre/Post-pruning, Bagging, Random Forest OOB & m=sqrt(d), AdaBoost cập nhật trọng số, Gradient Boosting (GBDT) dự đoán phần dư.",
-      total: 50,
+      total: 80,
       weight: "TRỌNG TÂM (22 câu trong đề)"
     },
     {
@@ -49,7 +49,7 @@
       num: "CHƯƠNG 5",
       title: "Bài toán Phân cụm",
       desc: "K-Means cực tiểu WCSS, Khởi tạo K-Means++ theo khoảng cách D(x)^2, Phương pháp Elbow, Hệ số Silhouette s(i) [-1, 1], Mô hình hỗn hợp Gauss (GMM) & thuật toán EM, DBSCAN (Eps, MinPts, Core, Border, Noise).",
-      total: 30,
+      total: 50,
       weight: "13 câu trong đề thi"
     },
     {
@@ -57,7 +57,7 @@
       num: "CHƯƠNG 6",
       title: "MLP & Backpropagation",
       desc: "Perceptron giới hạn XOR, Hàm kích hoạt Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax; Vấn đề Triệt tiêu đạo hàm, Quy tắc chuỗi Lan truyền ngược, Gradient Descent (BGD, SGD, Mini-batch), Momentum, Adam, Đếm tham số mạng.",
-      total: 45,
+      total: 80,
       weight: "TRỌNG TÂM (18 câu trong đề)"
     }
   ];
@@ -219,6 +219,9 @@
     if (starredBadge) starredBadge.textContent = state.starredIds.size;
 
     // Dashboard Banner
+    const dashTotalEl = document.getElementById('dash-total-q');
+    if (dashTotalEl) dashTotalEl.textContent = totalQ;
+
     const dashDoneEl = document.getElementById('dash-done-q');
     if (dashDoneEl) dashDoneEl.textContent = answeredCount;
 
@@ -377,6 +380,19 @@
     // Cập nhật counter
     const counterEl = document.getElementById('practice-counter');
     if (counterEl) counterEl.textContent = `Câu ${state.practiceIndex + 1} / ${totalQ}`;
+
+    const bottomCounterEl = document.getElementById('practice-bottom-counter');
+    if (bottomCounterEl) bottomCounterEl.textContent = `Câu ${state.practiceIndex + 1} / ${totalQ}`;
+
+    const prevBtn = document.getElementById('practice-btn-prev');
+    const nextBtn = document.getElementById('practice-btn-next');
+    if (prevBtn) {
+      prevBtn.disabled = (state.practiceIndex === 0);
+      prevBtn.style.opacity = (state.practiceIndex === 0) ? '0.4' : '1';
+    }
+    if (nextBtn) {
+      nextBtn.textContent = (state.practiceIndex === totalQ - 1) ? 'Đã hết câu' : 'Câu tiếp theo →';
+    }
 
     // Meta Badge & Slide Ref
     const qBadge = document.getElementById('practice-q-badge');
@@ -660,6 +676,19 @@
     // Meta
     const badgeEl = document.getElementById('exam-q-badge');
     if (badgeEl) badgeEl.textContent = `Câu ${state.examIndex + 1} / 100`;
+
+    const bottomExamCounter = document.getElementById('exam-bottom-counter');
+    if (bottomExamCounter) bottomExamCounter.textContent = `Câu ${state.examIndex + 1} / 100`;
+
+    const examPrevBtn = document.getElementById('exam-btn-prev');
+    const examNextBtn = document.getElementById('exam-btn-next');
+    if (examPrevBtn) {
+      examPrevBtn.disabled = (state.examIndex === 0);
+      examPrevBtn.style.opacity = (state.examIndex === 0) ? '0.4' : '1';
+    }
+    if (examNextBtn) {
+      examNextBtn.textContent = (state.examIndex === 99) ? 'Câu cuối (Nộp bài)' : 'Câu tiếp theo →';
+    }
 
     const chapterTag = document.getElementById('exam-chapter-tag');
     if (chapterTag) chapterTag.textContent = `Chương ${q.chapter}`;
@@ -1140,6 +1169,7 @@
       if (state.practiceIndex > 0) {
         state.practiceIndex--;
         renderCurrentPracticeQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
@@ -1147,6 +1177,7 @@
       if (state.practiceIndex < state.practiceQuestions.length - 1) {
         state.practiceIndex++;
         renderCurrentPracticeQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
@@ -1158,6 +1189,7 @@
       if (state.examIndex > 0) {
         state.examIndex--;
         renderCurrentExamQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
@@ -1165,6 +1197,7 @@
       if (state.examIndex < 99) {
         state.examIndex++;
         renderCurrentExamQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 

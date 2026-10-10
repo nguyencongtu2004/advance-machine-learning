@@ -30,26 +30,26 @@ Bạn chỉ cần thực hiện 1 thao tác duy nhất:
 web/
 ├── index.html          # Khung giao diện chính (SPA gồm 6 Tabs chức năng, nút Sáng/Tối)
 ├── style.css           # Hệ thống giao diện Dark / Light Mode tối giản, sạch sẽ
-├── data_questions.js   # Ngân hàng 240 câu hỏi trắc nghiệm chuẩn kèm giải thích & trang slide
+├── data_questions.js   # Ngân hàng 400 câu hỏi trắc nghiệm chuẩn kèm giải thích & trang slide
 ├── app.js              # Xử lý toàn bộ logic: chấm điểm, giải thích, chuyển theme, localStorage
 └── README.md           # Tài liệu hướng dẫn sử dụng chi tiết này
 ```
 
 ---
 
-## Phân Bổ Ngân Hàng 240 Câu Hỏi Theo 6 Chương
+## Phân Bổ Ngân Hàng 400 Câu Hỏi Theo 6 Chương
 
 Ngân hàng câu hỏi được chia theo 6 chương, trong đó **các chương trọng tâm (Chương 3, 4, 6)** được tăng cường mật độ câu hỏi và các dạng bẫy trắc nghiệm:
 
 | Chương | Tên chương & Nội dung trọng tâm | Số lượng câu | Trọng số đề thi 100 câu |
 | :---: | :--- | :---: | :---: |
-| **Chương 1** | **Tổng quan về Học máy**: Định nghĩa T-E-P (Tom Mitchell), Phân loại ML, Train/Val/Test, K-Fold CV | **30 câu** | 10 câu |
-| **Chương 2** | **Tiền xử lý & PCA**: Dữ liệu khuyết, Ngoại lai IQR/Z-score, Min-Max, Standard Scaler, PCA 7 bước & EVR | **30 câu** | 12 câu |
-| **Chương 3** | **Tuyến tính & Đánh giá** (Trọng tâm): OLS nghiệm đóng & ma trận suy biến, Ridge (L2), Lasso (L1), Elastic Net, Logistic Regression, Cross-Entropy gradient, Confusion Matrix, ROC-AUC, Micro/Macro F1 | **55 câu** | **25 câu** |
-| **Chương 4** | **Cây quyết định & Ensemble** (Trọng tâm): Entropy, Gain Ratio (C4.5), Gini (CART), Cắt tỉa cây, Bagging, Random Forest OOB & $m=\sqrt{d}$, AdaBoost cập nhật trọng số, GBDT tối ưu phần dư | **50 câu** | **22 câu** |
-| **Chương 5** | **Bài toán Phân cụm**: K-Means cực tiểu WCSS, Khởi tạo K-Means++, Hệ số Silhouette $[-1, 1]$, GMM & thuật toán EM, DBSCAN mật độ | **30 câu** | 13 câu |
-| **Chương 6** | **MLP & Backpropagation** (Trọng tâm): Perceptron giới hạn XOR, Kích hoạt Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax; Triệt tiêu gradient, Lan truyền ngược Chain Rule, GD variants, Momentum, Adam, Đếm tham số | **45 câu** | **18 câu** |
-| **TỔNG CỘNG** | **Bám sát toàn diện 520 trang bài giảng** | **240 CÂU** | **100 CÂU** |
+| **Chương 1** | **Tổng quan về Học máy**: Định nghĩa T-E-P (Tom Mitchell), Phân loại ML, Train/Val/Test, K-Fold CV | **50 câu** | 10 câu |
+| **Chương 2** | **Tiền xử lý & PCA**: Dữ liệu khuyết, Ngoại lai IQR/Z-score, Min-Max, Standard Scaler, PCA 7 bước & EVR | **50 câu** | 12 câu |
+| **Chương 3** | **Tuyến tính & Đánh giá** (Trọng tâm): OLS nghiệm đóng & ma trận suy biến, Ridge (L2), Lasso (L1), Elastic Net, Logistic Regression, Cross-Entropy gradient, Confusion Matrix, ROC-AUC, Micro/Macro F1 | **90 câu** | **25 câu** |
+| **Chương 4** | **Cây quyết định & Ensemble** (Trọng tâm): Entropy, Gain Ratio (C4.5), Gini (CART), Cắt tỉa cây, Bagging, Random Forest OOB & $m=\sqrt{d}$, AdaBoost cập nhật trọng số, GBDT tối ưu phần dư | **80 câu** | **22 câu** |
+| **Chương 5** | **Bài toán Phân cụm**: K-Means cực tiểu WCSS, Khởi tạo K-Means++, Hệ số Silhouette $[-1, 1]$, GMM & thuật toán EM, DBSCAN mật độ | **50 câu** | 13 câu |
+| **Chương 6** | **MLP & Backpropagation** (Trọng tâm): Perceptron giới hạn XOR, Kích hoạt Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax; Triệt tiêu gradient, Lan truyền ngược Chain Rule, GD variants, Momentum, Adam, Đếm tham số | **80 câu** | **18 câu** |
+| **TỔNG CỘNG** | **Bám sát toàn diện 520 trang bài giảng** | **400 CÂU** | **100 CÂU** |
 
 ---
 
@@ -87,7 +87,7 @@ Ngân hàng câu hỏi được chia theo 6 chương, trong đó **các chương
 - Bấm vào icon ngôi sao `☆` ở bất kỳ câu hỏi nào để lưu lại các câu bẫy kinh điển, công thức hay quên nhằm ôn lại nhanh vào đêm trước ngày thi.
 
 ### 5. 🃏 Lật thẻ Flashcards 3D
-- 240 thẻ flashcard lật 3D: Mặt trước là đề bài, click vào thẻ (hoặc bấm phím `Space`) sẽ lật sang mặt sau để xem đáp án đúng và lời giải cô đọng.
+- 400 thẻ flashcard lật 3D: Mặt trước là đề bài, click vào thẻ (hoặc bấm phím `Space`) sẽ lật sang mặt sau để xem đáp án đúng và lời giải cô đọng.
 
 ---
 
