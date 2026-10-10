@@ -80,6 +80,11 @@
     practiceChapter: 'all',
     practiceQuestions: [],
     practiceIndex: 0,
+    practiceAnsweredThisTurn: false, // Kiểm tra đã chọn đáp án ở lượt xem hiện tại chưa
+    practicePositions: {
+      currentChapter: 'all',
+      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 }
+    },
 
     // Exam Tab
     examActive: false,
@@ -103,7 +108,8 @@
     ANSWERS: 'ml_exam_user_answers_v2',
     WRONG: 'ml_exam_wrong_ids_v2',
     STARRED: 'ml_exam_starred_ids_v2',
-    HISTORY: 'ml_exam_history_v2'
+    HISTORY: 'ml_exam_history_v2',
+    PRACTICE_POS: 'ml_exam_practice_pos_v2'
   };
 
   function loadStorage() {
@@ -119,9 +125,29 @@
 
       const savedHistory = localStorage.getItem(STORAGE_KEYS.HISTORY);
       if (savedHistory) state.examHistory = JSON.parse(savedHistory);
+
+      const savedPos = localStorage.getItem(STORAGE_KEYS.PRACTICE_POS);
+      if (savedPos) {
+        try {
+          const parsed = JSON.parse(savedPos);
+          if (parsed.currentChapter) state.practicePositions.currentChapter = parsed.currentChapter;
+          if (parsed.indices) state.practicePositions.indices = { ...state.practicePositions.indices, ...parsed.indices };
+        } catch (e) { console.warn('Lỗi đọc practice pos:', e); }
+      }
     } catch (e) {
       console.warn('Không thể đọc dữ liệu localStorage:', e);
     }
+  }
+
+  function savePracticePosition() {
+    try {
+      if (!state.practicePositions) {
+        state.practicePositions = { currentChapter: 'all', indices: {} };
+      }
+      state.practicePositions.currentChapter = state.practiceChapter;
+      state.practicePositions.indices[state.practiceChapter] = state.practiceIndex;
+      localStorage.setItem(STORAGE_KEYS.PRACTICE_POS, JSON.stringify(state.practicePositions));
+    } catch (e) { console.error(e); }
   }
 
   function saveAnswers() {
@@ -186,8 +212,12 @@
     updateGlobalStats();
     renderDashboardChapters();
 
-    // Khởi tạo tab Luyện tập ban đầu
-    setPracticeChapter('all');
+    // Khởi tạo tab Luyện tập ban đầu từ vị trí và chương đã lưu
+    const savedChapter = (state.practicePositions && state.practicePositions.currentChapter) || 'all';
+    const select = document.getElementById('practice-chapter-select');
+    if (select) select.value = savedChapter;
+    setPracticeChapter(savedChapter);
+
     // Khởi tạo tab Flashcards
     setFlashcardChapter('all');
   }
@@ -318,7 +348,7 @@
   // ============================================================================
   // TAB 2: LUYỆN TẬP (GIẢI THÍCH TỨC THÌ SAU MỖI CÂU)
   // ============================================================================
-  function setPracticeChapter(chValue) {
+  function setPracticeChapter(chValue, targetIndex) {
     state.practiceChapter = chValue;
     if (chValue === 'all') {
       state.practiceQuestions = [...state.allQuestions];
@@ -326,7 +356,23 @@
       const chNum = parseInt(chValue, 10);
       state.practiceQuestions = state.allQuestions.filter(q => q.chapter === chNum);
     }
-    state.practiceIndex = 0;
+
+    // Khôi phục câu hỏi đang làm của chương này
+    if (typeof targetIndex === 'number' && targetIndex >= 0 && targetIndex < state.practiceQuestions.length) {
+      state.practiceIndex = targetIndex;
+    } else if (state.practicePositions && state.practicePositions.indices && typeof state.practicePositions.indices[chValue] === 'number') {
+      const savedIdx = state.practicePositions.indices[chValue];
+      state.practiceIndex = (savedIdx >= 0 && savedIdx < state.practiceQuestions.length) ? savedIdx : 0;
+    } else {
+      state.practiceIndex = 0;
+    }
+
+    const select = document.getElementById('practice-chapter-select');
+    if (select && select.value !== chValue) {
+      select.value = chValue;
+    }
+
+    savePracticePosition();
     renderPracticeGrid();
     renderCurrentPracticeQuestion();
   }
@@ -359,6 +405,7 @@
 
       btn.addEventListener('click', () => {
         state.practiceIndex = idx;
+        savePracticePosition();
         renderCurrentPracticeQuestion();
         document.getElementById('practice-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -374,6 +421,10 @@
     if (state.practiceIndex < 0) state.practiceIndex = 0;
     if (state.practiceIndex >= questions.length) state.practiceIndex = questions.length - 1;
 
+    // Reset cờ lượt chọn hiện tại khi sang câu mới hoặc quay lại câu cũ
+    state.practiceAnsweredThisTurn = false;
+    savePracticePosition();
+
     const q = questions[state.practiceIndex];
     const totalQ = questions.length;
 
@@ -382,16 +433,23 @@
     if (counterEl) counterEl.textContent = `Câu ${state.practiceIndex + 1} / ${totalQ}`;
 
     const bottomCounterEl = document.getElementById('practice-bottom-counter');
-    if (bottomCounterEl) bottomCounterEl.textContent = `Câu ${state.practiceIndex + 1} / ${totalQ}`;
+    if (bottomCounterEl) {
+      bottomCounterEl.innerHTML = `<span class="counter-full">Câu ${state.practiceIndex + 1} / ${totalQ}</span><span class="counter-short">${state.practiceIndex + 1}/${totalQ}</span>`;
+    }
 
     const prevBtn = document.getElementById('practice-btn-prev');
     const nextBtn = document.getElementById('practice-btn-next');
     if (prevBtn) {
       prevBtn.disabled = (state.practiceIndex === 0);
       prevBtn.style.opacity = (state.practiceIndex === 0) ? '0.4' : '1';
+      prevBtn.innerHTML = '<span class="nav-text-full">← Câu trước</span><span class="nav-text-short">← Trước</span>';
     }
     if (nextBtn) {
-      nextBtn.textContent = (state.practiceIndex === totalQ - 1) ? 'Đã hết câu' : 'Câu tiếp theo →';
+      if (state.practiceIndex === totalQ - 1) {
+        nextBtn.innerHTML = '<span class="nav-text-full">Đã hết câu ✓</span><span class="nav-text-short">Hết câu ✓</span>';
+      } else {
+        nextBtn.innerHTML = '<span class="nav-text-full">Câu tiếp theo →</span><span class="nav-text-short">Tiếp theo →</span>';
+      }
     }
 
     // Meta Badge & Slide Ref
@@ -419,8 +477,8 @@
     optionsContainer.innerHTML = '';
 
     const prefixes = ['A', 'B', 'C', 'D'];
-    const pastAnswer = state.userAnswers[q.id];
 
+    // Luôn hiển thị các nút đáp án sẵn sàng để người dùng thử sức lại khi vào/quay lại câu hỏi
     q.options.forEach((optText, optIdx) => {
       const optBtn = document.createElement('button');
       optBtn.className = 'option-btn';
@@ -435,31 +493,17 @@
       optBtn.appendChild(prefixSpan);
       optBtn.appendChild(textSpan);
 
-      // Nếu câu này đã làm trước đó
-      if (pastAnswer !== undefined) {
-        optBtn.classList.add('disabled');
-        if (optIdx === q.answer) {
-          optBtn.classList.add('correct');
-        } else if (optIdx === pastAnswer.selected && !pastAnswer.isCorrect) {
-          optBtn.classList.add('wrong');
-        }
-      } else {
-        // Nếu chưa làm -> Bắt sự kiện chọn
-        optBtn.addEventListener('click', () => {
-          handleSelectPracticeAnswer(q, optIdx);
-        });
-      }
+      // Bắt sự kiện chọn đáp án
+      optBtn.addEventListener('click', () => {
+        handleSelectPracticeAnswer(q, optIdx);
+      });
 
       optionsContainer.appendChild(optBtn);
     });
 
-    // Cập nhật hộp giải thích
+    // Ẩn hộp giải thích khi bắt đầu xem câu hỏi (chỉ hiện khi người dùng chọn đáp án ở lượt này)
     const expCard = document.getElementById('practice-explanation-card');
-    if (pastAnswer !== undefined) {
-      showPracticeExplanation(q, pastAnswer.selected, pastAnswer.isCorrect, false);
-    } else {
-      if (expCard) expCard.classList.remove('active');
-    }
+    if (expCard) expCard.classList.remove('active');
 
     // Cập nhật lại grid active
     const gridButtons = document.querySelectorAll('#practice-questions-grid .grid-num-btn');
@@ -470,9 +514,13 @@
 
   // XỬ LÝ KHI NGƯỜI DÙNG CHỌN ĐÁP ÁN (GIẢI THÍCH NGAY LẬP TỨC)
   function handleSelectPracticeAnswer(q, selectedIdx) {
+    // Chặn người dùng đổi đáp án nếu đã chọn trong lượt xem này
+    if (state.practiceAnsweredThisTurn) return;
+    state.practiceAnsweredThisTurn = true;
+
     const isCorrect = (selectedIdx === q.answer);
 
-    // Lưu vào userAnswers
+    // Cập nhật lại userAnswers để lưu tiến trình
     state.userAnswers[q.id] = {
       selected: selectedIdx,
       isCorrect: isCorrect,
@@ -480,18 +528,24 @@
     };
     saveAnswers();
 
-    // Nếu sai -> Lưu vào Sổ câu sai
-    if (!isCorrect) {
+    // Cập nhật Sổ câu sai: nếu trả lời đúng thì xóa khỏi sổ sai (nếu từng sai), nếu sai thì thêm vào
+    if (isCorrect) {
+      if (state.wrongIds.has(q.id)) {
+        state.wrongIds.delete(q.id);
+        saveWrong();
+      }
+    } else {
       state.wrongIds.add(q.id);
       saveWrong();
     }
 
     updateGlobalStats();
 
-    // Disable tất cả options và highlight
+    // Khóa tất cả options ngay lập tức để không thể đổi đáp án và highlight màu
     const optionButtons = document.querySelectorAll('#practice-options-list .option-btn');
     optionButtons.forEach((btn, idx) => {
       btn.classList.add('disabled');
+      btn.style.pointerEvents = 'none';
       if (idx === q.answer) {
         btn.classList.add('correct');
       } else if (idx === selectedIdx && !isCorrect) {
@@ -499,7 +553,7 @@
       }
     });
 
-    // Hiển thị giải thích tức thì và tự động cuộn
+    // Hiển thị giải thích tức thì (cuộn mượt dịu nhẹ, không che khuất câu hỏi)
     showPracticeExplanation(q, selectedIdx, isCorrect, true);
 
     renderPracticeGrid();
@@ -538,7 +592,13 @@
 
     if (shouldScroll) {
       setTimeout(() => {
-        expCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const rect = expCard.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        // Chỉ cuộn nhẹ nhàng nếu phần đáy của hộp giải thích bị tràn xuống dưới màn hình
+        if (rect.bottom > windowHeight - 70) {
+          const scrollDistance = Math.min(rect.bottom - (windowHeight - 80), 220);
+          window.scrollBy({ top: scrollDistance, behavior: 'smooth' });
+        }
       }, 50);
     }
   }
@@ -678,16 +738,23 @@
     if (badgeEl) badgeEl.textContent = `Câu ${state.examIndex + 1} / 100`;
 
     const bottomExamCounter = document.getElementById('exam-bottom-counter');
-    if (bottomExamCounter) bottomExamCounter.textContent = `Câu ${state.examIndex + 1} / 100`;
+    if (bottomExamCounter) {
+      bottomExamCounter.innerHTML = `<span class="counter-full">Câu ${state.examIndex + 1} / 100</span><span class="counter-short">${state.examIndex + 1}/100</span>`;
+    }
 
     const examPrevBtn = document.getElementById('exam-btn-prev');
     const examNextBtn = document.getElementById('exam-btn-next');
     if (examPrevBtn) {
       examPrevBtn.disabled = (state.examIndex === 0);
       examPrevBtn.style.opacity = (state.examIndex === 0) ? '0.4' : '1';
+      examPrevBtn.innerHTML = '<span class="nav-text-full">← Câu trước</span><span class="nav-text-short">← Trước</span>';
     }
     if (examNextBtn) {
-      examNextBtn.textContent = (state.examIndex === 99) ? 'Câu cuối (Nộp bài)' : 'Câu tiếp theo →';
+      if (state.examIndex === 99) {
+        examNextBtn.innerHTML = '<span class="nav-text-full">Câu cuối (Nộp bài)</span><span class="nav-text-short">Nộp bài</span>';
+      } else {
+        examNextBtn.innerHTML = '<span class="nav-text-full">Câu tiếp theo →</span><span class="nav-text-short">Tiếp theo →</span>';
+      }
     }
 
     const chapterTag = document.getElementById('exam-chapter-tag');
@@ -1135,10 +1202,12 @@
         localStorage.removeItem(STORAGE_KEYS.WRONG);
         localStorage.removeItem(STORAGE_KEYS.STARRED);
         localStorage.removeItem(STORAGE_KEYS.HISTORY);
+        localStorage.removeItem(STORAGE_KEYS.PRACTICE_POS);
         state.userAnswers = {};
         state.wrongIds.clear();
         state.starredIds.clear();
         state.examHistory = [];
+        state.practicePositions = { currentChapter: 'all', indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 } };
         updateGlobalStats();
         renderDashboardChapters();
         renderPracticeGrid();
@@ -1168,6 +1237,7 @@
     document.getElementById('practice-btn-prev')?.addEventListener('click', () => {
       if (state.practiceIndex > 0) {
         state.practiceIndex--;
+        savePracticePosition();
         renderCurrentPracticeQuestion();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -1176,6 +1246,7 @@
     document.getElementById('practice-btn-next')?.addEventListener('click', () => {
       if (state.practiceIndex < state.practiceQuestions.length - 1) {
         state.practiceIndex++;
+        savePracticePosition();
         renderCurrentPracticeQuestion();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -1283,11 +1354,13 @@
         else if (e.key === 'ArrowRight' || e.key === 'n' || e.key === 'N') {
           if (state.practiceIndex < state.practiceQuestions.length - 1) {
             state.practiceIndex++;
+            savePracticePosition();
             renderCurrentPracticeQuestion();
           }
         } else if (e.key === 'ArrowLeft' || e.key === 'p' || e.key === 'P') {
           if (state.practiceIndex > 0) {
             state.practiceIndex--;
+            savePracticePosition();
             renderCurrentPracticeQuestion();
           }
         } else if (e.key === 's' || e.key === 'S') {

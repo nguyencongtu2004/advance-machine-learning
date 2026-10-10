@@ -742,6 +742,14 @@ body {
   color: var(--text-secondary);
 }
 
+.nav-text-full, .counter-full {
+  display: inline;
+}
+
+.nav-text-short, .counter-short {
+  display: none;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #ffffff;
@@ -1420,6 +1428,8 @@ button:active, .nav-tab:active, .option-btn:active {
 /* Tablet & Màn hình vừa (<= 900px) */
 @media (max-width: 900px) {
   .app-header {
+    position: relative !important;
+    top: auto !important;
     flex-wrap: wrap;
     padding: 0.6rem 1rem;
     gap: 0.65rem;
@@ -1721,61 +1731,92 @@ button:active, .nav-tab:active, .option-btn:active {
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
     z-index: 100 !important;
-    background: var(--header-bg) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
+    background: #111827 !important;
     border-top: 1px solid var(--border-glass) !important;
     border-left: none !important;
     border-right: none !important;
     border-bottom: none !important;
     border-radius: 0 !important;
     margin: 0 !important;
-    padding: 0.65rem 0.85rem calc(0.65rem + env(safe-area-inset-bottom)) !important;
+    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom)) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 0.5rem !important;
+    gap: 0.35rem !important;
     box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45) !important;
+    overflow: hidden !important;
+  }
+
+  [data-theme="light"] .quiz-nav-bottom-bar {
+    background: #ffffff !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  [data-theme="dark"] .quiz-nav-bottom-bar {
+    background: #111827 !important;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5) !important;
   }
 
   .quiz-nav-bottom-bar .nav-btn-prev {
-    flex: 1 1 0 !important;
-    max-width: 130px !important;
-    height: 44px !important;
+    flex: 0 0 auto !important;
+    min-width: 78px !important;
+    height: 40px !important;
     border-radius: var(--radius-full) !important;
     font-size: 0.85rem !important;
     font-weight: 600 !important;
-    padding: 0 0.5rem !important;
+    padding: 0 0.75rem !important;
     white-space: nowrap !important;
   }
 
   .quiz-nav-bottom-bar .nav-btn-next {
-    flex: 1.3 1 0 !important;
-    max-width: 175px !important;
-    height: 44px !important;
+    flex: 0 0 auto !important;
+    min-width: 98px !important;
+    height: 40px !important;
     border-radius: var(--radius-full) !important;
-    font-size: 0.88rem !important;
+    font-size: 0.85rem !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
-    padding: 0 0.65rem !important;
+    padding: 0 0.85rem !important;
     white-space: nowrap !important;
   }
 
   .quiz-nav-bottom-bar .nav-bar-center {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
     font-family: var(--font-mono) !important;
-    font-size: 0.78rem !important;
+    font-size: 0.82rem !important;
     font-weight: 600 !important;
-    color: var(--text-muted) !important;
+    color: var(--text-secondary) !important;
     white-space: nowrap !important;
     padding: 0 0.2rem !important;
-    flex-shrink: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .nav-text-full, .counter-full {
+    display: none !important;
+  }
+
+  .nav-text-short, .counter-short {
+    display: inline !important;
   }
 
   /* Chống che khuất nội dung dưới đáy */
-  #tab-practice .quiz-container,
-  #tab-exam .exam-main-panel {
-    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)) !important;
+  #tab-practice {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+  }
+  #practice-card {
+    margin-bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
+  }
+  #tab-exam {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+  }
+  #tab-exam .question-card {
+    margin-bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
   }
 
   .grid-drawer {
