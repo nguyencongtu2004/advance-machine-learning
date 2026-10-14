@@ -61,13 +61,13 @@
     if (badgeFront) badgeFront.textContent = `Chương ${q.chapter} • Thẻ #${q.id}`;
 
     const qText = document.getElementById('fc-question-text');
-    if (qText) qText.textContent = q.question;
+    if (qText) qText.innerHTML = renderMarkdownInline(q.question);
 
     const ansText = document.getElementById('fc-answer-text');
-    if (ansText) ansText.textContent = `${prefixes[q.answer]}. ${q.options[q.answer]}`;
+    if (ansText) ansText.innerHTML = `<strong>${prefixes[q.answer]}.</strong> <span>${renderMarkdownInline(q.options[q.answer])}</span>`;
 
     const expText = document.getElementById('fc-exp-text');
-    if (expText) expText.textContent = q.explanation;
+    if (expText) expText.innerHTML = `<div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div>`;
 
     const slideTag = document.getElementById('fc-slide-tag');
     if (slideTag) slideTag.textContent = q.slideRef || 'Giáo trình UIT';

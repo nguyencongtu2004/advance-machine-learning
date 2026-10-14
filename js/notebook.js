@@ -37,14 +37,14 @@
             Đã nắm vững
           </button>
         </div>
-        <div class="question-text">${q.question}</div>
+        <div class="question-text">${renderMarkdownInline(q.question)}</div>
         <div class="options-list" id="wrong-options-${q.id}"></div>
         <div class="explanation-card active" style="margin-top: 1rem;">
           <div class="explanation-header">
-            <span class="status-tag correct">Đáp án đúng: ${prefixes[q.answer]}. ${q.options[q.answer]}</span>
+            <span class="status-tag correct">Đáp án đúng: <strong>${prefixes[q.answer]}.</strong> <span>${renderMarkdownInline(q.options[q.answer])}</span></span>
             <span class="slide-tag">${q.slideRef || ''}</span>
           </div>
-          <div class="explanation-text">${q.explanation}</div>
+          <div class="explanation-text"><div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div></div>
         </div>
       `;
 
@@ -55,7 +55,7 @@
         if (optIdx === q.answer) btn.classList.add('correct');
         else if (past && optIdx === past.selected && !past.isCorrect) btn.classList.add('wrong');
 
-        btn.innerHTML = `<span class="option-prefix">${prefixes[optIdx]}</span><span>${optText}</span>`;
+        btn.innerHTML = `<span class="option-prefix">${prefixes[optIdx]}</span><span class="option-text">${renderMarkdownInline(optText)}</span>`;
         optContainer.appendChild(btn);
       });
 
@@ -103,21 +103,21 @@
           </div>
           <button class="star-btn starred" data-qid="${q.id}" title="Bỏ đánh dấu">★</button>
         </div>
-        <div class="question-text">${q.question}</div>
+        <div class="question-text">${renderMarkdownInline(q.question)}</div>
         <div class="options-list">
           ${q.options.map((opt, i) => `
             <div class="option-btn ${i === q.answer ? 'correct' : ''}">
               <span class="option-prefix">${prefixes[i]}</span>
-              <span>${opt}</span>
+              <span class="option-text">${renderMarkdownInline(opt)}</span>
             </div>
           `).join('')}
         </div>
         <div class="explanation-card active" style="margin-top: 1rem;">
           <div class="explanation-header">
-            <span class="status-tag correct">Phân tích & Giải thích:</span>
+            <span class="status-tag correct">Phân tích & Giải thích chi tiết:</span>
             <span class="slide-tag">${q.slideRef || ''}</span>
           </div>
-          <div class="explanation-text">${q.explanation}</div>
+          <div class="explanation-text"><div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div></div>
         </div>
       `;
 

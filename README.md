@@ -36,12 +36,21 @@ web/
 │   ├── 01_Note_Chuong_1_Tong_Quan_Hoc_May.md
 │   └── ... (02 đến 07)
 ├── data/               # Dữ liệu tĩnh của hệ thống
-│   ├── data_questions.js  # Ngân hàng 400 câu hỏi trắc nghiệm chuẩn kèm giải thích & slide
+│   ├── questions/      # Ngân hàng câu hỏi trắc nghiệm chia theo từng chương
+│   │   ├── chuong_1.js # Chương 1: Tổng quan về Học máy (50 câu)
+│   │   ├── chuong_2.js # Chương 2: Tiền xử lý & PCA (50 câu)
+│   │   ├── chuong_3.js # Chương 3: Tuyến tính & Đánh giá (90 câu)
+│   │   ├── chuong_4.js # Chương 4: Cây quyết định & Ensemble (80 câu)
+│   │   ├── chuong_5.js # Chương 5: Bài toán Phân cụm (50 câu)
+│   │   └── chuong_6.js # Chương 6: MLP & Backpropagation (80 câu)
+│   ├── data_questions.js  # File gộp 400 câu hỏi (tự động đồng bộ bằng build_questions.js)
 │   └── data_docs.js       # Manifest danh mục & nội dung bundle offline tài liệu
 ├── vendor/             # Thư viện bên ngoài (chạy 100% offline)
 │   └── marked.min.js      # Bộ phân tích Markdown GFM siêu nhẹ
 ├── scripts/            # Các công cụ bảo trì & tự động hóa
+│   ├── build_questions.js # Script kiểm tra & gộp các file data/questions/ thành data_questions.js
 │   ├── build_docs.js      # Script tự động quét docs/*.md và cập nhật data/data_docs.js
+│   ├── split_questions.js # Script phân tách ngân hàng câu hỏi theo từng chương
 │   ├── split_css.js       # Script module hóa CSS
 │   └── split_js.js        # Script module hóa JS
 ├── css/                # Hệ thống CSS được phân bổ dạng module gọn nhẹ
@@ -126,6 +135,43 @@ Ngân hàng câu hỏi được chia theo 6 chương, trong đó **các chương
 - **Cuộn bảng mượt mà:** Tất cả bảng công thức và ma trận so sánh phức tạp đều có thanh cuộn ngang độc lập (`overflow-x: auto`), không bị vỡ giao diện hay co rúm chữ trên màn hình nhỏ.
 - **Tìm kiếm tức thì (In-page Search):** Tìm từ khóa nhanh và tự động highlight cụm từ tìm kiếm trong bài đọc.
 - **Lưu trạng thái bài đang đọc:** Tự động ghi nhớ bạn đang đọc chương nào để lần sau mở lại ngay chương đó.
+
+---
+
+## 📚 Hướng Dẫn Thêm / Sửa / Bớt Câu Hỏi Theo Từng Chương
+
+Ngân hàng câu hỏi hiện đã được tách độc lập theo từng file chương trong `web/data/questions/`:
+- `chuong_1.js` (50 câu): Tổng quan về Học máy
+- `chuong_2.js` (50 câu): Tiền xử lý dữ liệu và PCA
+- `chuong_3.js` (90 câu): Các mô hình tuyến tính và Đánh giá
+- `chuong_4.js` (80 câu): Cây quyết định và Học kết hợp (Ensemble)
+- `chuong_5.js` (50 câu): Bài toán Phân cụm (Clustering)
+- `chuong_6.js` (80 câu): MLP - Multi Layer Perceptron & Lan truyền ngược
+
+### Cách chỉnh sửa:
+1. **Chỉnh sửa / Thêm câu hỏi**: Mở trực tiếp file `web/data/questions/chuong_X.js` tương ứng. Thêm hoặc sửa object câu hỏi theo mẫu:
+   ```javascript
+   {
+     "id": 401,
+     "chapter": 1,
+     "chapterTitle": "Chương 1: Tổng quan về Học máy",
+     "question": "Nội dung câu hỏi ở đây?",
+     "options": [
+       "Lựa chọn A",
+       "Lựa chọn B",
+       "Lựa chọn C",
+       "Lựa chọn D"
+     ],
+     "answer": 0, // 0 tương ứng A, 1: B, 2: C, 3: D
+     "explanation": "Lời giải thích chi tiết...",
+     "slideRef": "Slide Chương 1, Trang 12"
+   }
+   ```
+2. **Xem ngay kết quả**: Lưu file và bấm **F5 (Reload)** trên trình duyệt. Ứng dụng tự động cập nhật ngay mà không cần qua bất kỳ bước biên dịch nào!
+3. **Đồng bộ file bundle `data_questions.js` (Tùy chọn)**: Nếu muốn cập nhật file gộp tổng hợp:
+   ```bash
+   node scripts/build_questions.js
+   ```
 
 ---
 

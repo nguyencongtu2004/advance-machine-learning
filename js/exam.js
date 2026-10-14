@@ -144,9 +144,9 @@
       starBtn.classList.toggle('starred', isStarred);
     }
 
-    // Question
+    // Question (Render Markdown + KaTeX LaTeX)
     const textEl = document.getElementById('exam-q-text');
-    if (textEl) textEl.textContent = q.question;
+    if (textEl) textEl.innerHTML = renderMarkdownInline(q.question);
 
     // Options
     const listEl = document.getElementById('exam-options-list');
@@ -168,7 +168,8 @@
       prefixSpan.textContent = prefixes[optIdx];
 
       const textSpan = document.createElement('span');
-      textSpan.textContent = optText;
+      textSpan.className = 'option-text';
+      textSpan.innerHTML = renderMarkdownInline(optText);
 
       btn.appendChild(prefixSpan);
       btn.appendChild(textSpan);
@@ -201,10 +202,12 @@
 
       if (statusTag) {
         statusTag.className = isCorrect ? 'status-tag correct' : 'status-tag wrong';
-        statusTag.textContent = isCorrect ? 'Chính xác!' : `Chưa đúng! Đáp án là ${prefixes[q.answer]}`;
+        statusTag.innerHTML = isCorrect ? 'Chính xác!' : `Chưa đúng! Đáp án đúng là <strong>${prefixes[q.answer]}.</strong> <span>${renderMarkdownInline(q.options[q.answer])}</span>`;
       }
       if (slideTag) slideTag.textContent = q.slideRef || '';
-      if (expText) expText.textContent = q.explanation;
+      if (expText) {
+        expText.innerHTML = `<div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div>`;
+      }
       instantExpCard.classList.add('active');
     }
 
@@ -338,8 +341,8 @@
       const card = document.createElement('div');
       card.className = `review-card ${isCorrect ? 'is-correct' : 'is-wrong'}`;
 
-      const userChoiceText = chosen !== undefined ? `${prefixes[chosen]}. ${q.options[chosen]}` : '<span style="color:var(--text-muted)">Chưa trả lời</span>';
-      const correctChoiceText = `${prefixes[q.answer]}. ${q.options[q.answer]}`;
+      const userChoiceText = chosen !== undefined ? `<strong>${prefixes[chosen]}.</strong> <span>${renderMarkdownInline(q.options[chosen])}</span>` : '<span style="color:var(--text-muted)">Chưa trả lời</span>';
+      const correctChoiceText = `<strong>${prefixes[q.answer]}.</strong> <span>${renderMarkdownInline(q.options[q.answer])}</span>`;
 
       card.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
@@ -352,14 +355,15 @@
           </span>
         </div>
         <div style="font-weight: 600; font-size: 1.05rem; margin-bottom: 1rem; color: var(--text-primary);">
-          ${q.question}
+          ${renderMarkdownInline(q.question)}
         </div>
         <div style="font-size: 0.9rem; margin-bottom: 0.75rem;">
-          <div>Bạn đã chọn: <strong style="color: ${isCorrect ? 'var(--success)' : 'var(--error)'}">${userChoiceText}</strong></div>
-          ${!isCorrect ? `<div>Đáp án đúng: <strong style="color: var(--success)">${correctChoiceText}</strong></div>` : ''}
+          <div style="margin-bottom: 0.35rem;">Bạn đã chọn: <span style="color: ${isCorrect ? 'var(--success)' : 'var(--error)'}">${userChoiceText}</span></div>
+          ${!isCorrect ? `<div>Đáp án đúng: <span style="color: var(--success)">${correctChoiceText}</span></div>` : ''}
         </div>
         <div style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 0.85rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
-          <strong>Giải thích chi tiết:</strong> ${q.explanation}
+          <div style="font-weight: 700; margin-bottom: 0.4rem; color: var(--text-primary);">💡 Giải thích chi tiết:</div>
+          <div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div>
         </div>
       `;
       container.appendChild(card);

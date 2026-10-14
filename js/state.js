@@ -225,5 +225,118 @@
   // --- KHỞI TẠO DỮ LIỆU ---
 
   function escapeHtml(str) {
+    if (typeof str !== 'string') return String(str || '');
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ==============================================================================
+     HELPER: RENDER MARKDOWN & KATEX LATEX MATH (DÙNG CHUNG CHO TOÀN BỘ ỨNG DỤNG)
+  ============================================================================== */
+
+  function renderMarkdownBlock(text) {
+    if (!text) return '';
+    const hasMarked = typeof marked !== 'undefined' && typeof marked.parse === 'function';
+    const hasKatex = typeof katex !== 'undefined' && typeof katex.renderToString === 'function';
+
+    if (!hasMarked) {
+      return `<div class="md-block-raw" style="white-space: pre-wrap;">${escapeHtml(text)}</div>`;
+    }
+
+    try {
+      const displayMath = [];
+      const inlineMath = [];
+
+      // 1. Tách và bảo vệ khối công thức toán học lớn ($$...$$)
+      let cleanText = String(text).replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+        const idx = displayMath.length;
+        displayMath.push(formula.trim());
+        return `@@KATEX_DISPLAY_${idx}@@`;
+      });
+
+      // 2. Tách và bảo vệ công thức toán học nội dòng ($...$)
+      cleanText = cleanText.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+        const idx = inlineMath.length;
+        inlineMath.push(formula.trim());
+        return `@@KATEX_INLINE_${idx}@@`;
+      });
+
+      // 3. Render Markdown chuẩn
+      let html = marked.parse(cleanText, {
+        gfm: true,
+        breaks: true
+      });
+
+      // 4. Render KaTeX display
+      html = html.replace(/@@KATEX_DISPLAY_(\d+)@@/g, (match, idx) => {
+        const formula = displayMath[parseInt(idx, 10)] || '';
+        if (hasKatex) {
+          try {
+            return `<div class="katex-display-wrapper">${katex.renderToString(formula, { displayMode: true, throwOnError: false, strict: false })}</div>`;
+          } catch (e) {
+            return `<div class="katex-display-raw">$$${escapeHtml(formula)}$$</div>`;
+          }
+        }
+        return `<div class="katex-display-raw">$$${escapeHtml(formula)}$$</div>`;
+      });
+
+      // 5. Render KaTeX inline
+      html = html.replace(/@@KATEX_INLINE_(\d+)@@/g, (match, idx) => {
+        const formula = inlineMath[parseInt(idx, 10)] || '';
+        if (hasKatex) {
+          try {
+            return katex.renderToString(formula, { displayMode: false, throwOnError: false, strict: false });
+          } catch (e) {
+            return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+          }
+        }
+        return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+      });
+
+      return html;
+    } catch (err) {
+      console.error('Lỗi render Markdown Block:', err);
+      return `<div style="white-space: pre-wrap;">${escapeHtml(text)}</div>`;
+    }
+  }
+
+  function renderMarkdownInline(text) {
+    if (!text) return '';
+    const hasMarked = typeof marked !== 'undefined';
+    const hasKatex = typeof katex !== 'undefined' && typeof katex.renderToString === 'function';
+
+    try {
+      const inlineMath = [];
+
+      // Tách và bảo vệ công thức toán học nội dòng ($...$)
+      let cleanText = String(text).replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+        const idx = inlineMath.length;
+        inlineMath.push(formula.trim());
+        return `@@KATEX_INLINE_${idx}@@`;
+      });
+
+      let html = cleanText;
+      if (hasMarked && typeof marked.parseInline === 'function') {
+        html = marked.parseInline(cleanText);
+      } else {
+        html = escapeHtml(cleanText);
+      }
+
+      // Render KaTeX inline
+      html = html.replace(/@@KATEX_INLINE_(\d+)@@/g, (match, idx) => {
+        const formula = inlineMath[parseInt(idx, 10)] || '';
+        if (hasKatex) {
+          try {
+            return katex.renderToString(formula, { displayMode: false, throwOnError: false, strict: false });
+          } catch (e) {
+            return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+          }
+        }
+        return `<span class="katex-inline-raw">$${escapeHtml(formula)}$</span>`;
+      });
+
+      return html;
+    } catch (err) {
+      console.error('Lỗi render Markdown Inline:', err);
+      return escapeHtml(String(text));
+    }
   }

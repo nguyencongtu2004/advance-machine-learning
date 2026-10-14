@@ -122,9 +122,9 @@
       starBtn.classList.toggle('starred', isStarred);
     }
 
-    // Question Text
+    // Question Text (Render Markdown + KaTeX LaTeX)
     const qTextEl = document.getElementById('practice-q-text');
-    if (qTextEl) qTextEl.textContent = q.question;
+    if (qTextEl) qTextEl.innerHTML = renderMarkdownInline(q.question);
 
     // Render Options List
     const optionsContainer = document.getElementById('practice-options-list');
@@ -143,7 +143,8 @@
       prefixSpan.textContent = prefixes[optIdx];
 
       const textSpan = document.createElement('span');
-      textSpan.textContent = optText;
+      textSpan.className = 'option-text';
+      textSpan.innerHTML = renderMarkdownInline(optText);
 
       optBtn.appendChild(prefixSpan);
       optBtn.appendChild(textSpan);
@@ -230,15 +231,15 @@
       statusTag.innerHTML = `Chính xác! Bạn đã chọn đúng <strong>${prefixes[q.answer]}</strong>`;
     } else {
       statusTag.className = 'status-tag wrong';
-      statusTag.innerHTML = `Chưa đúng! Đáp án đúng là <strong>${prefixes[q.answer]}. ${q.options[q.answer]}</strong>`;
+      statusTag.innerHTML = `Chưa đúng! Đáp án đúng là <strong>${prefixes[q.answer]}.</strong> <span>${renderMarkdownInline(q.options[q.answer])}</span>`;
     }
 
     if (slideTag) slideTag.textContent = q.slideRef || 'Slide bài giảng';
     if (expText) {
       expText.innerHTML = `
-        <p style="margin-bottom: 0.5rem;">${q.explanation}</p>
-        <div style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px dashed var(--border-glass); padding-top: 0.5rem; margin-top: 0.5rem;">
-          Gợi ý ôn thi: Nắm vững bản chất lý thuyết phần này để tránh bẫy các phương án nhiễu trong đề thi thật.
+        <div class="exp-markdown-body">${renderMarkdownBlock(q.explanation)}</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px dashed var(--border-glass); padding-top: 0.5rem; margin-top: 0.75rem;">
+          💡 Gợi ý ôn thi: Nắm vững bản chất lý thuyết phần này để tránh bẫy các phương án nhiễu trong đề thi thật.
         </div>
       `;
     }
