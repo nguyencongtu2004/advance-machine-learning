@@ -1,9 +1,10 @@
 /* ==============================================================================
-   NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM - CHƯƠNG 3: CÁC MÔ HÌNH HỌC MÁY CƠ BẢN VÀ ĐÁNH GIÁ
+   NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM - CHƯƠNG 3: CÁC MÔ HÌNH TUYẾN TÍNH & ĐÁNH GIÁ MÔ HÌNH
    - Số lượng: 90 câu
-   - Nội dung: Hồi quy tuyến tính OLS, Ridge L2, Lasso L1, Logistic Regression, Confusion Matrix, Precision, Recall, F1, ROC-AUC, PR curve
-   - Giải thích chi tiết & trực quan hóa bản chất từ Giai_Thich_Chi_Tiet_Chuong_3.md
-   - Hỗ trợ hiển thị Markdown & Công thức Toán LaTeX (KaTeX)
+   - Nội dung: Hồi quy tuyến tính OLS, Ridge (L2), Lasso (L1), Elastic Net,
+     Logistic Regression, Softmax Regression, Ma trận nhầm lẫn (Confusion Matrix),
+     Metrics (Accuracy, Precision, Recall, F1, Specificity, ROC-AUC, PR-AUC, MSE, RMSE, MAE, R2),
+     K-Fold, Stratified K-Fold, LOOCV, Data Leakage
    - Tự động gộp vào window.QUESTION_BANK
 ============================================================================== */
 
@@ -169,7 +170,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Mô hình trở về trạng thái nghiệm OLS thông thường",
       "Phương sai (Variance) của mô hình tăng vọt lên vô cùng"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức $w^*_{\\text{Ridge}} = (X^TX + \\lambda I)^{-1} X^Ty$:\n* Khi $\\lambda = 0$: Hình phạt biến mất, mô hình trở về đúng chuẩn **OLS thông thường** (dễ bị Overfitting nếu dữ liệu phức tạp).\n* Khi $\\lambda \\to \\infty$: Mức phạt nặng tới mức việc giữ trọng số $w_j \\ne 0$ khiến hàm mất mát bùng nổ. Để tối thiểu hóa, mô hình bắt buộc phải ép toàn bộ $w_j \\to 0$ ($j \\ge 1$).\n* Khi đó $\\hat{y} = w_0$ (đường thẳng nằm ngang bằng giá trị trung bình $\\bar{y}$), mô hình trở nên quá đơn giản $\\implies$ **Underfitting (Độ chệch Bias rất cao, Phương sai Variance rất thấp)**.",
     "slideRef": "Slide Chương 3, Trang 45, 48"
   },
@@ -229,7 +230,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Chuẩn L1 và Entropy",
       "Chuẩn L0 và Chuẩn L2"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nElastic Net là sự kết hợp dung hòa điểm mạnh của cả **Ridge ($L_2$)** và **Lasso ($L_1$)**:\n$$J_{\\text{ElasticNet}}(w) = \\|y - Xw\\|_2^2 + \\lambda_1 \\|w\\|_1 + \\lambda_2 \\|w\\|_2^2$$\nThường được viết theo tỷ lệ $r \\in [0, 1]$ (l1_ratio):\n$$J(w) = \\text{Loss} + \\alpha \\left( r \\|w\\|_1 + \\frac{1-r}{2} \\|w\\|_2^2 \\right)$$\n\n> 💡 **Vì sao cần Elastic Net?**  \n> Khi một nhóm biến đặc trưng có tương quan rất cao với nhau, Lasso thường chỉ bốc ngẫu nhiên đúng 1 biến và vứt bỏ toàn bộ các biến còn lại. Elastic Net khắc phục nhược điểm này bằng cách vừa tạo ra nghiệm thưa (nhờ $L_1$), vừa giữ lại cả nhóm đặc trưng tương quan (nhờ hiệu ứng gom cụm của $L_2$).",
     "slideRef": "Slide Chương 3, Trang 55-56"
   },
@@ -244,7 +245,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\sigma(z) = \\max(0, z)$, miền giá trị $[0, +\\infty)$",
       "$\\sigma(z) = \\frac{1}{1 + e^z}$, miền giá trị $(-\\infty, +\\infty)$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHàm Sigmoid (Logistic Function) đóng vai trò là \"chiếc máy nén thần kỳ\":\n$$\\sigma(z) = \\frac{1}{1 + e^{-z}} = \\frac{e^z}{1 + e^z}$$\n* **Miền giá trị:** $(0, 1)$ - Phù hợp hoàn hảo để biểu diễn xác suất $P(y=1|x)$.\n* **Đặc điểm hình học:** Đồ thị cong hình chữ S, nhận điểm đối xứng tại $(0, 0.5)$.\n* Khi $z \\to +\\infty \\implies e^{-z} \\to 0 \\implies \\sigma(z) \\to 1$.\n* Khi $z \\to -\\infty \\implies e^{-z} \\to +\\infty \\implies \\sigma(z) \\to 0$.\n* Khi $z = 0 \\implies \\sigma(0) = \\frac{1}{1 + 1} = 0.5$ (ngưỡng phân loại mặc định).",
     "slideRef": "Slide Chương 3, Trang 60-61"
   },
@@ -289,7 +290,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Log-odds (Hàm Logit): $\\ln\\left(\\frac{p}{1 - p}\\right)$",
       "Bình phương xác suất $p^2$"
     ],
-    "answer": 1,
+    "answer": 2,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHãy nhìn vào miền giá trị của các đại lượng:\n* Đường thẳng $w^Tx$: Chạy thoải mái từ $-\\infty$ đến $+infty$.\n* Xác suất $p$: Bị nhốt chặt trong đoạn $[0, 1]$ (phi tuyến).\n* Tỷ số Odds: Chạy từ $[0, +\\infty)$ (vẫn thiếu phần âm).\n* Lấy logarit tự nhiên của Odds: **Logit** chạy từ $-\\infty$ đến $+infty$!\n\nLúc này, ta mới có thể đặt dấu bằng với đường thẳng tuyến tính:\n$$\\text{Logit}(p) = \\ln\\left(\\frac{p}{1 - p}\\right) = w_0 + w_1 x_1 + \\dots + w_p x_p = w^Tx$$\n👉 Do đó, **Log-odds (Logit)** chính là đại lượng có quan hệ tuyến tính trực tiếp với các đặc trưng $x$. Giải ngược phương trình này ra tìm $p$, ta thu được hàm Sigmoid $p = \\frac{1}{1 + e^{-w^Tx}}$!",
     "slideRef": "Slide Chương 3, Trang 63"
   },
@@ -304,7 +305,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$L = (y - p)^2$",
       "$L = - [y \\ln(1 - p) + (1 - y) \\ln(p)]$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Binary Cross-Entropy (Log Loss) cho 1 mẫu:\n$$L = - \\Big[ y \\ln(p) + (1 - y) \\ln(1 - p) \\Big]$$\n\n#### 1. Cơ chế \"Công tắc đèn\":\nVì nhãn thực tế $y$ chỉ nhận giá trị $1$ hoặc $0$:\n* Khi $y = 1$ (mẫu dương): $(1 - y) = 0 \\implies$ Nhánh 2 tắt, chỉ còn $L = -\\ln(p)$.\n* Khi $y = 0$ (mẫu âm): $y = 0 \\implies$ Nhánh 1 tắt, chỉ còn $L = -\\ln(1 - p)$.\n\n#### 2. Quy luật phạt tiền cực nặng ($-\\ln$):\n* Nếu $y = 1$, mô hình đoán đúng $p = 1 \\implies \\text{Loss} = -\\ln(1) = 0$ (không bị phạt).\n* Nếu $y = 1$, nhưng mô hình đoán sai bét $p \\to 0 \\implies \\text{Loss} = -\\ln(0) \\to +\\infty$ (phạt vô hạn)!\n* Nhờ hàm logarit, mô hình bị trừng phạt cực kỳ nặng nề khi nó \"tự tin cao độ vào một dự đoán sai\".",
     "slideRef": "Slide Chương 3, Trang 69-70"
   },
@@ -319,7 +320,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì ma trận $X^TX$ không bao giờ khả nghịch trong bài toán phân loại",
       "Vì hàm mất mát BCE không có đạo hàm"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Hồi quy tuyến tính OLS, đạo hàm $\\nabla_w J(w) = -2X^Ty + 2X^TXw = 0$ là một **phương trình bậc nhất tuyến tính** theo $w$, giải bằng đại số ma trận cực kỳ đơn giản.\n\nNhưng trong Hồi quy Logistic:\n$$\\nabla_w J(w) = \\sum_{i=1}^n (\\sigma(w^Tx_i) - y_i) x_i = 0$$\n* Sự hiện diện của hàm mũ trong $\\sigma(z) = \\frac{1}{1 + e^{-w^Tx}}$ làm cho hệ phương trình trở thành **phi tuyến tính siêu việt (Transcendental Non-linear System)**.\n* Không thể dùng phép nhân ma trận để \"rút\" $w$ ra một vế độc lập được.\n* 👉 Tuy nhiên, hàm mất mát BCE là một **hàm lồi (Convex Function)** có duy nhất 1 điểm cực tiểu toàn cục. Ta giải bằng các phương pháp tối ưu xấp xỉ lặp như **Gradient Descent (Hạ độ dốc)** hoặc **Newton-Raphson (IRLS)**.",
     "slideRef": "Slide Chương 3, Trang 71"
   },
@@ -364,7 +365,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Luôn có giá trị lớn hơn MSE trên mọi tập dữ liệu",
       "Có đạo hàm trơn liên tục tại điểm 0"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$MAE = \\frac{1}{n} \\sum_{i=1}^n |y_i - \\hat{y}_i|$$\n* **So sánh độ nhạy với ngoại lai:**\n  - Nếu sai số lệch 10 đơn vị: MAE chỉ cộng thêm $10$. Nhưng MSE cộng thêm $10^2 = 100$ (gấp 100 lần)!\n  - Do đó, nếu dữ liệu có nhiều điểm ngoại lai (nhiễu cực đoan), MSE và RMSE sẽ bị các điểm này kéo lệch đi rất nhiều.\n  - Ngược lại, MAE đối xử công bằng với mọi sai số theo tỷ lệ tuyến tính, do đó **rất bền vững (Robust) trước dữ liệu ngoại lai**.",
     "slideRef": "Slide Chương 3, Trang 87, 90, 94"
   },
@@ -379,7 +380,7 @@ window.QUESTIONS_CHUONG_3 = [
       "RMSE là trung bình của trị tuyệt đối",
       "RMSE luôn không có đơn vị tính"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$RMSE = \\sqrt{MSE} = \\sqrt{\\frac{1}{n} \\sum_{i=1}^n (y_i - \\hat{y}_i)^2}$$\n* **Ưu điểm lớn nhất của RMSE so với MSE:**\n  - Giả sử biến mục tiêu $y$ đo giá nhà bằng **triệu đồng**: Đơn vị của MSE sẽ bị bình phương thành **(triệu đồng)$^2$** (rất vô nghĩa, không thể giải thích cho khách hàng hay sếp).\n  - Bằng cách lấy căn bậc hai, RMSE đưa đơn vị sai số quay trở về đúng **triệu đồng** (cùng đơn vị đo lường ban đầu với $y$), giúp con người dễ dàng hình dung mô hình đang đoán lệch trung bình bao nhiêu tiền.",
     "slideRef": "Slide Chương 3, Trang 89, 94"
   },
@@ -394,7 +395,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Tỷ lệ các điểm dữ liệu nằm chính xác trên đường hồi quy",
       "Xác suất để mô hình đoán đúng 100%"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$R^2 = 1 - \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}} = 1 - \\frac{\\sum (y_i - \\hat{y}_i)^2}{\\sum (y_i - \\bar{y}_i)^2}$$\n* **So tài với \"Mô hình người lười\" $\\bar{y}$:**\n  - $SS_{\\text{tot}}$ là sai số khi bạn dùng một mô hình ngớ ngẩn: Luôn luôn đoán giá nhà bằng giá trị trung bình $\\bar{y}$.\n  - $SS_{\\text{res}}$ là sai số thực tế của mô hình thông minh của bạn.\n* **Ý nghĩa:** $R^2 = 0.85$ nghĩa là mô hình của bạn đã **giải thích được $85\\%$ sự biến thiên** của giá nhà, chỉ còn $15\\%$ là do nhiễu hoặc các yếu tố chưa thu thập.",
     "slideRef": "Slide Chương 3, Trang 92, 94"
   },
@@ -409,7 +410,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì $R^2$ không tính toán được khi số mẫu $n > 1000$",
       "Vì Adjusted $R^2$ chuyển đổi bài toán hồi quy thành phân loại"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Adjusted } R^2 = 1 - (1 - R^2) \\frac{n - 1}{n - p - 1}$$\n(trong đó $n$ là số mẫu, $p$ là số biến đặc trưng).\n\n#### ⚠️ Cạm bẫy của $R^2$ thông thường:\n* Cứ nhét thêm một biến mới vào mô hình (cho dù là biến tung đồng xu vô dụng), $R^2$ **chắc chắn sẽ tăng lên hoặc ít nhất giữ nguyên**, không bao giờ giảm!\n* Điều này dễ dụ người xây dựng mô hình nhồi nhét hàng trăm biến rác gây Overfitting.\n* **Cứu cánh Adjusted $R^2$:** Mẫu số $(n - p - 1)$ sẽ giảm đi khi $p$ tăng $\\implies$ Nếu biến mới đưa vào không đóng góp đủ nhiều để bù đắp cho \"hình phạt tăng $p$\", thì **Adjusted $R^2$ sẽ lập tức bị kéo giảm xuống**!",
     "slideRef": "Slide Chương 3, Trang 93"
   },
@@ -454,7 +455,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\text{Precision} = \\frac{TN}{TN + FP}$",
       "$\\text{Precision} = \\frac{TP + TN}{P + N}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Precision} = \\frac{TP}{TP + FP}$$\n* **Mẫu số $(TP + FP)$:** Tổng số ca mà mô hình **tuyên bố là Dương tính**.\n* **Tử số $TP$:** Số ca mô hình **báo đúng**.\n* **Ý nghĩa thực tế:** *\"Trong tất cả các trường hợp mô hình BÁO DƯƠNG TÍNH, có bao nhiêu phần trăm là ĐÚNG THỰC SỰ?\"*\n* Precision đo lường **độ tin cậy của lời báo động**. Càng ít báo động nhầm ($FP \\to 0$), Precision càng tiến gần tới $1.0$ ($100\\%$).",
     "slideRef": "Slide Chương 3, Trang 97"
   },
@@ -469,7 +470,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\text{Recall} = \\frac{TN}{TN + FP}$",
       "$\\text{Recall} = \\frac{FN}{TP + FN}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Recall} = \\frac{TP}{TP + FN}$$\n* **Mẫu số $(TP + FN)$:** Tổng số ca **THỰC TẾ LÀ DƯƠNG TÍNH NGOÀI ĐỜI** (gồm cả ca bắt được $TP$ và ca bị bỏ sót $FN$).\n* **Tử số $TP$:** Số ca mô hình **tìm ra được**.\n* **Ý nghĩa thực tế:** *\"Trong tất cả các bệnh nhân thực sự bị bệnh, mô hình đã QUÉT SẠCH VÀ BẮT ĐƯỢC bao nhiêu phần trăm?\"*\n* Càng ít bỏ sót ($FN \\to 0$), Recall càng cao.",
     "slideRef": "Slide Chương 3, Trang 98"
   },
@@ -484,7 +485,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Specificity, để bảo vệ người khỏe",
       "Accuracy, vì cần độ chính xác tổng quát"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hậu quả của việc Bỏ sót (False Negative - $FN$):** Bệnh nhân ung thư giai đoạn đầu bị báo là khỏe mạnh $\\implies$ không chữa trị và tử vong; hoặc quả bom mìn bị bỏ sót $\\implies$ phát nổ gây thương vong.\n* **Hậu quả của Báo nhầm (False Positive - $FP$):** Người khỏe bị nghi ngờ nhầm $\\implies$ đi làm xét nghiệm máu/sinh thiết lần 2 để kiểm tra lại.\n* 👉 **Quy tắc:** Thà bắt nhầm một người khỏe đi kiểm tra lại ($FP$), còn hơn là bỏ sót một bệnh nhân ung thư về nhà chờ chết ($FN$)!\n* Vì cần triệt tiêu $FN$ đến mức tối thiểu, ta **bắt buộc phải tối đa hóa Recall**!",
     "slideRef": "Slide Chương 3, Trang 98, 101"
   },
@@ -499,7 +500,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Mean Squared Error",
       "Inertia"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Quy ước:** Lớp Dương tính = Thư rác (Spam); Lớp Âm tính = Thư quan trọng bình thường (Ham).\n* **Nếu bị False Positive ($FP$):** Thư báo trúng tuyển đại học, vé máy bay hay hợp đồng triệu đô của sếp bị quăng nhầm vào hòm rác và người dùng không đọc được $\\implies$ **Hậu quả cực kỳ tai hại!**\n* **Nếu bị False Negative ($FN$):** Một vài bức thư quảng cáo rác lọt vào hòm thư chính $\\implies$ Người dùng chỉ mất 1 giây bấm nút xóa (chấp nhận được).\n* 👉 Thà để lọt một vài bức thư rác ($FN$), còn hơn vứt nhầm thư quan trọng ($FP$). Do đó, **bắt buộc ưu tiên tối đa Precision**!",
     "slideRef": "Slide Chương 3, Trang 97, 101"
   },
@@ -514,7 +515,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Trung bình nhân (Geometric Mean): $F_1 = \\sqrt{P \\cdot R}$",
       "Trung bình trọng số bậc hai"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$F_1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}} = \\frac{2TP}{2TP + FP + FN}$$\n\n#### 🤔 Tại sao không dùng Trung bình cộng $\\frac{P + R}{2}$?\nGiả sử một mô hình cực đoan: $\\text{Precision} = 100\\%$, nhưng $\\text{Recall} = 0\\%$ (chỉ dám đoán đúng 1 ca chắc chắn, bỏ sót toàn bộ):\n* Nếu dùng trung bình cộng: $\\frac{100\\% + 0\\%}{2} = 50\\%$ (cho ra một con số \"nhìn vẫn ổn\", che giấu đi sự thật là mô hình đã hỏng hoàn toàn 1 bên!).\n* Nếu dùng trung bình điều hòa:\n  $$F_1 = 2 \\cdot \\frac{100 \\times 0}{100 + 0} = 0\\%!$$\n* 👉 **Triết lý:** Trung bình điều hòa bị kéo sập về con số nhỏ hơn. Nó trừng phạt cực nặng sự mất cân đối. **Chỉ khi CẢ HAI chỉ số Precision và Recall đều cao thì $F_1$ mới có thể cao được!**",
     "slideRef": "Slide Chương 3, Trang 99"
   },
@@ -559,7 +560,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Loại bỏ hoàn toàn hiện tượng ngoại lai",
       "Tự động chuẩn hóa các đặc trưng về khoảng [0, 1]"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nguy cơ của bốc ngẫu nhiên (Random Split):** Với dữ liệu $95\\%$ bình thường và $5\\%$ lừa đảo, việc bốc ngẫu nhiên có thể khiến tập Test xui xẻo không dính một ca lừa đảo nào $\\to$ tập Test trở nên vô dụng.\n* **Stratified Split (Chia phân tầng):** Bắt buộc phải chia dữ liệu sao cho **tỷ lệ các lớp được giữ nguyên vẹn**:\n  - Tập gốc: $95\\%$ bình thường, $5\\%$ lừa đảo.\n  - Tập Train: Đúng $95\\% - 5\\%$.\n  - Tập Test: Đúng $95\\% - 5\\%$.\n* 👉 **Bắt buộc sử dụng** khi huấn luyện và đánh giá trên các tập dữ liệu mất cân bằng (Imbalanced Data).",
     "slideRef": "Slide Chương 3, Trang 103"
   },
@@ -604,7 +605,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$K = n / 2$",
       "$K = 10$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLeave-One-Out (LOO) là trường hợp cực đoan nhất của K-Fold khi chọn **$K = n$ (bằng đúng số lượng mẫu)**:\n* Nếu bạn có $n = 100$ mẫu:\n  - Vòng 1: Lấy 99 mẫu để học, kiểm tra trên **đúng 1 mẫu duy nhất**.\n  - Vòng 2: Lấy 99 mẫu khác để học, kiểm tra trên mẫu thứ 2.\n  - Lặp lại đúng $100$ lần!\n* **Ưu điểm:** Tận dụng tối đa dữ liệu huấn luyện, không có yếu tố ngẫu nhiên.\n* **Nhược điểm chí mạng:** Chi phí tính toán cực kỳ đắt đỏ vì phải huấn luyện lại mô hình $n$ lần (không khả thi với dữ liệu lớn hàng chục ngàn mẫu).",
     "slideRef": "Slide Chương 3, Trang 106"
   },
@@ -619,7 +620,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Khi mô hình không có tham số",
       "Khi muốn tăng tốc độ huấn luyện mô hình"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu tập dữ liệu nhỏ và chỉ chia Train/Test 1 lần duy nhất (Hold-Out thông thường), điểm số phụ thuộc rất lớn vào \"may rủi\" (lỡ tập Test bốc trúng toàn ca quá dễ hoặc quá khó).\n* **Repeated Hold-Out (Hold-Out lặp lại nhiều lần):** Lặp lại việc chia ngẫu nhiên Train/Test nhiều lần (ví dụ 10-20 lần), mỗi lần huấn luyện và đánh giá độc lập, sau đó lấy trung bình cộng.\n* Cách này giúp **giảm phương sai (độ bất định)** của phép đánh giá và cho con số tin cậy hơn nhiều.",
     "slideRef": "Slide Chương 3, Trang 104"
   },
@@ -634,7 +635,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Một hình tròn khép kín",
       "Tập hợp các điểm rời rạc ngẫu nhiên"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nNgưỡng phân loại mặc định là $P = \\sigma(w^Tx) = 0.5$.\nMà $\\sigma(z) = 0.5$ khi và chỉ khi:\n$$z = w^Tx = w_0 + w_1 x_1 + \\dots + w_p x_p = 0$$\n* Phương trình $w^Tx = 0$ là phương trình của **một đường thẳng** trong không gian 2D, **một mặt phẳng** trong không gian 3D, hoặc **một siêu phẳng (Hyperplane)** trong không gian $p$ chiều!\n* Do đó, dù hàm Sigmoid là phi tuyến, nhưng **Biên quyết định của Logistic Regression thuần túy luôn là một ranh giới TUYẾN TÍNH**.",
     "slideRef": "Slide Chương 3, Trang 74, 77"
   },
@@ -649,7 +650,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Chỉ so sánh điểm số trên tập huấn luyện (Train Score)",
       "So sánh thời gian cài đặt thư viện của các mô hình"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Giống như kỳ thi tốt nghiệp: Tất cả thí sinh (các mô hình) bắt buộc phải **làm chung một đề thi trong cùng một điều kiện phòng thi** thì mới phân định được ai giỏi hơn ai!\n* Nếu mô hình A thi đề dễ (tập test dễ), mô hình B thi đề khó, việc so sánh điểm số là hoàn toàn khập khiễng và vô nghĩa.\n* 👉 **Quy tắc vàng:** Luôn giữ cố định một tập Test Set độc lập (hoặc dùng chung `random_state` khi chia K-Fold) để chấm điểm tất cả các mô hình.",
     "slideRef": "Slide Chương 3, Trang 110"
   },
@@ -664,7 +665,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Chuyển bài toán thành hồi quy OLS",
       "Bắt buộc chọn 1 nhãn duy nhất"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Multi-class (Đa lớp độc quyền):** Nhãn loại trừ lẫn nhau (ví dụ: Chó HOẶC Mèo HOẶC Gà) $\\implies$ Dùng **Softmax** vì tổng xác suất bị ép bằng 1.\n* **Multi-label (Đa nhãn đồng thời):** Một bức ảnh có thể VỪA có chó, VỪA có mèo, VỪA có người. Các thuộc tính này độc lập với nhau!\n* 👉 **Giải pháp:** Tách thành $K$ bài toán phân loại nhị phân độc lập:\n  - Mô hình 1 (Sigmoid): Có chó không? (Yes/No)\n  - Mô hình 2 (Sigmoid): Có mèo không? (Yes/No)\n  - Mô hình 3 (Sigmoid): Có người không? (Yes/No)\n  Mỗi mô hình sử dụng hàm Sigmoid và BCE Loss riêng.",
     "slideRef": "Slide Chương 3, Trang 80"
   },
@@ -679,7 +680,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Các hệ số trọng số $w$ có độ lớn rất nhỏ gần 0",
       "Hệ số chặn bias luôn mang giá trị âm"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi mô hình cố gắng khớp từng chấm dữ liệu nhiễu trong tập Train, đường hồi quy bị uốn éo dữ dội.\n* Trong đại số tuyến tính, điều này khiến các trọng số $w$ bị **thổi phồng độ lớn (bùng nổ)**, ví dụ $w_1 = +50.000$ và $w_2 = -49.990$.\n* Khi gặp dữ liệu mới ngoài đời chỉ cần lệch một chút xíu, các trọng số khổng lồ này sẽ khuếch đại sai số lên hàng triệu lần!\n* 👉 Đó là lý do vì sao các kỹ thuật **Regularization (Ridge, Lasso)** sinh ra để \"phạt độ lớn của trọng số\", ép chúng không được phép bùng nổ, từ đó ngăn chặn hữu hiệu Overfitting.",
     "slideRef": "Slide Chương 3, Trang 41, 49"
   },
@@ -694,7 +695,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Chuyển sang dùng hàm mất mát MAE để giải bằng nghiệm đóng",
       "Tăng số lượng đặc trưng $p$ lên nhiều hơn nữa"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi ma trận $X^TX$ không khả nghịch (định thức $\\det(X^TX) = 0$), phương trình chuẩn $X^TXw = X^Ty$ có **vô số nghiệm** (hệ thiếu điều kiện). Ta có 2 giải pháp toán học kinh điển:\n\n1. **Ma trận Giả nghịch đảo Moore-Penrose ($X^+$):** Dùng kỹ thuật Phân tích giá trị suy biến (SVD: $X = U\\Sigma V^T$) để tính $X^+ = V\\Sigma^+ U^T$. Nghiệm $w^* = X^+ y$ là nghiệm có **chuẩn $L_2$ nhỏ nhất** trong vô số nghiệm khả dĩ.\n2. **Hồi quy Ridge ($L_2$ Regularization):** Cộng thêm một lượng dương $\\lambda I$ vào đường chéo chính:\n   $$w^* = (X^T X + \\lambda I)^{-1} X^T y$$\n   Bảo đảm $(X^TX + \\lambda I)$ luôn đối xứng xác định dương và **luôn nghịch đảo được $100\\%$**!",
     "slideRef": "Slide Chương 3, Trang 19-21, 46"
   },
@@ -709,7 +710,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì sai số chỉ tăng theo hàm tuyến tính",
       "Vì nó chỉ áp dụng được cho dữ liệu tuyến tính hoàn hảo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong thuật ngữ Học máy, tính chất **\"Tuyến tính\" (Linearity)** của mô hình hồi quy được định nghĩa theo **CÁC THAM SỐ CẦN HỌC $w$**, chứ KHÔNG PHẢI theo biến đầu vào $x$!\n* Phương trình:\n  $$y = w_0 + w_1 x + w_2 x^2 + w_3 \\sin(x)$$\n* Nếu ta đặt các biến phụ: $z_1 = x, z_2 = x^2, z_3 = \\sin(x)$, phương trình trở thành:\n  $$y = w_0 + w_1 z_1 + w_2 z_2 + w_3 z_3 = w^T z$$\n* Đạo hàm theo từng $w_j$ là $\\frac{\\partial y}{\\partial w_j} = z_j$ (bậc nhất, tuyến tính độc lập).\n* 👉 Vì mối quan hệ giữa dự đoán $\\hat{y}$ và các tham số $w$ là tuyến tính bậc nhất, bài toán tối ưu vẫn giữ nguyên dạng lồi bậc hai và giải được bằng nghiệm đóng OLS quen thuộc!",
     "slideRef": "Slide Chương 3, Trang 24-25"
   },
@@ -724,7 +725,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Nhiễu $\\epsilon$ tuân theo phân phối Laplace",
       "Dữ liệu đầu vào $x$ tuân theo phân phối Bernoulli"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nRonald Fisher (tiếp cận thống kê) và Carl Friedrich Gauss (tiếp cận hình học) đi theo hai con đường khác nhau nhưng hội tụ tại cùng một nghiệm nhờ giả định phân phối chuẩn:\n* Giả sử nhiễu ngẫu nhiên $\\epsilon_i = y_i - w^Tx_i$ độc lập và có phân phối chuẩn $\\mathcal{N}(0, \\sigma^2)$.\n* Hàm mật độ xác suất của 1 mẫu:\n  $$p(y_i|x_i; w) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\left( -\\frac{(y_i - w^Tx_i)^2}{2\\sigma^2} \\right)$$\n* Khi nhân toàn bộ $n$ xác suất độc lập lại và lấy $\\ln$ (Log-Likelihood), ta có:\n  $$\\ln L(w) = -\\frac{n}{2}\\ln(2\\pi\\sigma^2) - \\frac{1}{2\\sigma^2} \\sum_{i=1}^n (y_i - w^Tx_i)^2$$\n* Muốn $\\ln L(w)$ lớn nhất thì đại lượng $\\sum(y_i - w^Tx_i)^2$ bắt buộc phải bé nhất $\\implies$ **Chính là hàm mất mát OLS**!",
     "slideRef": "Slide Chương 3, Trang 26-28"
   },
@@ -739,7 +740,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vector trực giao với không gian cột $\\text{Col}(X)$",
       "Trọng tâm của ma trận dữ liệu đầu vào"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Không gian cột $\\text{Col}(X) = \\{Xw \\mid w \\in \\mathbb{R}^p\\}$ là không gian con đa chiều (mặt phẳng siêu phẳng) chứa toàn bộ các giá trị dự đoán mà mô hình có thể tạo ra.\n* Vector nhãn thực tế $y \\in \\mathbb{R}^n$ thường nằm bên ngoài không gian này (vì có nhiễu ngẫu nhiên).\n* Nghiệm OLS tối thiểu hóa khoảng cách Euclid $\\|y - \\hat{y}\\|_2$.\n* Trong hình học không gian, khoảng cách từ một điểm bên ngoài đến một không gian con đạt giá trị nhỏ nhất tại **Hình chiếu trực giao (Orthogonal Projection)** của điểm đó lên không gian con.\n* 👉 Ma trận biến đổi $P = X(X^TX)^{-1}X^T$ chính là **Ma trận chiếu trực giao (Projection Matrix)** đưa $y \\to \\hat{y}$.",
     "slideRef": "Slide Chương 3, Trang 29-30"
   },
@@ -754,7 +755,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\mathcal{O}(n \\log n)$",
       "$\\mathcal{O}(p)$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCác bước tính toán nghiệm đóng OLS:\n1. **Phép nhân $X^T X$:** Nhân ma trận $(p \\times n)$ với $(n \\times p)$ tốn **$\\mathcal{O}(n p^2)$** phép tính.\n2. **Phép nghịch đảo ma trận $(X^TX)^{-1}$:** Ma trận vuông $(p \\times p)$ có độ phức tạp nghịch đảo bằng khử Gauss là **$\\mathcal{O}(p^3)$**.\n3. **Phép nhân với $X^T y$:** Tốn **$\\mathcal{O}(n p + p^2)$**.\n* 👉 Tổng độ phức tạp là: **$\\mathcal{O}(p^3 + n p^2)$**.\n\n⚠️ **Ý nghĩa thực tế:** Khi số đặc trưng $p$ rất lớn (ví dụ $p = 100.000$ trong xử lý văn bản, gen di truyền), $p^3 = 10^{15}$ phép tính sẽ làm máy tính treo cứng hoặc tràn RAM! Lúc đó người ta **không dùng nghiệm đóng mà chuyển sang dùng Gradient Descent**!",
     "slideRef": "Slide Chương 3, Trang 31"
   },
@@ -769,7 +770,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Khi bài toán chỉ có duy nhất 1 biến đặc trưng",
       "Khi muốn tăng tốc độ tính toán gấp 10 lần so với OLS"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLasso ($L_1$) có 2 điểm yếu chí mạng trong thực tế:\n1. **Giới hạn khi $p > n$:** Trong bài toán số chiều lớn (ví dụ $p = 10.000$ gen nhưng chỉ có $n = 100$ bệnh nhân), thuật toán Lasso chỉ có thể chọn tối đa $n$ đặc trưng rồi dừng lại, bỏ sót $p - n$ đặc trưng còn lại.\n2. **Vấn đề nhóm biến tương quan (Collinear Groups):** Nếu có một nhóm 5 biến tương quan mạnh với nhau (ví dụ các chỉ số huyết áp khác nhau), Lasso thường chỉ chọn vu vơ đúng 1 biến và ép 4 biến còn lại về 0, làm mất thông tin tổng thể.\n\n👉 **Elastic Net cứu nguy:** Nhờ thành phần $L_2$ cộng thêm, nó vừa chọn được đặc trưng thưa (nhờ $L_1$), vừa kích hoạt **hiệu ứng nhóm (Grouping Effect)** để giữ lại toàn bộ cụm đặc trưng tương quan!",
     "slideRef": "Slide Chương 3, Trang 49-51"
   },
@@ -799,7 +800,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Macro-F1 luôn bằng Accuracy",
       "Micro-F1 không phụ thuộc vào lớp đa số"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Micro-F1:** Gom toàn bộ các ca đoán đúng sai trên toàn bộ dữ liệu lại tính một lần. Trong phân loại đa lớp thông thường, Micro-F1 **chính bằng Accuracy**. Do đó, nó bị các lớp chiếm số đông chi phối hoàn toàn.\n* **Macro-F1:** Tính F1-score độc lập cho từng lớp:\n  $$\\text{Macro-F1} = \\frac{F_{1,\\text{Lớp 1}} + F_{1,\\text{Lớp 2}} + \\dots + F_{1,\\text{Lớp } K}}{K}$$\n  Mỗi lớp đều được chia đều tỷ lệ $\\frac{1}{K}$. Nếu mô hình làm hỏng lớp hiếm, điểm số của lớp đó rớt về 0 sẽ kéo tụt Macro-F1 xuống ngay lập tức.\n* 👉 Vì thế, **Macro-F1 là thước đo chuẩn mực nhất để phát hiện xem mô hình có đối xử tệ với lớp thiểu số hay không**.",
     "slideRef": "Slide Chương 3, Trang 89-92"
   },
@@ -814,7 +815,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Recall = 0.5",
       "Không xác định được"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì mô hình đoán tất cả đều là âm tính, nên số ca ung thư mà nó tìm ra được là: **$TP = 0$**.\n* Toàn bộ bệnh nhân ung thư thật đều bị bỏ sót: **$FN = \\text{Tổng số ca bệnh}$**.\n* Áp dụng công thức tính Recall:\n  $$\\text{Recall} = \\frac{TP}{TP + FN} = \\frac{0}{0 + FN} = 0.0 \\quad (0\\%!)$$\n* 👉 Dù Accuracy của mô hình này có thể đạt $99.9\\%$, nhưng điểm **Recall = 0%** đã vạch trần bản chất vô dụng và nguy hiểm của nó trong y tế!",
     "slideRef": "Slide Chương 3, Trang 84-86"
   },
@@ -829,7 +830,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$(FPR = 0, TPR = 0)$ - Gốc tọa độ",
       "$(FPR = 0.5, TPR = 0.5)$ - Chính giữa đồ thị"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐồ thị ROC (Receiver Operating Characteristic):\n* **Trục hoành (Trục X):** $FPR = \\frac{FP}{FP + TN}$ (Tỷ lệ báo động nhầm).\n* **Trục tung (Trục Y):** $TPR = \\text{Recall} = \\frac{TP}{TP + FN}$ (Tỷ lệ bắt đúng ca bệnh).\n\n#### 🏆 Mô hình HOÀN HẢO tuyệt đối:\n* Không báo nhầm ca nào: $FP = 0 \\implies FPR = 0$ (nằm sát mép trái).\n* Bắt đúng $100\\%$ không bỏ sót ai: $FN = 0 \\implies TPR = 1$ (nằm sát mép trên cùng).\n* 👉 Tọa độ lý tưởng là **$(0, 1)$ ở góc trên bên trái**! Diện tích dưới đường cong của mô hình này đạt giá trị cực đại: $\\text{AUC} = 1.0$.",
     "slideRef": "Slide Chương 3, Trang 96-98"
   },
@@ -859,7 +860,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Hệ phương trình Poisson: $X^T y w = I$",
       "Hệ phương trình thuần nhất: $X^T X w = 0$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLấy vi phân ma trận của hàm mất mát $J(w) = y^Ty - 2w^TX^Ty + w^TX^TXw$:\n1. Đạo hàm của $-2w^T (X^Ty)$ theo $w$ bằng: $-2X^Ty$.\n2. Đạo hàm của dạng toàn phương $w^T (X^TX) w$ theo $w$ bằng: $2X^TXw$.\n3. Đặt gradient tổng bằng 0 để tìm điểm dừng cực tiểu:\n   $$\\nabla_w J(w) = -2X^Ty + 2X^TXw = 0 \\iff X^TXw = X^Ty$$\n* Đây chính là **Hệ phương trình chuẩn (Normal Equation)**.",
     "slideRef": "Slide Chương 3, Trang 15-16"
   },
@@ -874,7 +875,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Nghiệm OLS tự động trở thành nghiệm Lasso",
       "Không thể nhân ma trận $X$ với chính nó"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Ma trận $X$ có kích thước $(n \\times p)$. Theo định lý đại số tuyến tính:\n  $$\\text{rank}(X^TX) = \\text{rank}(X) \\le \\min(n, p)$$\n* Khi $p > n$, hạng của ma trận $(p \\times p)$ tối đa chỉ có thể là $n$.\n* Một ma trận vuông kích thước $p$ mà chỉ có hạng $n < p$ thì **bị thiếu hạng (Rank-deficient)** $\\implies$ định thức $\\det(X^TX) = 0$.\n* Ma trận có định thức bằng 0 là **ma trận suy biến (Singular Matrix)**, không tồn tại ma trận nghịch đảo $(X^TX)^{-1}$.\n* 👉 Phương trình có **vô số nghiệm**, OLS thuần túy bó tay. Cần dùng **Ridge Regression** để khắc phục!",
     "slideRef": "Slide Chương 3, Trang 18-20"
   },
@@ -904,7 +905,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Tất cả các trọng số đều bùng nổ ra vô cùng",
       "Mô hình biến thành cây quyết định"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức nghiệm đóng của Ridge:\n$$w^*_{\\text{Ridge}} = (X^T X + \\lambda I)^{-1} X^T y$$\n* Khi $\\lambda \\to 0$, đại lượng $\\lambda I \\to 0$. Biểu thức trở thành:\n  $$\\lim_{\\lambda \\to 0} w^*_{\\text{Ridge}} = (X^T X)^{-1} X^T y = w^*_{\\text{OLS}}$$\n* **Ý nghĩa:** $\\lambda$ là chiếc van điều tiết.\n  - Vặn $\\lambda = 0$: Mở toang van, mô hình tự do khớp dữ liệu tối đa (giống OLS).\n  - Vặn $\\lambda$ càng lớn: Siết chặt van, ép các trọng số teo nhỏ dần để chống Overfitting.",
     "slideRef": "Slide Chương 3, Trang 26-28"
   },
@@ -919,7 +920,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì chuẩn $L_2$ chỉ áp dụng được cho số dương",
       "Vì Lasso chia dữ liệu thành các góc phần tư độc lập"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hãy tưởng tượng bạn thổi một quả bóng bầu dục (đường đồng mức elip của hàm mất mát OLS) phình to dần từ điểm tối ưu $w_{\\text{OLS}}$:\n  - **Ridge ($L_2$):** Quả bóng elip va chạm với **vùng ràng buộc hình tròn** $w_1^2 + w_2^2 \\le C$. Vì đường tròn trơn láng không có góc cạnh, điểm tiếp xúc hầu như luôn nằm trên cung tròn (nơi cả $w_1 \\ne 0$ và $w_2 \\ne 0$).\n  - **Lasso ($L_1$):** Quả bóng elip va chạm với **vùng ràng buộc hình thoi** $|w_1| + |w_2| \\le C$. Do các góc nhọn chĩa thẳng ra ngoài theo các trục tọa độ, quả bóng elip xác suất cực cao sẽ đụng trúng **đúng đỉnh nhọn** trước tiên!\n* Tại đỉnh nhọn trên trục $w_1$, tọa độ $w_2$ **bằng đúng số 0 tuyệt đối**!\n* 👉 Đó là lý do tại sao Lasso tạo ra **nghiệm thưa (Sparsity)**, loại bỏ triệt để các biến dư thừa.",
     "slideRef": "Slide Chương 3, Trang 31-33"
   },
@@ -934,7 +935,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì nó có quá nhiều nghiệm đóng cùng lúc",
       "Vì Lasso bắt buộc phải chia dữ liệu thành 3 tập"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hàm mục tiêu của Lasso chứa số hạng $\\sum |w_j|$.\n* Hàm số $f(x) = |x|$ có đồ thị hình chữ V gãy nhọn tại gốc tọa độ $x = 0$.\n* Tại điểm $x = 0$, đạo hàm bên trái bằng $-1$, đạo hàm bên phải bằng $+1$ $\\implies$ **Hàm số không khả vi (không có đạo hàm thông thường) tại điểm 0**.\n* Vì không thể lấy đạo hàm toàn phần và giải phương trình đại số tuyến tính như OLS hay Ridge, ta bắt buộc phải dùng các thuật toán lặp số học như **Coordinate Descent (Hạ tọa độ dựa trên hàm Soft-thresholding)**.",
     "slideRef": "Slide Chương 3, Trang 32-34"
   },
@@ -949,7 +950,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Ép tất cả các hệ số phải bằng nhau",
       "Tự động sinh thêm dữ liệu nhân tạo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Giả sử dự đoán giá xe hơi có 3 biến: Dung tích xi lanh, Công suất động cơ mã lực, và Lượng tiêu thụ xăng (cả 3 biến này tương quan cực kỳ chặt chẽ với nhau).\n* **Vấn đề của Lasso:** Do tính chất hình thoi sắc nhọn, nó sẽ bốc đại đúng 1 biến và triệt tiêu 2 biến còn lại về 0, gây mất mát góc nhìn đa chiều của dữ liệu.\n* **Elastic Net:** Kết hợp hình phạt convex nghiêm ngặt của $L_2$:\n  $$J(w) = \\text{Loss} + \\lambda_1 \\|w\\|_1 + \\lambda_2 \\|w\\|_2^2$$\n  Thành phần $L_2$ tạo ra **Hiệu ứng gom cụm (Grouping Effect)**, ép các biến có tương quan cao phải có trọng số gần bằng nhau và được giữ lại cùng nhau trong mô hình!",
     "slideRef": "Slide Chương 3, Trang 35-37"
   },
@@ -1009,7 +1010,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì BCE luôn cho kết quả bằng 0",
       "Vì MSE chỉ dùng cho ma trận đường chéo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nếu dùng MSE:** $J(w) = \\frac{1}{2n}\\sum (y_i - \\sigma(w^Tx_i))^2$.\n  - Do hàm Sigmoid uốn lượn hình chữ S, hàm MSE theo $w$ sẽ có bề mặt lồi lõm mấp mô (Non-convex) với **rất nhiều hố bẫy cực tiểu cục bộ (Local Minima)** và vùng yên ngựa bằng phẳng (Gradient vanishing). Thuật toán Gradient Descent sẽ bị mắc kẹt và không tìm được nghiệm tốt.\n* **Nếu dùng BCE (Log Loss):**\n  - Hàm logarit triệt tiêu hoàn toàn hàm mũ của Sigmoid khi tính đạo hàm, làm cho hàm mất mát trở thành **hàm lồi hoàn hảo (Convex Surface hình lòng chảo)**.\n  - Mọi điểm cực tiểu đều chính là **Cực tiểu toàn cục (Global Minimum)**, đảm bảo thuật toán luôn hội tụ về nghiệm tối ưu!",
     "slideRef": "Slide Chương 3, Trang 45-47"
   },
@@ -1054,7 +1055,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$0.9000$ ($72\\%$)",
       "$0.8500$ ($85\\%$)"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Precision:\n$$\\text{Precision} = \\frac{TP}{TP + FP}$$\n* $TP = 18$ (bệnh nhân mắc bệnh được mô hình phát hiện đúng).\n* $FP = 8$ (người khỏe mạnh bị mô hình báo nhầm là mắc bệnh).\n* Tổng số ca mô hình báo động mắc bệnh: $TP + FP = 18 + 8 = 26$.\n$$\\text{Precision} = \\frac{18}{26} \\approx 0.6923 \\quad (69.23\\%)$$",
     "slideRef": "Slide Chương 3, Trang 62-64"
   },
@@ -1084,7 +1085,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$0.6230$",
       "$0.8500$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Trung bình điều hòa $F_1$-Score:\n$$F_1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}$$\nThay số:\n$$F_1 = 2 \\cdot \\frac{0.6923 \\times 0.9000}{0.6923 + 0.9000} = 2 \\cdot \\frac{0.62307}{1.5923} \\approx 0.7826 \\quad (78.26\\%)$$\n* Chú ý: Nếu lấy trung bình cộng thông thường $\\frac{0.6923 + 0.9}{2} \\approx 0.7961$ là sai công thức $F_1$!",
     "slideRef": "Slide Chương 3, Trang 64-65"
   },
@@ -1099,7 +1100,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Tổng số ca đoán đúng trên toàn bộ mẫu",
       "Tỷ lệ người khỏe bị báo nhầm là có bệnh"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Specificity} = \\text{TNR} = \\frac{TN}{TN + FP}$$\n* Mẫu số $(TN + FP)$ là **toàn bộ những người THỰC TẾ KHỎE MẠNH (Âm tính)** ngoài đời.\n* Tử số $TN$ là số người khỏe mạnh được mô hình kết luận là Khỏe mạnh.\n* **Ý nghĩa:** Specificity đo lường khả năng **bảo vệ và nhận diện đúng người không có bệnh**, tránh gây hoang mang lo lắng không cần thiết cho người khỏe mạnh.",
     "slideRef": "Slide Chương 3, Trang 63-64"
   },
@@ -1114,7 +1115,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\text{FPR} = \\frac{1}{\\text{Specificity}}$",
       "$\\text{FPR} = \\text{Specificity} \\times \\text{Recall}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong toàn bộ nhóm người khỏe mạnh ngoài đời $(FP + TN)$:\n* Có người được xác nhận khỏe mạnh đúng ($TN$): Chiếm tỷ lệ Specificity $= \\frac{TN}{FP + TN}$.\n* Có người bị báo nhầm là mắc bệnh ($FP$): Chiếm tỷ lệ $\\text{FPR} = \\frac{FP}{FP + TN}$.\n* Vì hai nhóm này bù trừ hoàn hảo cho nhau trong tập người khỏe mạnh:\n  $$\\text{FPR} + \\text{Specificity} = \\frac{FP + TN}{FP + TN} = 1.0$$\n  $$\\implies \\text{FPR} = 1 - \\text{Specificity}$$",
     "slideRef": "Slide Chương 3, Trang 66-67"
   },
@@ -1129,7 +1130,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Trục tung là Accuracy, Trục hoành là Số lượng đặc trưng",
       "Trục tung là Loss, Trục hoành là Epochs"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐường cong ROC vẽ đồ thị hiệu năng phân loại tại **tất cả các ngưỡng quyết định (Threshold)** từ 0 đến 1:\n* **Trục tung (Y):** $TPR = \\text{Recall} = \\frac{TP}{TP + FN}$ (Tỷ lệ bắt đúng ca bệnh). Càng cao càng tốt.\n* **Trục hoành (X):** $FPR = 1 - \\text{Specificity} = \\frac{FP}{FP + TN}$ (Tỷ lệ báo động nhầm người khỏe). Càng thấp càng tốt.\n* Đường cong lý tưởng sẽ phồng mạnh lên góc trên bên trái.",
     "slideRef": "Slide Chương 3, Trang 66-68"
   },
@@ -1144,7 +1145,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$\\text{AUC} = 0.0$",
       "$\\text{AUC} = -1.0$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi tung đồng xu may rủi 50/50, tỷ lệ bắt đúng ca bệnh ($TPR$) luôn bằng đúng tỷ lệ báo động nhầm ($FPR$):\n  $$TPR = FPR$$\n* Đồ thị của nó là **đường chéo 45 độ** nối từ gốc tọa độ $(0, 0)$ lên góc $(1, 1)$.\n* Diện tích tam giác dưới đường chéo này chiếm đúng một nửa hình vuông đơn vị:\n  $$\\text{AUC} = \\frac{1}{2} \\times 1 \\times 1 = 0.5$$\n* 👉 Nếu mô hình máy học của bạn có $\\text{AUC} \\approx 0.5$, nghĩa là nó học hành chẳng ra gì, chỉ tương đương với trò tung đồng xu hên xui!",
     "slideRef": "Slide Chương 3, Trang 68"
   },
@@ -1159,7 +1160,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$(0, 0)$",
       "$(0.5, 0.5)$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMô hình hoàn hảo không bao giờ mắc lỗi:\n* Báo động nhầm $FP = 0 \\implies FPR = 0$ (nằm trên trục tung $X = 0$).\n* Bắt đúng $100\\%$ không bỏ sót $FN = 0 \\implies TPR = 1.0$ (nằm ở đỉnh cao nhất $Y = 1.0$).\n* 👉 Giao điểm là **$(X=0, Y=1)$ ở góc trên cùng bên trái** của đồ thị ROC.\n* Đường cong của mô hình hoàn hảo sẽ đi thẳng đứng từ $(0,0) \\to (0,1)$ rồi đi ngang sang $(1,1)$, bao trùm $100\\%$ diện tích $\\implies \\text{AUC} = 1.0$.",
     "slideRef": "Slide Chương 3, Trang 67"
   },
@@ -1174,7 +1175,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Biểu đồ phân tán Scatter Plot",
       "Biểu đồ Pareto"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n#### ⚠️ Điểm yếu của ROC Curve trên dữ liệu cực kỳ lệch lớp:\n* Mẫu số của $FPR$ là $(TN + FP)$. Vì số lượng mẫu âm tính ($TN$) quá khổng lồ (hàng triệu giao dịch bình thường), nên dù mô hình có báo nhầm $FP = 100$ lần, mẫu số quá lớn vẫn làm cho $FPR \\approx 0$ $\\implies$ **Đường ROC vẫn cong đẹp ảo và AUC vẫn $> 0.95$!**\n* **Cứu cánh PR Curve (Precision vs Recall):**\n  - Cả Precision và Recall đều tập trung trực tiếp vào **Lớp Dương tính thiểu số ($TP$)**.\n  - $FP$ được so sánh trực tiếp với $TP$ chứ không bị $TN$ nuốt chửng.\n  - 👉 Khi dữ liệu cực kỳ mất cân bằng, **PR-AUC là thước đo phản ánh trung thực bản chất mô hình**.",
     "slideRef": "Slide Chương 3, Trang 69-70"
   },
@@ -1219,7 +1220,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Chỉ âm khi dữ liệu có chứa số âm",
       "Chỉ âm trong bài toán phân loại"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **Cạm bẫy trắc nghiệm kinh điển:** Nhiều người thấy chữ có số mũ 2 ($R^2$) liền tưởng nó luôn dương $\\ge 0$. **ĐÓ LÀ SAI LẦM!**\n* Hãy nhìn vào công thức: $R^2 = 1 - \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}}$.\n* Nếu bạn dùng một mô hình dự đoán tồi tệ (hoặc đánh giá trên tập Test mà mô hình bị Overfitting nặng):\n  $$SS_{\\text{res}} > SS_{\\text{tot}} \\implies \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}} > 1 \\implies R^2 < 0!$$\n* **Ý nghĩa:** $R^2 < 0$ là một lời cảnh báo nghiêm khắc: *\"Mô hình của bạn còn tệ hơn cả một người lười biếng chỉ biết lấy trung bình cộng $\\bar{y}$ phán bừa!\"*",
     "slideRef": "Slide Chương 3, Trang 74"
   },
@@ -1234,7 +1235,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Vì nó có thể tính toán mà không cần dữ liệu nhãn",
       "Vì nó chuyển đổi biến định tính thành biến định lượng"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Adjusted } R^2 = 1 - (1 - R^2) \\frac{n - 1}{n - p - 1}$$\n* Khi thêm một biến mới $x_{new}$:\n  - $R^2$ luôn có khuynh hướng tăng giả tạo do tối ưu toán học trên tập Train.\n  - Nhưng trong công thức Adjusted $R^2$, số lượng biến $p$ tăng làm mẫu số $(n - p - 1)$ giảm $\\to$ nhân hệ số phạt lớn hơn.\n  - Nếu biến mới không giúp giảm sai số $SS_{\\text{res}}$ một cách đáng kể, **Adjusted $R^2$ sẽ giảm ngay lập tức**!\n* 👉 Nó đóng vai trò như chiếc phanh hãm giúp người kỹ sư biết khi nào nên dừng lại không thêm biến rác.",
     "slideRef": "Slide Chương 3, Trang 75-76"
   },
@@ -1249,7 +1250,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Khi bài toán yêu cầu phạt thật nặng các sai số lớn",
       "Khi tất cả các sai số đều nhỏ hơn 1"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **RMSE** dùng bình phương sai số: Lệch 10 đơn vị phạt $10^2 = 100$. Nếu tập dữ liệu có một vài mẫu bị nhập nhầm số liệu (ngoại lai), RMSE sẽ tăng vọt và biến tướng, khiến mô hình bị đánh giá là rất tệ dù nó dự đoán tốt trên $99\\%$ các mẫu còn lại.\n* **MAE** đo trực tiếp độ lệch tuyến tính: Lệch 10 chỉ tính là 10. Nó không phóng đại các điểm dị biệt.\n* 👉 Do đó, khi dữ liệu nhiều nhiễu ngoại lai không thể lọc bỏ, **MAE là thước đo trung thực và bền vững nhất**.",
     "slideRef": "Slide Chương 3, Trang 77-78"
   },
@@ -1264,7 +1265,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Specificity",
       "Accuracy"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Bài toán an ninh, gian lận, rửa tiền: Bỏ sót ($FN$) là thảm họa bị phạt tiền khủng khiếp hoặc vi phạm pháp luật quốc tế.\n* Báo nhầm ($FP$): Nhân viên ngân hàng chỉ cần gọi điện cho khách hàng xác nhận lại trong 2 phút.\n* Vì hậu quả của $FN$ nặng nề hơn hàng ngàn lần so với $FP$, mục tiêu số 1 bắt buộc là **tối đa hóa Recall**!",
     "slideRef": "Slide Chương 3, Trang 63-65"
   },
@@ -1294,7 +1295,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$0.8$",
       "$2.5$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Tỷ số Odds:\n$$\\text{Odds} = \\frac{p}{1 - p}$$\nThay $p = 0.8$:\n$$\\text{Odds} = \\frac{0.8}{1 - 0.8} = \\frac{0.8}{0.2} = 4.0$$\n* **Ý nghĩa:** Khả năng khách hàng quyết định mua hàng **gấp 4 lần** khả năng khách hàng không mua!",
     "slideRef": "Slide Chương 3, Trang 40-41"
   },
@@ -1324,7 +1325,7 @@ window.QUESTIONS_CHUONG_3 = [
       "$w^*_{\\text{Ridge}} = w^*_{\\text{OLS}} - \\lambda$",
       "$w^*_{\\text{Ridge}} = w^*_{\\text{OLS}}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức nghiệm đóng của Ridge:\n$$w^*_{\\text{Ridge}} = (X^TX + \\lambda I)^{-1} X^Ty$$\n* Khi các cột của $X$ trực chuẩn ($X^TX = I$):\n  $$(X^TX + \\lambda I) = I + \\lambda I = (1 + \\lambda) I$$\n* Nghịch đảo của một ma trận nhân với số vô hướng:\n  $$((1 + \\lambda) I)^{-1} = \\frac{1}{1 + \\lambda} I$$\n* Thay vào công thức:\n  $$w^*_{\\text{Ridge}} = \\frac{1}{1 + \\lambda} I X^Ty = \\frac{1}{1 + \\lambda} (X^TX)^{-1} X^Ty = \\frac{1}{1 + \\lambda} w^*_{\\text{OLS}}$$\n* 👉 Khi các đặc trưng trực giao độc lập, Hồi quy Ridge có tác dụng **co nhỏ đồng đều tất cả các trọng số theo đúng tỷ số $\\frac{1}{1 + \\lambda}$**!",
     "slideRef": "Slide Chương 3, Trang 25-27"
   },
@@ -1339,7 +1340,7 @@ window.QUESTIONS_CHUONG_3 = [
       "Lấy tích phân của hàm mật độ xác suất",
       "Thực hiện phép xoay ma trận ngẫu nhiên"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì Lasso ($L_1$) không có nghiệm đóng và không khả vi tại 0 trên không gian nhiều chiều, thuật toán **Coordinate Descent (Hạ theo từng tọa độ)** giải quyết bài toán bằng chiến thuật \"chia để trị\":\n  1. Cố định $p - 1$ trọng số còn lại như các hằng số.\n  2. Lúc này hàm mất mát chỉ còn là hàm 1 biến theo duy nhất $w_j$.\n  3. Bài toán 1 biến này có nghiệm giải tích chính xác thông qua toán tử **Soft-Thresholding Operator**:\n     $$S(z, \\lambda) = \\text{sign}(z) \\max(0, |z| - \\lambda)$$\n  4. Lần lượt cập nhật $w_1, w_2, \\dots, w_p$ rồi quay lại vòng mới cho tới khi toàn bộ vector trọng số không đổi nữa.\n* Thuật toán này cực kỳ ổn định và chạy rất nhanh với dữ liệu thưa.",
     "slideRef": "Slide Chương 3, Trang 33-35"
   },
@@ -1354,14 +1355,8 @@ window.QUESTIONS_CHUONG_3 = [
       "Logistic Regression chỉ phân loại được dữ liệu 1 chiều",
       "Logistic Regression không cần học trọng số $w$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Rất nhiều sinh viên nhầm lẫn: Thấy hàm Sigmoid $\\sigma(z) = \\frac{1}{1 + e^{-z}}$ uốn lượn cong cong thì vội vàng kết luận Logistic Regression là \"mô hình phân loại phi tuyến\". **ĐÓ LÀ BẪY THI!**\n* **Bản chất thực sự:**\n  - Ranh giới để phân chia giữa việc phán đoán nhãn $1$ và nhãn $0$ là phương trình:\n    $$P(y=1|x) = 0.5 \\iff \\sigma(w^Tx) = 0.5 \\iff w^Tx = w_0 + w_1x_1 + \\dots + w_px_p = 0$$\n  - Phương trình $w^Tx = 0$ biểu diễn **một đường thẳng hoặc một siêu phẳng hoàn toàn phẳng (tuyến tính)** trong không gian đặc trưng.\n  - Mô hình chỉ có khả năng phân tách tốt các tập dữ liệu có thể tách biệt tuyến tính (Linearly Separable).\n* 👉 Do đó, theo định nghĩa toán học chuẩn, **Logistic Regression là một mô hình Phân loại Tuyến tính (Linear Classifier)**!",
     "slideRef": "Slide Chương 3, Trang 43-45"
   }
 ];
-
-// Tự động gộp vào ngân hàng câu hỏi chung
-if (!window.QUESTION_BANK) {
-  window.QUESTION_BANK = [];
-}
-window.QUESTION_BANK.push(...window.QUESTIONS_CHUONG_3);

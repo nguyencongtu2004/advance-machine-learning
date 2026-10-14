@@ -18,7 +18,7 @@ window.QUESTION_BANK = [
       "Khả năng bắt chước hoàn hảo cấu trúc sinh học của não người"
     ],
     "answer": 1,
-    "explanation": "Arthur Samuel định nghĩa Machine Learning là lĩnh vực nghiên cứu mang lại cho máy tính khả năng học hỏi từ dữ liệu mà không cần phải lập trình tường minh (hard-code) mọi trường hợp.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nArthur Samuel (1959) — người tiên phong viết chương trình máy tính chơi cờ đam tự học — đã đưa ra định nghĩa kinh điển đầu tiên:\n> *\"Machine Learning là lĩnh vực nghiên cứu mang lại cho máy tính khả năng học tập mà không cần được lập trình một cách tường minh (without being explicitly programmed) cho từng trường hợp cụ thể.\"*\n\n* **Lập trình truyền thống (Rule-based):**\n  $$\\text{Dữ liệu đầu vào} + \\text{Luật chơi viết tay (Code if-else)} \\implies \\text{Kết quả đầu ra}$$\n* **Học máy (Machine Learning):**\n  $$\\text{Dữ liệu đầu vào} + \\text{Đáp án thực tế} \\implies \\text{Máy tự rút ra Quy luật (Model)!}$$\n\n💡 **Ví dụ đời thường:** Thay vì ngồi gõ tay hàng triệu dòng `if-else` quy định màu lông, độ dài tai để phân biệt chó và mèo, ta chỉ việc ném cho máy $100.000$ bức ảnh kèm nhãn. Máy tính sẽ tự động tinh chỉnh các trọng số để tự nhận diện đặc trưng.",
     "slideRef": "Slide Chương 1, Trang 40"
   },
   {
@@ -28,19 +28,19 @@ window.QUESTION_BANK = [
     "question": "Trong định nghĩa kinh điển của Tom Mitchell (1997) về Machine Learning, bộ ba yếu tố cấu thành là gì?",
     "options": [
       "Training, Validation, Test",
-      "Task (T), Experience (E), Performance (P)",
-      "Precision (P), Recall (R), F1-score (F)",
-      "Data (D), Model (M), Loss (L)"
+      "Task ($T$), Experience ($E$), Performance ($P$)",
+      "Precision ($P$), Recall ($R$), F1-score ($F$)",
+      "Data ($D$), Model ($M$), Loss ($L$)"
     ],
     "answer": 1,
-    "explanation": "Tom Mitchell định nghĩa: Một chương trình học từ kinh nghiệm E đối với tác vụ T và được đo bằng độ đo hiệu năng P, nếu hiệu năng tại tác vụ T được cải thiện theo kinh nghiệm E.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTom Mitchell (1997) đã chuẩn hóa định nghĩa học máy bằng bộ ba toán học chặt chẽ $(T, E, P)$:\n> *\"Một chương trình máy tính được gọi là học từ kinh nghiệm **$E$** (Experience) đối với tác vụ **$T$** (Task) và thước đo hiệu năng **$P$** (Performance), nếu hiệu năng ở tác vụ $T$, đo bằng $P$, được cải thiện dần theo kinh nghiệm $E$.\"*\n\n* **$T$ (Task - Tác vụ):** Công việc cụ thể cần giải quyết (Ví dụ: Nhận diện chữ viết tay, phân loại email).\n* **$E$ (Experience - Kinh nghiệm):** Dữ liệu lịch sử tích lũy từ quá khứ dùng để huấn luyện.\n* **$P$ (Performance - Hiệu năng):** Thước đo định lượng để chấm điểm mức độ hoàn thành bài toán (Ví dụ: Accuracy $\\%$, MSE, F1-score).",
     "slideRef": "Slide Chương 1, Trang 40-41"
   },
   {
     "id": 3,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong bài toán xây dựng bộ lọc thư rác (Spam Filtering), yếu tố nào sau đây đóng vai trò là Kinh nghiệm E (Experience)?",
+    "question": "Trong bài toán xây dựng bộ lọc thư rác (Spam Filtering), yếu tố nào sau đây đóng vai trò là Kinh nghiệm $E$ (Experience)?",
     "options": [
       "Việc phân loại email mới thành spam hay thư thường",
       "Tập các email cũ trong quá khứ đã được con người gán nhãn sẵn",
@@ -48,29 +48,29 @@ window.QUESTION_BANK = [
       "Tốc độ xử lý của máy chủ mail"
     ],
     "answer": 1,
-    "explanation": "Tác vụ T là phân loại email; Kinh nghiệm E là tập dữ liệu email lịch sử đã có nhãn; Độ đo P là tỷ lệ phần trăm phân loại chính xác.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng bộ ba $(T, E, P)$ của Tom Mitchell vào bài toán Bộ lọc thư rác (Spam Filter):\n* **Tác vụ $T$ (Task):** Phân loại một email mới gửi đến là Thư rác (Spam) hay Thư hợp lệ (Ham).\n* **Kinh nghiệm $E$ (Experience):** **Tập dữ liệu hàng ngàn email cũ trong quá khứ** đã được người dùng hoặc chuyên gia gán nhãn sẵn (\"Spam\" / \"Không Spam\").\n* **Hiệu năng $P$ (Performance):** Tỷ lệ phần trăm phân loại chính xác (Accuracy) hoặc số lượng thư quan trọng bị chặn nhầm.",
     "slideRef": "Slide Chương 1, Trang 42"
   },
   {
     "id": 4,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Mối quan hệ bao hàm đúng nhất giữa AI, Machine Learning (ML) và Deep Learning (DL) là gì?",
+    "question": "Mối quan hệ bao hàm đúng nhất giữa Trí tuệ nhân tạo (AI), Học máy (ML) và Học sâu (DL) là gì?",
     "options": [
-      "AI ⊂ ML ⊂ DL",
-      "DL ⊂ ML ⊂ AI",
-      "ML ⊂ AI ⊂ DL",
+      "$\\text{AI} \\subset \\text{ML} \\subset \\text{DL}$",
+      "$\\text{DL} \\subset \\text{ML} \\subset \\text{AI}$",
+      "$\\text{ML} \\subset \\text{AI} \\subset \\text{DL}$",
       "DL và ML là hai nhánh độc lập cùng thuộc AI"
     ],
     "answer": 1,
-    "explanation": "Trí tuệ nhân tạo (AI) là khái niệm rộng nhất. Machine Learning là tập con của AI, và Deep Learning (học sâu bằng mạng nơ-ron nhiều tầng) là tập con của Machine Learning.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMối quan hệ giữa 3 khái niệm giống như **chiếc hộp búp bê Nga lồng vào nhau**:\n$$\\text{DL (Học sâu)} \\subset \\text{ML (Học máy)} \\subset \\text{AI (Trí tuệ nhân tạo)}$$\n\n1. **AI (Trí tuệ nhân tạo - Vòng tròn ngoài cùng):** Khái niệm rộng nhất bao gồm mọi hệ thống mô phỏng hành vi thông minh của con người (bao gồm cả các hệ chuyên gia viết tay $100.000$ lệnh `if-else`).\n2. **ML (Học máy - Vòng tròn giữa):** Tập con của AI, nơi máy tính tự học quy luật từ dữ liệu thay vì con người code sẵn luật.\n3. **DL (Học sâu - Vòng tròn trong cùng):** Tập con của ML, sử dụng các mạng nơ-ron nhân tạo nhiều tầng ẩn (Deep Neural Networks) có khả năng tự động trích xuất các tầng đặc trưng phức tạp từ dữ liệu thô.",
     "slideRef": "Slide Chương 1, Trang 5, 39"
   },
   {
     "id": 5,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Thuật toán Backpropagation (Lan truyền ngược) nền tảng cho mạng nơ-ron nhiều tầng được mô tả vào năm nào và bởi ai?",
+    "question": "Thuật toán Backpropagation (Lan truyền ngược) nền tảng cho việc huấn luyện mạng nơ-ron nhiều tầng được mô tả vào năm nào và bởi ai?",
     "options": [
       "1950 bởi Alan Turing",
       "1951 bởi Marvin Minsky",
@@ -78,7 +78,7 @@ window.QUESTION_BANK = [
       "2006 bởi Fei-Fei Li"
     ],
     "answer": 2,
-    "explanation": "Năm 1969, Arthur Bryson và Yu-Chi Ho mô tả thuật toán lan truyền ngược để kích hoạt mạng nơ-ron nhân tạo nhiều tầng, đặt nền móng cho học sâu hiện đại.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Năm 1969:** Hai nhà khoa học **Arthur Bryson và Yu-Chi Ho** đã mô tả toán học thuật toán **Lan truyền ngược (Backpropagation)** dựa trên quy tắc đạo hàm chuỗi (Chain Rule) cho các hệ thống điều khiển tối ưu.\n* Sau này (1986), Geoffrey Hinton, David Rumelhart và Ronald Williams đã phổ biến ứng dụng Backpropagation vào việc huấn luyện mạng nơ-ron nhân tạo nhiều tầng, giải quyết bài toán tính gradient cho các tầng ẩn.",
     "slideRef": "Slide Chương 1, Trang 8"
   },
   {
@@ -88,12 +88,12 @@ window.QUESTION_BANK = [
     "question": "Dự án cơ sở dữ liệu hình ảnh quy mô lớn ImageNet thúc đẩy kỷ nguyên Deep Learning bùng nổ được khởi động bởi ai và vào năm nào?",
     "options": [
       "Andrew Ng (2009)",
-      "Fei-Fei Li (2006)",
+      "Fei-Fei Li (Lý Phi Phi - 2006)",
       "Alan Turing (1950)",
       "Geoffrey Hinton (1986)"
     ],
     "answer": 1,
-    "explanation": "Giáo sư Fei-Fei Li đã bắt đầu dự án ImageNet vào năm 2006, tạo tiền đề dữ liệu khổng lồ cho sự bùng nổ của thị giác máy tính và học sâu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Năm 2006:** Giáo sư **Fei-Fei Li (Lý Phi Phi)** tại Đại học Stanford đã khởi xướng dự án **ImageNet** — tập dữ liệu hình ảnh khổng lồ với hơn 14 triệu bức ảnh được gán nhãn thủ công qua Amazon Mechanical Turk.\n* ImageNet đóng vai trò là \"nhiên liệu dữ liệu\" mang tính bước ngoặt. Đến năm 2012, mô hình Deep CNN AlexNet đã vô địch cuộc thi ImageNet Challenge, chính thức mở ra kỷ nguyên bùng nổ của Deep Learning trên toàn thế giới.",
     "slideRef": "Slide Chương 1, Trang 9"
   },
   {
@@ -102,13 +102,13 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
     "question": "Đặc điểm cốt lõi của Học có giám sát (Supervised Learning) là gì?",
     "options": [
-      "Dữ liệu đầu vào chỉ có các đặc trưng, không có nhãn",
-      "Dữ liệu đầu vào đi kèm nhãn (ground truth) tương ứng đã biết trước",
+      "Dữ liệu đầu vào chỉ có các đặc trưng $X$, hoàn toàn không có nhãn $y$",
+      "Dữ liệu đầu vào đi kèm nhãn mục tiêu (Ground Truth $y$) đã biết trước",
       "Hệ thống học qua việc tương tác thử-sai với môi trường và nhận phần thưởng",
-      "Hệ thống tự động gom các điểm tương đồng vào cụm"
+      "Hệ thống tự động gom các điểm tương đồng vào cụm tự nhiên"
     ],
     "answer": 1,
-    "explanation": "Học có giám sát sử dụng dữ liệu huấn luyện gồm các cặp (x, y), trong đó x là vector đặc trưng và y là nhãn thực tế đã biết trước.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Học có giám sát (Supervised Learning):** Dữ liệu huấn luyện gồm các cặp đầy đủ:\n  $$\\mathcal{D} = \\{(x_1, y_1), (x_2, y_2), \\dots, (x_n, y_n)\\}$$\n  Trong đó $x_i$ là vector đặc trưng đầu vào, và $y_i$ là nhãn đúng thực tế (**Ground Truth**).\n* **Hình ảnh ẩn dụ:** Giống như một học sinh giải bài tập khi **phía sau sách có sẵn đáp án chi tiết**. Mỗi khi học sinh làm bài ra kết quả $\\hat{y}$, học sinh lật trang sau so sánh với đáp án $y$ để biết mình đúng hay sai, từ đó rút kinh nghiệm chỉnh lại cách giải.",
     "slideRef": "Slide Chương 1, Trang 12, 69"
   },
   {
@@ -123,7 +123,7 @@ window.QUESTION_BANK = [
       "Học tăng cường (Reinforcement Learning)"
     ],
     "answer": 1,
-    "explanation": "Giá nhà là một đại lượng số thực liên tục, do đó dự đoán giá nhà là bài toán Hồi quy (Regression).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Học có giám sát, ta phân biệt dựa vào bản chất của biến mục tiêu $y$:\n* **Hồi quy (Regression):** Biến mục tiêu $y$ là **số thực liên tục** ($y \\in \\mathbb{R}$). Ví dụ: Giá nhà ($2.5$ tỷ, $3.12$ tỷ), nhiệt độ thời tiết, doanh thu, cân nặng.\n* **Phân loại (Classification):** Biến mục tiêu $y$ là **rời rạc, định tính** ($y \\in \\{0, 1\\}$ hoặc các nhãn phân loại). Ví dụ: Đậu/Rớt, Chó/Mèo.\n👉 Do giá nhà là một đại lượng liên tục không bị giới hạn trong vài nhãn rời rạc, đây là bài toán **Hồi quy (Regression)**.",
     "slideRef": "Slide Chương 1, Trang 24, 48"
   },
   {
@@ -138,7 +138,7 @@ window.QUESTION_BANK = [
       "Giảm chiều dữ liệu"
     ],
     "answer": 1,
-    "explanation": "Vì nhãn đầu ra là rời rạc với 2 trạng thái (Gian lận hoặc Hợp lệ), đây là bài toán Phân loại nhị phân.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Biến mục tiêu $y$ của bài toán chỉ nhận 1 trong 2 giá trị rời rạc:\n  $$y \\in \\{0, 1\\} \\quad (0: \\text{Hợp lệ}, 1: \\text{Gian lận})$$\n* Do đầu ra chỉ có đúng 2 lớp (classes), đây là bài toán **Phân loại nhị phân (Binary Classification)** thuộc phương pháp Học có giám sát.",
     "slideRef": "Slide Chương 1, Trang 23, 48"
   },
   {
@@ -149,11 +149,11 @@ window.QUESTION_BANK = [
     "options": [
       "Dự đoán nhãn rời rạc cho ảnh y tế",
       "Dự đoán giá cổ phiếu trong tương lai",
-      "Khám phá cấu trúc ẩn, gom nhóm dữ liệu tự nhiên (Phân cụm)",
+      "Khám phá cấu trúc ẩn, gom nhóm dữ liệu tự nhiên (Phân cụm) hoặc giảm chiều",
       "Tối đa hóa điểm số phần thưởng trong trò chơi điện tử"
     ],
     "answer": 2,
-    "explanation": "Học không giám sát làm việc với dữ liệu không nhãn nhằm khám phá cấu trúc tiềm ẩn, phân cụm khách hàng hoặc giảm chiều dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Học không giám sát (Unsupervised Learning):** Tập dữ liệu chỉ có các đặc trưng đầu vào $X$, **hoàn toàn không có nhãn $y$ nào cả**:\n  $$\\mathcal{D} = \\{x_1, x_2, \\dots, x_n\\}$$\n* **Nhiệm vụ chính:**\n  1. **Phân cụm (Clustering):** Gom các điểm dữ liệu có tính chất tương đồng vào cùng nhóm (K-Means, DBSCAN) để phân khúc khách hàng.\n  2. **Giảm số chiều (Dimensionality Reduction):** Nén dữ liệu từ nhiều chiều xuống ít chiều hơn mà vẫn giữ được thông tin quan trọng nhất (PCA, t-SNE).\n  3. **Phát hiện bất thường (Anomaly Detection):** Tìm các mẫu nằm tách biệt kỳ lạ so với đa số.",
     "slideRef": "Slide Chương 1, Trang 13, 70"
   },
   {
@@ -168,7 +168,7 @@ window.QUESTION_BANK = [
       "Dùng dữ liệu từ hai bài toán hoàn toàn không liên quan"
     ],
     "answer": 1,
-    "explanation": "Học bán giám sát tận dụng một lượng nhỏ dữ liệu có nhãn (do chi phí gán nhãn đắt) kết hợp lượng lớn dữ liệu chưa gán nhãn có sẵn.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Thực tế cuộc sống:** Thu thập dữ liệu thô (ảnh cào trên mạng, đoạn ghi âm thoại) rất rẻ và nhiều vô kể ($0$ đồng). Nhưng thuê chuyên gia y tế hoặc kỹ sư ngồi soi và **gán nhãn chính xác (Labeling)** từng ảnh X-quang thì tốn kém hàng tỷ đồng và rất chậm.\n* **Học bán giám sát (Semi-Supervised Learning):** Kết hợp một **lượng nhỏ dữ liệu đã gán nhãn** với một **lượng cực lớn dữ liệu chưa gán nhãn**, giúp mô hình học được cấu trúc phân bố tổng thể của dữ liệu mà không tốn chi phí gán nhãn khổng lồ.",
     "slideRef": "Slide Chương 1, Trang 14"
   },
   {
@@ -183,7 +183,7 @@ window.QUESTION_BANK = [
       "Phân tách không gian bằng siêu phẳng OLS"
     ],
     "answer": 1,
-    "explanation": "Trong Reinforcement Learning, agent tương tác với môi trường và tối ưu hóa tổng phần thưởng tích lũy qua các hành động thử-sai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong **Học tăng cường (Reinforcement Learning - RL)**:\n* Không có tập dữ liệu tĩnh với nhãn đúng/sai cho trước.\n* Một **Tác tử (Agent)** tương tác liên tục với một **Môi trường (Environment)** bằng các Hành động ($a$).\n* Môi trường phản hồi lại bằng Trạng thái mới ($s$) và một tín hiệu **Phần thưởng ($r$ - Reward) hoặc Phạt (Penalty)**.\n* 💡 **Ví dụ huấn luyện cún con:** Cún ngồi xuống khi nghe lệnh $\\to$ thưởng xúc xích ($+1$); cún cắn giày dép $\\to$ bị mắng ($-1$). Tác tử học theo cơ chế **thử và sai (Trial and Error)** để tìm ra chiến lược (Policy $\\pi$) tối đa hóa tổng điểm thưởng tích lũy.",
     "slideRef": "Slide Chương 1, Trang 15, 71"
   },
   {
@@ -198,7 +198,7 @@ window.QUESTION_BANK = [
       "Xóa bỏ toàn bộ trọng số của mô hình cũ để huấn luyện lại"
     ],
     "answer": 2,
-    "explanation": "Fine-tuning là việc lấy mô hình đã được pre-train trên dữ liệu lớn rồi tiếp tục tinh chỉnh trọng số trên tập dữ liệu cụ thể của bài toán mục tiêu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Pre-training:** Huấn luyện mô hình nền tảng khổng lồ trên kho dữ liệu tổng quát (ví dụ: cho mô hình ngôn ngữ đọc toàn bộ Internet để hiểu tiếng Việt, ngữ pháp, tri thức phổ thông).\n* **Fine-tuning (Tinh chỉnh):** Lấy mô hình đã pre-train ở trên và **tiếp tục huấn luyện với tốc độ học nhỏ (learning rate nhỏ)** trên một tập dữ liệu chuyên ngành hẹp (như văn bản hồ sơ bệnh án hoặc luật pháp).\n* Nhờ có tri thức nền tảng sẵn, quá trình Fine-tuning diễn ra rất nhanh, tốn ít tài nguyên và chỉ cần lượng dữ liệu nhỏ.",
     "slideRef": "Slide Chương 1, Trang 31"
   },
   {
@@ -213,7 +213,7 @@ window.QUESTION_BANK = [
       "Chuyển dữ liệu từ tập Train sang tập Test"
     ],
     "answer": 1,
-    "explanation": "Transfer Learning là việc tái sử dụng tri thức và biểu diễn đã học từ một nhiệm vụ lớn/tổng quát sang giải quyết nhiệm vụ mới.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Transfer Learning (Học chuyển giao):** Là chiến lược tái sử dụng các tri thức/trọng số mà mô hình đã học được từ một bài toán nguồn ($Task_A$) để áp dụng sang một bài toán đích mới ($Task_B$).\n* 💡 **Ví dụ thực tế:** Một người đã biết đi xe đạp thì khi học đi xe máy sẽ tiếp thu nhanh hơn nhiều so với người chưa từng đi xe hai bánh, vì họ đã có sẵn tri thức về phản xạ thăng bằng và đánh lái. Tương tự, mô hình thị giác học nhận diện triệu vật thể trên ImageNet có thể chuyển giao các bộ lọc trích xuất cạnh, góc để soi ảnh tế bào ung thư.",
     "slideRef": "Slide Chương 1, Trang 32"
   },
   {
@@ -228,7 +228,7 @@ window.QUESTION_BANK = [
       "Cả hai đều do mô hình tự học nhưng siêu tham số có giá trị lớn hơn"
     ],
     "answer": 1,
-    "explanation": "Tham số (như trọng số w, bias b) được mô hình tự học từ dữ liệu; Siêu tham số (như learning rate, max depth, K cụm) do con người thiết lập trước.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết (⚠️ TRỌNG TÂM THI 100%):\n| Tiêu chí | Tham số (Parameters) | Siêu tham số (Hyperparameters) |\n| :--- | :--- | :--- |\n| **Nguồn gốc** | **Mô hình tự động học từ tập Train** qua thuật toán tối ưu. | **Kỹ sư con người phải tự chọn trước** khi bấm nút train. |\n| **Bản chất** | Quyết định công thức dự đoán cụ thể của mô hình. | Điều khiển cấu trúc và thuật toán học của mô hình. |\n| **Ví dụ** | Trọng số $w$ và bias $b$ trong $y = wx + b$. | Tốc độ học $\\eta$, hệ số phạt $\\lambda$, số cụm $K$, độ sâu cây `max_depth`. |\n| **Tập dữ liệu dùng** | Tinh chỉnh trên **Training Set**. | So sánh và chọn lựa trên **Validation Set**. |",
     "slideRef": "Slide Chương 1, Trang 53-55"
   },
   {
@@ -237,13 +237,13 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
     "question": "Đại lượng nào sau đây là một Siêu tham số (Hyperparameter)?",
     "options": [
-      "Trọng số kết nối giữa các nơ-ron",
-      "Hệ số chặn bias b của hàm tuyến tính",
-      "Độ sâu tối đa của cây quyết định (max_depth)",
-      "Sai số phần dư trên từng mẫu"
+      "Trọng số kết nối $w$ giữa các nơ-ron",
+      "Hệ số chặn bias $b$ của hàm tuyến tính",
+      "Độ sâu tối đa của cây quyết định (`max_depth`)",
+      "Sai số phần dư trên từng mẫu $e_i = y_i - \\hat{y}_i$"
     ],
     "answer": 2,
-    "explanation": "Độ sâu tối đa của cây (max_depth) là siêu tham số do kỹ sư lựa chọn để kiểm soát độ phức tạp của mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Độ sâu tối đa của cây (`max_depth`):** Là nút điều khiển cấu trúc do người lập trình ấn định trước khi xây dựng cây quyết định $\\implies$ Đây là **Siêu tham số (Hyperparameter)**.\n* Các đại lượng khác:\n  * Trọng số $w$ và bias $b$: Do giải thuật toán học tự học từ dữ liệu $\\implies$ **Tham số (Parameter)**.\n  * Sai số $e_i$: Là kết quả tính toán đầu ra, không phải tham số mô hình.",
     "slideRef": "Slide Chương 1, Trang 54"
   },
   {
@@ -258,7 +258,7 @@ window.QUESTION_BANK = [
       "Toàn bộ dataset gộp chung"
     ],
     "answer": 1,
-    "explanation": "Validation set dùng để so sánh các cấu hình mô hình khác nhau và tinh chỉnh lựa chọn siêu tham số tối ưu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Training set:** Dùng để cập nhật **tham số nội tại** ($w, b$).\n* **Validation set (Tập thẩm định - 'Thi thử'):** Dùng để thử nghiệm các giá trị **siêu tham số khác nhau** (chọn độ sâu cây = 3 hay 5, chọn $\\lambda = 0.01$ hay $0.1$) và so sánh các thuật toán để chọn ra mô hình tốt nhất.\n* **Test set (Tập kiểm thử - 'Thi thật'):** Giữ kín tuyệt đối, chỉ đem ra chấm điểm một lần duy nhất ở bước cuối cùng.",
     "slideRef": "Slide Chương 1, Trang 57, 59"
   },
   {
@@ -267,13 +267,13 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
     "question": "Vai trò duy nhất của Tập kiểm thử (Test set) là gì?",
     "options": [
-      "Huấn luyện tham số w và bias b",
+      "Huấn luyện tham số $w$ và bias $b$",
       "Chọn độ sâu của cây quyết định",
       "Đánh giá khách quan cuối cùng về khả năng tổng quát hóa trên dữ liệu chưa từng thấy",
       "Làm sạch dữ liệu bị nhiễu"
     ],
     "answer": 2,
-    "explanation": "Test set chỉ dùng để ước lượng độc lập khả năng dự đoán của mô hình trên dữ liệu mới chưa từng tham gia vào quá trình phát triển mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tập Test Set** đóng vai trò giống như **Đề thi tốt nghiệp THPT Quốc gia thật**:\n  * Nó tuyệt đối không được dùng để huấn luyện trọng số.\n  * Nó cũng không được dùng để chọn siêu tham số hay lựa chọn mô hình.\n  * Nhiệm vụ duy nhất là cung cấp **đánh giá độc lập, khách quan không thiên vị (Unbiased Evaluation)** về khả năng tổng quát hóa của mô hình trước khi bàn giao đưa vào vận hành thực tế.",
     "slideRef": "Slide Chương 1, Trang 58-59"
   },
   {
@@ -288,7 +288,7 @@ window.QUESTION_BANK = [
       "Mô hình có thời gian huấn luyện nhanh nhất"
     ],
     "answer": 1,
-    "explanation": "Tổng quát hóa là năng lực cốt lõi của ML: đưa ra kết quả dự đoán tốt trên những quan sát ngoài đời thực chưa từng xuất hiện trong tập train.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Khả năng tổng quát hóa (Generalization Ability):** Là tiêu chuẩn vàng tối thượng của Học máy: Khả năng mô hình dự đoán chính xác trên **dữ liệu mới toanh ngoài thực tế** mà nó chưa từng được nhìn thấy trong quá trình huấn luyện.\n* Một mô hình học thuộc lòng $100\\%$ tập Train nhưng ra ngoài đời đoán sai be bét thì hoàn toàn vô giá trị.",
     "slideRef": "Slide Chương 1, Trang 60"
   },
   {
@@ -303,7 +303,7 @@ window.QUESTION_BANK = [
       "Mô hình có thời gian chạy quá lâu"
     ],
     "answer": 1,
-    "explanation": "Overfitting là hiện tượng mô hình khớp cả tín hiệu lẫn nhiễu trong tập huấn luyện, dẫn đến độ chính xác cao trên train nhưng kém cỏi trên test.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Overfitting (Quá khớp - Bệnh 'Học vẹt'):**\n  * **Đặc trưng nhận diện:** Sai số trên tập huấn luyện cực thấp ($Train\\_Error \\approx 0$), nhưng sai số trên dữ liệu mới lại cực kỳ cao ($Test\\_Error \\gg 0$).\n  * **Bản chất:** Mô hình có độ phức tạp quá cao (bậc đa thức quá lớn, mạng quá nhiều tầng) nên nó khớp từng điểm dữ liệu, học vẹt luôn cả các điểm nhiễu và ngoại lai cá biệt, làm mất đi tính tổng quát hóa.",
     "slideRef": "Slide Chương 1, Trang 61"
   },
   {
@@ -318,7 +318,7 @@ window.QUESTION_BANK = [
       "Mô hình dự đoán đúng 100% mọi mẫu"
     ],
     "answer": 1,
-    "explanation": "Underfitting xảy ra khi mô hình quá đơn giản, không đủ năng lực nắm bắt quy luật, khiến sai số cao trên cả tập Train lẫn dữ liệu mới.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Underfitting (Thiếu khớp - Bệnh 'Ngây thơ'):**\n  * **Đặc trưng nhận diện:** Sai số rất cao trên **CẢ HAI tập Train và Test** ($Train\\_Error$ cao, $Test\\_Error$ cũng cao).\n  * **Bản chất (High Bias):** Mô hình quá đơn giản (ví dụ dùng đường thẳng bậc 1 để xấp xỉ một đường cong parabol phức tạp) hoặc thiếu đặc trưng quan trọng, khiến mô hình thậm chí còn không học nổi quy luật cơ bản của tập Train.",
     "slideRef": "Slide Chương 1, Trang 61"
   },
   {
@@ -328,12 +328,12 @@ window.QUESTION_BANK = [
     "question": "Sự khác biệt giữa Hàm mất mát (Loss Function) và Thước đo đánh giá (Evaluation Metric) là gì?",
     "options": [
       "Loss và Metric hoàn toàn giống nhau, chỉ khác tên gọi",
-      "Loss được dùng trực tiếp bởi thuật toán để tối ưu tham số khi huấn luyện; Metric dùng để con người diễn giải chất lượng bài toán",
+      "Loss bắt buộc phải khả vi để thuật toán tối ưu cập nhật trọng số; Metric dùng cho con người theo dõi mục tiêu nghiệp vụ và không cần khả vi",
       "Metric dùng để tối ưu gradient descent; Loss dùng để vẽ biểu đồ",
       "Loss không cần có đạo hàm; Metric bắt buộc phải có đạo hàm"
     ],
     "answer": 1,
-    "explanation": "Loss function được thuật toán tối ưu (như GD) dùng trực tiếp để cập nhật tham số; Metric dùng để con người đánh giá chất lượng mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Loss Function (Hàm mất mát):**\n  * Phục vụ cho **thuật toán tối ưu của máy tính** (Gradient Descent).\n  * **Bắt buộc phải KHẢ VI (có đạo hàm liên tục, trơn)** để tính toán đạo hàm dốc cập nhật trọng số (MSE, BCE Loss).\n* **Evaluation Metric (Thước đo đánh giá):**\n  * Phục vụ cho **kỹ sư và doanh nghiệp** hiểu hiệu quả bài toán.\n  * **Không cần khả vi** (Accuracy, Precision, Recall, F1-score).\n* 💡 **Tại sao không lấy Accuracy làm hàm mất mát?** Vì Accuracy là hàm bậc thang gián đoạn (đoán trúng thì 1, lệch 1 chút thành 0), đạo hàm của nó bằng 0 ở khắp nơi nên Gradient Descent không thể cập nhật được!",
     "slideRef": "Slide Chương 1, Trang 51-52"
   },
   {
@@ -348,7 +348,7 @@ window.QUESTION_BANK = [
       "Báo cáo sai số cuối cùng trên Test set"
     ],
     "answer": 2,
-    "explanation": "Quy trình chuẩn: Xác định bài toán -> Thu thập & hiểu dữ liệu -> Chuẩn bị/tiền xử lý dữ liệu -> Huấn luyện & tinh chỉnh -> Triển khai & giám sát.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy trình chuẩn 6 bước của một dự án Học máy:\n1. **Hiểu bài toán kinh doanh (Business Understanding)**\n2. **Định nghĩa bài toán học máy (ML Problem Framing)**\n3. **Thu thập & Khám phá dữ liệu (Data Collection & EDA)**\n4. **Tiền xử lý & Chuẩn bị dữ liệu (Data Preprocessing & Feature Engineering)**\n5. **Huấn luyện & Đánh giá mô hình (Model Training & Evaluation)**\n6. **Triển khai & Giám sát (Deployment & Monitoring)**\n👉 Bước **Tiền xử lý dữ liệu** bắt buộc phải hoàn thành trước khi đưa dữ liệu vào thuật toán huấn luyện.",
     "slideRef": "Slide Chương 1, Trang 62-68"
   },
   {
@@ -359,11 +359,11 @@ window.QUESTION_BANK = [
     "options": [
       "Thêm nhiều đặc trưng không liên quan vào mô hình",
       "Tăng độ sâu của cây quyết định lên tối đa",
-      "Thu thập thêm dữ liệu huấn luyện hoặc áp dụng Regularization",
+      "Thu thập thêm dữ liệu huấn luyện hoặc áp dụng Regularization ($L_1, L_2$)",
       "Bỏ qua tập Validation"
     ],
     "answer": 2,
-    "explanation": "Để giảm Overfitting, ta có thể thu thập thêm dữ liệu, giảm độ phức tạp mô hình, hoặc áp dụng các kỹ thuật phạt Regularization (L1, L2).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐể chữa căn bệnh **Overfitting (Quá khớp)**, ta áp dụng các biện pháp:\n1. **Bổ sung thêm nhiều dữ liệu huấn luyện:** Khi thấy hàng triệu ví dụ phong phú, mô hình khó có thể học vẹt từng trường hợp cụ thể.\n2. **Chính quy hóa (Regularization $L_1, L_2$):** Phạt các trọng số có độ lớn quá cao, ép mô hình giữ cấu trúc đơn giản, mượt mà.\n3. **Giảm độ phức tạp mô hình:** Cắt tỉa cây (Pruning), giảm số tầng nơ-ron, dùng Dropout.\n4. **Chọn lọc đặc trưng (Feature Selection):** Loại bỏ các biến nhiễu vô nghĩa.",
     "slideRef": "Slide Chương 1, Trang 61"
   },
   {
@@ -378,7 +378,7 @@ window.QUESTION_BANK = [
       "Hành động hợp lý (Acting Rationally)"
     ],
     "answer": 3,
-    "explanation": "Hành động hợp lý (Acting Rationally) tập trung vào các tác tử hợp lý (Rational Agents) hành động nhằm đạt được kỳ vọng kết quả tối ưu nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBốn góc nhìn kinh điển về định nghĩa Trí tuệ nhân tạo (AI):\n* **Hành động hợp lý (Acting Rationally - Rational Agent):** Tập trung vào việc tạo ra các tác tử (agent) luôn đưa ra hành động tối ưu để tối đa hóa kết quả kỳ vọng dựa trên thông tin hiện có.\n* **Hành động như con người (Acting Humanly):** Vượt qua phép thử Turing (Turing Test).\n* **Suy nghĩ như con người (Thinking Humanly):** Mô phỏng các quá trình nhận thức tâm lý não bộ người.\n* **Suy nghĩ hợp lý (Thinking Rationally):** Dựa trên logic hình thức toán học chuẩn mực.",
     "slideRef": "Slide Chương 1, Trang 6"
   },
   {
@@ -393,7 +393,7 @@ window.QUESTION_BANK = [
       "Vì lập trình thủ công đòi hỏi GPU đắt tiền"
     ],
     "answer": 1,
-    "explanation": "Các bài toán cảm nhận (ảnh, giọng nói) có quá nhiều biến thể vi mô, việc mô tả bằng danh sách luật cố định là bất khả thi.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Một bức ảnh chỉ $256 \\times 256$ pixel đã chứa tới $65.536$ số nguyên. Cùng là một con mèo, nhưng góc nghiêng, ánh sáng, màu lông, tư thế nằm/chạy tạo ra vô số tổ hợp pixel khác biệt.\n* Con người không thể nào ngồi viết hàng triệu triệu nhánh `if-else` thủ công để bao quát hết mọi biến thể thực tế của tự nhiên. Đây chính là lý do Học máy (Machine Learning) ra đời: để máy tính tự động tìm quy luật từ dữ liệu lớn.",
     "slideRef": "Slide Chương 1, Trang 36-38"
   },
   {
@@ -408,7 +408,7 @@ window.QUESTION_BANK = [
       "Tập các siêu tham số được chọn"
     ],
     "answer": 1,
-    "explanation": "Ground truth là kết quả đúng thực tế của đối tượng, dùng để so sánh với kết quả dự đoán (prediction) của mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Ground Truth ($y$ - Chân lý mặt đất):** Là giá trị thực tế đúng đắn, khách quan của mẫu dữ liệu được kiểm chứng ngoài đời thực (Ví dụ: Giá bán thực tế của căn nhà được công chứng là $5$ tỷ; hoặc kết quả sinh thiết xác nhận khối u là Lành tính).\n* Ground Truth được dùng làm thước đo chuẩn để đối chiếu với giá trị do mô hình phán đoán (Prediction $\\hat{y}$) nhằm tính sai số và cải thiện tham số.",
     "slideRef": "Slide Chương 1, Trang 50"
   },
   {
@@ -418,12 +418,12 @@ window.QUESTION_BANK = [
     "question": "Để đánh giá khả năng tổng quát hóa của mô hình một cách khách quan nhất, quy tắc nào bắt buộc phải tuân thủ?",
     "options": [
       "Dùng chính Training set để đánh giá hiệu năng cuối cùng",
-      "Không để thông tin từ tập Validation hoặc Test rò rỉ vào quá trình học tham số",
+      "Không để thông tin từ tập Validation hoặc Test rò rỉ vào quá trình học tham số (Chống Data Leakage)",
       "Huấn luyện mô hình trên cả 3 tập Train, Validation và Test cùng lúc",
       "Chọn siêu tham số trực tiếp trên Test set"
     ],
     "answer": 1,
-    "explanation": "Tuyệt đối không để dữ liệu thẩm định và kiểm thử tham gia vào bước học tham số của mô hình để tránh hiện tượng rò rỉ thông tin (Data Leakage).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Quy tắc vàng:** Tuyệt đối giữ cho tập **Validation Set** và **Test Set** hoàn toàn độc lập với quá trình huấn luyện tham số của mô hình.\n* **Hiểm họa Data Leakage (Rò rỉ dữ liệu):** Nếu mô hình vô tình được nhìn thấy thông tin của tập Test (ví dụ tính toán chuẩn hóa mean/std gộp chung cả tập Test trước khi chia dữ liệu), kết quả đánh giá sẽ bị lạc quan giả tạo: điểm thi thử đạt $10$ nhưng khi đưa ra môi trường thực tế sẽ thất bại thảm hại.",
     "slideRef": "Slide Chương 1, Trang 59"
   },
   {
@@ -433,12 +433,12 @@ window.QUESTION_BANK = [
     "question": "Một mô hình dịch tự động từ tiếng Anh sang tiếng Việt thuộc lĩnh vực ứng dụng nào của AI?",
     "options": [
       "Thị giác máy tính (Computer Vision)",
-      "Xử lý ngôn ngữ tự nhiên (NLP)",
+      "Xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP)",
       "Hệ thống gợi ý (Recommender System)",
       "Phân cụm không gian"
     ],
     "answer": 1,
-    "explanation": "Dịch máy là ứng dụng tiêu biểu của Xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Dịch máy (Machine Translation):** Là bài toán kinh điển thuộc lĩnh vực **Xử lý ngôn ngữ tự nhiên (Natural Language Processing - NLP)**.\n* Bài toán này biến đổi chuỗi từ ngữ trong ngôn ngữ nguồn sang chuỗi từ ngữ tương đương trong ngôn ngữ đích (Sequence-to-Sequence), hiện nay sử dụng chủ yếu kiến trúc Transformer.",
     "slideRef": "Slide Chương 1, Trang 17"
   },
   {
@@ -453,112 +453,112 @@ window.QUESTION_BANK = [
       "Học tăng cường"
     ],
     "answer": 1,
-    "explanation": "Phân đoạn (Segmentation) là bài toán phân chia hình ảnh thành các vùng khác nhau dựa trên các đặc điểm tương tự.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Phân đoạn hình ảnh (Image Segmentation):** Là tác vụ phân loại mức độ pixel (Pixel-level Classification), gán mỗi pixel trong bức ảnh vào một lớp đối tượng cụ thể (ví dụ: pixel nào thuộc về khối u, pixel nào thuộc về mô lành).\n* Đây là tác vụ thị giác máy tính cao cấp hơn Phân loại ảnh (Image Classification) và Nhận diện vật thể (Object Detection).",
     "slideRef": "Slide Chương 1, Trang 26"
   },
   {
     "id": 241,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong phép thử Turing (Turing Test) do Alan Turing đề xuất năm 1950, tiêu chí để một cỗ máy được coi là có trí tuệ là gì?",
+    "question": "Trong phép thử Turing (Turing Test) do Alan Turing đề xuất năm 1950, tiêu chí để một cỗ máy được coi là có 'trí tuệ' là gì?",
     "options": [
-      "Máy tính có thể giải quyết các bài toán tích phân vi phân phức tạp nhanh hơn con người",
-      "Một người thẩm định con người sau khi trò chuyện bằng văn bản không thể phân biệt được đâu là máy và đâu là người",
-      "Máy tính có cấu trúc phần cứng mô phỏng chính xác mạng lưới tế bào thần kinh sinh học",
-      "Máy tính tự viết lại mã nguồn của chính mình mà không cần con người can thiệp"
+      "Máy tính có khả năng tính toán các phép toán siêu việt nhanh hơn con người 1000 lần",
+      "Một người phỏng vấn giao tiếp gián tiếp qua văn bản không thể phân biệt được đối tượng đang trò chuyện là máy hay là người thật",
+      "Máy tính có thể tự học cách sửa chữa các vi mạch phần cứng của chính nó",
+      "Cỗ máy bắt chước hoàn hảo cấu trúc mạng nơ-ron sinh học của não khỉ"
     ],
     "answer": 1,
-    "explanation": "Alan Turing đề xuất rằng nếu một người phỏng vấn giao tiếp bằng chữ (text) với một đối tượng giấu mặt mà không thể phân biệt được đối tượng đó là máy hay người thật, cỗ máy đó đã vượt qua phép thử Turing và được coi là có trí thông minh.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Năm 1950:** Nhà toán học huyền thoại **Alan Turing** xuất bản bài báo *\"Computing Machinery and Intelligence\"* và đề xuất trò chơi bắt chước (**Imitation Game / Turing Test**).\n* **Luật chơi:** Một giám khảo con người (Judge) ngồi trong phòng kín và trò chuyện qua màn hình văn bản với 2 đối tượng ẩn danh: một con người thật và một cỗ máy tính.\n* **Tiêu chí vượt qua:** Nếu vị giám khảo **hoàn toàn không thể phân biệt được** đối tượng nào là con người, đối tượng nào là máy tính sau các cuộc đối thoại tự nhiên, cỗ máy được xem là đã thể hiện hành vi thông minh tương đương con người (**Acting Humanly**).",
     "slideRef": "Slide Chương 1, Trang 6-7"
   },
   {
     "id": 242,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Thí nghiệm tư duy 'Phòng tiếng Trung' (Chinese Room) của triết gia John Searle được đưa ra nhằm phản bác luận điểm nào?",
+    "question": "Thí nghiệm tư duy 'Phòng tiếng Trung' (Chinese Room) của triết gia John Searle (1980) được đưa ra nhằm phản bác luận điểm nào?",
     "options": [
-      "Phản bác quan điểm cho rằng máy tính chỉ thao tác cú pháp theo luật hình thức có thể thực sự hiểu được ngữ nghĩa (AI mạnh / Strong AI)",
-      "Phản bác tính khả thi của thuật toán dịch tự động dựa trên quy tắc ngữ pháp",
-      "Phản bác định nghĩa học máy của Tom Mitchell",
-      "Phản bác sự cần thiết của hàm kích hoạt phi tuyến trong mạng nơ-ron"
+      "Việc một chương trình chỉ thao tác cú pháp theo luật hình thức vượt qua Turing Test đồng nghĩa với việc cỗ máy thực sự 'hiểu' và có ý thức nhận thức (AI mạnh / Strong AI)",
+      "Mạng nơ-ron nhân tạo không thể học được dữ liệu chuỗi văn bản",
+      "Ngôn ngữ tiếng Trung là ngôn ngữ khó nhất đối với các thuật toán AI",
+      "Máy tính không thể dịch tự động giữa các ngôn ngữ tự nhiên"
     ],
     "answer": 0,
-    "explanation": "John Searle đưa ra lập luận 'Phòng tiếng Trung' để chỉ ra rằng việc một người trong phòng tra bảng quy tắc đối sánh ký tự tiếng Trung rồi đưa ra kết quả không đồng nghĩa với việc người đó hiểu tiếng Trung. Máy tính thao tác biểu tượng cú pháp (syntax) thuần túy không đồng nghĩa với việc có nhận thức ngữ nghĩa (semantics).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Thí nghiệm tư duy Phòng tiếng Trung:** Giả sử một người hoàn toàn không biết một chữ tiếng Trung nào bị nhốt trong phòng kín. Người này nhận được các ký tự tiếng Trung từ ngoài khe cửa đưa vào, sau đó tra cứu một cuốn sách luật tiếng Anh hướng dẫn: *\"Nếu thấy biểu tượng A, hãy viết lại biểu tượng B\"*. Người bên ngoài nhận được biểu tượng B và tưởng rằng người bên trong rất giỏi tiếng Trung!\n* **Kết luận của Searle (Phản bác Strong AI):** Cỗ máy chỉ đang thực hiện các thao tác cú pháp hình thức (**Syntax manipulation**) dựa trên quy tắc, chứ hoàn toàn **không hề có ý thức, ngữ nghĩa hay sự thấu hiểu thực sự (Semantics / Understanding)** bên trong.",
     "slideRef": "Slide Chương 1, Trang 6"
   },
   {
     "id": 243,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Mô hình mạng nơ-ron nhân tạo phần cứng đầu tiên trên thế giới (SNARC) được chế tạo vào năm 1951 bởi ai?",
+    "question": "Mô hình mạng nơ-ron nhân tạo phần cứng đầu tiên trên thế giới mang tên SNARC (1951) được chế tạo bởi ai?",
     "options": [
-      "Frank Rosenblatt",
+      "John von Neumann và Alan Turing",
       "Marvin Minsky và Dean Edmonds",
-      "John McCarthy và Claude Shannon",
+      "Arthur Samuel và Frank Rosenblatt",
       "Geoffrey Hinton và Yann LeCun"
     ],
     "answer": 1,
-    "explanation": "Năm 1951, Marvin Minsky và Dean Edmonds đã chế tạo SNARC (Stochastic Neural Analog Reinforcement Calculator), cỗ máy mạng nơ-ron nhân tạo phần cứng đầu tiên gồm 40 nơ-ron mô phỏng hành vi của chuột tìm đường trong mê cung.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Năm 1951:** Khi còn là sinh viên tại Đại học Princeton, **Marvin Minsky** (sau này là một trong những cha đẻ sáng lập ngành AI) cùng với **Dean Edmonds** đã chế tạo cỗ máy **SNARC** (Stochastic Neural Analog Reinforcement Calculator).\n* Cỗ máy này gồm 40 tế bào nơ-ron phần cứng sử dụng các bóng đèn chân không và động cơ con quay hồi chuyển, mô phỏng mạng nơ-ron học cách tìm đường đi qua mê cung của một chú chuột ảo.",
     "slideRef": "Slide Chương 1, Trang 7"
   },
   {
     "id": 244,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong bài toán xây dựng hệ thống xe tự hành (Self-Driving Car), yếu tố nào sau đây đóng vai trò là Thước đo hiệu năng P (Performance) theo định nghĩa của Tom Mitchell?",
+    "question": "Trong bài toán xây dựng hệ thống xe tự hành (Self-Driving Car), yếu tố nào sau đây đóng vai trò là Thước đo hiệu năng $P$ (Performance) theo định nghĩa của Tom Mitchell?",
     "options": [
       "Dữ liệu video từ camera và cảm biến LiDAR được ghi lại trong hàng triệu km chạy thử",
-      "Tác vụ điều khiển vô-lăng, chân ga và phanh xe an toàn",
-      "Số km di chuyển trung bình giữa hai lần xảy ra sự cố cần tài xế can thiệp",
+      "Tác vụ điều khiển vô-lăng, chân ga và phanh xe an toàn trên đường",
+      "Số km di chuyển trung bình giữa hai lần xảy ra sự cố cần tài xế can thiệp (Disengagement rate)",
       "Tốc độ tính toán của bộ vi xử lý GPU trên xe"
     ],
     "answer": 2,
-    "explanation": "Tác vụ T là lái xe an toàn trên đường; Kinh nghiệm E là hàng triệu km dữ liệu hành trình; Thước đo P là quãng đường trung bình di chuyển an toàn giữa các lần con người phải can thiệp (hoặc tỷ lệ tai nạn trên 100.000 km).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhân tích bộ ba $(T, E, P)$ của Tom Mitchell cho **Xe tự lái**:\n* **Tác vụ $T$ (Task):** Điều khiển xe di chuyển an toàn trên đường phố (đưa ra quyết định đánh lái, phanh, tăng tốc, giữ làn).\n* **Kinh nghiệm $E$ (Experience):** Hàng triệu gigabyte dữ liệu hình ảnh, lidar, cảm biến thu được từ các tài xế người lái trước đó.\n* **Hiệu năng $P$ (Performance):** **Số km di chuyển trung bình giữa hai lần xảy ra sự cố cần tài xế can thiệp** (Disengagement rate) và tỷ lệ tai nạn $= 0$.",
     "slideRef": "Slide Chương 1, Trang 41-42"
   },
   {
     "id": 245,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Học tự giám sát (Self-Supervised Learning) - nền tảng của các mô hình ngôn ngữ lớn như BERT và GPT - thuộc bản chất phương pháp học nào?",
+    "question": "Học tự giám sát (Self-Supervised Learning) - nền tảng huấn luyện tiền đề cho các mô hình ngôn ngữ lớn (LLM như GPT, BERT) - hoạt động theo nguyên lý nào?",
     "options": [
-      "Học tăng cường thuần túy không cần hàm mất mát",
-      "Học có giám sát nhưng nhãn được tự động tạo ra từ chính cấu trúc bên trong của dữ liệu mà không cần con người gán nhãn thủ công",
-      "Học không giám sát chỉ dùng phân cụm K-Means",
-      "Lập trình hướng luật if-else tự sinh mã nguồn"
+      "Thuê hàng triệu chuyên gia thủ công gán nhãn từng câu chữ trên Internet",
+      "Tự động tạo ra nhãn giám sát từ chính cấu trúc bên trong dữ liệu thô (ví dụ: giấu một từ để bắt mô hình dự đoán từ bị khuyết)",
+      "Không cần dùng hàm mất mát, chỉ dựa vào luật ngẫu nhiên",
+      "Kết hợp giữa thuật toán K-Means và Hồi quy tuyến tính"
     ],
     "answer": 1,
-    "explanation": "Self-Supervised Learning là một nhánh đặc biệt của Học có giám sát, trong đó nhãn mục tiêu được tự động trích xuất từ chính dữ liệu đầu vào (ví dụ: che đi 1 từ và yêu cầu mô hình đoán từ đó - Masked Language Modeling) mà không tốn công sức dán nhãn thủ công của con người.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Self-Supervised Learning (Học tự giám sát):** Là chìa khóa mang lại sự bùng nổ của các mô hình nền tảng (Foundation Models như BERT, GPT).\n* **Nguyên lý:** Thay vì con người ngồi gán nhãn thủ công tốn kém:\n  * Mô hình tự động **che giấu một phần dữ liệu** (Masked Language Modeling: *\"Mặt trời mọc ở hướng [MASK]\"* $\\implies$ bắt máy đoán chữ *\"Đông\"*).\n  * Hoặc bắt mô hình **dự đoán token tiếp theo** (Next Token Prediction: *\"Hôm nay trời nhiều...\"* $\\implies$ đoán *\"mây\"*).\n* Bằng cách này, mô hình có thể \"tự học\" từ hàng nghìn tỷ từ trên Internet mà **không tốn một đồng chi phí gán nhãn**!",
     "slideRef": "Slide Chương 1, Trang 11-13"
   },
   {
     "id": 246,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Định lý 'Không có bữa trưa miễn phí' (No Free Lunch Theorem) của Wolpert và Macready (1997) mang ý nghĩa cốt lõi nào trong Machine Learning?",
+    "question": "Định lý 'Không có bữa trưa miễn phí' (No Free Lunch Theorem) của Wolpert và Macready (1997) khẳng định điều gì?",
     "options": [
-      "Không có mô hình học máy nào hoạt động tốt nếu không có dữ liệu huấn luyện",
-      "Không tồn tại một thuật toán học máy đơn lẻ nào vượt trội hơn tất cả các thuật toán khác trên mọi bài toán khả dĩ",
-      "Mô hình học máy luôn đòi hỏi chi phí phần cứng đắt đỏ để huấn luyện",
-      "Mọi mô hình học máy đều chắc chắn sẽ bị Overfitting sau một số vòng lặp nhất định"
+      "Các mô hình AI luôn luôn phải tiêu tốn tài nguyên điện toán lớn",
+      "Không có thuật toán học máy nào là tối ưu tuyệt đối trên mọi bài toán khả dĩ; hiệu năng vượt trội trên bài toán này phải đánh đổi bằng hiệu năng kém trên bài toán khác",
+      "Mọi bài toán phân loại đều có thể giải quyết hoàn hảo bằng Mạng nơ-ron sâu",
+      "Muốn đạt độ chính xác cao bắt buộc phải trả phí bản quyền cho thuật toán"
     ],
     "answer": 1,
-    "explanation": "Định lý No Free Lunch khẳng định rằng khi lấy trung bình trên tất cả các phân phối bài toán có thể xảy ra, mọi thuật toán học máy đều có hiệu năng ngang nhau. Không có mô hình nào là 'vạn năng' tốt nhất cho mọi bài toán; sự vượt trội phụ thuộc vào mức độ phù hợp của giả định mô hình với bài toán cụ thể.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **No Free Lunch Theorem (NFL Theorem):** Khi lấy trung bình trên **toàn bộ mọi phân phối bài toán có thể có trong vũ trụ**, mọi thuật toán học máy đều có hiệu năng ngang ngửa nhau (thậm chí ngang với việc đoán mò ngẫu nhiên!).\n* 💡 **Ý nghĩa thực tiễn sống còn cho kỹ sư:**\n  * **Không tồn tại một thuật toán thần thánh nào** luôn thắng trong mọi cuộc thi hay dự án.\n  * Một thuật toán (như XGBoost hay Deep Learning) hoạt động cực tốt trên bài toán phân loại ảnh nhưng có thể thua một cây quyết định đơn giản trên tập dữ liệu bảng nhỏ.\n  * Do đó, kỹ sư bắt buộc phải thử nghiệm nhiều mô hình khác nhau và thấu hiểu bài toán cụ thể chứ không áp đặt mù quáng một thuật toán duy nhất.",
     "slideRef": "Slide Chương 1, Trang 36-38"
   },
   {
     "id": 247,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Khái niệm 'Định kiến quy nạp' (Inductive Bias) của một thuật toán học máy biểu thị điều gì?",
+    "question": "Khái niệm 'Định kiến quy nạp' (Inductive Bias) của một thuật toán học máy đề cập đến điều gì?",
     "options": [
-      "Sự thiên vị mang tính phân biệt đối xử của người thu thập dữ liệu",
-      "Tập hợp các giả định tiên nghiệm mà thuật toán sử dụng để dự đoán nhãn cho các điểm dữ liệu mới chưa từng thấy",
-      "Hiện tượng sai lệch do lỗi lập trình cú pháp trong mã nguồn",
-      "Độ lệch chuẩn giữa tập dữ liệu Train và tập Test"
+      "Sự phân biệt đối xử mang tính kỳ thị xã hội trong dữ liệu huấn luyện",
+      "Tập hợp các giả định tiên nghiệm mà mô hình áp đặt lên không gian hàm để dự đoán nhãn cho các điểm dữ liệu mới chưa từng thấy",
+      "Lỗi phần cứng của card đồ họa khi tính toán dấu phẩy động",
+      "Độ lệch chuẩn giữa giá trị trung bình của tập Train và tập Test"
     ],
     "answer": 1,
-    "explanation": "Inductive Bias là tập hợp các giả định mà mô hình học máy áp dụng để khái quát hóa từ dữ liệu quan sát sang dữ liệu chưa quan sát (ví dụ: Linear Regression giả định mối quan hệ giữa X và y là tuyến tính; KNN giả định các điểm gần nhau sẽ có nhãn giống nhau).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Inductive Bias (Định kiến quy nạp):** Nếu không có bất kỳ giả định ban đầu nào, một tập điểm dữ liệu hữu hạn có thể được khớp bởi vô số hàm số toán học khác nhau. Để chọn ra một nghiệm, thuật toán bắt buộc phải mang sẵn những **giả định ngầm**:\n  * *Hồi quy tuyến tính (Linear Regression):* Giả định mối quan hệ giữa $X$ và $y$ là **tuyến tính phẳng** ($y = Xw$).\n  * *KNN:* Giả định các điểm nằm **gần nhau trong không gian thì có nhãn giống nhau**.\n  * *CNN (Convolutional Neural Networks):* Giả định tính **bất biến tịnh tiến cục bộ** của hình ảnh (mắt mèo nằm ở góc nào thì vẫn là mắt mèo).",
     "slideRef": "Slide Chương 1, Trang 43-45"
   },
   {
@@ -567,88 +567,88 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
     "question": "Sự khác biệt căn bản giữa Học theo lô (Batch / Offline Learning) và Học trực tuyến (Online / Incremental Learning) là gì?",
     "options": [
-      "Batch Learning học trên trình duyệt web, Online Learning học trên máy chủ",
-      "Batch Learning huấn luyện trên toàn bộ tập dữ liệu cùng lúc khi hệ thống offline; Online Learning liên tục cập nhật mô hình theo từng mẫu hoặc mini-batch khi dữ liệu mới liên tục đổ về",
-      "Batch Learning không có hàm mất mát, Online Learning có hàm mất mát",
-      "Online Learning luôn cho độ chính xác cao hơn Batch Learning trên mọi tập dữ liệu"
+      "Batch Learning học bằng CPU; Online Learning bắt buộc học bằng GPU",
+      "Batch Learning yêu cầu toàn bộ dữ liệu có sẵn và huấn luyện lại từ đầu khi có dữ liệu mới; Online Learning cập nhật mô hình liên tục theo từng mẫu/mini-batch khi dữ liệu mới liên tục đổ về",
+      "Batch Learning chỉ dùng cho bài toán phân loại; Online Learning chỉ dùng cho hồi quy",
+      "Batch Learning không có hàm mất mát; Online Learning có hàm mất mát"
     ],
     "answer": 1,
-    "explanation": "Batch Learning đòi hỏi toàn bộ dữ liệu phải có sẵn để huấn luyện mô hình một lần; nếu có dữ liệu mới thì phải train lại từ đầu. Ngược lại, Online Learning có khả năng tiếp nhận và cập nhật trọng số liên tục theo từng luồng dữ liệu mới (rất hữu ích cho Out-of-core learning khi dữ liệu vượt RAM).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Batch Learning (Học ngoại tuyến / Theo lô):** Cần nạp toàn bộ dataset vào bộ nhớ. Khi có thêm dữ liệu mới, mô hình phải gom tất cả lại và **huấn luyện lại từ đầu (train from scratch)**. Thích hợp khi hệ thống có tài nguyên dồi dào và dữ liệu ít thay đổi.\n* **Online Learning (Học tăng cường / Trực tuyến):** Mô hình được cập nhật tức thì theo luồng dữ liệu (Streaming data), từng mẫu hoặc từng mini-batch một, rồi loại bỏ mẫu cũ ngay. Phù hợp tuyệt vời cho các hệ thống như phát hiện lừa đảo thẻ, định giá chứng khoán real-time hoặc thiết bị biên (IoT) có bộ nhớ cực nhỏ.",
     "slideRef": "Slide Chương 1, Trang 28-30"
   },
   {
     "id": 249,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Hiện tượng 'Trôi dạt khái niệm' (Concept Drift) trong các hệ thống học máy triển khai thực tế biểu thị điều gì?",
+    "question": "Hiện tượng 'Trôi dạt khái niệm' (Concept Drift) trong các hệ thống học máy thực tế mô tả điều gì?",
     "options": [
-      "Bộ nhớ RAM của máy chủ bị tràn sau thời gian dài vận hành",
-      "Mối quan hệ thống kê giữa đặc trưng đầu vào X và biến mục tiêu y bị thay đổi theo thời gian",
-      "Các tham số W và b của mô hình bị giảm độ chính xác dấu phẩy động",
-      "Mô hình bị quá khớp ngay trong giai đoạn huấn luyện trên tập train"
+      "Sự gia tăng đột biến của tốc độ phần cứng máy tính theo định luật Moore",
+      "Sự thay đổi bản chất của mối quan hệ thống kê giữa đặc trưng đầu vào và nhãn mục tiêu $P(y|X)$ theo thời gian trong môi trường thực tế",
+      "Việc mô hình học quá nhanh dẫn đến gradient bị phát nổ",
+      "Sự dịch chuyển của gốc tọa độ ma trận trong thuật toán PCA"
     ],
     "answer": 1,
-    "explanation": "Concept Drift xảy ra khi bản chất mối quan hệ P(y|X) thay đổi theo thời gian (ví dụ: hành vi lừa đảo qua thẻ tín dụng thay đổi chiêu thức mới khiến mô hình cũ không còn phát hiện được). Đây là lý do cần giám sát và huấn luyện lại mô hình định kỳ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Concept Drift (Trôi dạt khái niệm):** Trong thực tế sản xuất (Production), mối quan hệ giữa đầu vào $X$ và nhãn $y$ không bất biến mà **thay đổi theo thời gian**:\n  $$P_t(y|X) \\ne P_{t+\\Delta t}(y|X)$$\n* 💡 **Ví dụ kinh điển:**\n  * Trước đại dịch Covid, từ khóa *\"khẩu trang, cồn 90 độ\"* trên trang thương mại điện tử chỉ có lượng tìm kiếm bình thường. Khi dịch bùng phát, hành vi mua sắm của người tiêu dùng thay đổi $180^\\circ$.\n  * Kẻ lừa đảo thẻ tín dụng liên tục thay đổi thủ đoạn mới tinh vi hơn để né bộ lọc AI cũ.\n* Vì vậy, hệ thống MLOps bắt buộc phải liên tục giám sát (**Monitoring**) để phát hiện Concept Drift và tự động kích hoạt huấn luyện lại (Retraining).",
     "slideRef": "Slide Chương 1, Trang 67-68"
   },
   {
     "id": 250,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Mô hình tham số (Parametric Model) và Mô hình phi tham số (Non-parametric Model) khác nhau ở điểm cốt lõi nào?",
+    "question": "Mô hình tham số (Parametric Model) và Mô hình phi tham số (Non-parametric Model) khác nhau căn bản ở điểm nào?",
     "options": [
-      "Mô hình tham số có số lượng tham số cố định không phụ thuộc vào kích thước tập dữ liệu; Mô hình phi tham số có số lượng tham số tăng theo kích thước tập dữ liệu",
-      "Mô hình tham số không có siêu tham số, Mô hình phi tham số có rất nhiều siêu tham số",
-      "Mô hình tham số chỉ dùng cho bài toán phân loại, Mô hình phi tham số chỉ dùng cho bài toán hồi quy",
-      "Mô hình phi tham số không bao giờ bị quá khớp (Overfitting)"
+      "Mô hình tham số có số lượng tham số cố định không phụ thuộc vào kích thước dữ liệu huấn luyện; Mô hình phi tham số có số tham số tăng theo độ lớn của tập dữ liệu",
+      "Mô hình tham số hoàn toàn không có trọng số; Mô hình phi tham số có vô số trọng số",
+      "Mô hình tham số chỉ chạy trên dữ liệu số thực; Mô hình phi tham số chỉ chạy trên văn bản",
+      "Mô hình tham số không thể bị Overfitting; Mô hình phi tham số luôn luôn bị Underfitting"
     ],
     "answer": 0,
-    "explanation": "Mô hình tham số (như Linear Regression, Logistic Regression) tóm tắt dữ liệu qua một tập tham số có kích thước cố định độc lập với N. Mô hình phi tham số (như KNN, Decision Tree không giới hạn độ sâu) không gò ép dạng hàm cố định, số lượng tham số/nút linh hoạt tăng theo kích thước tập dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Mô hình tham số (Parametric Models):** Giả định trước dạng toán học của hàm mục tiêu (ví dụ đường thẳng $y = w_0 + w_1 x_1 + \\dots$). Số lượng tham số là **CỐ ĐỊNH** (ví dụ $p+1$ tham số) bất kể bạn nạp $100$ dòng hay $10$ triệu dòng dữ liệu.\n  * *Ví dụ:* Linear Regression, Logistic Regression, Linear SVM.\n  * *Ưu điểm:* Học nhanh, ít tốn bộ nhớ, nhưng có thể bị High Bias nếu dạng hàm thực tế phi tuyến.\n* **Mô hình phi tham số (Non-parametric Models):** Không đóng khung trước số lượng tham số cố định, độ phức tạp của mô hình **tự do mở rộng tỷ lệ thuận theo kích thước dữ liệu**.\n  * *Ví dụ:* K-Nearest Neighbors (lưu lại toàn bộ dữ liệu train), Cây quyết định (Decision Trees có thể nở sâu theo dữ liệu).",
     "slideRef": "Slide Chương 1, Trang 44-46"
   },
   {
     "id": 251,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong kỹ thuật Stratified K-Fold Cross-Validation, từ 'Stratified' (Phân tầng) có ý nghĩa bắt buộc nào?",
+    "question": "Trong kỹ thuật Stratified K-Fold Cross-Validation, từ 'Stratified' (Phân tầng) mang ý nghĩa kỹ thuật gì?",
     "options": [
-      "Chia dữ liệu thành các tầng theo thứ tự thời gian tăng dần",
-      "Đảm bảo tỷ lệ phân bố giữa các nhãn lớp trong mỗi fold con giống hệt với tỷ lệ phân bố nhãn trong toàn bộ tập dữ liệu gốc",
-      "Chia dữ liệu thành các nhóm theo khoảng cách Euclidean",
-      "Huấn luyện mô hình từ tầng nơ-ron thấp nhất lên tầng cao nhất"
+      "Dữ liệu được chia thành các tầng dựa theo số lượng dòng code của thuật toán",
+      "Tỷ lệ phân bố của các nhãn mục tiêu (Class distribution) trong mỗi Fold con được đảm bảo giữ nguyên tỷ lệ giống hệt như trong toàn bộ tập dữ liệu gốc",
+      "Dữ liệu được sắp xếp tăng dần theo giá trị trung bình của các đặc trưng",
+      "Mỗi Fold con chỉ chứa các mẫu dữ liệu của đúng một lớp duy nhất"
     ],
     "answer": 1,
-    "explanation": "Stratified K-Fold đảm bảo mỗi fold con đại diện công bằng tỷ lệ phần trăm của từng nhãn lớp như tập gốc. Điều này tối quan trọng với dữ liệu mất cân bằng (Imbalanced dataset), tránh trường hợp một fold bị thiếu hẳn lớp thiểu số.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bối cảnh (Dữ liệu mất cân bằng - Imbalanced Data):** Giả sử bài toán phát hiện tế bào ung thư chỉ có $2\\%$ mẫu dương tính (mắc bệnh) và $98\\%$ mẫu âm tính (khỏe mạnh).\n* Nếu chia ngẫu nhiên thông thường (Standard K-Fold), rất có thể một Fold nào đó tình cờ **chẳng có một ca ung thư nào** ($0\\%$)! Khi lấy Fold đó làm Test thì việc đánh giá hoàn toàn sai lệch.\n* **Stratified K-Fold (Phân tầng):** Đảm bảo rằng **ở mỗi Fold con**, tỷ lệ giữa bệnh nhân ung thư và người khỏe mạnh **luôn giữ đúng $2\\% : 98\\%$ y hệt như tập dữ liệu gốc**, giúp việc thẩm định công bằng và đáng tin cậy.",
     "slideRef": "Slide Chương 1, Trang 58-60"
   },
   {
     "id": 252,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Khi nào bắt buộc phải dùng TimeSeriesSplit thay vì K-Fold thông thường để đánh giá mô hình?",
+    "question": "Khi nào bắt buộc phải dùng kỹ thuật TimeSeriesSplit thay vì chia ngẫu nhiên K-Fold thông thường?",
     "options": [
-      "Khi dữ liệu có số lượng chiều đặc trưng lớn hơn 100",
-      "Khi dữ liệu có tính phụ thuộc thời gian (chuỗi thời gian), nhằm đảm bảo tập huấn luyện luôn xảy ra trước tập kiểm thử theo trục thời gian",
-      "Khi dữ liệu chỉ chứa các biến phân loại danh mục (Categorical)",
-      "Khi huấn luyện mô hình Random Forest với 500 cây"
+      "Khi dữ liệu có kích thước vượt quá 1 triệu dòng",
+      "Khi dữ liệu có tính chất chuỗi thời gian (Time-series) phụ thuộc vào thứ tự thời gian (như giá cổ phiếu, dự báo thời tiết, nhu cầu năng lượng)",
+      "Khi dữ liệu có chứa thuộc tính dạng chuỗi ký tự (String)",
+      "Khi muốn tăng tốc độ tính toán của thuật toán lên gấp 10 lần"
     ],
     "answer": 1,
-    "explanation": "Với dữ liệu chuỗi thời gian (giá cổ phiếu, dự báo thời tiết), chia K-Fold ngẫu nhiên sẽ lấy dữ liệu tương lai để dự đoán quá khứ (Look-ahead Data Leakage). TimeSeriesSplit đảm bảo mô hình chỉ học từ quá khứ để dự đoán tương lai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Quy luật bất biến của thời gian:** Trong thực tế, bạn chỉ có thể dùng dữ liệu quá khứ để đoán tương lai, **tuyệt đối không thể dùng dữ liệu ngày mai để đoán ngày hôm qua**!\n* Nếu dùng K-Fold ngẫu nhiên cho bài toán giá cổ phiếu, thuật toán sẽ lấy dữ liệu ngày thứ Tư làm tập Train để dự đoán giá ngày thứ Ba $\\implies$ Mô hình bị **Rò rỉ tương lai (Lookahead bias / Data Leakage)**, cho kết quả ảo tưởng!\n* **TimeSeriesSplit (Walk-forward Validation):** Luôn đảm bảo tập Train đi trước tập Test theo trục thời gian:\n  * Fold 1: Train $[1..T]$, Test $[T+1]$\n  * Fold 2: Train $[1..T+1]$, Test $[T+2]$\n  * ...",
     "slideRef": "Slide Chương 1, Trang 59-60"
   },
   {
     "id": 253,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Khoảng cách tổng quát hóa (Generalization Gap) của một mô hình học máy được định nghĩa là gì?",
+    "question": "Khoảng cách tổng quát hóa (Generalization Gap) của một mô hình học máy được định nghĩa như thế nào?",
     "options": [
-      "Khoảng cách giữa tâm các cụm trong không gian đặc trưng",
-      "Hiệu số giữa sai số trên tập kiểm thử (Test Error) và sai số trên tập huấn luyện (Training Error)",
+      "Hiệu số giữa thời gian chạy trên GPU và CPU",
+      "Khoảng cách chênh lệch giữa sai số trên tập kiểm thử và sai số trên tập huấn luyện: $Gap = Error_{test} - Error_{train}$",
       "Thời gian cần thiết để huấn luyện mô hình từ đầu đến khi hội tụ",
       "Độ lệch chuẩn giữa ma trận hiệp phương sai và ma trận đơn vị"
     ],
     "answer": 1,
-    "explanation": "Generalization Gap = Error_test - Error_train. Khi khoảng cách này lớn (Error_train rất nhỏ nhưng Error_test rất lớn), mô hình đang bị quá khớp (Overfitting) nghiêm trọng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$Generalization\\_Gap = Error_{test} - Error_{train}$$\n* **Ý nghĩa:** Đo lường mức độ mô hình hoạt động kém hơn khi bước ra dữ liệu mới so với lúc làm bài tập về nhà.\n* **Chẩn đoán bệnh:**\n  * Nếu $Gap \\approx 0$ và cả 2 sai số đều thấp: Mô hình lý tưởng (**Good fit**).\n  * Nếu $Gap \\gg 0$ (sai số train cực nhỏ, nhưng sai số test rất lớn): Mô hình bị **Overfitting (Quá khớp)** nghiêm trọng!\n  * Nếu $Gap$ nhỏ nhưng cả 2 sai số đều rất cao: Mô hình bị **Underfitting (Thiếu khớp)**.",
     "slideRef": "Slide Chương 1, Trang 60-61"
   },
   {
@@ -663,7 +663,7 @@ window.QUESTION_BANK = [
       "Vì làm thay đổi vĩnh viễn dữ liệu gốc trong cơ sở dữ liệu"
     ],
     "answer": 1,
-    "explanation": "Nếu chỉnh siêu tham số trên Test Set, thông tin từ Test Set gián tiếp ngấm vào quá trình ra quyết định của mô hình (Optimism Bias). Khi đó Test Set không còn là bài kiểm tra khách quan độc lập nữa, khiến mô hình tưởng chừng tốt nhưng thất bại khi deploy thực tế.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hiểm họa 'Overfitting vào tập Test':** Mỗi lần bạn thử một siêu tham số và nhìn vào điểm số của tập Test để quyết định chọn giá trị tốt nhất, bạn đã vô tình **đưa thông tin của tập Test vào quá trình ra quyết định của con người**.\n* Sau vài chục lần tinh chỉnh như vậy, tập Test không còn là bài thi khách quan nữa. Điểm số báo cáo trên Test set sẽ bị **Thiên vị lạc quan giả tạo (Optimism Bias)**, dẫn đến việc mô hình tưởng chừng đạt $99\\%$ nhưng khi deploy ra production gặp khách hàng thật sẽ thất bại thê thảm.",
     "slideRef": "Slide Chương 1, Trang 57-58"
   },
   {
@@ -674,33 +674,33 @@ window.QUESTION_BANK = [
     "options": [
       "Bổ sung thêm các đặc trưng mới hoặc tạo các đặc trưng đa thức",
       "Sử dụng mô hình có cấu trúc phức tạp hơn (tăng độ sâu của cây, tăng số tầng nơ-ron)",
-      "Tăng mạnh cường độ phạt chính quy hóa (tăng hệ số lambda)",
+      "Tăng mạnh cường độ phạt chính quy hóa (tăng hệ số $\\lambda$)",
       "Giảm bớt mức độ phạt chính quy hóa (regularization)"
     ],
     "answer": 2,
-    "explanation": "Underfitting xảy ra khi mô hình quá đơn giản (High Bias). Tăng mạnh hệ số phạt lambda sẽ ép mô hình càng đơn giản hơn, làm trầm trọng thêm tình trạng Underfitting. Khắc phục Underfitting cần tăng độ phức tạp mô hình hoặc giảm regularization.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bản chất Underfitting (High Bias):** Mô hình đang quá yếu, quá ngây thơ, không học nổi quy luật dữ liệu.\n* **Tác động của Regularization (Hệ số $\\lambda$):** $\\lambda$ có tác dụng **kìm hãm, ép mô hình đơn giản lại** để chống học vẹt.\n* 👉 Do đó, nếu mô hình đã ngây thơ mà ta lại **tăng mạnh $\\lambda$**, ta đang tiếp tục bóp nghẹt mô hình, làm cho nó càng thêm đơn giản và khiến bệnh **Underfitting trầm trọng hơn nữa**!",
     "slideRef": "Slide Chương 1, Trang 60-61"
   },
   {
     "id": 256,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong học tăng cường (Reinforcement Learning), 'Chính sách' (Policy, ký hiệu π) biểu thị điều gì?",
+    "question": "Trong học tăng cường (Reinforcement Learning), 'Chính sách' (Policy, ký hiệu $\\pi$) biểu thị điều gì?",
     "options": [
       "Bộ luật pháp lý quy định quyền riêng tư dữ liệu người dùng",
-      "Hàm hoặc chiến lược ánh xạ từ Trạng thái (State) sang Hành động (Action) mà tác tử sẽ thực hiện",
+      "Hàm hoặc chiến lược ánh xạ từ Trạng thái ($s$) sang Hành động ($a$) mà tác tử sẽ thực hiện: $\\pi(a|s)$",
       "Tổng phần thưởng tích lũy nhận được ở cuối mỗi màn chơi",
       "Thuật toán tối ưu hóa Gradient Descent áp dụng cho hàm mất mát"
     ],
     "answer": 1,
-    "explanation": "Policy π(a|s) là chiến lược hành vi của Agent: xác định xác suất hoặc quyết định thực hiện hành động 'a' khi Agent đang ở trạng thái 's' nhằm tối đa hóa phần thưởng kỳ vọng lâu dài.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Chính sách (Policy $\\pi$):** Được xem là \"bộ não\" hoặc \"kim chỉ nam chiến lược\" của Agent:\n  $$\\pi(a|s) = P(A_t = a \\mid S_t = s)$$\n* Nó quy định: Khi tác tử đang đứng ở Trạng thái $s$ (State), nó nên chọn Hành động $a$ (Action) nào để có xác suất nhận được tổng điểm thưởng tích lũy trong tương lai là lớn nhất.\n* Mục tiêu tối thượng của các thuật toán Học tăng cường (như Q-Learning, PPO, DQN) là tìm ra **Chính sách tối ưu $\\pi^*$**.",
     "slideRef": "Slide Chương 1, Trang 14-15"
   },
   {
     "id": 257,
     "chapter": 1,
     "chapterTitle": "Chương 1: Tổng quan về Học máy",
-    "question": "Trong bài toán nhận diện cảm xúc giọng nói, phát biểu nào sau đây xác định đúng bộ ba T-E-P?",
+    "question": "Trong bài toán nhận diện cảm xúc giọng nói, phát biểu nào sau đây xác định đúng bộ ba $T-E-P$?",
     "options": [
       "T: Tập các file ghi âm giọng nói; E: Tỷ lệ nhận diện đúng; P: Gán nhãn vui/buồn/giận dữ",
       "T: Phân loại đoạn ghi âm vào các trạng thái cảm xúc; E: Tập dữ liệu âm thanh giọng nói đã được gán nhãn trước; P: Độ chính xác phân loại F1-score",
@@ -708,7 +708,7 @@ window.QUESTION_BANK = [
       "T: Thuật toán MLP; E: Hàm kích hoạt Softmax; P: Hàm mất mát Cross-Entropy"
     ],
     "answer": 1,
-    "explanation": "Tác vụ T là phân loại cảm xúc từ đoạn âm thanh; Kinh nghiệm E là tập dữ liệu mẫu âm thanh lịch sử đã có nhãn; Thước đo P là chỉ số đánh giá F1-score hoặc Accuracy.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhân tích bộ ba $(T, E, P)$ của Tom Mitchell cho bài toán Nhận diện cảm xúc giọng nói:\n* **$T$ (Task - Việc cần làm):** Nhận một file ghi âm giọng nói mới và phân loại xem người nói đang Vui, Buồn, Giận dữ hay Bình thường.\n* **$E$ (Experience - Dữ liệu quá khứ):** Tập hợp hàng nghìn file ghi âm trước đây đã có chuyên gia nghe và dán nhãn cảm xúc sẵn.\n* **$P$ (Performance - Thước đo chấm điểm):** Chỉ số F1-score, Precision hoặc Accuracy đo tỷ lệ nhận diện cảm xúc chính xác.",
     "slideRef": "Slide Chương 1, Trang 41-42"
   },
   {
@@ -718,12 +718,12 @@ window.QUESTION_BANK = [
     "question": "Đặc trưng nào sau đây của mạng nơ-ron Perceptron do Frank Rosenblatt phát minh năm 1957 là nguyên nhân chính dẫn đến sự suy tàn của mạng nơ-ron lần thứ nhất (AI Winter)?",
     "options": [
       "Chi phí tính toán quá đắt đỏ khiến máy tính thời đó không chạy nổi",
-      "Bản chất chỉ tạo ra ranh giới quyết định tuyến tính phẳng, hoàn toàn bất lực trước các bài toán phi tuyến như hàm logic XOR",
+      "Bản chất chỉ tạo ra ranh giới quyết định tuyến tính phẳng, hoàn toàn bất lực trước các bài toán phân tách phi tuyến như hàm logic XOR",
       "Thuật toán không thể lưu trữ trọng số trên đĩa từ",
       "Perceptron yêu cầu tất cả đầu vào phải là số thực liên tục"
     ],
     "answer": 1,
-    "explanation": "Năm 1969, cuốn sách 'Perceptrons' của Marvin Minsky và Seymour Papert đã chứng minh mặt toán học rằng Perceptron đơn tầng chỉ giải được bài toán tách biệt tuyến tính và không thể học được hàm XOR đơn giản, dẫn đến giai đoạn AI Winter đầu tiên.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Năm 1957:** Frank Rosenblatt phát minh ra **Perceptron** đơn tầng và tuyên bố nó sẽ sớm biết suy nghĩ như con người.\n* **Cú sốc năm 1969:** Hai nhà khoa học Marvin Minsky và Seymour Papert xuất bản cuốn sách kinh điển *\"Perceptrons\"*, chứng minh toán học chặt chẽ rằng một nơ-ron Perceptron đơn tầng chỉ có thể vạch ra một đường thẳng hoặc siêu phẳng tuyến tính, **hoàn toàn bất lực không thể phân loại được hàm logic XOR** (một bài toán phi tuyến tính vô cùng đơn giản).\n* Cuốn sách này đã khiến các cơ quan tài trợ cắt sạch ngân sách nghiên cứu mạng nơ-ron, đẩy ngành AI bước vào thời kỳ **Mùa đông AI thứ nhất (AI Winter)** kéo dài suốt hơn một thập kỷ.",
     "slideRef": "Slide Chương 1, Trang 7-8"
   },
   {
@@ -733,12 +733,12 @@ window.QUESTION_BANK = [
     "question": "Công việc chính của bước 'Triển khai và Giám sát' (Deployment & Monitoring) trong quy trình 6 bước Machine Learning là gì?",
     "options": [
       "Viết báo cáo tiểu luận và nộp mã nguồn cho giảng viên",
-      "Đóng gói mô hình thành dịch vụ API/phần mềm phục vụ người dùng thực tế và theo dõi độ trễ, sai số, trôi dạt dữ liệu trong môi trường production",
+      "Đóng gói mô hình thành dịch vụ API/phần mềm phục vụ người dùng thực tế và liên tục theo dõi độ trễ, sai số, trôi dạt dữ liệu trong môi trường production",
       "Thực hiện phân tích thành phần chính PCA trên toàn bộ tập dữ liệu",
       "Lập trình thêm các câu lệnh if-else để ghi đè kết quả mô hình"
     ],
     "answer": 1,
-    "explanation": "Bước cuối cùng là đưa mô hình vào hệ thống thực tế (qua API/Microservice), đồng thời thiết lập hệ thống cảnh báo, giám sát chất lượng dự đoán và phát hiện Data Drift / Concept Drift để cập nhật mô hình kịp thời.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Một mô hình dù đạt độ chính xác $99\\%$ trong phòng thí nghiệm (Jupyter Notebook) nhưng nếu không được đưa vào thực tế thì chỉ là con số trên giấy.\n* **Deployment (Triển khai):** Đóng gói mô hình thành REST API / Docker Container hoặc nhúng trực tiếp vào ứng dụng web/mobile để xử lý dữ liệu của người dùng thật.\n* **Monitoring (Giám sát):** Thiết lập hệ thống telemetry theo dõi độ trễ (latency), tỷ lệ lỗi, và đặc biệt là giám sát hiện tượng suy giảm độ chính xác do **Data Drift** và **Concept Drift** để kịp thời kích hoạt tái huấn luyện (Retrain).",
     "slideRef": "Slide Chương 1, Trang 67-68"
   },
   {
@@ -753,157 +753,157 @@ window.QUESTION_BANK = [
       "Phát hiện xem mô hình có bị quá nhạy cảm với việc chọn mẫu dữ liệu cụ thể hay không"
     ],
     "answer": 2,
-    "explanation": "K-Fold Cross-Validation yêu cầu huấn luyện mô hình K lần độc lập trên K tập con, do đó thời gian tính toán tăng lên gấp K lần chứ không thể giảm đi.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bản chất của K-Fold Cross-Validation:** Dữ liệu được chia thành $K$ phần bằng nhau. Thuật toán phải **huấn luyện mô hình $K$ lần độc lập**, mỗi lần dùng $K-1$ phần để train và $1$ phần còn lại để test.\n* 👉 Do đó, **thời gian tính toán và chi phí phần cứng sẽ TĂNG LÊN gấp $K$ lần** (chứ không hề giảm đi). Đây chính là nhược điểm đánh đổi lớn nhất của K-Fold để đổi lấy sự đánh giá khách quan, tin cậy và không phụ thuộc vào may rủi của một lần chia tập duy nhất.",
     "slideRef": "Slide Chương 1, Trang 58-60"
   },
   {
     "id": 31,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Bốn chiều chất lượng dữ liệu được đề cập trong bài giảng gồm những yếu tố nào?",
+    "question": "Bốn chiều chất lượng dữ liệu cốt lõi trong bước Thu thập và Tiền xử lý dữ liệu bao gồm những yếu tố nào?",
     "options": [
-      "Tính đầy đủ, Tính đồng nhất, Tính toàn vẹn, Tính kịp thời",
-      "Độ chính xác, Độ nhạy, Độ đặc hiệu, F1-score",
-      "Tính tuyến tính, Tính chuẩn tắc, Tính độc lập, Phương sai đồng nhất",
-      "Số dòng, Số cột, Dung lượng file, Định dạng file"
+      "Tính đầy đủ (Completeness), Tính đồng nhất (Consistency), Tính toàn vẹn (Integrity), Tính kịp thời (Timeliness)",
+      "Độ chính xác (Accuracy), Độ nhạy (Recall), F1-score, Ma trận nhầm lẫn",
+      "Số lượng dòng, Số lượng cột, Dung lượng file, Định dạng file",
+      "Tốc độ mạng, Bộ nhớ RAM, Card đồ họa GPU, Dung lượng ổ cứng SSD"
     ],
     "answer": 0,
-    "explanation": "Bốn chiều chất lượng dữ liệu cốt lõi: Tính đầy đủ (Completeness), Tính đồng nhất (Consistency), Tính toàn vẹn (Integrity/Validity) và Tính kịp thời/Chính xác.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBốn chiều kích thước đo lường chất lượng dữ liệu chuẩn mực:\n1. **Tính đầy đủ (Completeness):** Mức độ dữ liệu có bị khuyết thiếu (Missing values) hay không. Bị thiếu quá nhiều sẽ làm mất tín hiệu dự đoán quan trọng.\n2. **Tính đồng nhất (Consistency):** Dữ liệu không mâu thuẫn định dạng hay đơn vị đo (ví dụ: dòng này ghi $1.75m$, dòng kia lại ghi $175cm$; cột ngày tháng lẫn lộn `DD/MM/YYYY` và `MM/DD/YYYY`).\n3. **Tính toàn vẹn / Hợp lệ (Integrity / Validity):** Tuân thủ logic thực tế (tuổi không thể là số âm $-5$; điểm thi đại học thang 10 không thể là $15/10$).\n4. **Tính kịp thời (Timeliness):** Dữ liệu phản ánh đúng thời điểm hiện tại. Dùng thói quen mua sắm năm 2010 để đoán nhu cầu năm 2026 sẽ bị sai lệch nghiêm trọng.",
     "slideRef": "Slide Chương 2, Trang 18-21"
   },
   {
     "id": 32,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Sai lệch lấy mẫu (Sampling Bias) xảy ra khi nào?",
+    "question": "Hiện tượng 'Sai lệch lấy mẫu' (Sampling Bias) xảy ra khi nào?",
     "options": [
-      "Khi kích thước file dữ liệu quá lớn",
-      "Khi tập mẫu thu thập không phản ánh đúng các nhóm và bối cảnh của bài toán thực tế",
-      "Khi dữ liệu có quá nhiều cột số",
-      "Khi chuẩn hóa dữ liệu bằng Z-score"
+      "Khi kích thước tập dữ liệu quá lớn khiến máy tính bị tràn RAM",
+      "Khi phương pháp lấy mẫu khiến một số nhóm đối tượng bị chọn quá nhiều trong khi nhóm khác bị bỏ sót, làm mất tính đại diện của tổng thể",
+      "Khi tất cả các biến đặc trưng đều có phân phối chuẩn",
+      "Khi nhãn mục tiêu là số thực liên tục thay vì biến rời rạc"
     ],
     "answer": 1,
-    "explanation": "Sai lệch lấy mẫu xảy ra khi mẫu thu thập bị thiên lệch, không đại diện đầy đủ cho phân bố và các nhóm đối tượng trong miền bài toán.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Sampling Bias (Sai lệch lấy mẫu):** Xảy ra khi tập dữ liệu con (Sample) được thu thập **không đại diện trung thực cho toàn bộ dân số (Population)**.\n* 💡 **Ví dụ đời thường:** Bạn làm khảo sát *\"Thu nhập trung bình của người dân TP.HCM\"* nhưng lại cử nhân viên ra phát phiếu ở sảnh trung tâm thương mại cao cấp Quận 1 vào 2h chiều ngày làm việc:\n  * Người tham gia chủ yếu là giới nhà giàu, người rảnh rỗi hoặc du khách.\n  * Toàn bộ giới công nhân, sinh viên, viên chức văn phòng vắng mặt.\n  * Kết quả thu được trung bình 80 triệu/tháng $implies$ Dữ liệu bị thiên lệch nặng nề, đem kết quả này đi huấn luyện mô hình sẽ cho ra những phán đoán sai lệch nghiêm trọng!",
     "slideRef": "Slide Chương 2, Trang 9-11"
   },
   {
     "id": 33,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Khi một thuộc tính có tỷ lệ giá trị bị thiếu (Missing) lên tới hơn 80% và không đóng vai trò sống còn, chiến lược xử lý tốt nhất là gì?",
+    "question": "Khi một thuộc tính (cột) trong bảng dữ liệu bị thiếu giá trị (Missing data) lên tới hơn $60\\% - 70\\%$, biện pháp xử lý chuẩn mực nhất là gì?",
     "options": [
-      "Xóa bỏ toàn bộ các dòng có chứa dữ liệu thiếu",
-      "Điền giá trị trung bình (Mean) vào tất cả các ô thiếu",
-      "Loại bỏ thuộc tính (cột) đó khỏi tập dữ liệu",
-      "Tạo ra 80% dữ liệu giả mạo"
+      "Bắt buộc xóa toàn bộ tập dữ liệu và hủy bỏ dự án",
+      "Điền bằng giá trị trung bình cộng (Mean) của các mẫu còn lại",
+      "Loại bỏ thuộc tính (cột) đó khỏi tập dữ liệu huấn luyện (Feature Deletion)",
+      "Nhân đôi tất cả các giá trị của các cột khác"
     ],
     "answer": 2,
-    "explanation": "Khi phần lớn giá trị của một thuộc tính bị khuyết (> 70-80%) và không phải biến cốt lõi, loại bỏ thuộc tính đó là giải pháp an toàn nhất để tránh đưa nhiễu vào mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBa chiến lược xử lý dữ liệu khuyết thiếu:\n* **Xóa dòng (Row Deletion):** Chỉ nên dùng khi số lượng dòng thiếu **rất ít ($< 3\\% - 5\\%$)** và dữ liệu thiếu hoàn toàn ngẫu nhiên.\n* **Điền thay thế (Imputation):** Áp dụng khi cột bị thiếu ở mức vừa phải ($< 30\\% - 40\\%$) bằng Mean, Median hoặc Mode.\n* **Xóa cột (Feature Deletion):** Khi một cột bị **khuyết quá nặng (trên $60\\% - 70\\%$)**, thông tin thực tế còn lại quá ít, việc cố tình điền vào sẽ tự tạo ra dữ liệu giả mạo (nhiễu nhân tạo). Cách an toàn nhất là loại bỏ hoàn toàn thuộc tính này.",
     "slideRef": "Slide Chương 2, Trang 25"
   },
   {
     "id": 34,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Khi một thuộc tính số có phân phối bị lệch mạnh hoặc chứa nhiều giá trị ngoại lai cực đoan (Outliers), ta nên điền dữ liệu thiếu bằng đại lượng nào?",
+    "question": "Trong một cột dữ liệu số bị lệch phân phối mạnh (Skewed) hoặc chứa nhiều giá trị ngoại lai cực đoan (Outliers), ta nên điền dữ liệu khuyết bằng đại lượng nào?",
     "options": [
-      "Giá trị trung bình (Mean)",
+      "Giá trị trung bình cộng (Mean)",
       "Giá trị trung vị (Median)",
-      "Giá trị 0",
-      "Giá trị lớn nhất (Max)"
+      "Giá trị lớn nhất (Maximum)",
+      "Số 0 trong mọi trường hợp"
     ],
     "answer": 1,
-    "explanation": "Trung vị (Median) là đại lượng thống kê vững (robust), không bị kéo lệch bởi các giá trị ngoại lai cực đoan như giá trị trung bình (Mean).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết (⚠️ BẪY THI KINH ĐIỂN):\n* 💼 **Ví dụ phòng kế toán:** 5 nhân viên lương $10, 11, 12, 12, 13$ triệu; có 1 Tổng giám đốc ngồi nhờ lương $\\mathbf{500}$ triệu.\n  * $\\text{Mean} = \\frac{10+11+12+12+13+500}{6} = 93$ triệu! $\\implies$ Vô lý hết sức, không có nhân viên nào lương 93 triệu cả.\n  * $\\text{Median} = 12$ triệu! $\\implies$ Phản ánh cực kỳ trung thực mức lương phổ biến của nhân viên.\n* 🏆 **Quy tắc thi:**\n  * Phân phối chuẩn, đối xứng, không ngoại lai $\\implies$ Điền **Mean**.\n  * Bị lệch hoặc có **Ngoại lai (Outliers)** $implies$ Bắt buộc điền **Median (Trung vị)**!",
     "slideRef": "Slide Chương 2, Trang 26"
   },
   {
     "id": 35,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Khẳng định nào sau đây là ĐÚNG khi nói về giá trị ngoại biên (Outliers)?",
+    "question": "Sự khác biệt căn bản giữa Nhiễu (Noise) và Điểm ngoại biên (Outliers) là gì?",
     "options": [
-      "Mọi giá trị ngoại biên đều là lỗi nhập liệu và bắt buộc phải xóa bỏ",
-      "Ngoại biên là quan sát khác biệt lớn so với phần lớn mẫu, nhưng có thể phản ánh tín hiệu thực tế quan trọng (như gian lận tài chính)",
-      "Ngoại biên luôn làm tăng độ chính xác của mô hình",
-      "Ngoại biên chỉ xuất hiện ở dữ liệu danh mục"
+      "Nhiễu luôn là số nguyên, ngoại biên luôn là số thực",
+      "Nhiễu là các sai số đo lường ngẫu nhiên vô nghĩa; Ngoại biên là các quan sát thực tế khác biệt lớn nhưng có thể mang tín hiệu vô cùng quan trọng",
+      "Nhiễu chỉ có trong ảnh, ngoại biên chỉ có trong bảng số",
+      "Cả hai đều là lỗi và bắt buộc phải xóa bỏ ngay lập tức"
     ],
     "answer": 1,
-    "explanation": "Không phải ngoại biên nào cũng là lỗi cần xóa. Trong nhiều bài toán như phát hiện gian lận hay phát hiện xâm nhập mạng, chính các quan sát ngoại biên lại là thông tin quý giá nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nhiễu (Noise):** Là lỗi kỹ thuật, sai số phần cứng ngẫu nhiên (ví dụ nhiệt kế chập chờn nhảy vọt lên $90^\\circ C$ trong 1 giây rồi hạ về $30^\\circ C$). Nhiễu là rác, cần loại bỏ hoặc làm mịn.\n* **Ngoại biên (Outliers):** Là các sự kiện khác biệt thực sự xảy ra ngoài đời.\n* ⚠️ **Lưu ý trắc nghiệm:** Không phải ngoại lai nào cũng nên xóa! Trong bài toán **Phát hiện gian lận thẻ tín dụng**, các giao dịch bình thường chiếm $99.99\\%$. Chính những cú quẹt thẻ \"ngoại biên\" dị biệt bất thường lại là **mục tiêu quý giá nhất** mà mô hình cần bắt được!",
     "slideRef": "Slide Chương 2, Trang 28"
   },
   {
     "id": 36,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Công thức chuẩn hóa Min-Max Normalization đưa giá trị về đoạn nào?",
+    "question": "Phương pháp Chuẩn hóa Min-Max (Min-Max Normalization) co toàn bộ giá trị của một thuộc tính về khoảng đóng tiêu chuẩn nào?",
     "options": [
-      "[-1, 1]",
-      "[0, 1]",
-      "(-∞, +∞)",
-      "[0, 100]"
+      "$[-1, 1]$",
+      "$[0, 1]$",
+      "$(-\\infty, +\\infty)$",
+      "$[0, 100]$"
     ],
     "answer": 1,
-    "explanation": "Min-Max Normalization biến đổi dữ liệu theo công thức x' = (x - x_min) / (x_max - x_min), đưa toàn bộ giá trị về đoạn chuẩn [0, 1].",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Chuẩn hóa Min-Max:\n$$x' = \\frac{x - x_{\\min}}{x_{\\max} - x_{\\min}}$$\n* Khi $x = x_{\\min} \\implies x' = 0$.\n* Khi $x = x_{\\max} \\implies x' = 1$.\n* Toàn bộ miền giá trị của biến được ánh xạ tuyến tính về khoảng đóng **$[0, 1]$**.",
     "slideRef": "Slide Chương 2, Trang 33"
   },
   {
     "id": 37,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Nhược điểm lớn nhất của phương pháp chuẩn hóa Min-Max Normalization là gì?",
+    "question": "Nhược điểm chí mạng lớn nhất của phương pháp Chuẩn hóa Min-Max là gì?",
     "options": [
-      "Tính toán quá chậm",
-      "Làm mất hoàn toàn thứ tự của các mẫu",
-      "Rất nhạy cảm với các giá trị ngoại lai cực đoan (Outliers)",
-      "Không thể áp dụng cho biến số thực"
+      "Thời gian tính toán quá lâu",
+      "Không thể áp dụng được cho số dương",
+      "Cực kỳ nhạy cảm với các giá trị ngoại lai cực đoan (Outliers)",
+      "Làm thay đổi số lượng cột của bảng dữ liệu"
     ],
     "answer": 2,
-    "explanation": "Nếu tập dữ liệu xuất hiện một giá trị ngoại lai cực lớn, x_max sẽ bị kéo vọt lên, làm cho phần lớn các giá trị bình thường bị nén dồn về sát số 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hiểm họa Outliers đối với Min-Max:** Công thức phụ thuộc trực tiếp vào $x_{\\min}$ và $x_{\\max}$.\n* Nếu tập dữ liệu tuổi từ $20$ đến $60$, tự nhiên có một cụ già nhập nhầm thành $1000$ tuổi ($x_{\\max} = 1000$):\n  * Tất cả các bạn trẻ $20 - 60$ tuổi sẽ bị ép dồn hết thành một nhúm $0.02, 0.03, 0.04$ sát số $0$!\n  * Khoảng cách giữa các mẫu bình thường bị triệt tiêu hoàn toàn, khiến mô hình mất sạch khả năng phân biệt.",
     "slideRef": "Slide Chương 2, Trang 33, 36"
   },
   {
     "id": 38,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Phương pháp Standardization (Z-score) biến đổi thuộc tính về phân phối có tính chất gì?",
+    "question": "Sau khi áp dụng phương pháp Chuẩn hóa Z-score (Standardization), thuộc tính mới sẽ có phân phối với kỳ vọng và độ lệch chuẩn bằng bao nhiêu?",
     "options": [
-      "Giá trị nhỏ nhất bằng 0, lớn nhất bằng 1",
-      "Trung bình bằng 0 và độ lệch chuẩn (phương sai) bằng 1",
-      "Trung bình bằng 1 và phương sai bằng 0",
-      "Mọi giá trị đều là số nguyên dương"
+      "Trung bình bằng 1 và độ lệch chuẩn bằng 0",
+      "Trung bình $\\mu = 0$ và độ lệch chuẩn $\\sigma = 1$ (phương sai $\\sigma^2 = 1$)",
+      "Trung bình bằng 0.5 và phương sai bằng 0.25",
+      "Miền giá trị luôn bị chặn cứng trong $[0, 1]$"
     ],
     "answer": 1,
-    "explanation": "Z-score chuẩn hóa theo công thức z = (x - μ) / σ, đưa thuộc tính về thang đo có trung bình μ = 0 và độ lệch chuẩn σ = 1.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Chuẩn hóa Z-score (Standardization):\n$$z = \\frac{x - \\mu}{\\sigma}$$\n* Đại lượng $z$ đo lường: Điểm dữ liệu $x$ đang cách giá trị trung bình $\\mu$ một khoảng bằng bao nhiêu lần độ lệch chuẩn $\\sigma$.\n* Sau khi chuẩn hóa, biến mới luôn có **kỳ vọng trung bình bằng $0$** và **độ lệch chuẩn (phương sai) bằng $1$**.",
     "slideRef": "Slide Chương 2, Trang 35-36"
   },
   {
     "id": 39,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Một thuộc tính có x_min = 10, x_max = 50. Một mẫu có giá trị x = 30 thì sau khi chuẩn hóa Min-Max sẽ nhận giá trị bao nhiêu?",
+    "question": "Một thuộc tính có $x_{\\min} = 10$ và $x_{\\max} = 50$. Áp dụng Chuẩn hóa Min-Max, giá trị $x = 30$ sẽ được chuyển đổi thành bao nhiêu?",
     "options": [
-      "0.25",
-      "0.50",
-      "0.75",
-      "0.40"
+      "$0.25$",
+      "$0.50$",
+      "$0.75$",
+      "$0.40$"
     ],
     "answer": 1,
-    "explanation": "Áp dụng công thức: x' = (30 - 10) / (50 - 10) = 20 / 40 = 0.5.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Min-Max:\n$$x' = \\frac{x - x_{\\min}}{x_{\\max} - x_{\\min}} = \\frac{30 - 10}{50 - 10} = \\frac{20}{40} = 0.50$$",
     "slideRef": "Slide Chương 2, Trang 33"
   },
   {
     "id": 40,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Một thuộc tính có trung bình μ = 40, độ lệch chuẩn σ = 5. Giá trị x = 55 sau khi chuẩn hóa Z-score là bao nhiêu?",
+    "question": "Một phân phối điểm thi có trung bình $\\mu = 40$ và độ lệch chuẩn $\\sigma = 5$. Điểm số $x = 55$ sau khi chuẩn hóa Z-score sẽ nhận giá trị $z$ bằng bao nhiêu?",
     "options": [
-      "1.5",
-      "2.0",
-      "3.0",
-      "2.5"
+      "$1.5$",
+      "$2.0$",
+      "$3.0$",
+      "$-3.0$"
     ],
     "answer": 2,
-    "explanation": "Áp dụng công thức Z-score: z = (55 - 40) / 5 = 15 / 5 = 3.0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Z-score:\n$$z = \\frac{x - \\mu}{\\sigma} = \\frac{55 - 40}{5} = \\frac{15}{5} = +3.0$$\n* Ý nghĩa: Học sinh này đạt mức điểm cao hơn điểm trung bình của cả lớp đúng 3 lần độ lệch chuẩn.",
     "slideRef": "Slide Chương 2, Trang 35"
   },
   {
@@ -912,43 +912,43 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
     "question": "Nguy cơ lớn nhất khi sử dụng Label Encoding cho biến danh mục không có thứ bậc (như Màu sắc: Đỏ, Xanh, Vàng) là gì?",
     "options": [
-      "Làm tăng số chiều của dữ liệu lên gấp 3 lần",
-      "Tạo ra một quan hệ thứ tự giả định vô lý giữa các giá trị (như Vàng > Xanh > Đỏ)",
-      "Làm mất dữ liệu của các màu hiếm gặp",
-      "Khiến mô hình không thể chạy được"
+      "Làm tăng số lượng cột lên gấp đôi",
+      "Vô tình tạo ra một quan hệ thứ tự và khoảng cách số học giả tạo giữa các danh mục ($2 > 1 > 0$)",
+      "Làm mất mát toàn bộ dữ liệu số thực",
+      "Khiến mô hình không thể hội tụ bằng Gradient Descent"
     ],
     "answer": 1,
-    "explanation": "Label Encoding gán các số nguyên (0, 1, 2) có thể khiến mô hình hiểu lầm rằng giá trị 2 lớn hơn và quan trọng hơn giá trị 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu mã hóa: `Đỏ = 0, Xanh = 1, Vàng = 2`.\n* Máy tính sẽ ngầm hiểu: $\\text{Vàng} > \\text{Xanh} > \\text{Đỏ}$, và thậm chí $\\text{Đỏ} (0) + \\text{Vàng} (2) = 2 \\times \\text{Xanh} (1)$!\n* Điều này phi lý về mặt logic. Do đó, **Label Encoding chỉ được dùng cho biến có thứ tự tự nhiên** (như Trình độ học vấn: Cấp 1, Cấp 2, Cấp 3, Đại học; hoặc Size áo: S, M, L, XL).",
     "slideRef": "Slide Chương 2, Trang 37"
   },
   {
     "id": 42,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Kỹ thuật One-Hot Encoding biến đổi một thuộc tính có K giá trị danh mục thành dạng biểu diễn nào?",
+    "question": "Kỹ thuật One-Hot Encoding biến đổi một thuộc tính có $K$ giá trị danh mục khác nhau thành cấu trúc như thế nào?",
     "options": [
-      "Một cột số nguyên duy nhất từ 1 đến K",
-      "K cột nhị phân riêng biệt, trong đó vị trí tương ứng nhận giá trị 1 và các vị trí khác nhận 0",
-      "Một ma trận hiệp phương sai kích thước K x K",
-      "Một vector xác suất liên tục có tổng bằng 1"
+      "Một cột duy nhất chứa các số nguyên từ $0$ đến $K-1$",
+      "$K$ cột nhị phân riêng biệt ($0$ hoặc $1$), trong đó tại mỗi dòng chỉ có duy nhất 1 cột nhận giá trị $1$",
+      "$K^2$ cột ma trận chuyển vị",
+      "Một vector số thực liên tục có độ dài bằng $K/2$"
     ],
     "answer": 1,
-    "explanation": "One-Hot Encoding tạo ra K cột nhị phân; mỗi mẫu nhận giá trị 1 ở cột danh mục tương ứng và 0 ở các cột còn lại.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Với $K$ trạng thái danh mục (ví dụ Hà Nội, Đà Nẵng, TP.HCM $\\to K = 3$), One-Hot Encoding sinh ra $3$ cột mới:\n  * Hà Nội: `[1, 0, 0]`\n  * Đà Nẵng: `[0, 1, 0]`\n  * TP.HCM: `[0, 0, 1]`\n* Các vector này trực giao và có khoảng cách đối xứng bình đẳng, không áp đặt thứ tự giả.",
     "slideRef": "Slide Chương 2, Trang 38"
   },
   {
     "id": 43,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Sự khác biệt căn bản giữa Feature Selection (Lựa chọn đặc trưng) và Feature Extraction (Rút trích đặc trưng) là gì?",
+    "question": "Sự khác biệt căn bản giữa Lựa chọn đặc trưng (Feature Selection) và Rút trích đặc trưng (Feature Extraction) là gì?",
     "options": [
-      "Feature Selection tạo ra không gian biểu diễn mới; Feature Extraction chỉ chọn lại các cột cũ",
-      "Feature Selection giữ lại tập con các thuộc tính ban đầu và loại bỏ biến dư thừa; Feature Extraction kết hợp các thuộc tính cũ để tạo ra các biểu diễn mới (như PCA)",
-      "Feature Selection chỉ dùng cho biến số; Feature Extraction chỉ dùng cho biến chữ",
-      "Hai khái niệm này hoàn toàn tương đương nhau"
+      "Selection tạo ra các đặc trưng hoàn toàn mới; Extraction giữ nguyên các biến cũ",
+      "Feature Selection chỉ giữ lại hoặc loại bỏ tập con các biến ban đầu; Feature Extraction dùng phép biến đổi toán học để tạo ra không gian đặc trưng mới có số chiều thấp hơn",
+      "Selection chỉ dùng cho hồi quy; Extraction chỉ dùng cho phân loại",
+      "Cả hai hoàn toàn giống nhau chỉ khác tên gọi"
     ],
     "answer": 1,
-    "explanation": "Selection là chọn lọc giữ nguyên một số thuộc tính gốc tốt nhất; Extraction là biến đổi toán học kết hợp các thuộc tính gốc để tạo ra các thuộc tính mới.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n| Tiêu chí | Feature Selection (Lựa chọn) | Feature Extraction (Rút trích) |\n| :--- | :--- | :--- |\n| **Bản chất** | **\"Sàng lọc & Giữ lại\"** | **\"Nhào nặn & Tạo mới\"** |\n| **Biến mới** | **KHÔNG tạo biến mới**, giữ nguyên ý nghĩa vật lý ban đầu. | **CÓ tạo ra các biến mới** (tổ hợp toán học từ các biến cũ). |\n| **Ví dụ** | Lasso ($L_1$), Lọc tương quan Pearson, RFE. | **PCA**, t-SNE, LDA. |",
     "slideRef": "Slide Chương 2, Trang 42-43"
   },
   {
@@ -957,73 +957,73 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
     "question": "Hiện tượng 'Lời nguyền số chiều' (Curse of Dimensionality) dẫn đến hệ quả tiêu cực nào sau đây?",
     "options": [
-      "Không gian dữ liệu trở nên cực kỳ thưa thớt và khoảng cách giữa các điểm kém phân biệt",
-      "Dữ liệu bị nén quá chặt làm các điểm dính vào nhau",
-      "Thời gian huấn luyện mô hình giảm đi đáng kể",
-      "Mô hình luôn bị Underfitting"
+      "Không gian trở nên cực kỳ thưa thớt (Sparse), khoảng cách giữa các cặp điểm đều trở nên xấp xỉ bằng nhau khiến các thuật toán dựa vào khoảng cách (KNN, K-Means) bị vô hiệu hóa",
+      "Dung lượng bộ nhớ giảm đi đáng kể",
+      "Mô hình không bao giờ bị Overfitting",
+      "Thời gian tính toán của mô hình giảm về 0"
     ],
     "answer": 0,
-    "explanation": "Khi số chiều tăng cao, thể tích không gian tăng vọt làm dữ liệu cực kỳ thưa, khoảng cách Euclidean mất dần khả năng phân biệt điểm gần/xa và chi phí tính toán bùng nổ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi số chiều $p$ tăng vọt lên hàng trăm, hàng nghìn chiều:\n1. **Thể tích không gian tăng theo cấp số nhân:** Dữ liệu trở nên cực kỳ thưa thớt như vài hạt cát giữa vũ trụ mênh mông.\n2. **Khoảng cách Euclidean bị bão hòa:** Khoảng cách giữa 2 điểm bất kỳ đều to như nhau, khiến KNN hoặc K-Means không thể phân biệt được điểm nào gần, điểm nào xa.\n3. **Mô hình bị Overfitting nặng:** Đòi hỏi số lượng dữ liệu lớn khủng khiếp để lấp đầy không gian.",
     "slideRef": "Slide Chương 2, Trang 50"
   },
   {
     "id": 45,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Thuật toán PCA (Principal Component Analysis) thuộc nhóm phương pháp học nào?",
+    "question": "Thuật toán Phân tích Thành phần Chính (PCA - Principal Component Analysis) thuộc nhóm phương pháp học nào?",
     "options": [
       "Học có giám sát (Supervised Learning)",
       "Học không giám sát (Unsupervised Learning)",
-      "Học tăng cường (Reinforcement Learning)",
-      "Học bán giám sát"
+      "Học bán giám sát (Semi-Supervised Learning)",
+      "Học tăng cường (Reinforcement Learning)"
     ],
     "answer": 1,
-    "explanation": "PCA là phương pháp học không giám sát dùng để giảm chiều dữ liệu, hoàn toàn không sử dụng nhãn y.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **PCA là Học không giám sát (Unsupervised Learning):**\n  * PCA **HOÀN TOÀN KHÔNG BIẾT VÀ KHÔNG SỬ DỤNG NHÃN $y$**!\n  * Nó chỉ nhìn vào cấu trúc hình học và sự phân tán của ma trận đặc trưng đầu vào $X$ để tìm các trục chiếu trực giao tối ưu.",
     "slideRef": "Slide Chương 2, Trang 53"
   },
   {
     "id": 46,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Mục tiêu cốt lõi của thuật toán PCA khi chiếu dữ liệu sang không gian mới là gì?",
+    "question": "Mục tiêu tối ưu hóa hình học cốt lõi của thuật toán PCA khi chiếu dữ liệu sang không gian mới là gì?",
     "options": [
-      "Tối đa hóa khoảng cách giữa các lớp có nhãn khác nhau",
-      "Bảo toàn tối đa phương sai (Variance) của dữ liệu trên các thành phần chính",
-      "Ép toàn bộ dữ liệu về phân phối chuẩn chuẩn tắc",
-      "Loại bỏ toàn bộ các điểm dữ liệu ngoại lai"
+      "Tối thiểu hóa khoảng cách giữa các tâm cụm",
+      "Bảo toàn tối đa phương sai (Variance) của dữ liệu, đồng thời triệt tiêu hoàn toàn tương quan giữa các trục mới (hiệp phương sai = 0)",
+      "Tối đa hóa số lượng mẫu dữ liệu",
+      "Ép tất cả các điểm dữ liệu nằm trên một đường tròn"
     ],
     "answer": 1,
-    "explanation": "PCA tìm các hướng chiếu trực giao sao cho dữ liệu có phương sai lớn nhất dọc theo các hướng đó (giữ lại tối đa lượng thông tin biến thiên).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHai mục tiêu tối thượng của PCA:\n1. **Bảo toàn phương sai tối đa (Maximize Variance):** Hướng nào mà các điểm dữ liệu tản mát rộng nhất thì chứa nhiều thông tin nhất $implies$ Chọn làm Thành phần chính 1 (PC1).\n2. **Triệt tiêu tương quan:** Các thành phần chính tiếp theo (PC2, PC3...) bắt buộc phải **vuông góc (trực giao)** với các thành phần trước đó, loại bỏ hoàn toàn thông tin dư thừa lặp lại giữa các biến.",
     "slideRef": "Slide Chương 2, Trang 53, 59"
   },
   {
     "id": 47,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Bước BẮT BUỘC phải thực hiện đầu tiên trong thuật toán PCA trước khi tính ma trận hiệp phương sai là gì?",
+    "question": "Bước tiền xử lý nào BẮT BUỘC phải thực hiện đầu tiên trong quy trình PCA trước khi tính ma trận hiệp phương sai?",
     "options": [
-      "Chuẩn hóa dữ liệu về [0, 1]",
-      "Tâm hóa dữ liệu (Data Centering) bằng cách trừ mỗi mẫu cho vector trung bình",
-      "Gán nhãn phân loại cho từng điểm",
-      "Xóa bỏ các cột có phương sai bằng 0"
+      "Chuẩn hóa Min-Max về khoảng $[0, 1]$",
+      "Tâm hóa dữ liệu (Data Centering) bằng cách lấy từng điểm trừ đi vector trung bình: $X_{centered} = X - \\bar{x}$",
+      "Mã hóa One-Hot toàn bộ bảng",
+      "Chia tập dữ liệu thành 10 Folds"
     ],
     "answer": 1,
-    "explanation": "Trước khi tính hiệp phương sai, dữ liệu bắt buộc phải được trừ vector trung bình để đưa tâm của đám mây dữ liệu về đúng gốc tọa độ (0, 0).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tâm hóa dữ liệu (Zero-centering):**\n  $$X_{centered} = X - \\bar{x}$$\n* Thao tác này giúp **dời toàn bộ đám mây dữ liệu về gốc tọa độ $(0, 0)$** mà không làm thay đổi hình dáng hay khoảng cách tương đối giữa các điểm.\n* Nếu không tâm hóa, công thức tính hiệp phương sai $\\Sigma = \\frac{1}{n-1} X^TX$ sẽ bị sai lệch hoàn toàn.",
     "slideRef": "Slide Chương 2, Trang 55, 60, 64"
   },
   {
     "id": 48,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Trong ma trận hiệp phương sai (Covariance Matrix) của dữ liệu đã tâm hóa, các phần tử nằm trên đường chéo chính thể hiện điều gì?",
+    "question": "Trong ma trận hiệp phương sai (Covariance Matrix $\\Sigma$) của dữ liệu đã tâm hóa, các phần tử nằm trên đường chéo chính biểu diễn đại lượng nào?",
     "options": [
-      "Mức độ tương quan giữa hai đặc trưng khác nhau",
-      "Phương sai của từng đặc trưng riêng lẻ",
-      "Vector trung bình của các đặc trưng",
-      "Các trị riêng eigenvalue"
+      "Mức độ tương quan giữa các cặp đặc trưng khác nhau",
+      "Phương sai (Variance) của từng đặc trưng riêng lẻ",
+      "Nghịch đảo của các giá trị trung bình",
+      "Tổng sai số bình phương phần dư"
     ],
     "answer": 1,
-    "explanation": "Đường chéo chính của ma trận hiệp phương sai biểu diễn phương sai (độ biến thiên) của từng đặc trưng; các phần tử ngoài đường chéo là hiệp phương sai giữa các cặp đặc trưng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMa trận hiệp phương sai $\\Sigma$ kích thước $(p \\times p)$:\n* **Đường chéo chính (vị trí $(j, j)$):** Là $\\text{Cov}(x_j, x_j) = \\text{Var}(x_j)$ — **Phương sai của thuộc tính thứ $j$**.\n* **Các phần tử ngoài đường chéo (vị trí $(j, k)$ với $j \\ne k$):** Là $\\text{Cov}(x_j, x_k)$ — **Hiệp phương sai giữa hai thuộc tính $j$ và $k$**.",
     "slideRef": "Slide Chương 2, Trang 56"
   },
   {
@@ -1032,358 +1032,358 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
     "question": "Trong bài toán PCA, Vector riêng (Eigenvector) và Trị riêng (Eigenvalue) của ma trận hiệp phương sai mang ý nghĩa hình học gì?",
     "options": [
-      "Eigenvector chỉ phương sai; Eigenvalue chỉ hướng của thành phần chính",
-      "Eigenvector chỉ hướng của thành phần chính mới; Eigenvalue biểu thị độ lớn phương sai của dữ liệu dọc theo hướng đó",
-      "Eigenvector là tọa độ tâm dữ liệu; Eigenvalue là số lượng mẫu quan sát",
-      "Eigenvector và Eigenvalue đều biểu thị sai số của mô hình"
+      "Eigenvector chỉ độ lớn; Eigenvalue chỉ hướng",
+      "Eigenvector xác định HƯỚNG của trục thành phần chính mới; Eigenvalue biểu thị ĐỘ LỚN PHƯƠNG SAI (lượng thông tin) dọc theo hướng đó",
+      "Cả hai đều biểu thị số lượng mẫu của tập train",
+      "Eigenvector là ma trận nghịch đảo của Eigenvalue"
     ],
     "answer": 1,
-    "explanation": "Eigenvector v xác định hướng của trục tọa độ mới (thành phần chính), còn eigenvalue λ đo lượng phương sai mà thành phần chính đó nắm giữ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhương trình đặc trưng: $\\Sigma v = \\lambda v$\n* **Vector riêng ($v$):** Là vector đơn vị định hình **HƯỚNG của trục tọa độ mới**.\n* **Trị riêng ($\\lambda$):** Là một số thực đo lường **ĐỘ LỚN PHƯƠNG SAI** của dữ liệu khi chiếu lên trục đó. Trị riêng càng lớn thì trục đó càng giữ lại nhiều thông tin quý giá!",
     "slideRef": "Slide Chương 2, Trang 57-59"
   },
   {
     "id": 50,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Sau khi tìm được các eigenvector và eigenvalue, bước tiếp theo trong PCA là gì?",
+    "question": "Sau khi tìm được các Trị riêng (Eigenvalues) và Vector riêng (Eigenvectors), bước tiếp theo trong quy trình PCA là gì?",
     "options": [
-      "Sắp xếp các eigenvector theo thứ tự eigenvalue giảm dần và chọn K eigenvector lớn nhất",
-      "Cộng tất cả các eigenvalue lại với nhau để tìm ma trận nghịch đảo",
-      "Nhân ma trận hiệp phương sai với vector nhãn y",
-      "Chia tất cả các eigenvalue cho số lượng mẫu n"
+      "Sắp xếp các Trị riêng theo thứ tự GIẢM DẦN ($\\lambda_1 \\ge \\lambda_2 \\ge \\dots \\ge \\lambda_p$) cùng các Vector riêng tương ứng",
+      "Tính đạo hàm bậc hai của ma trận hiệp phương sai",
+      "Xóa bỏ tất cả các Trị riêng có giá trị dương",
+      "Đổi dấu toàn bộ các phần tử của vector riêng"
     ],
     "answer": 0,
-    "explanation": "Ta sắp xếp các eigenvalue theo thứ tự giảm dần λ1 >= λ2 >= ... và chọn K vector riêng tương ứng để tạo ma trận chiếu không gian mới.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì mục tiêu của ta là giữ lại các hướng có phương sai lớn nhất:\n  * Ta xếp: $\\lambda_1 \\ge \\lambda_2 \\ge \\dots \\ge \\lambda_p \\ge 0$.\n  * Vector $v_1$ tương ứng với $\\lambda_1$ lớn nhất chính là **Thành phần chính 1 (PC1)**.\n  * Vector $v_2$ tương ứng với $\\lambda_2$ lớn nhì chính là **Thành phần chính 2 (PC2)**.",
     "slideRef": "Slide Chương 2, Trang 61, 65"
   },
   {
     "id": 51,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Tỷ lệ phương sai giải thích (Explained Variance Ratio - EVR) của thành phần chính thứ k được tính bằng công thức nào?",
+    "question": "Tỷ lệ phương sai giải thích (Explained Variance Ratio - EVR) của thành phần chính thứ $k$ được tính bằng công thức nào?",
     "options": [
-      "EVR_k = λ_k / n",
-      "EVR_k = λ_k / Σ(λ_j)",
-      "EVR_k = Σ(λ_j) / λ_k",
-      "EVR_k = √(λ_k)"
+      "$\\text{EVR}_k = \\lambda_k \\times \\sum_{j=1}^p \\lambda_j$",
+      "$\\text{EVR}_k = \\frac{\\lambda_k}{\\sum_{j=1}^p \\lambda_j}$",
+      "$\\text{EVR}_k = \\frac{\\sum_{j=1}^p \\lambda_j}{\\lambda_k}$",
+      "$\\text{EVR}_k = \\sqrt{\\lambda_k}$"
     ],
     "answer": 1,
-    "explanation": "EVR_k = λ_k / (λ_1 + λ_2 + ... + λ_p), thể hiện tỷ lệ phần trăm phương sai của toàn bộ dữ liệu mà thành phần chính thứ k giải thích được.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{EVR}_k = \\frac{\\lambda_k}{\\sum_{j=1}^p \\lambda_j}$$\n* **Ý nghĩa:** Cho biết thành phần chính thứ $k$ **nắm giữ bao nhiêu phần trăm thông tin (phương sai)** của toàn bộ bộ dữ liệu gốc $p$ chiều.",
     "slideRef": "Slide Chương 2, Trang 67"
   },
   {
     "id": 52,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Một ma trận dữ liệu 3 chiều có các trị riêng tính được là λ_1 = 6, λ_2 = 3, λ_3 = 1. Tỷ lệ phương sai giải thích của thành phần chính thứ nhất (PC1) là bao nhiêu?",
+    "question": "Một tập dữ liệu 3 chiều có các trị riêng tính được là $\\lambda_1 = 6.0, \\lambda_2 = 3.0, \\lambda_3 = 1.0$. Tỷ lệ phương sai giải thích của Thành phần chính 1 (PC1) là bao nhiêu?",
     "options": [
-      "30%",
-      "60%",
-      "90%",
-      "10%"
+      "$30\\%$",
+      "$60\\%$",
+      "$90\\%$",
+      "$10\\%$"
     ],
     "answer": 1,
-    "explanation": "Tổng các trị riêng: 6 + 3 + 1 = 10. Tỷ lệ của PC1: EVR_1 = 6 / 10 = 0.6 = 60%.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Tổng các trị riêng:\n  $$\\sum_{j=1}^3 \\lambda_j = 6.0 + 3.0 + 1.0 = 10.0$$\n* Tỷ lệ phương sai giải thích của PC1:\n  $$\\text{EVR}_1 = \\frac{6.0}{10.0} = 0.6 = 60\\%$$",
     "slideRef": "Slide Chương 2, Trang 67"
   },
   {
     "id": 53,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Tổng tỷ lệ phương sai giải thích (EVR) của toàn bộ p thành phần chính trong PCA luôn bằng bao nhiêu?",
+    "question": "Tổng tỷ lệ phương sai giải thích (EVR) của toàn bộ $p$ thành phần chính luôn luôn bằng bao nhiêu?",
     "options": [
-      "Phụ thuộc vào số chiều dữ liệu",
-      "Bằng số lượng mẫu n",
-      "Luôn bằng 1 (hay 100%)",
-      "Bằng 0"
+      "Bằng $0$",
+      "Phụ thuộc vào số lượng mẫu $n$",
+      "Luôn luôn bằng đúng $1.0$ (tức $100\\%$)",
+      "Bằng giá trị trung bình $\\mu$"
     ],
     "answer": 2,
-    "explanation": "Vì mẫu số là tổng của toàn bộ các eigenvalue, tổng tích lũy của tất cả p thành phần chính luôn luôn bằng 1 (100%).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nVì tử số là từng trị riêng và mẫu số là tổng của tất cả các trị riêng:\n$$\\sum_{k=1}^p \\text{EVR}_k = \\frac{\\sum_{k=1}^p \\lambda_k}{\\sum_{j=1}^p \\lambda_j} = 1.0 \\quad (100\\%)$$\n* Toàn bộ $p$ thành phần chính cộng lại luôn bảo toàn $100\\%$ phương sai của không gian gốc.",
     "slideRef": "Slide Chương 2, Trang 67"
   },
   {
     "id": 54,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Các thành phần chính (Principal Components) tạo bởi PCA có mối quan hệ hình học nào với nhau?",
+    "question": "Các thành phần chính (Principal Components) do thuật toán PCA tạo ra có mối quan hệ hình học và thống kê nào sau đây?",
     "options": [
-      "Chúng song song với nhau",
-      "Chúng trực giao (vuông góc) đôi một và không tương quan với nhau",
-      "Chúng cắt nhau tại một góc 45 độ",
-      "Chúng trùng nhau"
+      "Chúng song song với nhau và có tương quan bằng 1",
+      "Chúng trực giao (vuông góc) đôi một và có hiệp phương sai bằng 0 (triệt tiêu hoàn toàn tương quan tuyến tính)",
+      "Chúng cắt nhau tại góc 45 độ",
+      "Chúng luôn có độ dài bằng nhau và bằng vô cùng"
     ],
     "answer": 1,
-    "explanation": "Các thành phần chính trong PCA luôn trực giao đôi một (orthogonal), đảm bảo thông tin giữa các chiều mới không bị trùng lặp (hiệp phương sai bằng 0).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Trực giao đôi một (Orthogonal):** $v_i^T v_j = 0$ với mọi $i \\ne j$.\n* **Triệt tiêu tương quan:** Ma trận hiệp phương sai của dữ liệu trong không gian mới là ma trận đường chéo, nghĩa là mọi thành phần chính đều độc lập tuyến tính với nhau, loại bỏ hoàn toàn hiện tượng đa cộng tuyến.",
     "slideRef": "Slide Chương 2, Trang 54, 61"
   },
   {
     "id": 55,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Dữ liệu dạng văn bản thô (Text) thường được biểu diễn thành dạng số thông qua kỹ thuật nào sau đây?",
+    "question": "Dữ liệu dạng văn bản thô (Text) thường được biểu diễn thành các vector số học thông qua những kỹ thuật nào?",
     "options": [
-      "Min-Max Normalization",
-      "Túi từ (Bag-of-Words), TF-IDF hoặc Word Embeddings",
-      "Rời rạc hóa Z-score",
-      "Giải phương trình OLS"
+      "Chỉ dùng Min-Max Normalization",
+      "Túi từ (Bag-of-Words), TF-IDF hoặc Word Embeddings (Word2Vec, BERT embeddings)",
+      "Lập trình hướng đối tượng OOP",
+      "Giải thuật Dijkstra"
     ],
     "answer": 1,
-    "explanation": "Biểu diễn văn bản sang vector số thường dùng Bag-of-Words (BoW), TF-IDF hoặc các mô hình nhúng từ (Word Embeddings).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMáy tính không thể trực tiếp thực hiện phép toán trên ký tự văn bản:\n* **Bag-of-Words (BoW):** Đếm tần số xuất hiện của từng từ vựng trong văn bản.\n* **TF-IDF:** Cân nhắc trọng số từ vựng (từ xuất hiện nhiều trong câu nhưng hiếm trong kho tài liệu thì mang ý nghĩa quan trọng).\n* **Word Embeddings (Word2Vec, FastText, Transformer):** Ánh xạ từ ngữ vào không gian vector nhiều chiều phản ánh ngữ nghĩa học.",
     "slideRef": "Slide Chương 2, Trang 45"
   },
   {
     "id": 56,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Kỹ thuật rời rạc hóa (Binning / Discretization) thực hiện thao tác nào trên dữ liệu?",
+    "question": "Kỹ thuật Rời rạc hóa (Binning / Discretization) thực hiện thao tác biến đổi nào trên dữ liệu?",
     "options": [
-      "Gom các giá trị số liên tục thành các khoảng nhóm rời rạc (như Tuổi -> Nhóm tuổi)",
-      "Chuyển đổi dữ liệu danh mục thành số thực",
-      "Nhân các thuộc tính với nhau để tạo đa thức",
-      "Loại bỏ các giá trị trùng lặp"
+      "Gom các giá trị số liên tục thành các khoảng/nhóm danh mục (ví dụ Tuổi liên tục gom thành nhóm Trẻ, Trung niên, Già)",
+      "Xóa bỏ các cột có chứa số 0",
+      "Chuyển đổi văn bản thành chữ in hoa",
+      "Sắp xếp bảng dữ liệu theo thứ tự bảng chữ cái"
     ],
     "answer": 0,
-    "explanation": "Rời rạc hóa gom các giá trị liên tục thành các khoảng (bins), giúp một số mô hình xử lý hiệu quả hơn và giảm nhạy cảm với nhiễu nhỏ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Binning (Rời rạc hóa / Chia thùng):**\n  * Chia một biến số thực liên tục thành các khoảng giá trị rời rạc.\n  * 💡 **Ví dụ:** Cột Tuổi từ $0 - 100$ được chia thành: Nhóm $[0 - 18)$ (Trẻ em), $[18 - 60)$ (Trưởng thành), $[60 - 100]$ (Người cao tuổi).\n  * Giúp giảm độ nhạy với ngoại lai và cho phép mô hình học các phi tuyến đơn giản.",
     "slideRef": "Slide Chương 2, Trang 39"
   },
   {
     "id": 57,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Khi thu thập dữ liệu bằng kỹ thuật Crawling & Scraping trên web, thách thức lớn nhất đối với chất lượng dữ liệu là gì?",
+    "question": "Khi thu thập dữ liệu bằng kỹ thuật Crawling & Scraping trên mạng Internet, thách thức tiền xử lý lớn nhất là gì?",
     "options": [
-      "Dữ liệu hoàn toàn không có nhiễu",
-      "Dữ liệu lẫn nhiều mã HTML, quảng cáo, trùng lặp và cấu trúc không đồng nhất",
-      "Dữ liệu luôn được gán nhãn chính xác 100%",
-      "Không thể lưu trữ được trên đĩa cứng"
+      "Dữ liệu luôn luôn có sẵn định dạng số hoàn hảo",
+      "Dữ liệu bán cấu trúc lẫn nhiều tạp chất (thẻ HTML, quảng cáo rác, văn bản trùng lặp và thiếu cấu trúc chuẩn mực)",
+      "Không thể lưu trữ được vào file văn bản",
+      "Tất cả các trang web đều dùng cùng một chuẩn schema"
     ],
     "answer": 1,
-    "explanation": "Dữ liệu cào từ web chứa rất nhiều tạp chất (thẻ định dạng, nội dung rác, cấu trúc trang web thay đổi) đòi hỏi khâu tiền xử lý cực kỳ công phu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Dữ liệu cào web (Web Scraping) là dữ liệu thô bán cấu trúc:\n  * Trộn lẫn mã JavaScript, thẻ HTML (`<div>`, `<span>`), banner quảng cáo, menu điều hướng.\n  * Đòi hỏi quy trình bóc tách (Parsing), làm sạch (Regex cleaning), loại bỏ trùng lặp (Deduplication) cực kỳ công phu trước khi có thể huấn luyện mô hình.",
     "slideRef": "Slide Chương 2, Trang 15"
   },
   {
     "id": 58,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Phép chiếu PCA từ 2 chiều xuống 1 chiều thực hiện ánh xạ điểm dữ liệu như thế nào?",
+    "question": "Phép chiếu PCA từ không gian 2 chiều xuống không gian 1 chiều thực hiện ánh xạ các điểm dữ liệu như thế nào?",
     "options": [
-      "Xóa bỏ hoàn toàn tọa độ trục tung y",
-      "Chiếu vuông góc điểm dữ liệu đã tâm hóa lên đường thẳng xác định bởi vector riêng thứ nhất",
-      "Lấy trung bình cộng của 2 tọa độ",
-      "Nhân 2 tọa độ với nhau"
+      "Gán tất cả các điểm về gốc tọa độ $(0, 0)$",
+      "Chiếu vuông góc (trực giao) từng điểm dữ liệu đã tâm hóa lên đường thẳng thành phần chính 1 (PC1)",
+      "Xóa bỏ ngẫu nhiên 50% số điểm dữ liệu",
+      "Uốn cong không gian thành hình xoắn ốc"
     ],
     "answer": 1,
-    "explanation": "Chiếu xuống 1 chiều là phép chiếu trực giao các điểm dữ liệu đã tâm hóa lên trục của vector riêng thứ nhất (PC1).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi giảm chiều từ 2D xuống 1D:\n  * PCA tìm đường thẳng tốt nhất (PC1) sao cho tổng khoảng cách bình phương từ các điểm đến đường thẳng là nhỏ nhất (tương đương với phương sai các hình chiếu là lớn nhất).\n  * Mỗi điểm dữ liệu $x_i$ được **chiếu trực giao (vuông góc)** lên đường thẳng PC1, tọa độ mới là khoảng cách có hướng từ gốc tọa độ đến hình chiếu.",
     "slideRef": "Slide Chương 2, Trang 62, 66"
   },
   {
     "id": 59,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Đặc trưng dư thừa (Redundant Feature) được định nghĩa là gì?",
+    "question": "Đặc trưng dư thừa (Redundant Feature) được định nghĩa là gì trong quá trình Feature Engineering?",
     "options": [
-      "Đặc trưng có chứa nhiều giá trị âm",
-      "Đặc trưng lặp lại thông tin đã có ở một hoặc nhiều đặc trưng khác",
-      "Đặc trưng có giá trị trung bình bằng 0",
-      "Đặc trưng bị thiếu hoàn toàn dữ liệu"
+      "Đặc trưng chứa toàn bộ giá trị rỗng NaN",
+      "Đặc trưng lặp lại thông tin đã có ở một hoặc nhiều đặc trưng khác (có tương quan tuyến tính rất cao với các biến khác)",
+      "Đặc trưng có giá trị phương sai cực lớn",
+      "Đặc trưng là nhãn mục tiêu cần dự đoán"
     ],
     "answer": 1,
-    "explanation": "Đặc trưng dư thừa là thuộc tính lặp lại thông tin mà các thuộc tính khác đã mang lại, làm tăng số chiều và chi phí tính toán mà không bổ sung tín hiệu mới.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Đặc trưng dư thừa:** Ví dụ bảng dữ liệu có cả 2 cột:\n  * Cột 1: *Năm sinh*\n  * Cột 2: *Tuổi* (với $\\text{Tuổi} = 2026 - \\text{Năm sinh}$)\n* Cột Tuổi hoàn toàn không mang lại thêm bất kỳ thông tin mới nào cho mô hình! Nó gây ra hiện tượng **Đa cộng tuyến hoàn hảo**, làm phình to ma trận và khiến các thuật toán hồi quy bị bất ổn.",
     "slideRef": "Slide Chương 2, Trang 41, 47"
   },
   {
     "id": 60,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý và biểu diễn dữ liệu",
-    "question": "Tiêu chí nào sau đây thường được dùng để chọn số chiều K trong thuật toán PCA?",
+    "question": "Tiêu chí nào sau đây thường được dùng phổ biến nhất để lựa chọn số chiều $K$ cần giữ lại trong thuật toán PCA?",
     "options": [
-      "Chọn K sao cho tổng phương sai giải thích tích lũy (Cumulative EVR) đạt ngưỡng (ví dụ >= 90% hoặc 95%)",
-      "Luôn luôn chọn K = 1 trong mọi trường hợp",
-      "Chọn K sao cho số chiều mới bằng số chiều cũ",
-      "Chọn K bằng số lượng dòng dữ liệu"
+      "Chọn $K$ sao cho tổng tỷ lệ phương sai giải thích tích lũy (Cumulative EVR) đạt một ngưỡng mong muốn (thường từ $85\\% - 95\\%$), hoặc dùng đồ thị Scree Plot (phương pháp Elbow)",
+      "Luôn luôn chọn $K = 1$ trong mọi bài toán",
+      "Chọn $K$ bằng đúng số chiều ban đầu $p$",
+      "Chọn $K$ bằng số lượng mẫu $n$"
     ],
     "answer": 0,
-    "explanation": "Trong thực tế, người ta cộng dồn tỷ lệ EVR của các thành phần chính và chọn số chiều K nhỏ nhất sao cho giữ lại được 90% đến 95% tổng phương sai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHai phương pháp chuẩn mực để chọn số chiều $K$:\n1. **Ngưỡng phương sai tích lũy:** Cộng dồn tỷ lệ phương sai $\\sum_{k=1}^K \\text{EVR}_k \\ge 90\\%$ (hoặc $95\\%$). Nén giảm được số chiều tối đa mà vẫn giữ lại được $90\\%$ tinh hoa thông tin gốc.\n2. **Phương pháp Điểm uốn (Elbow / Scree Plot):** Vẽ biểu đồ trị riêng giảm dần. Chọn điểm mà đồ thị bắt đầu gãy khúc nằm ngang (phần phương sai còn lại chỉ là nhiễu không đáng kể).",
     "slideRef": "Slide Chương 2, Trang 67"
   },
   {
     "id": 261,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Trong 4 chiều đánh giá chất lượng dữ liệu, chiều nào phản ánh việc dữ liệu tuân thủ các quy tắc logic, ràng buộc định dạng và không mâu thuẫn giữa các bảng dữ liệu?",
+    "question": "Trong 4 chiều chất lượng dữ liệu, chiều nào phản ánh việc dữ liệu tuân thủ cùng một quy chuẩn, định dạng và đơn vị đo lường thống nhất trên toàn bộ hệ thống?",
     "options": [
       "Tính đầy đủ (Completeness)",
-      "Tính nhất quán (Consistency)",
+      "Tính nhất quán / đồng nhất (Consistency)",
       "Tính kịp thời (Timeliness)",
-      "Tính bảo mật (Confidentiality)"
+      "Tính khả chuyển (Portability)"
     ],
     "answer": 1,
-    "explanation": "Tính nhất quán (Consistency) bảo đảm không có sự mâu thuẫn hay xung đột logic giữa các trường dữ liệu (ví dụ: ngày sinh sau ngày lập tài khoản, hoặc tuổi là 25 nhưng trạng thái là 'đã nghỉ hưu 40 năm').",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tính đồng nhất / nhất quán (Consistency):** Đảm bảo không có sự mâu thuẫn nội tại về mặt biểu diễn hoặc quy ước trong cùng một tập dữ liệu:\n  * Chiều cao: Người ghi mét ($1.72m$), người ghi centimet ($172cm$).\n  * Ngày tháng: Cột ghi `YYYY-MM-DD`, cột ghi `DD/MM/YYYY`.\n  * Tiền tệ: Người ghi USD, người ghi VNĐ.\n* Chuẩn hóa tính đồng nhất là nhiệm vụ sống còn đầu tiên của bước làm sạch dữ liệu.",
     "slideRef": "Slide Chương 2, Trang 7-10"
   },
   {
     "id": 262,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Cơ chế dữ liệu khuyết Missing Completely at Random (MCAR) có đặc điểm cốt lõi nào?",
+    "question": "Cơ chế dữ liệu khuyết Missing Completely at Random (MCAR - Khuyết hoàn toàn ngẫu nhiên) có đặc điểm cốt lõi nào sau đây?",
     "options": [
-      "Xác suất bị thiếu của một giá trị phụ thuộc hoàn toàn vào chính giá trị thật của nó",
-      "Xác suất bị thiếu của một giá trị phụ thuộc vào các biến quan sát khác trong dữ liệu",
-      "Xác suất bị thiếu của một giá trị hoàn toàn độc lập với cả các biến quan sát lẫn chính giá trị bị thiếu đó",
-      "Chỉ xảy ra khi toàn bộ dòng dữ liệu bị xóa bỏ"
+      "Dữ liệu chỉ bị khuyết đối với những người có thu nhập cao",
+      "Xác suất dữ liệu bị thiếu phụ thuộc vào một biến quan sát khác trong bảng",
+      "Xác suất bị thiếu của một ô dữ liệu là hoàn toàn ngẫu nhiên, độc lập với cả giá trị của chính nó lẫn mọi biến số khác trong tập dữ liệu",
+      "Dữ liệu bị thiếu do thuật toán tự động xóa bỏ"
     ],
     "answer": 2,
-    "explanation": "MCAR xảy ra khi sự kiện mất dữ liệu là hoàn toàn ngẫu nhiên (ví dụ: mất điện đột ngột làm cảm biến ngừng ghi). Phân bố của các mẫu quan sát được và mẫu bị thiếu là giống nhau, do đó việc xóa bỏ mẫu MCAR không gây chệch hệ thống.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBa cơ chế dữ liệu khuyết thiếu theo lý thuyết của Rubin (1976):\n1. **MCAR (Missing Completely at Random):** Thiếu hoàn toàn ngẫu nhiên (ví dụ: gió thổi bay mất một tờ phiếu khảo sát, hoặc một gói tin mạng bị rơi ngẫu nhiên). Việc xóa các dòng MCAR không làm thiên lệch phân phối mẫu.\n2. **MAR (Missing at Random):** Khuyết có điều kiện (ví dụ: phụ nữ ít khai báo cân nặng hơn nam giới, nhưng sau khi kiểm soát biến giới tính thì tính chất thiếu là ngẫu nhiên).\n3. **MNAR (Missing Not at Random):** Khuyết không ngẫu nhiên (ví dụ: những người trốn thuế hoặc có thu nhập cực khủng luôn cố tình bỏ trống ô kê khai tài sản).",
     "slideRef": "Slide Chương 2, Trang 14-16"
   },
   {
     "id": 263,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Khi dữ liệu bị khuyết thuộc dạng Missing Not at Random (MNAR), ví dụ như người có thu nhập cực cao thường từ chối khai báo mức lương trong khảo sát, phương pháp xử lý nào là phù hợp nhất?",
+    "question": "Khi dữ liệu bị khuyết thuộc dạng Missing Not at Random (MNAR, ví dụ người thu nhập cực cao cố tình giấu thu nhập), cách xử lý nào sau đây là thông minh và giữ được tín hiệu dự đoán tốt nhất?",
     "options": [
-      "Xóa bỏ toàn bộ các dòng bị khuyết (Listwise deletion) mà không cần suy nghĩ",
-      "Điền bằng giá trị trung bình (Mean) mà không thêm thuộc tính nào khác",
-      "Điền giá trị khuyết kết hợp tạo thêm một cột cờ nhị phân 'Chỉ báo khuyết' (Missing Indicator) để mô hình học được tín hiệu từ sự vắng mặt",
-      "Nhân tất cả các cột khác với một hằng số"
+      "Bắt buộc xóa bỏ tất cả các dòng bị khuyết đó",
+      "Điền giá trị trung bình cộng Mean rồi coi như không có chuyện gì",
+      "Điền giá trị thay thế (như Median) kết hợp TẠO THÊM MỘT CỘT CỜ NHỊ PHÂN MỚI (Missing Indicator Flag: $1$ nếu bị thiếu, $0$ nếu có sẵn) để mô hình học được tín hiệu ẩn",
+      "Gán tất cả các ô thiếu thành số âm vô cùng"
     ],
     "answer": 2,
-    "explanation": "Với MNAR, bản thân việc giá trị bị thiếu mang một tín hiệu thông tin cực kỳ quan trọng (người giàu thường giấu thu nhập). Thêm một cột Missing Indicator (nhận giá trị 1 nếu thiếu, 0 nếu không thiếu) giúp mô hình tận dụng được thông tin ẩn này.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tín hiệu trong sự vắng mặt:** Khi dữ liệu là MNAR, **chính hành vi bỏ trống ô dữ liệu đã là một đặc trưng quý giá** (người bỏ trống ô thu nhập có xác suất là đại gia giàu có cao hơn người bình thường).\n* Nếu chỉ điền Median đơn thuần, ta đã xóa sạch dấu vết này.\n* **Kỹ thuật Missing Indicator:** Tạo cột cờ `is_income_missing`:\n  * Ô nào có sẵn số: điền bình thường, cờ $= 0$.\n  * Ô nào bị thiếu: điền Median vào ô thu nhập, đồng thời bật cờ $= 1$.\n  * Mô hình học máy sẽ sử dụng cột cờ này như một đặc trưng phân loại quan trọng!",
     "slideRef": "Slide Chương 2, Trang 16-18"
   },
   {
     "id": 264,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Trong phương pháp phát hiện ngoại lai bằng Quy tắc Hàng rào Tukey (Boxplot IQR), các giá trị được coi là ngoại lai cực đoan (Extreme Outliers) khi nằm ngoài khoảng nào?",
+    "question": "Trong phương pháp phát hiện ngoại lai bằng Quy tắc Hàng rào Tukey (Boxplot), ngưỡng xác định 'Ngoại lai cực đoan' (Extreme Outliers) nằm ngoài khoảng nào sau đây?",
     "options": [
-      "[Q1 - 1.5 * IQR, Q3 + 1.5 * IQR]",
-      "[Q1 - 3.0 * IQR, Q3 + 3.0 * IQR]",
-      "[Mean - 2 * Std, Mean + 2 * Std]",
-      "[Min, Max]"
+      "$[Q_1 - 1.5 \\times \\text{IQR}, Q_3 + 1.5 \\times \\text{IQR}]$",
+      "$[Q_1 - 3.0 \\times \\text{IQR}, Q_3 + 3.0 \\times \\text{IQR}]$",
+      "$[\\mu - 2\\sigma, \\mu + 2\\sigma]$",
+      "$[x_{\\min}, x_{\\max}]$"
     ],
     "answer": 1,
-    "explanation": "Hàng rào trong (Mild Outliers) là [Q1 - 1.5*IQR, Q3 + 1.5*IQR]. Hàng rào ngoài (Extreme Outliers) là [Q1 - 3.0*IQR, Q3 + 3.0*IQR].",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nVới khoảng tứ phân vị $\\text{IQR} = Q_3 - Q_1$:\n* **Hàng rào trong (Ngoại lai nhẹ / Mild Outliers):** Nằm ngoài khoảng:\n  $$[Q_1 - 1.5 \\times \\text{IQR}, \\quad Q_3 + 1.5 \\times \\text{IQR}]$$\n* **Hàng rào ngoài (Ngoại lai cực đoan / Extreme Outliers):** Nằm ngoài khoảng:\n  $$[Q_1 - 3.0 \\times \\text{IQR}, \\quad Q_3 + 3.0 \\times \\text{IQR}]$$",
     "slideRef": "Slide Chương 2, Trang 23-25"
   },
   {
     "id": 265,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Kỹ thuật Winsorization xử lý các giá trị ngoại lai (outliers) theo cơ chế nào?",
+    "question": "Kỹ thuật Winsorization xử lý các giá trị ngoại lai (Outliers) theo cơ chế biến đổi nào?",
     "options": [
-      "Xóa bỏ hoàn toàn dòng chứa giá trị ngoại lai khỏi tập dữ liệu",
-      "Thay thế các giá trị vượt ngưỡng bằng giá trị của một phân vị xác định (ví dụ phân vị thứ 1% và 99%) thay vì loại bỏ chúng",
-      "Chuyển toàn bộ các giá trị ngoại lai thành giá trị 0",
-      "Tính căn bậc hai của toàn bộ cột dữ liệu"
+      "Xóa bỏ hoàn toàn các dòng dữ liệu có chứa ngoại lai",
+      "Thay thế các giá trị vượt ngưỡng bằng giá trị của phân vị giới hạn xác định (ví dụ co các giá trị nhỏ hơn phân vị 1% về phân vị 1%, và lớn hơn phân vị 99% về phân vị 99%)",
+      "Lấy logarit tự nhiên của toàn bộ cột",
+      "Nhân tất cả các ngoại lai với số 0"
     ],
     "answer": 1,
-    "explanation": "Winsorization (cắt ngọn / giới hạn phân vị) không xóa dòng dữ liệu mà 'ghim' các giá trị cực trị vượt ngưỡng về một giá trị trần/sàn xác định (ví dụ thay giá trị > 99th percentile bằng đúng giá trị ở 99th percentile), bảo toàn số lượng mẫu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Winsorization (Cắt ngọn / Co cụm phân vị):** Thay vì xóa bỏ mẫu làm giảm kích thước dữ liệu quý giá:\n  * Ta ấn định ngưỡng phân vị trên (ví dụ $99\\%$) và ngưỡng phân vị dưới (ví dụ $1\\%$).\n  * Mọi giá trị lớn hơn mốc $99\\%$ được ép co về bằng đúng giá trị mốc $99\\%$.\n  * Mọi giá trị nhỏ hơn mốc $1\\%$ được ép co về bằng đúng mốc $1\\%$.\n* Cách làm này giúp \"thuần hóa\" các điểm ngoại lai điên rồ mà vẫn giữ nguyên số lượng quan sát của tập dữ liệu.",
     "slideRef": "Slide Chương 2, Trang 26"
   },
   {
     "id": 266,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Hiện tượng 'Bẫy biến giả' (Dummy Variable Trap) xảy ra khi nào?",
+    "question": "Hiện tượng 'Bẫy biến giả' (Dummy Variable Trap) xảy ra khi nào trong quá trình mã hóa One-Hot Encoding?",
     "options": [
-      "Khi mã hóa một biến danh mục k trạng thái thành đúng k cột nhị phân trong mô hình hồi quy tuyến tính có hệ số chặn (intercept), dẫn đến đa cộng tuyến hoàn hảo",
-      "Khi áp dụng One-Hot Encoding cho cột có quá nhiều giá trị phân biệt",
-      "Khi chia tập train/test bằng hàm train_test_split mà quên đặt random_state",
-      "Khi dữ liệu nhãn bị đảo lộn giữa 0 và 1"
+      "Khi một biến danh mục có $K$ trạng thái nhưng ta lại tạo đủ cả $K$ cột nhị phân trong mô hình có chứa hệ số chặn bias ($w_0$), gây ra hiện tượng Đa cộng tuyến hoàn hảo (Multicollinearity)",
+      "Khi mã hóa chữ hoa thành chữ thường",
+      "Khi số lượng danh mục vượt quá 1000",
+      "Khi sử dụng GPU để train mạng nơ-ron"
     ],
     "answer": 0,
-    "explanation": "Nếu một biến danh mục có k trạng thái và ta tạo đủ k cột nhị phân, thì tổng k cột đó luôn bằng 1 cho mọi dòng (đúng bằng cột bias/intercept). Điều này gây ra Đa cộng tuyến hoàn hảo (Perfect Multicollinearity), khiến ma trận X^T X bị suy biến. Khắc phục bằng cách bỏ đi 1 cột (chỉ giữ k - 1 cột).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Dummy Variable Trap (Bẫy biến giả):**\n  * Giả sử biến Giới tính có 2 trạng thái: Nam và Nữ. Nếu ta tạo đủ 2 cột `Is_Nam` và `Is_Nu`:\n    $$\\text{Is\\_Nam} + \\text{Is\\_Nu} = 1$$\n  * Tổng 2 cột này luôn bằng $1$, trùng khớp hoàn hảo với cột bias hệ số chặn $x_0 = 1$!\n  * Ma trận $X^T X$ sẽ bị suy biến (không khả nghịch), khiến việc giải nghiệm OLS bị sụp đổ!\n* 🛡️ **Giải pháp:** Với biến có $K$ danh mục, ta **chỉ tạo $K-1$ cột biến giả** (ví dụ tham số `drop='first'` trong Scikit-learn), danh mục còn lại được làm mốc tham chiếu cơ sở (Base category).",
     "slideRef": "Slide Chương 2, Trang 34-36"
   },
   {
     "id": 267,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Khi áp dụng Target Encoding (Mean Encoding) cho biến danh mục có độ lực lượng cao (High Cardinality), nguy cơ lớn nhất là gì và cách phòng tránh tiêu chuẩn là gì?",
+    "question": "Khi áp dụng Target Encoding (Mean Encoding) cho biến danh mục có độ lực lượng cao (nhiều nhóm), nguy cơ tiềm ẩn lớn nhất là gì?",
     "options": [
-      "Mô hình bị Underfitting; Khắc phục bằng cách nhân đôi số chiều",
-      "Bị rò rỉ dữ liệu mục tiêu dẫn đến Overfitting nghiêm trọng; Khắc phục bằng Out-of-Fold (K-fold) target encoding kèm thêm nhiễu hoặc smoothing",
-      "Ma trận đặc trưng trở nên quá thưa; Khắc phục bằng cách dùng One-Hot Encoding",
-      "Mất mát toàn bộ thông tin thứ bậc; Khắc phục bằng Label Encoding"
+      "Làm bảng dữ liệu phình to thêm hàng nghìn cột",
+      "Bị rò rỉ dữ liệu mục tiêu (Target Leakage) dẫn đến Overfitting nghiêm trọng, đặc biệt ở các nhóm danh mục có quá ít mẫu",
+      "Khiến tất cả các giá trị biến thành số nguyên",
+      "Mất mát toàn bộ thông tin nhãn lớp"
     ],
     "answer": 1,
-    "explanation": "Target Encoding thay thế danh mục bằng giá trị trung bình của nhãn y. Nếu tính trên toàn tập train, mô hình sẽ học thuộc lòng nhãn gây overfit nặng. Tiêu chuẩn công nghiệp là dùng Out-of-fold target encoding kết hợp m-estimate smoothing để làm mượt các nhóm ít mẫu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Target Encoding:** Thay mỗi danh mục bằng giá trị trung bình của nhãn mục tiêu $y$ thuộc danh mục đó.\n* ⚠️ **Nguy cơ Overfitting & Target Leakage:** Nếu một danh mục hiếm chỉ xuất hiện duy nhất 1 lần trong tập Train với nhãn $y = 1$, mô hình sẽ gán cho danh mục đó giá trị $1.0$. Khi học, mô hình sẽ coi danh mục này là dự đoán $100\\%$ chính xác $\\implies$ Học vẹt!\n* Khắc phục: Phải dùng K-Fold Target Encoding và kỹ thuật làm mịn (Smoothing / Regularization).",
     "slideRef": "Slide Chương 2, Trang 37-38"
   },
   {
     "id": 268,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Bộ chuẩn hóa RobustScaler trong scikit-learn sử dụng đại lượng nào để căn chỉnh tâm và thang đo đặc trưng, giúp nó không bị ảnh hưởng bởi các ngoại lai?",
+    "question": "Bộ chuẩn hóa RobustScaler trong thư viện Scikit-learn sử dụng các đại lượng thống kê nào để chuẩn hóa đặc trưng nhằm chống lại sự ảnh hưởng của ngoại lai?",
     "options": [
-      "Giá trị Trung bình (Mean) và Độ lệch chuẩn (Standard Deviation)",
-      "Giá trị Nhỏ nhất (Min) và Lớn nhất (Max)",
-      "Trung vị (Median) và Khoảng tứ phân vị (Interquartile Range - IQR)",
-      "Giá trị Tuyệt đối lớn nhất (MaxAbs)"
+      "Giá trị nhỏ nhất $x_{\\min}$ và lớn nhất $x_{\\max}$",
+      "Giá trị trung bình cộng $\\mu$ và phương sai $\\sigma^2$",
+      "Trung vị (Median) và Khoảng tứ phân vị (Interquartile Range - $\\text{IQR} = Q_3 - Q_1$)",
+      "Độ dốc gradient và hệ số học learning rate"
     ],
     "answer": 2,
-    "explanation": "RobustScaler trừ đi Trung vị (Median) và chia cho IQR (Q3 - Q1). Cả Median và IQR đều là các thống kê kháng nhiễu (robust statistics), nên thang đo sau chuẩn hóa không bị méo mó khi có outliers cực đoan.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức của RobustScaler:\n$$x_{robust} = \\frac{x - \\text{Median}}{\\text{IQR}} = \\frac{x - Q_2}{Q_3 - Q_1}$$\n* Thay vì trừ Mean và chia Standard Deviation (vốn rất dễ bị méo mó bởi ngoại lai), RobustScaler sử dụng **Median** và **IQR** — hai đại lượng thống kê phi tham số có tính kháng cự ngoại lai (Robust) tuyệt đối.",
     "slideRef": "Slide Chương 2, Trang 43-45"
   },
   {
     "id": 269,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Cho thuộc tính x có min = 20, max = 100. Giá trị x = 60 sau khi chuẩn hóa Min-Max về khoảng [-1, 1] bằng công thức mở rộng sẽ là bao nhiêu?",
+    "question": "Cho thuộc tính $x$ có $x_{\\min} = 20$ và $x_{\\max} = 100$. Khi chuẩn hóa $x$ về đoạn $[-1, 1]$, giá trị $x = 60$ sẽ trở thành bao nhiêu?",
     "options": [
-      "0.5",
-      "0.0",
-      "-0.5",
-      "0.25"
+      "$-0.5$",
+      "$0.0$",
+      "$0.5$",
+      "$1.0$"
     ],
     "answer": 1,
-    "explanation": "Trước hết chuẩn hóa về [0, 1]: x_std = (60 - 20) / (100 - 20) = 40/80 = 0.5. Sau đó chuyển sang [-1, 1]: x_scaled = x_std * (1 - (-1)) + (-1) = 0.5 * 2 - 1 = 0.0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức chuẩn hóa về khoảng tùy ý $[a, b]$:\n$$x' = a + \\frac{x - x_{\\min}}{x_{\\max} - x_{\\min}} (b - a)$$\nVới $[a, b] = [-1, 1]$:\n* Bước 1: Chuẩn hóa về $[0, 1]$:\n  $$x_{std} = \\frac{60 - 20}{100 - 20} = \\frac{40}{80} = 0.5$$\n* Bước 2: Ánh xạ sang $[-1, 1]$:\n  $$x' = -1 + 0.5 \\times (1 - (-1)) = -1 + 0.5 \\times 2 = 0.0$$",
     "slideRef": "Slide Chương 2, Trang 41-42"
   },
   {
     "id": 270,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Cho một tập dữ liệu có giá trị trung bình mean = 50 và độ lệch chuẩn std = 10. Giá trị x = 75 sau khi chuẩn hóa Z-score (Standardization) sẽ nhận giá trị bằng bao nhiêu?",
+    "question": "Cho một tập dữ liệu có giá trị trung bình $\\mu = 50$ và độ lệch chuẩn $\\sigma = 10$. Điểm số $x = 75$ có giá trị chuẩn hóa Z-score là bao nhiêu?",
     "options": [
-      "1.5",
-      "2.0",
-      "2.5",
-      "0.75"
+      "$1.5$",
+      "$2.0$",
+      "$2.5$",
+      "$3.0$"
     ],
     "answer": 2,
-    "explanation": "Công thức Z-score: z = (x - mean) / std = (75 - 50) / 10 = 25 / 10 = 2.5.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Z-score:\n$$z = \\frac{x - \\mu}{\\sigma} = \\frac{75 - 50}{10} = \\frac{25}{10} = 2.5$$",
     "slideRef": "Slide Chương 2, Trang 42-44"
   },
   {
     "id": 271,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Thuật toán học máy nào sau đây KHÔNG bị ảnh hưởng bởi thang đo đặc trưng (Feature Scale) và do đó KHÔNG CẦN thực hiện Feature Scaling?",
+    "question": "Thuật toán học máy nào sau đây KHÔNG BỊ ẢNH HƯỞNG bởi thang đo của các đặc trưng (không bắt buộc phải chuẩn hóa Scale dữ liệu)?",
     "options": [
       "K-Nearest Neighbors (KNN)",
-      "Support Vector Machine (SVM) với kernel RBF",
-      "Mạng nơ-ron nhiều tầng (MLP)",
-      "Cây quyết định (Decision Tree)"
+      "Phân tích Thành phần Chính (PCA)",
+      "Hồi quy Tuyến tính có điều chuẩn Ridge ($L_2$)",
+      "Cây quyết định (Decision Tree) và Rừng ngẫu nhiên (Random Forest)"
     ],
     "answer": 3,
-    "explanation": "Cây quyết định phân nhánh dựa trên bất đẳng thức so sánh đơn biến x_j <= threshold. Phép biến đổi đơn điệu (như nhân với 100 hay cộng thêm 10) chỉ làm dịch chuyển ngưỡng chia tương ứng mà không làm thay đổi thứ tự hay độ tinh khiết Gini/Entropy.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Các thuật toán nhạy cảm với thang đo (BẮT BUỘC SCALE):**\n  * KNN, K-Means: Tính khoảng cách Euclidean.\n  * PCA: Tìm hướng có phương sai lớn nhất (cột nào đơn vị to phương sai sẽ giả vờ to).\n  * Ridge / Lasso: Phạt độ lớn trọng số $\\lambda w^2$.\n  * Gradient Descent trong Mạng nơ-ron: Bề mặt loss bị méo dạng elip dẹp nếu không scale.\n* **Cây quyết định (Decision Trees) & Mô hình Ensemble (Random Forest, XGBoost):**\n  * Phân nhánh tại mỗi nút chỉ dựa trên quy tắc so sánh ngưỡng đơn biến: *\"Nếu $x_j \\le \\theta$ thì rẽ trái\"*.\n  * Việc nhân thêm một số dương vào $x_j$ không hề làm thay đổi thứ tự tương quan, do đó **Cây quyết định hoàn toàn bất biến trước thang đo**!",
     "slideRef": "Slide Chương 2, Trang 40"
   },
   {
     "id": 272,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Khái niệm 'Lời nguyền số chiều' (Curse of Dimensionality) đề cập đến hiện tượng bất lợi nào khi số lượng đặc trưng d tăng lên quá lớn?",
+    "question": "Khái niệm 'Lời nguyền số chiều' (Curse of Dimensionality) đề cập đến hiện tượng nào sau đây?",
     "options": [
-      "Bộ nhớ RAM máy tính luôn bị tràn bất kể số dòng dữ liệu nhiều hay ít",
-      "Không gian dữ liệu trở nên cực kỳ thưa thớt, khoảng cách Euclidean giữa mọi cặp điểm có xu hướng tiệm cận nhau làm mất khả năng phân biệt",
-      "Mô hình học máy chuyển hoàn toàn sang trạng thái Underfitting",
-      "Tất cả các ma trận hiệp phương sai đều có định thức bằng 0"
+      "Máy tính bị hỏng khi lưu file CSV quá 100MB",
+      "Khi số chiều $p$ tăng cao, thể tích không gian tăng theo hàm mũ khiến mật độ dữ liệu trở nên cực kỳ thưa thớt, khoảng cách giữa các điểm trở nên vô nghĩa và nguy cơ Overfitting tăng vọt",
+      "Dữ liệu bị thiếu quá nhiều dòng",
+      "Thời gian tính toán của mô hình luôn luôn giảm dần"
     ],
     "answer": 1,
-    "explanation": "Khi số chiều d tăng, thể tích không gian tăng theo hàm mũ khiến các điểm dữ liệu nằm cách xa nhau và thưa thớt. Tỷ lệ khoảng cách xa nhất và gần nhất tiến dần về 1, khiến các thuật toán dựa trên khoảng cách (KNN, K-Means) mất tính hiệu quả.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi số chiều tăng từ 1D lên 100D, thể tích khối cầu nội tiếp trong hình lập phương tiệm cận dần về $0$.\n* Hầu hết thể tích không gian nằm tập trung ở các \"góc nhọn\" xa xôi của hình lập phương.\n* Mọi điểm dữ liệu đều trở thành các điểm cô lập nằm cách xa nhau xấp xỉ bằng nhau $\\implies$ Khiến các thuật toán dựa vào khoảng cách bị mất hoàn toàn khả năng phân biệt.",
     "slideRef": "Slide Chương 2, Trang 48-50"
   },
   {
@@ -1392,73 +1392,73 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
     "question": "Mục tiêu tối ưu hóa hình học cốt lõi của Thuật toán Phân tích Thành phần Chính (PCA) là gì?",
     "options": [
-      "Tìm trục chiếu sao cho cực đại hóa sai số giữa các lớp và cực tiểu hóa khoảng cách nội lớp",
-      "Tìm các hướng trực giao (Principal Components) sao cho phương sai của dữ liệu chiếu lên các hướng đó là lớn nhất (tương đương cực tiểu hóa sai số tái tạo)",
-      "Tìm một siêu phẳng phi tuyến cong để bao bọc toàn bộ dữ liệu",
-      "Phân chia các điểm dữ liệu thành đúng K cụm tách biệt"
+      "Tìm trục chiếu sao cho các lớp dữ liệu tách xa nhau nhất",
+      "Tìm hệ trục tọa độ mới trực giao sao cho dữ liệu chiếu lên có phương sai cực đại (Maximize Variance), tương đương với việc giảm thiểu tối đa sai số tái tạo bình phương (Minimize Reconstruction Error)",
+      "Tối đa hóa số lượng đặc trưng",
+      "Tối thiểu hóa ma trận nghịch đảo giả"
     ],
     "answer": 1,
-    "explanation": "PCA tìm các trục chiếu trực giao sao cho bảo toàn được nhiều phương sai (thông tin) của dữ liệu nhất có thể. Mặt toán học, việc tối đa hóa phương sai dữ liệu chiếu hoàn toàn tương đương với cực tiểu hóa sai số bình phương tái tạo (Reconstruction Error).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHai mặt của cùng một đồng xu trong PCA:\n1. **Góc nhìn Tối đa hóa phương sai (Variance Maximization):** Hướng có phương sai lớn nhất giữ lại nhiều sự biến thiên thông tin nhất của dữ liệu.\n2. **Góc nhìn Tối thiểu hóa sai số tái tạo (Reconstruction Error Minimization):** Tìm không gian con $K$ chiều sao cho khoảng cách vuông góc từ các điểm gốc đến hình chiếu của chúng là nhỏ nhất.",
     "slideRef": "Slide Chương 2, Trang 51-55"
   },
   {
     "id": 274,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Trước khi thực hiện phân rã ma trận để tìm các thành phần chính trong PCA, bước tiền xử lý nào là BẮT BUỘC?",
+    "question": "Trước khi thực hiện phân rã ma trận để tìm các thành phần chính trong PCA, thao tác tiền xử lý nào là BẮT BUỘC?",
     "options": [
-      "Chuyển toàn bộ dữ liệu thành số nguyên",
-      "Trừ đi giá trị trung bình của từng đặc trưng (Centering dữ liệu về 0) và chuẩn hóa thang đo nếu các đặc trưng khác đơn vị đo",
-      "Thực hiện One-Hot Encoding cho tất cả các cột",
-      "Chia tập dữ liệu thành 10 folds bằng StratifiedKFold"
+      "Mã hóa One-Hot toàn bộ dữ liệu",
+      "Trừ đi giá trị trung bình của từng đặc trưng (Data Centering / Zero-centered) để dời gốc tọa độ về trung tâm đám mây dữ liệu",
+      "Xóa bỏ tất cả các giá trị nhỏ hơn 0",
+      "Chia tập dữ liệu thành 3 phần Train, Val và Test"
     ],
     "answer": 1,
-    "explanation": "PCA bắt buộc dữ liệu phải được Zero-centered (trừ đi Mean của mỗi cột) để ma trận hiệp phương sai X^T X / (n - 1) tính toán đúng tâm. Đồng thời phải chuẩn hóa Standardize để tránh biến có thang đo lớn áp đảo hoàn toàn các thành phần chính.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$X_{centered} = X - \\bar{X}$$\n* Nếu không trừ vector trung bình $\\bar{X}$, hướng thành phần chính thứ nhất (PC1) sẽ bị kéo lệch về phía vector nối từ gốc tọa độ $(0, 0)$ đến trọng tâm dữ liệu thay vì bám theo hướng phân tán tự nhiên của dữ liệu!",
     "slideRef": "Slide Chương 2, Trang 53"
   },
   {
     "id": 275,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Một ma trận hiệp phương sai của tập dữ liệu 4 chiều có 4 trị riêng (eigenvalues) lần lượt là: λ1 = 5.0, λ2 = 3.0, λ3 = 1.5, λ4 = 0.5. Nếu giữ lại 2 thành phần chính đầu tiên (PC1 và PC2), tỷ lệ phương sai giải thích tích lũy (Cumulative Explained Variance Ratio) đạt bao nhiêu?",
+    "question": "Một ma trận hiệp phương sai của tập dữ liệu 4 chiều có 4 trị riêng: $\\lambda_1 = 5.0, \\lambda_2 = 3.0, \\lambda_3 = 1.5, \\lambda_4 = 0.5$. Tỷ lệ phương sai giải thích tích lũy nếu ta chọn giữ lại $K = 2$ thành phần chính đầu tiên là bao nhiêu?",
     "options": [
-      "50%",
-      "70%",
-      "80%",
-      "90%"
+      "$50\\%$",
+      "$70\\%$",
+      "$80\\%$",
+      "$95\\%$"
     ],
     "answer": 2,
-    "explanation": "Tổng các trị riêng = 5.0 + 3.0 + 1.5 + 0.5 = 10.0. Tỷ lệ phương sai của 2 thành phần đầu tiên = (5.0 + 3.0) / 10.0 = 8.0 / 10.0 = 80%.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Tổng toàn bộ các trị riêng:\n  $$\\sum_{j=1}^4 \\lambda_j = 5.0 + 3.0 + 1.5 + 0.5 = 10.0$$\n* Phương sai do 2 thành phần chính đầu tiên nắm giữ:\n  $$\\lambda_1 + \\lambda_2 = 5.0 + 3.0 = 8.0$$\n* Tỷ lệ phương sai tích lũy:\n  $$\\text{Cumulative EVR}_2 = \\frac{8.0}{10.0} = 0.8 = 80\\%$$\n* Nén dữ liệu từ 4 chiều xuống 2 chiều vẫn bảo toàn được $80\\%$ lượng thông tin gốc!",
     "slideRef": "Slide Chương 2, Trang 58-60"
   },
   {
     "id": 276,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Tính chất quan trọng nào sau đây là ĐÚNG đối với các vector thành phần chính (Principal Component eigenvectors) trong PCA?",
+    "question": "Tính chất quan trọng nào sau đây là ĐÚNG đối với các vector thành phần chính (Eigenvectors của ma trận hiệp phương sai) trong PCA?",
     "options": [
-      "Các vector thành phần chính có độ dài tùy ý và luôn song song với nhau",
-      "Các vector thành phần chính đôi một trực giao với nhau (tích vô hướng bằng 0) và có độ dài chuẩn hóa bằng 1 (trực chuẩn)",
-      "Vector thành phần chính thứ hai giải thích nhiều phương sai hơn vector thành phần chính thứ nhất",
-      "Các vector thành phần chính luôn trùng khớp với các trục tọa độ ban đầu của dữ liệu"
+      "Chúng song song với các trục tọa độ ban đầu",
+      "Chúng là một hệ vector trực chuẩn (Orthonormal): Đôi một vuông góc với nhau ($v_i^T v_j = 0$) và có độ dài chuẩn hóa bằng đúng 1 ($\\|v_i\\| = 1$)",
+      "Chúng luôn có các phần tử mang giá trị dương",
+      "Chúng có số lượng luôn lớn hơn số dòng của tập dữ liệu"
     ],
     "answer": 1,
-    "explanation": "Trong PCA, các vector riêng của ma trận hiệp phương sai là một hệ trực chuẩn (Orthonormal): vi^T * vj = 0 (với i != j) và ||vi|| = 1. Điều này đảm bảo các thành phần chính mới hoàn toàn không tương quan với nhau (Zero correlation).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Ma trận hiệp phương sai $\\Sigma$ là ma trận thực đối xứng $\\implies$ Theo định lý quang phổ (Spectral Theorem), các vector riêng luôn trực giao đôi một và có thể chuẩn hóa độ dài bằng 1:\n  $$v_i^T v_j = \\begin{cases} 1 & \\text{khi } i = j \\\\ 0 & \\text{khi } i \\ne j \\end{cases}$$\n* Điều này đảm bảo hệ trục tọa độ mới là một hệ trục Đề-các vuông góc chuẩn tắc.",
     "slideRef": "Slide Chương 2, Trang 54-56"
   },
   {
     "id": 277,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Để tái tạo lại xấp xỉ dữ liệu ban đầu X_approx (n x d) từ ma trận tọa độ đã nén Z (n x k) và ma trận trọng số chiếu W (d x k), kèm vector trung bình mean_vec (1 x d), công thức là gì?",
+    "question": "Để tái tạo lại xấp xỉ dữ liệu ban đầu $X_{approx}$ kích thước $(n \\times p)$ từ ma trận tọa độ nén $Z$ kích thước $(n \\times K)$ và ma trận chiếu $W$ kích thước $(p \\times K)$, ta dùng công thức nào?",
     "options": [
-      "X_approx = Z * W + mean_vec",
-      "X_approx = Z * W^T + mean_vec",
-      "X_approx = W * Z^T - mean_vec",
-      "X_approx = (Z^T * Z)^(-1) * W"
+      "$X_{approx} = Z W$",
+      "$X_{approx} = Z W^T + \\bar{x}$ (với $\\bar{x}$ là vector trung bình ban đầu)",
+      "$X_{approx} = (Z^T Z)^{-1} W$",
+      "$X_{approx} = W Z^T$"
     ],
     "answer": 1,
-    "explanation": "Phép chiếu nén: Z = (X - mean) * W. Do W là ma trận trực chuẩn nên ma trận nghịch đảo giả là W^T. Phép tái tạo xấp xỉ: X_approx = Z * W^T + mean.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Chiều xuôi (Nén dữ liệu từ $p$ chiều về $K$ chiều):**\n  $$Z = X_{centered} W = (X - \\bar{x}) W$$\n* **Chiều ngược (Tái tạo xấp xỉ từ $K$ chiều về $p$ chiều):**\n  Do các cột của $W$ là trực chuẩn ($W^T W = I$), ta nhân $W^T$ vào bên phải:\n  $$X_{centered\\_approx} = Z W^T$$\n  Cộng lại vector trung bình $\\bar{x}$ đã trừ lúc ban đầu:\n  $$X_{approx} = Z W^T + \\bar{x}$$",
     "slideRef": "Slide Chương 2, Trang 61-62"
   },
   {
@@ -1467,43 +1467,43 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
     "question": "Điểm khác biệt căn bản giữa Phân tích Thành phần Chính (PCA) và Phân tích Biệt thức Tuyến tính (LDA - Linear Discriminant Analysis) là gì?",
     "options": [
-      "PCA là thuật toán học không giám sát không dùng nhãn lớp; LDA là thuật toán học có giám sát sử dụng thông tin nhãn lớp để tối đa hóa khả năng phân tách giữa các lớp",
-      "PCA chỉ áp dụng cho dữ liệu văn bản, LDA chỉ áp dụng cho dữ liệu hình ảnh",
-      "PCA tạo ra các trục cong phi tuyến, LDA chỉ tạo ra các trục phẳng",
-      "PCA cần nhãn lớp để tính ma trận hiệp phương sai, LDA không cần"
+      "PCA là phương pháp Học không giám sát (không dùng nhãn $y$, chỉ tối đa hóa phương sai tổng thể); còn LDA là phương pháp Học có giám sát (sử dụng nhãn $y$ để tối đa hóa sự phân tách giữa các lớp)",
+      "PCA chỉ dùng cho ảnh; LDA chỉ dùng cho văn bản",
+      "PCA làm tăng số chiều; LDA làm giảm số chiều",
+      "PCA không dùng đại số tuyến tính; LDA dùng ma trận"
     ],
     "answer": 0,
-    "explanation": "PCA tìm hướng có phương sai lớn nhất mà không hề biết nhãn lớp (Unsupervised). LDA sử dụng thông tin nhãn y để tìm hướng tối đa hóa tỷ lệ phương sai giữa các lớp (Between-class variance) so với phương sai nội bộ từng lớp (Within-class variance) nhằm hỗ trợ bài toán phân loại tốt nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n| Tiêu chí | PCA (Unsupervised) | LDA (Supervised) |\n| :--- | :--- | :--- |\n| **Sử dụng nhãn $y$?** | **KHÔNG** (Học không giám sát). | **CÓ** (Học có giám sát). |\n| **Mục tiêu tối ưu** | Tối đa hóa phương sai dữ liệu tổng quát (tìm hướng tản mát rộng nhất). | Tối đa hóa khoảng cách giữa các tâm lớp, đồng thời tối thiểu hóa phương sai nội tại trong mỗi lớp (tìm hướng phân biệt lớp rõ ràng nhất). |",
     "slideRef": "Slide Chương 2, Trang 63-65"
   },
   {
     "id": 279,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Một nhược điểm lớn khi sử dụng PCA để giảm chiều dữ liệu là gì?",
+    "question": "Một nhược điểm lớn khi sử dụng PCA để giảm chiều dữ liệu trong các dự án nghiệp vụ kinh doanh là gì?",
     "options": [
-      "PCA làm tăng gấp đôi số lượng mẫu dữ liệu ban đầu",
-      "Các thành phần chính mới là tổ hợp tuyến tính của tất cả các đặc trưng cũ, dẫn đến việc mất đi khả năng giải thích ngữ nghĩa vật lý trực quan của từng thuộc tính ban đầu",
-      "PCA không thể áp dụng được nếu số chiều d lớn hơn số mẫu n",
-      "PCA luôn làm suy giảm độ chính xác của mọi mô hình học máy phân loại"
+      "Mô hình luôn luôn chạy chậm hơn",
+      "Mất đi ý nghĩa vật lý trực quan ban đầu của các biến đặc trưng (mỗi thành phần chính mới là tổ hợp tuyến tính phức tạp của nhiều biến cũ)",
+      "Không thể tái tạo lại ảnh nén",
+      "Số lượng mẫu dữ liệu bị giảm đi một nửa"
     ],
     "answer": 1,
-    "explanation": "Sau khi biến đổi PCA, mỗi chiều mới PC_i là một tổ hợp toán học tuyến tính phức tạp của toàn bộ d đặc trưng cũ. Ta không còn biết PC_1 đại diện cụ thể cho 'tuổi' hay 'thu nhập', làm giảm tính diễn giải (Interpretability).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Cái giá phải trả của PCA (Trade-off):**\n  * Trước khi dùng PCA: Cột là *Diện tích*, *Số phòng ngủ*, *Khoảng cách tới bệnh viện* $implies$ Giám đốc kinh doanh đọc là hiểu ngay.\n  * Sau khi dùng PCA: Biến thành $PC_1 = 0.54 \\times \\text{Diện tích} - 0.32 \\times \\text{Số phòng} + 0.12 \\times \\text{Khoảng cách}$ $implies$ Mất đi khả năng giải thích trực quan (Loss of Interpretability) đối với khách hàng và nghiệp vụ.",
     "slideRef": "Slide Chương 2, Trang 65-66"
   },
   {
     "id": 280,
     "chapter": 2,
     "chapterTitle": "Chương 2: Tiền xử lý dữ liệu và Giảm chiều",
-    "question": "Phát biểu nào sau đây về Thứ tự Tiền xử lý chuẩn mực trong Pipeline Machine Learning là ĐÚNG?",
+    "question": "Phát biểu nào sau đây về Thứ tự Tiền xử lý chuẩn mực trong Pipeline Machine Learning để tránh hiện tượng Rò rỉ dữ liệu (Data Leakage) là ĐÚNG?",
     "options": [
-      "Chuẩn hóa dữ liệu StandardScaler trên toàn bộ dataset rồi mới gọi train_test_split",
-      "Thực hiện train_test_split trước, sau đó chỉ fit scaler trên tập Train, rồi dùng scaler đã fit đó để transform cho cả tập Train và tập Test",
-      "Fit scaler độc lập trên tập Train và fit lại một scaler hoàn toàn mới độc lập trên tập Test",
-      "Điền missing value trên toàn bộ tập dữ liệu bằng Mean của cả dataset trước khi chia train/test"
+      "Tính toán chuẩn hóa Scaler trên TOÀN BỘ dữ liệu trước, sau đó mới chia train_test_split",
+      "Thực hiện chia train_test_split ĐẦU TIÊN; sau đó chỉ học các thông số thống kê (Mean, Std, Min, Max, Imputer) trên tập TRAIN (bằng lệnh `.fit()`), rồi mới áp dụng chuyển đổi (`.transform()`) sang cả tập Train và tập Test",
+      "Học thông số Scaler trên tập Test rồi chuyển sang tập Train",
+      "Bỏ qua bước chuẩn hóa dữ liệu"
     ],
     "answer": 1,
-    "explanation": "Để tránh Rò rỉ dữ liệu (Data Leakage), toàn bộ thống kê (Mean, Std, Imputer, Encoder) chỉ được phép học (fit) từ tập Huấn luyện (Train set). Sau đó áp dụng (transform) lên cả Train và Test bằng cùng tham số đó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* ⚠️ **Nguyên tắc vàng chống Data Leakage:**\n  1. Phải chia dữ liệu thành **Train Set và Test Set trước tiên**.\n  2. Các bước tiền xử lý (Imputer điền giá trị thiếu, Scaler chuẩn hóa Z-score/Min-Max):\n     * Chỉ được gọi hàm `.fit()` (học $\\mu, \\sigma, x_{\\min}, x_{\\max}$) **DUY NHẤT TRÊN TẬP TRAIN**.\n     * Sau đó dùng chính các thông số đã học này để gọi `.transform()` cho cả tập Train và tập Test.\n  3. Tuyệt đối không để tập Train \"nhìn trộm\" giá trị trung bình hay phân phối của tập Test!",
     "slideRef": "Slide Chương 2, Trang 67-68"
   },
   {
@@ -1667,7 +1667,7 @@ window.QUESTION_BANK = [
       "Mô hình trở về trạng thái nghiệm OLS thông thường",
       "Phương sai (Variance) của mô hình tăng vọt lên vô cùng"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức $w^*_{\\text{Ridge}} = (X^TX + \\lambda I)^{-1} X^Ty$:\n* Khi $\\lambda = 0$: Hình phạt biến mất, mô hình trở về đúng chuẩn **OLS thông thường** (dễ bị Overfitting nếu dữ liệu phức tạp).\n* Khi $\\lambda \\to \\infty$: Mức phạt nặng tới mức việc giữ trọng số $w_j \\ne 0$ khiến hàm mất mát bùng nổ. Để tối thiểu hóa, mô hình bắt buộc phải ép toàn bộ $w_j \\to 0$ ($j \\ge 1$).\n* Khi đó $\\hat{y} = w_0$ (đường thẳng nằm ngang bằng giá trị trung bình $\\bar{y}$), mô hình trở nên quá đơn giản $\\implies$ **Underfitting (Độ chệch Bias rất cao, Phương sai Variance rất thấp)**.",
     "slideRef": "Slide Chương 3, Trang 45, 48"
   },
@@ -1727,7 +1727,7 @@ window.QUESTION_BANK = [
       "Chuẩn L1 và Entropy",
       "Chuẩn L0 và Chuẩn L2"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nElastic Net là sự kết hợp dung hòa điểm mạnh của cả **Ridge ($L_2$)** và **Lasso ($L_1$)**:\n$$J_{\\text{ElasticNet}}(w) = \\|y - Xw\\|_2^2 + \\lambda_1 \\|w\\|_1 + \\lambda_2 \\|w\\|_2^2$$\nThường được viết theo tỷ lệ $r \\in [0, 1]$ (l1_ratio):\n$$J(w) = \\text{Loss} + \\alpha \\left( r \\|w\\|_1 + \\frac{1-r}{2} \\|w\\|_2^2 \\right)$$\n\n> 💡 **Vì sao cần Elastic Net?**  \n> Khi một nhóm biến đặc trưng có tương quan rất cao với nhau, Lasso thường chỉ bốc ngẫu nhiên đúng 1 biến và vứt bỏ toàn bộ các biến còn lại. Elastic Net khắc phục nhược điểm này bằng cách vừa tạo ra nghiệm thưa (nhờ $L_1$), vừa giữ lại cả nhóm đặc trưng tương quan (nhờ hiệu ứng gom cụm của $L_2$).",
     "slideRef": "Slide Chương 3, Trang 55-56"
   },
@@ -1742,7 +1742,7 @@ window.QUESTION_BANK = [
       "$\\sigma(z) = \\max(0, z)$, miền giá trị $[0, +\\infty)$",
       "$\\sigma(z) = \\frac{1}{1 + e^z}$, miền giá trị $(-\\infty, +\\infty)$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHàm Sigmoid (Logistic Function) đóng vai trò là \"chiếc máy nén thần kỳ\":\n$$\\sigma(z) = \\frac{1}{1 + e^{-z}} = \\frac{e^z}{1 + e^z}$$\n* **Miền giá trị:** $(0, 1)$ - Phù hợp hoàn hảo để biểu diễn xác suất $P(y=1|x)$.\n* **Đặc điểm hình học:** Đồ thị cong hình chữ S, nhận điểm đối xứng tại $(0, 0.5)$.\n* Khi $z \\to +\\infty \\implies e^{-z} \\to 0 \\implies \\sigma(z) \\to 1$.\n* Khi $z \\to -\\infty \\implies e^{-z} \\to +\\infty \\implies \\sigma(z) \\to 0$.\n* Khi $z = 0 \\implies \\sigma(0) = \\frac{1}{1 + 1} = 0.5$ (ngưỡng phân loại mặc định).",
     "slideRef": "Slide Chương 3, Trang 60-61"
   },
@@ -1787,7 +1787,7 @@ window.QUESTION_BANK = [
       "Log-odds (Hàm Logit): $\\ln\\left(\\frac{p}{1 - p}\\right)$",
       "Bình phương xác suất $p^2$"
     ],
-    "answer": 1,
+    "answer": 2,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHãy nhìn vào miền giá trị của các đại lượng:\n* Đường thẳng $w^Tx$: Chạy thoải mái từ $-\\infty$ đến $+infty$.\n* Xác suất $p$: Bị nhốt chặt trong đoạn $[0, 1]$ (phi tuyến).\n* Tỷ số Odds: Chạy từ $[0, +\\infty)$ (vẫn thiếu phần âm).\n* Lấy logarit tự nhiên của Odds: **Logit** chạy từ $-\\infty$ đến $+infty$!\n\nLúc này, ta mới có thể đặt dấu bằng với đường thẳng tuyến tính:\n$$\\text{Logit}(p) = \\ln\\left(\\frac{p}{1 - p}\\right) = w_0 + w_1 x_1 + \\dots + w_p x_p = w^Tx$$\n👉 Do đó, **Log-odds (Logit)** chính là đại lượng có quan hệ tuyến tính trực tiếp với các đặc trưng $x$. Giải ngược phương trình này ra tìm $p$, ta thu được hàm Sigmoid $p = \\frac{1}{1 + e^{-w^Tx}}$!",
     "slideRef": "Slide Chương 3, Trang 63"
   },
@@ -1802,7 +1802,7 @@ window.QUESTION_BANK = [
       "$L = (y - p)^2$",
       "$L = - [y \\ln(1 - p) + (1 - y) \\ln(p)]$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Binary Cross-Entropy (Log Loss) cho 1 mẫu:\n$$L = - \\Big[ y \\ln(p) + (1 - y) \\ln(1 - p) \\Big]$$\n\n#### 1. Cơ chế \"Công tắc đèn\":\nVì nhãn thực tế $y$ chỉ nhận giá trị $1$ hoặc $0$:\n* Khi $y = 1$ (mẫu dương): $(1 - y) = 0 \\implies$ Nhánh 2 tắt, chỉ còn $L = -\\ln(p)$.\n* Khi $y = 0$ (mẫu âm): $y = 0 \\implies$ Nhánh 1 tắt, chỉ còn $L = -\\ln(1 - p)$.\n\n#### 2. Quy luật phạt tiền cực nặng ($-\\ln$):\n* Nếu $y = 1$, mô hình đoán đúng $p = 1 \\implies \\text{Loss} = -\\ln(1) = 0$ (không bị phạt).\n* Nếu $y = 1$, nhưng mô hình đoán sai bét $p \\to 0 \\implies \\text{Loss} = -\\ln(0) \\to +\\infty$ (phạt vô hạn)!\n* Nhờ hàm logarit, mô hình bị trừng phạt cực kỳ nặng nề khi nó \"tự tin cao độ vào một dự đoán sai\".",
     "slideRef": "Slide Chương 3, Trang 69-70"
   },
@@ -1817,7 +1817,7 @@ window.QUESTION_BANK = [
       "Vì ma trận $X^TX$ không bao giờ khả nghịch trong bài toán phân loại",
       "Vì hàm mất mát BCE không có đạo hàm"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Hồi quy tuyến tính OLS, đạo hàm $\\nabla_w J(w) = -2X^Ty + 2X^TXw = 0$ là một **phương trình bậc nhất tuyến tính** theo $w$, giải bằng đại số ma trận cực kỳ đơn giản.\n\nNhưng trong Hồi quy Logistic:\n$$\\nabla_w J(w) = \\sum_{i=1}^n (\\sigma(w^Tx_i) - y_i) x_i = 0$$\n* Sự hiện diện của hàm mũ trong $\\sigma(z) = \\frac{1}{1 + e^{-w^Tx}}$ làm cho hệ phương trình trở thành **phi tuyến tính siêu việt (Transcendental Non-linear System)**.\n* Không thể dùng phép nhân ma trận để \"rút\" $w$ ra một vế độc lập được.\n* 👉 Tuy nhiên, hàm mất mát BCE là một **hàm lồi (Convex Function)** có duy nhất 1 điểm cực tiểu toàn cục. Ta giải bằng các phương pháp tối ưu xấp xỉ lặp như **Gradient Descent (Hạ độ dốc)** hoặc **Newton-Raphson (IRLS)**.",
     "slideRef": "Slide Chương 3, Trang 71"
   },
@@ -1862,7 +1862,7 @@ window.QUESTION_BANK = [
       "Luôn có giá trị lớn hơn MSE trên mọi tập dữ liệu",
       "Có đạo hàm trơn liên tục tại điểm 0"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$MAE = \\frac{1}{n} \\sum_{i=1}^n |y_i - \\hat{y}_i|$$\n* **So sánh độ nhạy với ngoại lai:**\n  - Nếu sai số lệch 10 đơn vị: MAE chỉ cộng thêm $10$. Nhưng MSE cộng thêm $10^2 = 100$ (gấp 100 lần)!\n  - Do đó, nếu dữ liệu có nhiều điểm ngoại lai (nhiễu cực đoan), MSE và RMSE sẽ bị các điểm này kéo lệch đi rất nhiều.\n  - Ngược lại, MAE đối xử công bằng với mọi sai số theo tỷ lệ tuyến tính, do đó **rất bền vững (Robust) trước dữ liệu ngoại lai**.",
     "slideRef": "Slide Chương 3, Trang 87, 90, 94"
   },
@@ -1877,7 +1877,7 @@ window.QUESTION_BANK = [
       "RMSE là trung bình của trị tuyệt đối",
       "RMSE luôn không có đơn vị tính"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$RMSE = \\sqrt{MSE} = \\sqrt{\\frac{1}{n} \\sum_{i=1}^n (y_i - \\hat{y}_i)^2}$$\n* **Ưu điểm lớn nhất của RMSE so với MSE:**\n  - Giả sử biến mục tiêu $y$ đo giá nhà bằng **triệu đồng**: Đơn vị của MSE sẽ bị bình phương thành **(triệu đồng)$^2$** (rất vô nghĩa, không thể giải thích cho khách hàng hay sếp).\n  - Bằng cách lấy căn bậc hai, RMSE đưa đơn vị sai số quay trở về đúng **triệu đồng** (cùng đơn vị đo lường ban đầu với $y$), giúp con người dễ dàng hình dung mô hình đang đoán lệch trung bình bao nhiêu tiền.",
     "slideRef": "Slide Chương 3, Trang 89, 94"
   },
@@ -1892,7 +1892,7 @@ window.QUESTION_BANK = [
       "Tỷ lệ các điểm dữ liệu nằm chính xác trên đường hồi quy",
       "Xác suất để mô hình đoán đúng 100%"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$R^2 = 1 - \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}} = 1 - \\frac{\\sum (y_i - \\hat{y}_i)^2}{\\sum (y_i - \\bar{y}_i)^2}$$\n* **So tài với \"Mô hình người lười\" $\\bar{y}$:**\n  - $SS_{\\text{tot}}$ là sai số khi bạn dùng một mô hình ngớ ngẩn: Luôn luôn đoán giá nhà bằng giá trị trung bình $\\bar{y}$.\n  - $SS_{\\text{res}}$ là sai số thực tế của mô hình thông minh của bạn.\n* **Ý nghĩa:** $R^2 = 0.85$ nghĩa là mô hình của bạn đã **giải thích được $85\\%$ sự biến thiên** của giá nhà, chỉ còn $15\\%$ là do nhiễu hoặc các yếu tố chưa thu thập.",
     "slideRef": "Slide Chương 3, Trang 92, 94"
   },
@@ -1907,7 +1907,7 @@ window.QUESTION_BANK = [
       "Vì $R^2$ không tính toán được khi số mẫu $n > 1000$",
       "Vì Adjusted $R^2$ chuyển đổi bài toán hồi quy thành phân loại"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Adjusted } R^2 = 1 - (1 - R^2) \\frac{n - 1}{n - p - 1}$$\n(trong đó $n$ là số mẫu, $p$ là số biến đặc trưng).\n\n#### ⚠️ Cạm bẫy của $R^2$ thông thường:\n* Cứ nhét thêm một biến mới vào mô hình (cho dù là biến tung đồng xu vô dụng), $R^2$ **chắc chắn sẽ tăng lên hoặc ít nhất giữ nguyên**, không bao giờ giảm!\n* Điều này dễ dụ người xây dựng mô hình nhồi nhét hàng trăm biến rác gây Overfitting.\n* **Cứu cánh Adjusted $R^2$:** Mẫu số $(n - p - 1)$ sẽ giảm đi khi $p$ tăng $\\implies$ Nếu biến mới đưa vào không đóng góp đủ nhiều để bù đắp cho \"hình phạt tăng $p$\", thì **Adjusted $R^2$ sẽ lập tức bị kéo giảm xuống**!",
     "slideRef": "Slide Chương 3, Trang 93"
   },
@@ -1952,7 +1952,7 @@ window.QUESTION_BANK = [
       "$\\text{Precision} = \\frac{TN}{TN + FP}$",
       "$\\text{Precision} = \\frac{TP + TN}{P + N}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Precision} = \\frac{TP}{TP + FP}$$\n* **Mẫu số $(TP + FP)$:** Tổng số ca mà mô hình **tuyên bố là Dương tính**.\n* **Tử số $TP$:** Số ca mô hình **báo đúng**.\n* **Ý nghĩa thực tế:** *\"Trong tất cả các trường hợp mô hình BÁO DƯƠNG TÍNH, có bao nhiêu phần trăm là ĐÚNG THỰC SỰ?\"*\n* Precision đo lường **độ tin cậy của lời báo động**. Càng ít báo động nhầm ($FP \\to 0$), Precision càng tiến gần tới $1.0$ ($100\\%$).",
     "slideRef": "Slide Chương 3, Trang 97"
   },
@@ -1967,7 +1967,7 @@ window.QUESTION_BANK = [
       "$\\text{Recall} = \\frac{TN}{TN + FP}$",
       "$\\text{Recall} = \\frac{FN}{TP + FN}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Recall} = \\frac{TP}{TP + FN}$$\n* **Mẫu số $(TP + FN)$:** Tổng số ca **THỰC TẾ LÀ DƯƠNG TÍNH NGOÀI ĐỜI** (gồm cả ca bắt được $TP$ và ca bị bỏ sót $FN$).\n* **Tử số $TP$:** Số ca mô hình **tìm ra được**.\n* **Ý nghĩa thực tế:** *\"Trong tất cả các bệnh nhân thực sự bị bệnh, mô hình đã QUÉT SẠCH VÀ BẮT ĐƯỢC bao nhiêu phần trăm?\"*\n* Càng ít bỏ sót ($FN \\to 0$), Recall càng cao.",
     "slideRef": "Slide Chương 3, Trang 98"
   },
@@ -1982,7 +1982,7 @@ window.QUESTION_BANK = [
       "Specificity, để bảo vệ người khỏe",
       "Accuracy, vì cần độ chính xác tổng quát"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hậu quả của việc Bỏ sót (False Negative - $FN$):** Bệnh nhân ung thư giai đoạn đầu bị báo là khỏe mạnh $\\implies$ không chữa trị và tử vong; hoặc quả bom mìn bị bỏ sót $\\implies$ phát nổ gây thương vong.\n* **Hậu quả của Báo nhầm (False Positive - $FP$):** Người khỏe bị nghi ngờ nhầm $\\implies$ đi làm xét nghiệm máu/sinh thiết lần 2 để kiểm tra lại.\n* 👉 **Quy tắc:** Thà bắt nhầm một người khỏe đi kiểm tra lại ($FP$), còn hơn là bỏ sót một bệnh nhân ung thư về nhà chờ chết ($FN$)!\n* Vì cần triệt tiêu $FN$ đến mức tối thiểu, ta **bắt buộc phải tối đa hóa Recall**!",
     "slideRef": "Slide Chương 3, Trang 98, 101"
   },
@@ -1997,7 +1997,7 @@ window.QUESTION_BANK = [
       "Mean Squared Error",
       "Inertia"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Quy ước:** Lớp Dương tính = Thư rác (Spam); Lớp Âm tính = Thư quan trọng bình thường (Ham).\n* **Nếu bị False Positive ($FP$):** Thư báo trúng tuyển đại học, vé máy bay hay hợp đồng triệu đô của sếp bị quăng nhầm vào hòm rác và người dùng không đọc được $\\implies$ **Hậu quả cực kỳ tai hại!**\n* **Nếu bị False Negative ($FN$):** Một vài bức thư quảng cáo rác lọt vào hòm thư chính $\\implies$ Người dùng chỉ mất 1 giây bấm nút xóa (chấp nhận được).\n* 👉 Thà để lọt một vài bức thư rác ($FN$), còn hơn vứt nhầm thư quan trọng ($FP$). Do đó, **bắt buộc ưu tiên tối đa Precision**!",
     "slideRef": "Slide Chương 3, Trang 97, 101"
   },
@@ -2012,7 +2012,7 @@ window.QUESTION_BANK = [
       "Trung bình nhân (Geometric Mean): $F_1 = \\sqrt{P \\cdot R}$",
       "Trung bình trọng số bậc hai"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$F_1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}} = \\frac{2TP}{2TP + FP + FN}$$\n\n#### 🤔 Tại sao không dùng Trung bình cộng $\\frac{P + R}{2}$?\nGiả sử một mô hình cực đoan: $\\text{Precision} = 100\\%$, nhưng $\\text{Recall} = 0\\%$ (chỉ dám đoán đúng 1 ca chắc chắn, bỏ sót toàn bộ):\n* Nếu dùng trung bình cộng: $\\frac{100\\% + 0\\%}{2} = 50\\%$ (cho ra một con số \"nhìn vẫn ổn\", che giấu đi sự thật là mô hình đã hỏng hoàn toàn 1 bên!).\n* Nếu dùng trung bình điều hòa:\n  $$F_1 = 2 \\cdot \\frac{100 \\times 0}{100 + 0} = 0\\%!$$\n* 👉 **Triết lý:** Trung bình điều hòa bị kéo sập về con số nhỏ hơn. Nó trừng phạt cực nặng sự mất cân đối. **Chỉ khi CẢ HAI chỉ số Precision và Recall đều cao thì $F_1$ mới có thể cao được!**",
     "slideRef": "Slide Chương 3, Trang 99"
   },
@@ -2057,7 +2057,7 @@ window.QUESTION_BANK = [
       "Loại bỏ hoàn toàn hiện tượng ngoại lai",
       "Tự động chuẩn hóa các đặc trưng về khoảng [0, 1]"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nguy cơ của bốc ngẫu nhiên (Random Split):** Với dữ liệu $95\\%$ bình thường và $5\\%$ lừa đảo, việc bốc ngẫu nhiên có thể khiến tập Test xui xẻo không dính một ca lừa đảo nào $\\to$ tập Test trở nên vô dụng.\n* **Stratified Split (Chia phân tầng):** Bắt buộc phải chia dữ liệu sao cho **tỷ lệ các lớp được giữ nguyên vẹn**:\n  - Tập gốc: $95\\%$ bình thường, $5\\%$ lừa đảo.\n  - Tập Train: Đúng $95\\% - 5\\%$.\n  - Tập Test: Đúng $95\\% - 5\\%$.\n* 👉 **Bắt buộc sử dụng** khi huấn luyện và đánh giá trên các tập dữ liệu mất cân bằng (Imbalanced Data).",
     "slideRef": "Slide Chương 3, Trang 103"
   },
@@ -2102,7 +2102,7 @@ window.QUESTION_BANK = [
       "$K = n / 2$",
       "$K = 10$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLeave-One-Out (LOO) là trường hợp cực đoan nhất của K-Fold khi chọn **$K = n$ (bằng đúng số lượng mẫu)**:\n* Nếu bạn có $n = 100$ mẫu:\n  - Vòng 1: Lấy 99 mẫu để học, kiểm tra trên **đúng 1 mẫu duy nhất**.\n  - Vòng 2: Lấy 99 mẫu khác để học, kiểm tra trên mẫu thứ 2.\n  - Lặp lại đúng $100$ lần!\n* **Ưu điểm:** Tận dụng tối đa dữ liệu huấn luyện, không có yếu tố ngẫu nhiên.\n* **Nhược điểm chí mạng:** Chi phí tính toán cực kỳ đắt đỏ vì phải huấn luyện lại mô hình $n$ lần (không khả thi với dữ liệu lớn hàng chục ngàn mẫu).",
     "slideRef": "Slide Chương 3, Trang 106"
   },
@@ -2117,7 +2117,7 @@ window.QUESTION_BANK = [
       "Khi mô hình không có tham số",
       "Khi muốn tăng tốc độ huấn luyện mô hình"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu tập dữ liệu nhỏ và chỉ chia Train/Test 1 lần duy nhất (Hold-Out thông thường), điểm số phụ thuộc rất lớn vào \"may rủi\" (lỡ tập Test bốc trúng toàn ca quá dễ hoặc quá khó).\n* **Repeated Hold-Out (Hold-Out lặp lại nhiều lần):** Lặp lại việc chia ngẫu nhiên Train/Test nhiều lần (ví dụ 10-20 lần), mỗi lần huấn luyện và đánh giá độc lập, sau đó lấy trung bình cộng.\n* Cách này giúp **giảm phương sai (độ bất định)** của phép đánh giá và cho con số tin cậy hơn nhiều.",
     "slideRef": "Slide Chương 3, Trang 104"
   },
@@ -2132,7 +2132,7 @@ window.QUESTION_BANK = [
       "Một hình tròn khép kín",
       "Tập hợp các điểm rời rạc ngẫu nhiên"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nNgưỡng phân loại mặc định là $P = \\sigma(w^Tx) = 0.5$.\nMà $\\sigma(z) = 0.5$ khi và chỉ khi:\n$$z = w^Tx = w_0 + w_1 x_1 + \\dots + w_p x_p = 0$$\n* Phương trình $w^Tx = 0$ là phương trình của **một đường thẳng** trong không gian 2D, **một mặt phẳng** trong không gian 3D, hoặc **một siêu phẳng (Hyperplane)** trong không gian $p$ chiều!\n* Do đó, dù hàm Sigmoid là phi tuyến, nhưng **Biên quyết định của Logistic Regression thuần túy luôn là một ranh giới TUYẾN TÍNH**.",
     "slideRef": "Slide Chương 3, Trang 74, 77"
   },
@@ -2147,7 +2147,7 @@ window.QUESTION_BANK = [
       "Chỉ so sánh điểm số trên tập huấn luyện (Train Score)",
       "So sánh thời gian cài đặt thư viện của các mô hình"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Giống như kỳ thi tốt nghiệp: Tất cả thí sinh (các mô hình) bắt buộc phải **làm chung một đề thi trong cùng một điều kiện phòng thi** thì mới phân định được ai giỏi hơn ai!\n* Nếu mô hình A thi đề dễ (tập test dễ), mô hình B thi đề khó, việc so sánh điểm số là hoàn toàn khập khiễng và vô nghĩa.\n* 👉 **Quy tắc vàng:** Luôn giữ cố định một tập Test Set độc lập (hoặc dùng chung `random_state` khi chia K-Fold) để chấm điểm tất cả các mô hình.",
     "slideRef": "Slide Chương 3, Trang 110"
   },
@@ -2162,7 +2162,7 @@ window.QUESTION_BANK = [
       "Chuyển bài toán thành hồi quy OLS",
       "Bắt buộc chọn 1 nhãn duy nhất"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Multi-class (Đa lớp độc quyền):** Nhãn loại trừ lẫn nhau (ví dụ: Chó HOẶC Mèo HOẶC Gà) $\\implies$ Dùng **Softmax** vì tổng xác suất bị ép bằng 1.\n* **Multi-label (Đa nhãn đồng thời):** Một bức ảnh có thể VỪA có chó, VỪA có mèo, VỪA có người. Các thuộc tính này độc lập với nhau!\n* 👉 **Giải pháp:** Tách thành $K$ bài toán phân loại nhị phân độc lập:\n  - Mô hình 1 (Sigmoid): Có chó không? (Yes/No)\n  - Mô hình 2 (Sigmoid): Có mèo không? (Yes/No)\n  - Mô hình 3 (Sigmoid): Có người không? (Yes/No)\n  Mỗi mô hình sử dụng hàm Sigmoid và BCE Loss riêng.",
     "slideRef": "Slide Chương 3, Trang 80"
   },
@@ -2177,7 +2177,7 @@ window.QUESTION_BANK = [
       "Các hệ số trọng số $w$ có độ lớn rất nhỏ gần 0",
       "Hệ số chặn bias luôn mang giá trị âm"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi mô hình cố gắng khớp từng chấm dữ liệu nhiễu trong tập Train, đường hồi quy bị uốn éo dữ dội.\n* Trong đại số tuyến tính, điều này khiến các trọng số $w$ bị **thổi phồng độ lớn (bùng nổ)**, ví dụ $w_1 = +50.000$ và $w_2 = -49.990$.\n* Khi gặp dữ liệu mới ngoài đời chỉ cần lệch một chút xíu, các trọng số khổng lồ này sẽ khuếch đại sai số lên hàng triệu lần!\n* 👉 Đó là lý do vì sao các kỹ thuật **Regularization (Ridge, Lasso)** sinh ra để \"phạt độ lớn của trọng số\", ép chúng không được phép bùng nổ, từ đó ngăn chặn hữu hiệu Overfitting.",
     "slideRef": "Slide Chương 3, Trang 41, 49"
   },
@@ -2192,7 +2192,7 @@ window.QUESTION_BANK = [
       "Chuyển sang dùng hàm mất mát MAE để giải bằng nghiệm đóng",
       "Tăng số lượng đặc trưng $p$ lên nhiều hơn nữa"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi ma trận $X^TX$ không khả nghịch (định thức $\\det(X^TX) = 0$), phương trình chuẩn $X^TXw = X^Ty$ có **vô số nghiệm** (hệ thiếu điều kiện). Ta có 2 giải pháp toán học kinh điển:\n\n1. **Ma trận Giả nghịch đảo Moore-Penrose ($X^+$):** Dùng kỹ thuật Phân tích giá trị suy biến (SVD: $X = U\\Sigma V^T$) để tính $X^+ = V\\Sigma^+ U^T$. Nghiệm $w^* = X^+ y$ là nghiệm có **chuẩn $L_2$ nhỏ nhất** trong vô số nghiệm khả dĩ.\n2. **Hồi quy Ridge ($L_2$ Regularization):** Cộng thêm một lượng dương $\\lambda I$ vào đường chéo chính:\n   $$w^* = (X^T X + \\lambda I)^{-1} X^T y$$\n   Bảo đảm $(X^TX + \\lambda I)$ luôn đối xứng xác định dương và **luôn nghịch đảo được $100\\%$**!",
     "slideRef": "Slide Chương 3, Trang 19-21, 46"
   },
@@ -2207,7 +2207,7 @@ window.QUESTION_BANK = [
       "Vì sai số chỉ tăng theo hàm tuyến tính",
       "Vì nó chỉ áp dụng được cho dữ liệu tuyến tính hoàn hảo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong thuật ngữ Học máy, tính chất **\"Tuyến tính\" (Linearity)** của mô hình hồi quy được định nghĩa theo **CÁC THAM SỐ CẦN HỌC $w$**, chứ KHÔNG PHẢI theo biến đầu vào $x$!\n* Phương trình:\n  $$y = w_0 + w_1 x + w_2 x^2 + w_3 \\sin(x)$$\n* Nếu ta đặt các biến phụ: $z_1 = x, z_2 = x^2, z_3 = \\sin(x)$, phương trình trở thành:\n  $$y = w_0 + w_1 z_1 + w_2 z_2 + w_3 z_3 = w^T z$$\n* Đạo hàm theo từng $w_j$ là $\\frac{\\partial y}{\\partial w_j} = z_j$ (bậc nhất, tuyến tính độc lập).\n* 👉 Vì mối quan hệ giữa dự đoán $\\hat{y}$ và các tham số $w$ là tuyến tính bậc nhất, bài toán tối ưu vẫn giữ nguyên dạng lồi bậc hai và giải được bằng nghiệm đóng OLS quen thuộc!",
     "slideRef": "Slide Chương 3, Trang 24-25"
   },
@@ -2222,7 +2222,7 @@ window.QUESTION_BANK = [
       "Nhiễu $\\epsilon$ tuân theo phân phối Laplace",
       "Dữ liệu đầu vào $x$ tuân theo phân phối Bernoulli"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nRonald Fisher (tiếp cận thống kê) và Carl Friedrich Gauss (tiếp cận hình học) đi theo hai con đường khác nhau nhưng hội tụ tại cùng một nghiệm nhờ giả định phân phối chuẩn:\n* Giả sử nhiễu ngẫu nhiên $\\epsilon_i = y_i - w^Tx_i$ độc lập và có phân phối chuẩn $\\mathcal{N}(0, \\sigma^2)$.\n* Hàm mật độ xác suất của 1 mẫu:\n  $$p(y_i|x_i; w) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\left( -\\frac{(y_i - w^Tx_i)^2}{2\\sigma^2} \\right)$$\n* Khi nhân toàn bộ $n$ xác suất độc lập lại và lấy $\\ln$ (Log-Likelihood), ta có:\n  $$\\ln L(w) = -\\frac{n}{2}\\ln(2\\pi\\sigma^2) - \\frac{1}{2\\sigma^2} \\sum_{i=1}^n (y_i - w^Tx_i)^2$$\n* Muốn $\\ln L(w)$ lớn nhất thì đại lượng $\\sum(y_i - w^Tx_i)^2$ bắt buộc phải bé nhất $\\implies$ **Chính là hàm mất mát OLS**!",
     "slideRef": "Slide Chương 3, Trang 26-28"
   },
@@ -2237,7 +2237,7 @@ window.QUESTION_BANK = [
       "Vector trực giao với không gian cột $\\text{Col}(X)$",
       "Trọng tâm của ma trận dữ liệu đầu vào"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Không gian cột $\\text{Col}(X) = \\{Xw \\mid w \\in \\mathbb{R}^p\\}$ là không gian con đa chiều (mặt phẳng siêu phẳng) chứa toàn bộ các giá trị dự đoán mà mô hình có thể tạo ra.\n* Vector nhãn thực tế $y \\in \\mathbb{R}^n$ thường nằm bên ngoài không gian này (vì có nhiễu ngẫu nhiên).\n* Nghiệm OLS tối thiểu hóa khoảng cách Euclid $\\|y - \\hat{y}\\|_2$.\n* Trong hình học không gian, khoảng cách từ một điểm bên ngoài đến một không gian con đạt giá trị nhỏ nhất tại **Hình chiếu trực giao (Orthogonal Projection)** của điểm đó lên không gian con.\n* 👉 Ma trận biến đổi $P = X(X^TX)^{-1}X^T$ chính là **Ma trận chiếu trực giao (Projection Matrix)** đưa $y \\to \\hat{y}$.",
     "slideRef": "Slide Chương 3, Trang 29-30"
   },
@@ -2252,7 +2252,7 @@ window.QUESTION_BANK = [
       "$\\mathcal{O}(n \\log n)$",
       "$\\mathcal{O}(p)$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCác bước tính toán nghiệm đóng OLS:\n1. **Phép nhân $X^T X$:** Nhân ma trận $(p \\times n)$ với $(n \\times p)$ tốn **$\\mathcal{O}(n p^2)$** phép tính.\n2. **Phép nghịch đảo ma trận $(X^TX)^{-1}$:** Ma trận vuông $(p \\times p)$ có độ phức tạp nghịch đảo bằng khử Gauss là **$\\mathcal{O}(p^3)$**.\n3. **Phép nhân với $X^T y$:** Tốn **$\\mathcal{O}(n p + p^2)$**.\n* 👉 Tổng độ phức tạp là: **$\\mathcal{O}(p^3 + n p^2)$**.\n\n⚠️ **Ý nghĩa thực tế:** Khi số đặc trưng $p$ rất lớn (ví dụ $p = 100.000$ trong xử lý văn bản, gen di truyền), $p^3 = 10^{15}$ phép tính sẽ làm máy tính treo cứng hoặc tràn RAM! Lúc đó người ta **không dùng nghiệm đóng mà chuyển sang dùng Gradient Descent**!",
     "slideRef": "Slide Chương 3, Trang 31"
   },
@@ -2267,7 +2267,7 @@ window.QUESTION_BANK = [
       "Khi bài toán chỉ có duy nhất 1 biến đặc trưng",
       "Khi muốn tăng tốc độ tính toán gấp 10 lần so với OLS"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLasso ($L_1$) có 2 điểm yếu chí mạng trong thực tế:\n1. **Giới hạn khi $p > n$:** Trong bài toán số chiều lớn (ví dụ $p = 10.000$ gen nhưng chỉ có $n = 100$ bệnh nhân), thuật toán Lasso chỉ có thể chọn tối đa $n$ đặc trưng rồi dừng lại, bỏ sót $p - n$ đặc trưng còn lại.\n2. **Vấn đề nhóm biến tương quan (Collinear Groups):** Nếu có một nhóm 5 biến tương quan mạnh với nhau (ví dụ các chỉ số huyết áp khác nhau), Lasso thường chỉ chọn vu vơ đúng 1 biến và ép 4 biến còn lại về 0, làm mất thông tin tổng thể.\n\n👉 **Elastic Net cứu nguy:** Nhờ thành phần $L_2$ cộng thêm, nó vừa chọn được đặc trưng thưa (nhờ $L_1$), vừa kích hoạt **hiệu ứng nhóm (Grouping Effect)** để giữ lại toàn bộ cụm đặc trưng tương quan!",
     "slideRef": "Slide Chương 3, Trang 49-51"
   },
@@ -2297,7 +2297,7 @@ window.QUESTION_BANK = [
       "Macro-F1 luôn bằng Accuracy",
       "Micro-F1 không phụ thuộc vào lớp đa số"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Micro-F1:** Gom toàn bộ các ca đoán đúng sai trên toàn bộ dữ liệu lại tính một lần. Trong phân loại đa lớp thông thường, Micro-F1 **chính bằng Accuracy**. Do đó, nó bị các lớp chiếm số đông chi phối hoàn toàn.\n* **Macro-F1:** Tính F1-score độc lập cho từng lớp:\n  $$\\text{Macro-F1} = \\frac{F_{1,\\text{Lớp 1}} + F_{1,\\text{Lớp 2}} + \\dots + F_{1,\\text{Lớp } K}}{K}$$\n  Mỗi lớp đều được chia đều tỷ lệ $\\frac{1}{K}$. Nếu mô hình làm hỏng lớp hiếm, điểm số của lớp đó rớt về 0 sẽ kéo tụt Macro-F1 xuống ngay lập tức.\n* 👉 Vì thế, **Macro-F1 là thước đo chuẩn mực nhất để phát hiện xem mô hình có đối xử tệ với lớp thiểu số hay không**.",
     "slideRef": "Slide Chương 3, Trang 89-92"
   },
@@ -2312,7 +2312,7 @@ window.QUESTION_BANK = [
       "Recall = 0.5",
       "Không xác định được"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì mô hình đoán tất cả đều là âm tính, nên số ca ung thư mà nó tìm ra được là: **$TP = 0$**.\n* Toàn bộ bệnh nhân ung thư thật đều bị bỏ sót: **$FN = \\text{Tổng số ca bệnh}$**.\n* Áp dụng công thức tính Recall:\n  $$\\text{Recall} = \\frac{TP}{TP + FN} = \\frac{0}{0 + FN} = 0.0 \\quad (0\\%!)$$\n* 👉 Dù Accuracy của mô hình này có thể đạt $99.9\\%$, nhưng điểm **Recall = 0%** đã vạch trần bản chất vô dụng và nguy hiểm của nó trong y tế!",
     "slideRef": "Slide Chương 3, Trang 84-86"
   },
@@ -2327,7 +2327,7 @@ window.QUESTION_BANK = [
       "$(FPR = 0, TPR = 0)$ - Gốc tọa độ",
       "$(FPR = 0.5, TPR = 0.5)$ - Chính giữa đồ thị"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐồ thị ROC (Receiver Operating Characteristic):\n* **Trục hoành (Trục X):** $FPR = \\frac{FP}{FP + TN}$ (Tỷ lệ báo động nhầm).\n* **Trục tung (Trục Y):** $TPR = \\text{Recall} = \\frac{TP}{TP + FN}$ (Tỷ lệ bắt đúng ca bệnh).\n\n#### 🏆 Mô hình HOÀN HẢO tuyệt đối:\n* Không báo nhầm ca nào: $FP = 0 \\implies FPR = 0$ (nằm sát mép trái).\n* Bắt đúng $100\\%$ không bỏ sót ai: $FN = 0 \\implies TPR = 1$ (nằm sát mép trên cùng).\n* 👉 Tọa độ lý tưởng là **$(0, 1)$ ở góc trên bên trái**! Diện tích dưới đường cong của mô hình này đạt giá trị cực đại: $\\text{AUC} = 1.0$.",
     "slideRef": "Slide Chương 3, Trang 96-98"
   },
@@ -2357,7 +2357,7 @@ window.QUESTION_BANK = [
       "Hệ phương trình Poisson: $X^T y w = I$",
       "Hệ phương trình thuần nhất: $X^T X w = 0$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nLấy vi phân ma trận của hàm mất mát $J(w) = y^Ty - 2w^TX^Ty + w^TX^TXw$:\n1. Đạo hàm của $-2w^T (X^Ty)$ theo $w$ bằng: $-2X^Ty$.\n2. Đạo hàm của dạng toàn phương $w^T (X^TX) w$ theo $w$ bằng: $2X^TXw$.\n3. Đặt gradient tổng bằng 0 để tìm điểm dừng cực tiểu:\n   $$\\nabla_w J(w) = -2X^Ty + 2X^TXw = 0 \\iff X^TXw = X^Ty$$\n* Đây chính là **Hệ phương trình chuẩn (Normal Equation)**.",
     "slideRef": "Slide Chương 3, Trang 15-16"
   },
@@ -2372,7 +2372,7 @@ window.QUESTION_BANK = [
       "Nghiệm OLS tự động trở thành nghiệm Lasso",
       "Không thể nhân ma trận $X$ với chính nó"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Ma trận $X$ có kích thước $(n \\times p)$. Theo định lý đại số tuyến tính:\n  $$\\text{rank}(X^TX) = \\text{rank}(X) \\le \\min(n, p)$$\n* Khi $p > n$, hạng của ma trận $(p \\times p)$ tối đa chỉ có thể là $n$.\n* Một ma trận vuông kích thước $p$ mà chỉ có hạng $n < p$ thì **bị thiếu hạng (Rank-deficient)** $\\implies$ định thức $\\det(X^TX) = 0$.\n* Ma trận có định thức bằng 0 là **ma trận suy biến (Singular Matrix)**, không tồn tại ma trận nghịch đảo $(X^TX)^{-1}$.\n* 👉 Phương trình có **vô số nghiệm**, OLS thuần túy bó tay. Cần dùng **Ridge Regression** để khắc phục!",
     "slideRef": "Slide Chương 3, Trang 18-20"
   },
@@ -2402,7 +2402,7 @@ window.QUESTION_BANK = [
       "Tất cả các trọng số đều bùng nổ ra vô cùng",
       "Mô hình biến thành cây quyết định"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức nghiệm đóng của Ridge:\n$$w^*_{\\text{Ridge}} = (X^T X + \\lambda I)^{-1} X^T y$$\n* Khi $\\lambda \\to 0$, đại lượng $\\lambda I \\to 0$. Biểu thức trở thành:\n  $$\\lim_{\\lambda \\to 0} w^*_{\\text{Ridge}} = (X^T X)^{-1} X^T y = w^*_{\\text{OLS}}$$\n* **Ý nghĩa:** $\\lambda$ là chiếc van điều tiết.\n  - Vặn $\\lambda = 0$: Mở toang van, mô hình tự do khớp dữ liệu tối đa (giống OLS).\n  - Vặn $\\lambda$ càng lớn: Siết chặt van, ép các trọng số teo nhỏ dần để chống Overfitting.",
     "slideRef": "Slide Chương 3, Trang 26-28"
   },
@@ -2417,7 +2417,7 @@ window.QUESTION_BANK = [
       "Vì chuẩn $L_2$ chỉ áp dụng được cho số dương",
       "Vì Lasso chia dữ liệu thành các góc phần tư độc lập"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hãy tưởng tượng bạn thổi một quả bóng bầu dục (đường đồng mức elip của hàm mất mát OLS) phình to dần từ điểm tối ưu $w_{\\text{OLS}}$:\n  - **Ridge ($L_2$):** Quả bóng elip va chạm với **vùng ràng buộc hình tròn** $w_1^2 + w_2^2 \\le C$. Vì đường tròn trơn láng không có góc cạnh, điểm tiếp xúc hầu như luôn nằm trên cung tròn (nơi cả $w_1 \\ne 0$ và $w_2 \\ne 0$).\n  - **Lasso ($L_1$):** Quả bóng elip va chạm với **vùng ràng buộc hình thoi** $|w_1| + |w_2| \\le C$. Do các góc nhọn chĩa thẳng ra ngoài theo các trục tọa độ, quả bóng elip xác suất cực cao sẽ đụng trúng **đúng đỉnh nhọn** trước tiên!\n* Tại đỉnh nhọn trên trục $w_1$, tọa độ $w_2$ **bằng đúng số 0 tuyệt đối**!\n* 👉 Đó là lý do tại sao Lasso tạo ra **nghiệm thưa (Sparsity)**, loại bỏ triệt để các biến dư thừa.",
     "slideRef": "Slide Chương 3, Trang 31-33"
   },
@@ -2432,7 +2432,7 @@ window.QUESTION_BANK = [
       "Vì nó có quá nhiều nghiệm đóng cùng lúc",
       "Vì Lasso bắt buộc phải chia dữ liệu thành 3 tập"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hàm mục tiêu của Lasso chứa số hạng $\\sum |w_j|$.\n* Hàm số $f(x) = |x|$ có đồ thị hình chữ V gãy nhọn tại gốc tọa độ $x = 0$.\n* Tại điểm $x = 0$, đạo hàm bên trái bằng $-1$, đạo hàm bên phải bằng $+1$ $\\implies$ **Hàm số không khả vi (không có đạo hàm thông thường) tại điểm 0**.\n* Vì không thể lấy đạo hàm toàn phần và giải phương trình đại số tuyến tính như OLS hay Ridge, ta bắt buộc phải dùng các thuật toán lặp số học như **Coordinate Descent (Hạ tọa độ dựa trên hàm Soft-thresholding)**.",
     "slideRef": "Slide Chương 3, Trang 32-34"
   },
@@ -2447,7 +2447,7 @@ window.QUESTION_BANK = [
       "Ép tất cả các hệ số phải bằng nhau",
       "Tự động sinh thêm dữ liệu nhân tạo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Giả sử dự đoán giá xe hơi có 3 biến: Dung tích xi lanh, Công suất động cơ mã lực, và Lượng tiêu thụ xăng (cả 3 biến này tương quan cực kỳ chặt chẽ với nhau).\n* **Vấn đề của Lasso:** Do tính chất hình thoi sắc nhọn, nó sẽ bốc đại đúng 1 biến và triệt tiêu 2 biến còn lại về 0, gây mất mát góc nhìn đa chiều của dữ liệu.\n* **Elastic Net:** Kết hợp hình phạt convex nghiêm ngặt của $L_2$:\n  $$J(w) = \\text{Loss} + \\lambda_1 \\|w\\|_1 + \\lambda_2 \\|w\\|_2^2$$\n  Thành phần $L_2$ tạo ra **Hiệu ứng gom cụm (Grouping Effect)**, ép các biến có tương quan cao phải có trọng số gần bằng nhau và được giữ lại cùng nhau trong mô hình!",
     "slideRef": "Slide Chương 3, Trang 35-37"
   },
@@ -2507,7 +2507,7 @@ window.QUESTION_BANK = [
       "Vì BCE luôn cho kết quả bằng 0",
       "Vì MSE chỉ dùng cho ma trận đường chéo"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nếu dùng MSE:** $J(w) = \\frac{1}{2n}\\sum (y_i - \\sigma(w^Tx_i))^2$.\n  - Do hàm Sigmoid uốn lượn hình chữ S, hàm MSE theo $w$ sẽ có bề mặt lồi lõm mấp mô (Non-convex) với **rất nhiều hố bẫy cực tiểu cục bộ (Local Minima)** và vùng yên ngựa bằng phẳng (Gradient vanishing). Thuật toán Gradient Descent sẽ bị mắc kẹt và không tìm được nghiệm tốt.\n* **Nếu dùng BCE (Log Loss):**\n  - Hàm logarit triệt tiêu hoàn toàn hàm mũ của Sigmoid khi tính đạo hàm, làm cho hàm mất mát trở thành **hàm lồi hoàn hảo (Convex Surface hình lòng chảo)**.\n  - Mọi điểm cực tiểu đều chính là **Cực tiểu toàn cục (Global Minimum)**, đảm bảo thuật toán luôn hội tụ về nghiệm tối ưu!",
     "slideRef": "Slide Chương 3, Trang 45-47"
   },
@@ -2552,7 +2552,7 @@ window.QUESTION_BANK = [
       "$0.9000$ ($72\\%$)",
       "$0.8500$ ($85\\%$)"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Precision:\n$$\\text{Precision} = \\frac{TP}{TP + FP}$$\n* $TP = 18$ (bệnh nhân mắc bệnh được mô hình phát hiện đúng).\n* $FP = 8$ (người khỏe mạnh bị mô hình báo nhầm là mắc bệnh).\n* Tổng số ca mô hình báo động mắc bệnh: $TP + FP = 18 + 8 = 26$.\n$$\\text{Precision} = \\frac{18}{26} \\approx 0.6923 \\quad (69.23\\%)$$",
     "slideRef": "Slide Chương 3, Trang 62-64"
   },
@@ -2582,7 +2582,7 @@ window.QUESTION_BANK = [
       "$0.6230$",
       "$0.8500$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Trung bình điều hòa $F_1$-Score:\n$$F_1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}$$\nThay số:\n$$F_1 = 2 \\cdot \\frac{0.6923 \\times 0.9000}{0.6923 + 0.9000} = 2 \\cdot \\frac{0.62307}{1.5923} \\approx 0.7826 \\quad (78.26\\%)$$\n* Chú ý: Nếu lấy trung bình cộng thông thường $\\frac{0.6923 + 0.9}{2} \\approx 0.7961$ là sai công thức $F_1$!",
     "slideRef": "Slide Chương 3, Trang 64-65"
   },
@@ -2597,7 +2597,7 @@ window.QUESTION_BANK = [
       "Tổng số ca đoán đúng trên toàn bộ mẫu",
       "Tỷ lệ người khỏe bị báo nhầm là có bệnh"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Specificity} = \\text{TNR} = \\frac{TN}{TN + FP}$$\n* Mẫu số $(TN + FP)$ là **toàn bộ những người THỰC TẾ KHỎE MẠNH (Âm tính)** ngoài đời.\n* Tử số $TN$ là số người khỏe mạnh được mô hình kết luận là Khỏe mạnh.\n* **Ý nghĩa:** Specificity đo lường khả năng **bảo vệ và nhận diện đúng người không có bệnh**, tránh gây hoang mang lo lắng không cần thiết cho người khỏe mạnh.",
     "slideRef": "Slide Chương 3, Trang 63-64"
   },
@@ -2612,7 +2612,7 @@ window.QUESTION_BANK = [
       "$\\text{FPR} = \\frac{1}{\\text{Specificity}}$",
       "$\\text{FPR} = \\text{Specificity} \\times \\text{Recall}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong toàn bộ nhóm người khỏe mạnh ngoài đời $(FP + TN)$:\n* Có người được xác nhận khỏe mạnh đúng ($TN$): Chiếm tỷ lệ Specificity $= \\frac{TN}{FP + TN}$.\n* Có người bị báo nhầm là mắc bệnh ($FP$): Chiếm tỷ lệ $\\text{FPR} = \\frac{FP}{FP + TN}$.\n* Vì hai nhóm này bù trừ hoàn hảo cho nhau trong tập người khỏe mạnh:\n  $$\\text{FPR} + \\text{Specificity} = \\frac{FP + TN}{FP + TN} = 1.0$$\n  $$\\implies \\text{FPR} = 1 - \\text{Specificity}$$",
     "slideRef": "Slide Chương 3, Trang 66-67"
   },
@@ -2627,7 +2627,7 @@ window.QUESTION_BANK = [
       "Trục tung là Accuracy, Trục hoành là Số lượng đặc trưng",
       "Trục tung là Loss, Trục hoành là Epochs"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐường cong ROC vẽ đồ thị hiệu năng phân loại tại **tất cả các ngưỡng quyết định (Threshold)** từ 0 đến 1:\n* **Trục tung (Y):** $TPR = \\text{Recall} = \\frac{TP}{TP + FN}$ (Tỷ lệ bắt đúng ca bệnh). Càng cao càng tốt.\n* **Trục hoành (X):** $FPR = 1 - \\text{Specificity} = \\frac{FP}{FP + TN}$ (Tỷ lệ báo động nhầm người khỏe). Càng thấp càng tốt.\n* Đường cong lý tưởng sẽ phồng mạnh lên góc trên bên trái.",
     "slideRef": "Slide Chương 3, Trang 66-68"
   },
@@ -2642,7 +2642,7 @@ window.QUESTION_BANK = [
       "$\\text{AUC} = 0.0$",
       "$\\text{AUC} = -1.0$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi tung đồng xu may rủi 50/50, tỷ lệ bắt đúng ca bệnh ($TPR$) luôn bằng đúng tỷ lệ báo động nhầm ($FPR$):\n  $$TPR = FPR$$\n* Đồ thị của nó là **đường chéo 45 độ** nối từ gốc tọa độ $(0, 0)$ lên góc $(1, 1)$.\n* Diện tích tam giác dưới đường chéo này chiếm đúng một nửa hình vuông đơn vị:\n  $$\\text{AUC} = \\frac{1}{2} \\times 1 \\times 1 = 0.5$$\n* 👉 Nếu mô hình máy học của bạn có $\\text{AUC} \\approx 0.5$, nghĩa là nó học hành chẳng ra gì, chỉ tương đương với trò tung đồng xu hên xui!",
     "slideRef": "Slide Chương 3, Trang 68"
   },
@@ -2657,7 +2657,7 @@ window.QUESTION_BANK = [
       "$(0, 0)$",
       "$(0.5, 0.5)$"
     ],
-    "answer": 2,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMô hình hoàn hảo không bao giờ mắc lỗi:\n* Báo động nhầm $FP = 0 \\implies FPR = 0$ (nằm trên trục tung $X = 0$).\n* Bắt đúng $100\\%$ không bỏ sót $FN = 0 \\implies TPR = 1.0$ (nằm ở đỉnh cao nhất $Y = 1.0$).\n* 👉 Giao điểm là **$(X=0, Y=1)$ ở góc trên cùng bên trái** của đồ thị ROC.\n* Đường cong của mô hình hoàn hảo sẽ đi thẳng đứng từ $(0,0) \\to (0,1)$ rồi đi ngang sang $(1,1)$, bao trùm $100\\%$ diện tích $\\implies \\text{AUC} = 1.0$.",
     "slideRef": "Slide Chương 3, Trang 67"
   },
@@ -2672,7 +2672,7 @@ window.QUESTION_BANK = [
       "Biểu đồ phân tán Scatter Plot",
       "Biểu đồ Pareto"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n#### ⚠️ Điểm yếu của ROC Curve trên dữ liệu cực kỳ lệch lớp:\n* Mẫu số của $FPR$ là $(TN + FP)$. Vì số lượng mẫu âm tính ($TN$) quá khổng lồ (hàng triệu giao dịch bình thường), nên dù mô hình có báo nhầm $FP = 100$ lần, mẫu số quá lớn vẫn làm cho $FPR \\approx 0$ $\\implies$ **Đường ROC vẫn cong đẹp ảo và AUC vẫn $> 0.95$!**\n* **Cứu cánh PR Curve (Precision vs Recall):**\n  - Cả Precision và Recall đều tập trung trực tiếp vào **Lớp Dương tính thiểu số ($TP$)**.\n  - $FP$ được so sánh trực tiếp với $TP$ chứ không bị $TN$ nuốt chửng.\n  - 👉 Khi dữ liệu cực kỳ mất cân bằng, **PR-AUC là thước đo phản ánh trung thực bản chất mô hình**.",
     "slideRef": "Slide Chương 3, Trang 69-70"
   },
@@ -2717,7 +2717,7 @@ window.QUESTION_BANK = [
       "Chỉ âm khi dữ liệu có chứa số âm",
       "Chỉ âm trong bài toán phân loại"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **Cạm bẫy trắc nghiệm kinh điển:** Nhiều người thấy chữ có số mũ 2 ($R^2$) liền tưởng nó luôn dương $\\ge 0$. **ĐÓ LÀ SAI LẦM!**\n* Hãy nhìn vào công thức: $R^2 = 1 - \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}}$.\n* Nếu bạn dùng một mô hình dự đoán tồi tệ (hoặc đánh giá trên tập Test mà mô hình bị Overfitting nặng):\n  $$SS_{\\text{res}} > SS_{\\text{tot}} \\implies \\frac{SS_{\\text{res}}}{SS_{\\text{tot}}} > 1 \\implies R^2 < 0!$$\n* **Ý nghĩa:** $R^2 < 0$ là một lời cảnh báo nghiêm khắc: *\"Mô hình của bạn còn tệ hơn cả một người lười biếng chỉ biết lấy trung bình cộng $\\bar{y}$ phán bừa!\"*",
     "slideRef": "Slide Chương 3, Trang 74"
   },
@@ -2732,7 +2732,7 @@ window.QUESTION_BANK = [
       "Vì nó có thể tính toán mà không cần dữ liệu nhãn",
       "Vì nó chuyển đổi biến định tính thành biến định lượng"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n$$\\text{Adjusted } R^2 = 1 - (1 - R^2) \\frac{n - 1}{n - p - 1}$$\n* Khi thêm một biến mới $x_{new}$:\n  - $R^2$ luôn có khuynh hướng tăng giả tạo do tối ưu toán học trên tập Train.\n  - Nhưng trong công thức Adjusted $R^2$, số lượng biến $p$ tăng làm mẫu số $(n - p - 1)$ giảm $\\to$ nhân hệ số phạt lớn hơn.\n  - Nếu biến mới không giúp giảm sai số $SS_{\\text{res}}$ một cách đáng kể, **Adjusted $R^2$ sẽ giảm ngay lập tức**!\n* 👉 Nó đóng vai trò như chiếc phanh hãm giúp người kỹ sư biết khi nào nên dừng lại không thêm biến rác.",
     "slideRef": "Slide Chương 3, Trang 75-76"
   },
@@ -2747,7 +2747,7 @@ window.QUESTION_BANK = [
       "Khi bài toán yêu cầu phạt thật nặng các sai số lớn",
       "Khi tất cả các sai số đều nhỏ hơn 1"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **RMSE** dùng bình phương sai số: Lệch 10 đơn vị phạt $10^2 = 100$. Nếu tập dữ liệu có một vài mẫu bị nhập nhầm số liệu (ngoại lai), RMSE sẽ tăng vọt và biến tướng, khiến mô hình bị đánh giá là rất tệ dù nó dự đoán tốt trên $99\\%$ các mẫu còn lại.\n* **MAE** đo trực tiếp độ lệch tuyến tính: Lệch 10 chỉ tính là 10. Nó không phóng đại các điểm dị biệt.\n* 👉 Do đó, khi dữ liệu nhiều nhiễu ngoại lai không thể lọc bỏ, **MAE là thước đo trung thực và bền vững nhất**.",
     "slideRef": "Slide Chương 3, Trang 77-78"
   },
@@ -2762,7 +2762,7 @@ window.QUESTION_BANK = [
       "Specificity",
       "Accuracy"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Bài toán an ninh, gian lận, rửa tiền: Bỏ sót ($FN$) là thảm họa bị phạt tiền khủng khiếp hoặc vi phạm pháp luật quốc tế.\n* Báo nhầm ($FP$): Nhân viên ngân hàng chỉ cần gọi điện cho khách hàng xác nhận lại trong 2 phút.\n* Vì hậu quả của $FN$ nặng nề hơn hàng ngàn lần so với $FP$, mục tiêu số 1 bắt buộc là **tối đa hóa Recall**!",
     "slideRef": "Slide Chương 3, Trang 63-65"
   },
@@ -2792,7 +2792,7 @@ window.QUESTION_BANK = [
       "$0.8$",
       "$2.5$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức Tỷ số Odds:\n$$\\text{Odds} = \\frac{p}{1 - p}$$\nThay $p = 0.8$:\n$$\\text{Odds} = \\frac{0.8}{1 - 0.8} = \\frac{0.8}{0.2} = 4.0$$\n* **Ý nghĩa:** Khả năng khách hàng quyết định mua hàng **gấp 4 lần** khả năng khách hàng không mua!",
     "slideRef": "Slide Chương 3, Trang 40-41"
   },
@@ -2822,7 +2822,7 @@ window.QUESTION_BANK = [
       "$w^*_{\\text{Ridge}} = w^*_{\\text{OLS}} - \\lambda$",
       "$w^*_{\\text{Ridge}} = w^*_{\\text{OLS}}$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nXét công thức nghiệm đóng của Ridge:\n$$w^*_{\\text{Ridge}} = (X^TX + \\lambda I)^{-1} X^Ty$$\n* Khi các cột của $X$ trực chuẩn ($X^TX = I$):\n  $$(X^TX + \\lambda I) = I + \\lambda I = (1 + \\lambda) I$$\n* Nghịch đảo của một ma trận nhân với số vô hướng:\n  $$((1 + \\lambda) I)^{-1} = \\frac{1}{1 + \\lambda} I$$\n* Thay vào công thức:\n  $$w^*_{\\text{Ridge}} = \\frac{1}{1 + \\lambda} I X^Ty = \\frac{1}{1 + \\lambda} (X^TX)^{-1} X^Ty = \\frac{1}{1 + \\lambda} w^*_{\\text{OLS}}$$\n* 👉 Khi các đặc trưng trực giao độc lập, Hồi quy Ridge có tác dụng **co nhỏ đồng đều tất cả các trọng số theo đúng tỷ số $\\frac{1}{1 + \\lambda}$**!",
     "slideRef": "Slide Chương 3, Trang 25-27"
   },
@@ -2837,7 +2837,7 @@ window.QUESTION_BANK = [
       "Lấy tích phân của hàm mật độ xác suất",
       "Thực hiện phép xoay ma trận ngẫu nhiên"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì Lasso ($L_1$) không có nghiệm đóng và không khả vi tại 0 trên không gian nhiều chiều, thuật toán **Coordinate Descent (Hạ theo từng tọa độ)** giải quyết bài toán bằng chiến thuật \"chia để trị\":\n  1. Cố định $p - 1$ trọng số còn lại như các hằng số.\n  2. Lúc này hàm mất mát chỉ còn là hàm 1 biến theo duy nhất $w_j$.\n  3. Bài toán 1 biến này có nghiệm giải tích chính xác thông qua toán tử **Soft-Thresholding Operator**:\n     $$S(z, \\lambda) = \\text{sign}(z) \\max(0, |z| - \\lambda)$$\n  4. Lần lượt cập nhật $w_1, w_2, \\dots, w_p$ rồi quay lại vòng mới cho tới khi toàn bộ vector trọng số không đổi nữa.\n* Thuật toán này cực kỳ ổn định và chạy rất nhanh với dữ liệu thưa.",
     "slideRef": "Slide Chương 3, Trang 33-35"
   },
@@ -2852,7 +2852,7 @@ window.QUESTION_BANK = [
       "Logistic Regression chỉ phân loại được dữ liệu 1 chiều",
       "Logistic Regression không cần học trọng số $w$"
     ],
-    "answer": 1,
+    "answer": 0,
     "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Rất nhiều sinh viên nhầm lẫn: Thấy hàm Sigmoid $\\sigma(z) = \\frac{1}{1 + e^{-z}}$ uốn lượn cong cong thì vội vàng kết luận Logistic Regression là \"mô hình phân loại phi tuyến\". **ĐÓ LÀ BẪY THI!**\n* **Bản chất thực sự:**\n  - Ranh giới để phân chia giữa việc phán đoán nhãn $1$ và nhãn $0$ là phương trình:\n    $$P(y=1|x) = 0.5 \\iff \\sigma(w^Tx) = 0.5 \\iff w^Tx = w_0 + w_1x_1 + \\dots + w_px_p = 0$$\n  - Phương trình $w^Tx = 0$ biểu diễn **một đường thẳng hoặc một siêu phẳng hoàn toàn phẳng (tuyến tính)** trong không gian đặc trưng.\n  - Mô hình chỉ có khả năng phân tách tốt các tập dữ liệu có thể tách biệt tuyến tính (Linearly Separable).\n* 👉 Do đó, theo định nghĩa toán học chuẩn, **Logistic Regression là một mô hình Phân loại Tuyến tính (Linear Classifier)**!",
     "slideRef": "Slide Chương 3, Trang 43-45"
   },
