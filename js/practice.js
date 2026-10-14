@@ -70,7 +70,13 @@
   }
 
   function renderCurrentPracticeQuestion() {
-    const questions = state.practiceQuestions;
+    let questions = state.practiceQuestions;
+    if (!questions || questions.length === 0) {
+      if (state.allQuestions && state.allQuestions.length > 0) {
+        setPracticeChapter(state.practiceChapter || 'all');
+        questions = state.practiceQuestions;
+      }
+    }
     if (!questions || questions.length === 0) return;
 
     if (state.practiceIndex < 0) state.practiceIndex = 0;

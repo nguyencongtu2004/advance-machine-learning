@@ -31,7 +31,13 @@
   }
 
   function renderFlashcard() {
-    const questions = state.flashcardQuestions;
+    let questions = state.flashcardQuestions;
+    if (!questions || questions.length === 0) {
+      if (state.allQuestions && state.allQuestions.length > 0) {
+        setFlashcardChapter(state.flashcardChapter || 'all');
+        questions = state.flashcardQuestions;
+      }
+    }
     if (!questions || questions.length === 0) return;
 
     if (state.flashcardIndex < 0) state.flashcardIndex = 0;

@@ -229,13 +229,29 @@
     applyTheme(nextTheme);
   }
 
-  // --- KHỞI TẠO DỮ LIỆU ---
+  function getCombinedQuestionBank() {
+    if (Array.isArray(window.QUESTION_BANK) && window.QUESTION_BANK.length > 0) {
+      return window.QUESTION_BANK;
+    }
+    const combined = [
+      ...(window.QUESTIONS_CHUONG_1 || []),
+      ...(window.QUESTIONS_CHUONG_2 || []),
+      ...(window.QUESTIONS_CHUONG_3 || []),
+      ...(window.QUESTIONS_CHUONG_4 || []),
+      ...(window.QUESTIONS_CHUONG_5 || []),
+      ...(window.QUESTIONS_CHUONG_6 || [])
+    ];
+    if (combined.length > 0) {
+      window.QUESTION_BANK = combined;
+      return combined;
+    }
+    return [];
+  }
+
   function initApp() {
-    if (window.QUESTION_BANK && Array.isArray(window.QUESTION_BANK)) {
-      state.allQuestions = window.QUESTION_BANK;
-    } else {
+    state.allQuestions = getCombinedQuestionBank();
+    if (state.allQuestions.length === 0) {
       console.error('Không tìm thấy dữ liệu QUESTION_BANK');
-      state.allQuestions = [];
     }
 
     initTheme();
