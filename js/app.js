@@ -32,7 +32,18 @@
   }
 
   function initApp() {
-    state.allQuestions = getCombinedQuestionBank();
+    state.allQuestions = getCombinedQuestionBank().map(q => {
+      // Đảm bảo answer luôn là số nguyên 0..3 và dọn sạch prefix nếu có
+      if (typeof q.answer === 'string') {
+        const map = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, '0': 0, '1': 1, '2': 2, '3': 3 };
+        const trimmed = q.answer.trim().toUpperCase();
+        if (map[trimmed] !== undefined) q.answer = map[trimmed];
+      }
+      if (Array.isArray(q.options)) {
+        q.options = q.options.map(opt => String(opt).replace(/^[A-D][.)]\s*/, '').trim());
+      }
+      return q;
+    });
     if (state.allQuestions.length === 0) {
       console.error('Không tìm thấy dữ liệu QUESTION_BANK từ các file chương');
     }

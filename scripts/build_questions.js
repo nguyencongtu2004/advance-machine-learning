@@ -54,6 +54,20 @@ files.forEach(filename => {
     return;
   }
 
+  // Chuẩn hóa câu hỏi: answer số 0-3, dọn sạch prefix A. B. C. D. ở options nếu có
+  chQuestions.forEach(q => {
+    if (typeof q.answer === 'string') {
+      const map = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, '0': 0, '1': 1, '2': 2, '3': 3 };
+      const trimmed = q.answer.trim().toUpperCase();
+      if (map[trimmed] !== undefined) {
+        q.answer = map[trimmed];
+      }
+    }
+    if (Array.isArray(q.options)) {
+      q.options = q.options.map(opt => String(opt).replace(/^[A-D][.)]\s*/, '').trim());
+    }
+  });
+
   chapterStats.push({ filename, count: chQuestions.length, chapter: chNum });
   aggregatedQuestions.push(...chQuestions);
 });
