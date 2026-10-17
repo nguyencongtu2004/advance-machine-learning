@@ -6005,5 +6005,2990 @@ window.QUESTION_BANK = [
     "answer": 0,
     "explanation": "Đây là thiết kế kiến trúc chuẩn mực vàng: Đầu vào làm phẳng 28x28 = 784; Tầng ẩn dùng ReLU + He Normal để truyền dẫn tín hiệu tối ưu; Tầng ra 10 nơ-ron tương ứng 10 chữ số dùng Softmax + Categorical Cross-Entropy cho phân loại đa lớp; Tối ưu hóa bằng Adam để hội tụ nhanh và ổn định nhất.",
     "slideRef": "Slide Chương 6, Trang 79-80"
+  },
+  {
+    "id": 401,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Vì sao mạng nơ-ron kết nối đầy đủ (Fully Connected / MLP) gặp khó khăn lớn khi xử lý dữ liệu hình ảnh có kích thước lớn?",
+    "options": [
+      "MLP không thể tính toán được các hàm kích hoạt phi tuyến",
+      "Bùng nổ số lượng tham số kết nối, làm mất cấu trúc không gian 2D/3D và cực kỳ dễ bị Overfitting",
+      "MLP bắt buộc số lượng mẫu huấn luyện phải lớn hơn số chiều của ảnh",
+      "MLP chỉ hoạt động được với ảnh thang độ xám (grayscale) 1 kênh màu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMạng nơ-ron truyền thống (Fully Connected / MLP) bộc lộ 3 nhược điểm chí tử khi xử lý ảnh:\n1. **Bùng nổ tham số:** Mỗi pixel phải nối với mọi nơ-ron ở tầng ẩn. Một bức ảnh nhỏ $64 \\times 64 \\times 3$ nối với tầng ẩn 1.000 nơ-ron đã ngốn hơn 12 triệu tham số!\n2. **Mất thông tin không gian:** Buộc phải dàn phẳng (flatten) ảnh thành vector 1D, xé rời mối quan hệ lân cận giữa các pixel (như mắt, mũi, miệng).\n3. **Dễ Overfitting:** Tham số quá nhiều khiến mô hình học vẹt nhiễu thay vì đặc trưng tổng quát.",
+    "slideRef": "Slide Chương 7, Trang 9"
+  },
+  {
+    "id": 402,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Một ảnh màu kích thước $64 \\times 64 \\times 3$ được kết nối đầy đủ (Fully Connected) với một tầng ẩn gồm $1.000$ nơ-ron. Bỏ qua trọng số bias, số lượng tham số trọng số giữa 2 tầng này xấp xỉ là bao nhiêu?",
+    "options": [
+      "Khoảng 192.000 tham số",
+      "Khoảng 1,2 triệu tham số",
+      "Hơn 12 triệu tham số ($12.288.000$)",
+      "Hơn 64 triệu tham số"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Công thức tính nhanh:\n* Số pixel đầu vào: $64 \\times 64 \\times 3 = 12.288$ pixel.\n* Số nơ-ron tầng ẩn: $1.000$.\n* Số lượng trọng số $W = 12.288 \\times 1.000 = 12.288.000$ (hơn 12 triệu tham số).\nĐây chính là minh chứng rõ ràng nhất cho hiện tượng **Bùng nổ tham số (Parameter Explosion)** của mạng MLP khi xử lý ảnh.",
+    "slideRef": "Slide Chương 7, Trang 9"
+  },
+  {
+    "id": 403,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Hai cơ chế cốt lõi nào giúp Mạng tích chập (CNN) giải quyết triệt để vấn đề bùng nổ tham số của MLP?",
+    "options": [
+      "Lan truyền ngược (Backpropagation) và Tối ưu hóa Adam",
+      "Kết nối cục bộ (Local Connectivity) và Chia sẻ trọng số (Weight Sharing)",
+      "Chính quy hóa L1 Lasso và Cắt tỉa cây (Pruning)",
+      "Phân tích thành phần chính (PCA) và Chuẩn hóa Z-score"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất trực quan:\nCNN giải quyết bài toán xử lý ảnh nhờ 2 nguyên lý thiên tài:\n1. **Kết nối cục bộ (Local Connectivity):** Mỗi nơ-ron chỉ kết nối với một vùng nhỏ lân cận của ảnh (gọi là *Vùng nhận cảm - Receptive Field*) thay vì nối toàn bộ ảnh.\n2. **Chia sẻ trọng số (Weight Sharing):** Cùng một bộ lọc (filter/kernel) được trượt trên khắp bức ảnh để tìm kiếm đặc trưng. Nhờ đó, số lượng tham số giảm đi hàng nghìn lần!",
+    "slideRef": "Slide Chương 7, Trang 10"
+  },
+  {
+    "id": 404,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Quy tắc bắt buộc về chiều sâu (depth) của bộ lọc (Filter / Kernel) trong tầng Convolution là gì?",
+    "options": [
+      "Chiều sâu của bộ lọc luôn bằng 1",
+      "Chiều sâu của bộ lọc phải bằng số lượng lớp phân loại ở đầu ra",
+      "Chiều sâu của bộ lọc phải luôn khớp hoàn toàn với chiều sâu của khối dữ liệu đầu vào",
+      "Chiều sâu của bộ lọc có thể tự do lựa chọn tùy ý người lập trình"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Quy tắc chiều sâu (Depth Rule) - Bẫy thi kinh điển:\n> **Chiều sâu của bộ lọc (filter depth) LUÔN PHẢI BẰNG chiều sâu của khối dữ liệu đầu vào!**\n* Ví dụ: Ảnh màu RGB có 3 kênh màu (độ sâu $= 3$), thì mỗi bộ lọc kích thước $3 \\times 3$ thực chất phải có kích thước là $3 \\times 3 \\times 3$.\n* Nếu đầu vào là một khối feature map có 64 kênh, thì bộ lọc $5 \\times 5$ phải có kích thước thực tế là $5 \\times 5 \\times 64$.",
+    "slideRef": "Slide Chương 7, Trang 13-14"
+  },
+  {
+    "id": 405,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Tại mỗi vị trí bộ lọc dừng lại trên khối dữ liệu đầu vào, phép toán nào được thực hiện để tạo ra một giá trị trên bản đồ kích hoạt (Activation map)?",
+    "options": [
+      "Tính nghịch đảo ma trận giữa bộ lọc và vùng dữ liệu",
+      "Phép nhân từng phần tử (element-wise), cộng tổng tất cả lại rồi cộng thêm một giá trị bias",
+      "Tính khoảng cách Euclidean giữa bộ lọc và vùng dữ liệu",
+      "Lấy giá trị lớn nhất của bộ lọc nhân với giá trị nhỏ nhất của vùng ảnh"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cơ chế tích chập:\n1. Thực hiện phép nhân từng phần tử tương ứng (element-wise multiplication) giữa các trọng số trong bộ lọc và các giá trị pixel trong vùng nhận cảm.\n2. Cộng tổng (summation) tất cả các tích đó lại.\n3. Cộng thêm một hệ số chệch bias $b$.\n$$\\text{Giá trị output} = \\sum_{i,j,c} W_{i,j,c} \\cdot X_{i,j,c} + b$$\nKết quả thu được là một giá trị vô hướng duy nhất tại tọa độ đó trên feature map.",
+    "slideRef": "Slide Chương 7, Trang 14"
+  },
+  {
+    "id": 406,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Số lượng bản đồ đặc trưng (Feature Maps / Activation Maps) ở đầu ra của một tầng Convolution được quyết định bởi yếu tố nào?",
+    "options": [
+      "Kích thước bước nhảy (Stride)",
+      "Độ rộng của viền đệm (Padding)",
+      "Số lượng bộ lọc (filters) độc lập được sử dụng tại tầng đó",
+      "Số kênh màu của ảnh đầu vào ban đầu"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Bản chất trực quan:\n* Mỗi bộ lọc (filter) độc lập sẽ trích xuất một loại đặc trưng riêng biệt (ví dụ filter 1 bắt cạnh ngang, filter 2 bắt góc, filter 3 bắt kết cấu tròn...).\n* Mỗi filter khi trượt hết ảnh sẽ sinh ra đúng **1 bản đồ kích hoạt (feature map) 2D**.\n* Do đó, nếu tầng Conv sử dụng $K$ bộ lọc độc lập, đầu ra sẽ là một khối tensor gồm đúng $K$ bản đồ đặc trưng xếp chồng lên nhau (chiều sâu mới $= K$).",
+    "slideRef": "Slide Chương 7, Trang 13-14"
+  },
+  {
+    "id": 407,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Công thức chuẩn xác để tính kích thước không gian đầu ra ($Output$) sau khi thực hiện phép tích chập trên ảnh kích thước $N \\times N$ với bộ lọc $F \\times F$, độ rộng padding $P$ và bước nhảy $S$ (Stride) là gì?",
+    "options": [
+      "$\\text{Output} = \\frac{N - F}{S} + P$",
+      "$\\text{Output} = \\lfloor\\frac{N + 2P - F}{S}\\rfloor + 1$",
+      "$\\text{Output} = \\frac{N + P - F}{2S} + 1$",
+      "$\\text{Output} = (N + 2P - F) \\times S + 1$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức vàng CNN:\n$$\\text{Output Size} = \\left\\lfloor \\frac{N + 2P - F}{S} \\right\\rfloor + 1$$\n* $N$: Kích thước cạnh đầu vào (chiều rộng hoặc chiều cao).\n* $P$: Độ rộng Padding (đệm viền mỗi bên).\n* $F$: Kích thước cạnh bộ lọc (Filter size).\n* $S$: Bước nhảy (Stride).",
+    "slideRef": "Slide Chương 7, Trang 15"
+  },
+  {
+    "id": 408,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Cho ảnh đầu vào kích thước $32 \\times 32$, áp dụng bộ lọc $5 \\times 5$, bước nhảy $Stride = 1$ và không dùng padding ($P = 0$). Kích thước không gian của bản đồ đặc trưng đầu ra là bao nhiêu?",
+    "options": [
+      "$27 \\times 27$",
+      "$28 \\times 28$",
+      "$30 \\times 30$",
+      "$32 \\times 32$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bấm máy tính nhanh:\nÁp dụng công thức:\n$$\\text{Output} = \\frac{N + 2P - F}{S} + 1 = \\frac{32 + 2(0) - 5}{1} + 1 = 27 + 1 = 28$$\nVậy kích thước đầu ra là $28 \\times 28$.",
+    "slideRef": "Slide Chương 7, Trang 15"
+  },
+  {
+    "id": 409,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Kỹ thuật đệm viền bằng các số 0 (Zero-Padding) trong tầng Convolution mang lại hai lợi ích quan trọng nhất nào?",
+    "options": [
+      "Làm tăng tốc độ hội tụ của gradient và chống tràn số",
+      "Bảo toàn kích thước không gian của dữ liệu và tránh mất mát thông tin ở các vùng rìa ảnh",
+      "Tự động chuẩn hóa trung bình về 0 và phương sai về 1",
+      "Giảm số lượng tham số trọng số cần huấn luyện trong bộ lọc"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hai vai trò sống còn của Padding:\n1. **Bảo toàn kích thước:** Nếu không có padding, qua mỗi tầng Conv kích thước ảnh sẽ bị teo nhỏ dần, khiến mạng không thể xếp chồng nhiều tầng sâu.\n2. **Tránh mất thông tin vùng rìa:** Các pixel ở góc chỉ được filter quét qua 1 lần duy nhất, trong khi pixel ở giữa được quét nhiều lần. Padding giúp các pixel viền được tham gia tính toán đầy đủ hơn.",
+    "slideRef": "Slide Chương 7, Trang 15"
+  },
+  {
+    "id": 410,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Để bảo toàn nguyên vẹn kích thước không gian đầu ra bằng đúng đầu vào ($Output = N$) khi sử dụng bước nhảy $Stride = 1$ với bộ lọc kích thước $7 \\times 7$, ta cần đệm viền (Padding $P$) bằng bao nhiêu?",
+    "options": [
+      "$P = 1$",
+      "$P = 2$",
+      "$P = 3$",
+      "$P = 4$"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Công thức Same Padding ($S = 1$):\n$$P = \\frac{F - 1}{2}$$\nVới bộ lọc $F = 7$:\n$$P = \\frac{7 - 1}{2} = 3$$\n* Thử lại: $\\text{Output} = \\frac{N + 2(3) - 7}{1} + 1 = N - 1 + 1 = N$ (kích thước được bảo toàn hoàn hảo).",
+    "slideRef": "Slide Chương 7, Trang 15"
+  },
+  {
+    "id": 411,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Vì sao hàm kích hoạt ReLU ($f(x) = \\max(0, x)$) trở thành lựa chọn mặc định trong các mạng CNN hiện đại thay cho Sigmoid hay Tanh?",
+    "options": [
+      "Vì ReLU có miền giá trị bị chặn chặt chẽ trong khoảng [-1, 1]",
+      "Vì tính toán cực kỳ đơn giản, đạo hàm miền dương luôn bằng 1 giúp chống triệt tiêu đạo hàm, và thực tế giúp mạng hội tụ nhanh hơn khoảng 6 lần",
+      "Vì ReLU đối xứng hoàn hảo qua gốc tọa độ (zero-centered)",
+      "Vì ReLU có đạo hàm liên tục trơn tru tại mọi điểm bao gồm cả x = 0"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Ưu điểm vượt trội của ReLU trong CNN:\n* **Tính toán siêu nhanh:** Chỉ là phép so sánh logic `max(0, x)`.\n* **Hội tụ nhanh gấp ~6 lần:** Đã được kiểm chứng thực nghiệm từ mô hình AlexNet (2012).\n* **Không bị bão hòa ở miền dương ($x > 0$):** Đạo hàm luôn bằng 1, giúp dòng gradient lan truyền ngược xuyên suốt các tầng sâu mà không bị suy hao như Sigmoid (đạo hàm tối đa chỉ 0.25).",
+    "slideRef": "Slide Chương 7, Trang 18-20"
+  },
+  {
+    "id": 412,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Nhược điểm lớn nhất của Sigmoid và Tanh khi đặt trong các mạng nơ-ron tích chập nhiều tầng là gì?",
+    "options": [
+      "Chi phí tính toán quá rẻ làm giảm độ chính xác của mạng",
+      "Hiện tượng bão hòa gradient: khi đầu vào có trị tuyệt đối lớn, đạo hàm tiến sát về 0 khiến các trọng số tầng trước gần như không được cập nhật",
+      "Không thể phân loại được các bài toán nhị phân",
+      "Làm tăng kích thước không gian của bản đồ đặc trưng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bệnh lý bão hòa Gradient:\nKhi $|x|$ lớn (rất âm hoặc rất dương), đường cong của Sigmoid và Tanh trở nên nằm ngang phẳng lì $\\implies$ gradient $\\approx 0$. Khi áp dụng quy tắc chuỗi trong lan truyền ngược, việc nhân dồn các số $\\approx 0$ khiến gradient truyền về các tầng tích chập ban đầu bị tiêu biến hoàn toàn (Vanishing Gradient).",
+    "slideRef": "Slide Chương 7, Trang 20"
+  },
+  {
+    "id": 413,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Lớp Gộp (Pooling Layer) đóng vai trò gì trong kiến trúc CNN?",
+    "options": [
+      "Tăng số kênh của khối dữ liệu để học thêm nhiều đặc trưng mới",
+      "Giảm kích thước không gian (chiều rộng và chiều cao) của dữ liệu, giảm khối lượng tính toán và dung lượng bộ nhớ",
+      "Cập nhật các trọng số học được thông qua giải thuật tối ưu hóa Adam",
+      "Chuyển đổi các giá trị số thực thành phân phối xác suất tổng bằng 1"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vai trò của Pooling Layer:\nPooling là thao tác giảm mẫu không gian (Spatial Downsampling):\n* Giảm độ phân giải không gian của feature map $\\implies$ giảm mạnh số phép tính và bộ nhớ RAM/GPU cho các tầng phía sau.\n* Giảm thiểu nguy cơ Overfitting do giảm số lượng kích hoạt.",
+    "slideRef": "Slide Chương 7, Trang 21"
+  },
+  {
+    "id": 414,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Lớp Pooling (ví dụ Max Pooling $2 \\times 2$) có bao nhiêu tham số học được (trọng số $W$ và bias $b$) cần huấn luyện?",
+    "options": [
+      "4 tham số trọng số và 1 bias cho mỗi cửa sổ",
+      "Bằng số lượng kênh của khối dữ liệu đầu vào",
+      "Hoàn toàn không có tham số học được (0 tham số)",
+      "Tùy thuộc vào kích thước bước nhảy Stride"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Bẫy thi kinh điển về Pooling:\n> **Lớp Pooling KHÔNG HỀ CÓ THAM SỐ HỌC ĐƯỢC (Parameter-free)!**\nNó chỉ là một hàm toán học định sẵn (như lấy giá trị lớn nhất trong cửa sổ hoặc lấy trung bình cộng). Không có trọng số $W$ hay độ lệch $b$ nào cần tối ưu hóa hay cập nhật trong quá trình huấn luyện.",
+    "slideRef": "Slide Chương 7, Trang 21"
+  },
+  {
+    "id": 415,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Lớp Pooling tác động như thế nào đến chiều sâu (số kênh màu / số feature maps) của khối dữ liệu đi qua nó?",
+    "options": [
+      "Gộp tất cả các kênh lại thành 1 kênh duy nhất",
+      "Giảm một nửa số lượng kênh",
+      "Giữ nguyên hoàn toàn chiều sâu (hoạt động độc lập trên từng kênh riêng biệt)",
+      "Tăng gấp đôi số lượng kênh"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Tính chất độc lập kênh của Pooling:\nLớp Pooling thực hiện tính toán độc lập trên **từng bản đồ đặc trưng (activation map)** riêng rẽ. Nếu đầu vào có kích thước $H \\times W \\times D$, thì sau khi qua Max Pooling $2 \\times 2$ (stride 2), đầu ra sẽ có kích thước là $\\frac{H}{2} \\times \\frac{W}{2} \\times D$. Chiều sâu $D$ được giữ nguyên vẹn!",
+    "slideRef": "Slide Chương 7, Trang 21"
+  },
+  {
+    "id": 416,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Tính chất hình học quan trọng nào mà lớp Max Pooling mang lại cho mô hình CNN?",
+    "options": [
+      "Tính bất biến đối với các phép quay 180 độ",
+      "Tính bất biến đối với các thay đổi nhỏ như tịnh tiến (translation invariance) hoặc biến dạng nhỏ của đối tượng",
+      "Khả năng phục hồi lại ảnh gốc ban đầu với độ phân giải cao",
+      "Tính trực giao hoàn toàn giữa các đặc trưng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tính bất biến tịnh tiến (Translation Invariance):\nMax Pooling chỉ quan tâm đến việc *\"đặc trưng đó có xuất hiện trong vùng quan sát hay không\"* (thể hiện qua giá trị kích hoạt cực đại), chứ không quan tâm đặc trưng đó lệch sang trái hay sang phải 1 vài pixel. Nhờ đó, vật thể hơi dịch chuyển hay méo nhẹ thì đầu ra sau Max Pooling vẫn giữ nguyên giá trị lớn nhất.",
+    "slideRef": "Slide Chương 7, Trang 21"
+  },
+  {
+    "id": 417,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Thao tác làm phẳng (Flattening) trong mạng CNN có nhiệm vụ gì?",
+    "options": [
+      "Làm phẳng ảnh bằng cách xóa toàn bộ các kênh màu",
+      "Chuyển đổi khối tensor đặc trưng 3 chiều $(H \\times W \\times D)$ thành vector 1 chiều có độ dài $H \\cdot W \\cdot D$",
+      "Chuẩn hóa các giá trị pixel về đoạn [0, 1]",
+      "Ép các giá trị âm trong ma trận về số 0"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vai trò của Flattening:\nSau chuỗi các tầng Conv và Pooling, dữ liệu đang ở dạng khối không gian 3 chiều $(H \\times W \\times D)$. Tầng kết nối đầy đủ (Fully Connected) chỉ nhận đầu vào là vector 1 chiều. Do đó, thao tác Flattening sẽ trải phẳng toàn bộ các phần tử thành một vector 1D duy nhất có độ dài $H \\times W \\times D$.",
+    "slideRef": "Slide Chương 7, Trang 23"
+  },
+  {
+    "id": 418,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Hàm kích hoạt Softmax thường được đặt ở đâu trong kiến trúc CNN và giữ vai trò gì?",
+    "options": [
+      "Xen kẽ giữa các tầng tích chập để giảm số chiều không gian",
+      "Đặt tại lớp cuối cùng (Output layer) để chuyển đổi các giá trị số thực thành phân phối xác suất các lớp đối tượng (tổng bằng 1)",
+      "Đặt ngay sau tầng Input để chuẩn hóa giá trị pixel ảnh",
+      "Đặt trong khối Pooling để tính trung bình động"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hàm Softmax ở tầng Output:\nSoftmax nhận vector điểm số (logits) từ lớp Fully Connected cuối cùng và tính:\n$$P(y = k | x) = \\frac{e^{z_k}}{\\sum_{j=1}^C e^{z_j}}$$\nBiến đổi các điểm số thành xác suất hợp lệ (mỗi giá trị $\\in [0, 1]$ và tổng bằng $1$). Lớp nào có xác suất cao nhất sẽ được chọn làm nhãn dự đoán của ảnh.",
+    "slideRef": "Slide Chương 7, Trang 24"
+  },
+  {
+    "id": 419,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Kiến trúc CNN kinh điển nào được Yann LeCun đề xuất năm 1998 để nhận dạng chữ số viết tay trên các tấm séc ngân hàng và mã bưu điện?",
+    "options": [
+      "AlexNet",
+      "VGG-16",
+      "LeNet-5",
+      "ResNet-50"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 LeNet-5 (1998) - Tiên phong lịch sử:\nLeNet-5 do Yann LeCun thiết kế năm 1998 là cột mốc lịch sử đầu tiên áp dụng thành công thuật toán Lan truyền ngược (Backpropagation) trên mạng tích chập để giải quyết bài toán thực tế: nhận dạng chữ số viết tay trên séc ngân hàng (AT&T Labs).",
+    "slideRef": "Slide Chương 7, Trang 27"
+  },
+  {
+    "id": 420,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Cấu trúc cơ bản của mạng LeNet-5 (1998) gồm tổng cộng bao nhiêu lớp?",
+    "options": [
+      "5 lớp",
+      "7 lớp (không tính tầng input)",
+      "16 lớp",
+      "22 lớp"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cấu trúc LeNet-5:\nMạng gồm 7 lớp học được/tính toán (chuỗi `[Conv + Average Pooling]` lặp lại 2 lần, theo sau bởi các lớp Fully Connected và lớp đầu ra 10 chữ số $0-9$). Chữ số '5' trong tên gọi đại diện cho 5 tầng có trọng số chính.",
+    "slideRef": "Slide Chương 7, Trang 27-28"
+  },
+  {
+    "id": 421,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Sự kiện lịch sử nào vào năm 2012 đã đánh dấu bước ngoặt bùng nổ của Học sâu (Deep Learning) trên toàn cầu?",
+    "options": [
+      "Fukushima công bố mô hình Neocognitron",
+      "Yann LeCun giới thiệu tập dữ liệu MNIST",
+      "AlexNet vô địch áp đảo cuộc thi nhận diện ảnh quy mô lớn ImageNet (ILSVRC 2012)",
+      "Google DeepMind đánh bại nhà vô địch cờ vây thế giới"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 AlexNet và Cột mốc 2012:\nNăm 2012, mạng AlexNet (Alex Krizhevsky, Ilya Sutskever, Geoffrey Hinton) đã vô địch cuộc thi ILSVRC 2012 với mức giảm sai số kỷ lục, bỏ xa tất cả các phương pháp thị giác máy tính truyền thống hàng chục phần trăm, chính thức mở ra kỷ nguyên Deep Learning hiện đại.",
+    "slideRef": "Slide Chương 7, Trang 7, 29"
+  },
+  {
+    "id": 422,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Mô hình AlexNet (2012) gồm bao nhiêu lớp và có khoảng bao nhiêu tham số?",
+    "options": [
+      "7 lớp và khoảng 60.000 tham số",
+      "8 lớp (5 Conv + 3 FC) và khoảng 60 triệu tham số",
+      "16 lớp và khoảng 138 triệu tham số",
+      "152 lớp và khoảng 25 triệu tham số"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Thông số AlexNet:\nAlexNet gồm 8 lớp học được (5 lớp Convolutional và 3 lớp Fully Connected), chứa khoảng 60 triệu tham số (gấp 1.000 lần so với LeNet-5).",
+    "slideRef": "Slide Chương 7, Trang 29"
+  },
+  {
+    "id": 423,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Ba cải tiến công nghệ then chốt nào đã giúp AlexNet (2012) tạo nên bước đột phá vượt bậc?",
+    "options": [
+      "Sử dụng Batch Normalization, Skip Connection và Adam Optimizer",
+      "Sử dụng hàm kích hoạt ReLU, kỹ thuật Dropout chống Overfitting và huấn luyện song song trên GPU",
+      "Sử dụng Average Pooling, hàm Sigmoid và giải thuật SVD",
+      "Sử dụng khối Inception, tích chập 1x1 và Global Average Pooling"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 3 Vũ khí tối thượng của AlexNet:\n1. **ReLU:** Giúp mạng hội tụ nhanh hơn 6 lần so với Sigmoid/Tanh.\n2. **Dropout:** Đặt ở các tầng FC để ngắt ngẫu nhiên nơ-ron, ngăn chặn mạng học vẹt (chống Overfitting hiệu quả với 60 triệu tham số).\n3. **Huấn luyện trên 2 GPU song song:** Khắc phục giới hạn phần cứng tính toán thời bấy giờ.",
+    "slideRef": "Slide Chương 7, Trang 30"
+  },
+  {
+    "id": 424,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Triết lý thiết kế cốt lõi làm nên sức mạnh và sự đơn giản của kiến trúc VGGNet (2014) là gì?",
+    "options": [
+      "Chỉ sử dụng các bộ lọc có kích thước rất lớn như 11x11 để nhìn toàn cảnh",
+      "Thay thế các bộ lọc lớn bằng chuỗi các bộ lọc rất nhỏ 3x3 xếp chồng liên tiếp nhau",
+      "Loại bỏ hoàn toàn các lớp Pooling để giữ nguyên độ phân giải",
+      "Chỉ sử dụng 1 tầng tích chập duy nhất kết hợp với mạng MLP cực sâu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Triết lý VGGNet:\nThay vì dùng các filter to kềnh càng ($7 \\times 7$ hay $11 \\times 11$), VGGNet chỉ dùng **DUY NHẤT các bộ lọc nhỏ $3 \\times 3$ (stride 1, pad 1)** xếp chồng liên tiếp, xen kẽ Max Pooling $2 \\times 2$ (stride 2).",
+    "slideRef": "Slide Chương 7, Trang 31"
+  },
+  {
+    "id": 425,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Tại sao việc xếp chồng 3 lớp tích chập $3 \\times 3$ liên tiếp lại vượt trội hơn hẳn so với việc sử dụng một lớp tích chập $7 \\times 7$ đơn lẻ trong VGGNet?",
+    "options": [
+      "Vì 3 lớp 3x3 có kích thước không gian đầu ra lớn gấp 3 lần",
+      "Cùng vùng nhận cảm tương đương (7x7), nhưng có nhiều tầng phi tuyến hơn (3 hàm ReLU) và tiết kiệm gần 45% số lượng tham số",
+      "Vì 3 lớp 3x3 giúp giảm độ sâu của mạng xuống thấp hơn",
+      "Vì 3 lớp 3x3 không cần dùng đến bước nhảy Stride"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 So sánh toán học đỉnh cao giữa 3 lớp 3x3 vs 1 lớp 7x7:\n1. **Vùng nhận cảm tương đương:** 3 lớp $3 \\times 3$ xếp chồng bao phủ đúng 1 vùng ảnh $7 \\times 7$.\n2. **Tăng tính phi tuyến:** 3 lớp có 3 hàm ReLU xen kẽ, giúp biểu diễn đặc trưng phức tạp hơn nhiều so với chỉ 1 hàm ReLU của lớp $7 \\times 7$.\n3. **Tiết kiệm tham số:** Giả sử $C$ kênh vào và ra: 1 lớp $7 \\times 7$ tốn $7^2 C^2 = 49 C^2$ tham số; trong khi 3 lớp $3 \\times 3$ chỉ tốn $3 \\times (3^2 C^2) = 27 C^2$ tham số (giảm gần 45% trọng số!).",
+    "slideRef": "Slide Chương 7, Trang 32"
+  },
+  {
+    "id": 426,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Điểm đột phá nhất trong cấu trúc của khối \"Inception\" trong mạng GoogLeNet (2014) là gì?",
+    "options": [
+      "Chỉ tính toán tuần tự từng tầng một cách nghiêm ngặt",
+      "Thực hiện song song đồng thời các phép tích chập 1x1, 3x3, 5x5 và Max Pooling 3x3 trong cùng một lớp rồi ghép kết quả lại",
+      "Loại bỏ hoàn toàn hàm kích hoạt ReLU để giữ tính tuyến tính",
+      "Nhân đôi số lượng kết nối Fully Connected để tăng độ phức tạp"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khối Inception đa quy mô (Multi-scale):\nThay vì phân vân nên chọn kernel $1 \\times 1$, $3 \\times 3$ hay $5 \\times 5$, GoogLeNet chạy **song song cả 4 nhánh** (Conv $1 \\times 1$, Conv $3 \\times 3$, Conv $5 \\times 5$ và Max Pooling $3 \\times 3$) để nắm bắt thông tin ở nhiều thang đo khác nhau trong cùng 1 tầng, sau đó nối kết quả (concatenate) theo chiều kênh.",
+    "slideRef": "Slide Chương 7, Trang 33"
+  },
+  {
+    "id": 427,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Lớp tích chập $1 \\times 1$ (1x1 Convolution) đóng vai trò \"Nút cổ chai\" (Bottleneck) trong GoogLeNet và ResNet nhằm mục đích chính là gì?",
+    "options": [
+      "Thu nhỏ chiều rộng và chiều cao của ảnh đi một nửa",
+      "Giảm số chiều sâu kênh (Channel dimensionality reduction) trước các phép tính tích chập tốn kém, giúp giảm mạnh khối lượng tính toán",
+      "Thay thế hoàn toàn chức năng của lớp Softmax",
+      "Đảo ngược thứ tự các kênh màu của dữ liệu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vũ khí 1x1 Conv (Bottleneck):\nTích chập $1 \\times 1$ giữ nguyên chiều rộng và chiều cao $(H, W)$, nhưng cho phép **nén số lượng kênh màu từ lớn về nhỏ** (ví dụ từ 256 kênh xuống còn 64 kênh) trước khi đi vào các bộ lọc $3 \\times 3$ và $5 \\times 5$ nặng nề. Nhờ đó, số lượng phép tính trong khối Inception giảm từ 854 triệu xuống chỉ còn 353 triệu phép tính!",
+    "slideRef": "Slide Chương 7, Trang 34"
+  },
+  {
+    "id": 428,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Để loại bỏ nguy cơ Overfitting và giảm mạnh hàng chục triệu tham số ở các lớp Fully Connected cuối mạng, GoogLeNet đã sử dụng kỹ thuật gì?",
+    "options": [
+      "Lớp Gộp trung bình toàn cục (Global Average Pooling - GAP)",
+      "Chính quy hóa L1 Lasso ép trọng số về 0",
+      "Kỹ thuật lấy mẫu lặp lại Bootstrap",
+      "Xóa bỏ hoàn toàn lớp Softmax"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Đột phá Global Average Pooling (GAP):\nThay vì dùng các lớp FC dày đặc chứa hàng triệu tham số dễ gây overfit ở đuôi mạng, GoogLeNet tính giá trị trung bình trên toàn bộ từng feature map $H \\times W$ để ra đúng 1 con số cho mỗi kênh. Nhờ đó, GoogLeNet có độ sâu tới 22 lớp nhưng chỉ có ~5 triệu tham số (ít hơn AlexNet 12 lần).",
+    "slideRef": "Slide Chương 7, Trang 34"
+  },
+  {
+    "id": 429,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Kiến trúc ResNet (2015) của Kaiming He đã đạt thành tích lịch sử nào tại cuộc thi ILSVRC 2015?",
+    "options": [
+      "Đạt tốc độ xử lý 1.000 khung hình/giây trên điện thoại",
+      "Vô địch với tỷ lệ lỗi Top-5 chỉ 3.57%, lần đầu tiên vượt qua độ chính xác của con người (~5.1%)",
+      "Mô hình hoàn toàn không có tham số cần học",
+      "Chạy được trên dữ liệu âm thanh mà không cần chuyển đổi sóng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cột mốc lịch sử của ResNet:\nResNet (152 lớp) đã vô địch áp đảo ILSVRC 2015 với sai số Top-5 chỉ $3.57\\%$, chính thức đánh bại ngưỡng nhận thức của mắt người (khoảng $5.1\\%$) trong bài toán nhận diện và phân loại hình ảnh.",
+    "slideRef": "Slide Chương 7, Trang 36"
+  },
+  {
+    "id": 430,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Hiện tượng suy biến (Degradation Problem) xảy ra khi xây dựng các mạng CNN rất sâu trước thời điểm ResNet ra đời là gì?",
+    "options": [
+      "Mô hình bị Overfitting nặng khiến train error bằng 0 nhưng test error rất cao",
+      "Khi tăng độ sâu của mạng (ví dụ từ 20 lên 56 lớp), sai số trên cả tập huấn luyện (Train error) lẫn tập kiểm thử đều tăng cao hơn do việc tối ưu hóa gặp khó khăn",
+      "Bộ nhớ GPU bị tràn khiến mạng tự động ngắt kết nối",
+      "Các bộ lọc tích chập tự động đồng nhất về giá trị 0"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Suy biến (Degradation) KHÔNG PHẢI là Overfitting - Bẫy thi kinh điển:\n* Nếu là Overfitting thì sai số tập Train phải cực thấp (Loss $\\approx 0$).\n* Nhưng trong hiện tượng suy biến, **cả sai số Train lẫn sai số Test đều tăng cao**! Điều này chứng minh rằng mạng sâu hơn lại khó tối ưu hóa hơn so với mạng nông.",
+    "slideRef": "Slide Chương 7, Trang 36"
+  },
+  {
+    "id": 431,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Giải pháp cốt lõi mang tính cách mạng của kiến trúc ResNet để giải quyết hiện tượng suy biến mạng sâu là gì?",
+    "options": [
+      "Áp dụng thuật toán di truyền để tìm siêu tham số",
+      "Sử dụng kết nối tắt (Skip / Shortcut Connection) để học biểu diễn phần dư: $\\mathcal{H}(x) = \\mathcal{F}(x) + x$",
+      "Thay toàn bộ các lớp tích chập bằng các lớp hồi quy tuyến tính OLS",
+      "Tăng kích thước bộ lọc lên 15x15 để tăng độ bao phủ"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cơ chế Skip Connection (Học phần dư):\nCho phép tín hiệu đầu vào $x$ nhảy cóc qua một vài lớp trung gian và cộng trực tiếp vào đầu ra: $\\mathcal{H}(x) = \\mathcal{F}(x) + x$.\n* Thay vì ép các lớp phải học toàn bộ ánh xạ $\\mathcal{H}(x)$, chúng chỉ cần học phần chênh lệch dư $\\mathcal{F}(x) = \\mathcal{H}(x) - x$.\n* Về mặt toán học, gradient khi truyền ngược luôn có thành phần $+1$: $\\frac{\\partial \\mathcal{E}}{\\partial x} = \\frac{\\partial \\mathcal{E}}{\\partial \\mathcal{H}} (\\frac{\\partial \\mathcal{F}}{\\partial x} + 1)$, tạo ra đường cao tốc cho gradient không bao giờ bị triệt tiêu!",
+    "slideRef": "Slide Chương 7, Trang 36-37"
+  },
+  {
+    "id": 432,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Khối nút cổ chai (Bottleneck Design) được sử dụng trong các phiên bản sâu của ResNet (ResNet-50, 101, 152) gồm chuỗi 3 lớp tích chập nào?",
+    "options": [
+      "Conv 3x3 -> Conv 3x3 -> Conv 3x3",
+      "Conv 1x1 (giảm chiều kênh) -> Conv 3x3 -> Conv 1x1 (phục hồi chiều kênh)",
+      "Conv 5x5 -> Conv 3x3 -> Conv 1x1",
+      "Conv 7x7 -> MaxPool 2x2 -> Conv 1x1"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khối Bottleneck trong ResNet-50+:\n1. **Conv 1x1:** Giảm độ sâu kênh (ví dụ từ 256 xuống 64).\n2. **Conv 3x3:** Xử lý tích chập trên không gian đã thu nhỏ số kênh.\n3. **Conv 1x1:** Phục hồi (tăng) số kênh trở lại (ví dụ từ 64 lên 256) trước khi cộng skip connection $x$.\nThiết kế này giúp giảm khối lượng tính toán khổng lồ để có thể huấn luyện mạng sâu tới 152 lớp.",
+    "slideRef": "Slide Chương 7, Trang 37"
+  },
+  {
+    "id": 433,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Sự khác biệt căn bản giữa bài toán Định vị đối tượng (Object Localization) và bài toán Phát hiện đối tượng (Object Detection) là gì?",
+    "options": [
+      "Định vị chỉ làm việc với ảnh đen trắng, Phát hiện làm việc với ảnh màu",
+      "Định vị chỉ xác định vị trí của duy nhất một đối tượng trong ảnh; Phát hiện xác định vị trí và phân loại nhiều đối tượng khác nhau đồng thời",
+      "Định vị sử dụng mạng MLP, Phát hiện sử dụng mạng CNN",
+      "Định vị cho kết quả chính xác hơn Phát hiện đối tượng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Phân biệt các bài toán thị giác máy tính:\n* **Phân loại (Classification):** Xác định ảnh chứa đối tượng gì (1 nhãn cho toàn ảnh).\n* **Định vị (Localization):** Xác định vị trí của **1 đối tượng duy nhất** bằng khung bao (Bounding Box).\n* **Phát hiện đối tượng (Object Detection):** Đồng thời tìm khung bao và định danh cho **nhiều đối tượng khác nhau** xuất hiện trong cùng 1 bức ảnh.",
+    "slideRef": "Slide Chương 7, Trang 42"
+  },
+  {
+    "id": 434,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Nhóm thuật toán phát hiện đối tượng Hai giai đoạn (Two-stage detectors) như R-CNN, Faster R-CNN hoạt động theo nguyên lý nào?",
+    "options": [
+      "Dự đoán trực tiếp vị trí hộp và nhãn lớp trong 1 lần quét duy nhất",
+      "Đề xuất các vùng tiềm năng (Region Proposals) trước, sau đó mới phân loại và tinh chỉnh khung bao cho từng vùng",
+      "Sử dụng thuật toán K-Means để gom cụm các pixel lân cận",
+      "Chỉ dựa vào sự thay đổi độ sáng của ảnh qua thời gian"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Two-stage vs One-stage Detectors:\n* **Two-stage (R-CNN, Fast R-CNN, Faster R-CNN):** Giai đoạn 1 sinh ra các vùng nghi ngờ có đối tượng (Proposals); Giai đoạn 2 đưa từng vùng qua CNN để phân loại và nắn chỉnh tọa độ hộp. Ưu điểm: Độ chính xác rất cao; Nhược điểm: Xử lý chậm.\n* **One-stage (YOLO, SSD):** Dự đoán thẳng trên lưới ô trong 1 lần duyệt, đạt tốc độ thời gian thực.",
+    "slideRef": "Slide Chương 7, Trang 42, 44"
+  },
+  {
+    "id": 435,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Thuật toán phát hiện đối tượng nào sau đây thuộc nhóm Một giai đoạn (One-stage detector), nổi tiếng với khả năng xử lý thời gian thực (Real-time)?",
+    "options": [
+      "R-CNN",
+      "Faster R-CNN",
+      "YOLO (You Only Look Once)",
+      "LeNet-5"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 YOLO (You Only Look Once):\nYOLO và SSD là đại diện tiêu biểu của nhóm One-stage detector. Thay vì đề xuất vùng qua 2 bước, YOLO coi bài toán phát hiện đối tượng là một bài toán hồi quy duy nhất, dự đoán trực tiếp tọa độ hộp và xác suất lớp trên toàn bộ bức ảnh trong một lần chạy mạng duy nhất, đạt tốc độ hàng chục đến hàng trăm FPS.",
+    "slideRef": "Slide Chương 7, Trang 42, 44"
+  },
+  {
+    "id": 436,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Trong hệ thống tìm kiếm và truy vấn ảnh tương đồng (Image Retrieval / Google Photos), CNN được ứng dụng theo cơ chế nào?",
+    "options": [
+      "Tìm kiếm dựa trên việc khớp từng pixel ảnh thô",
+      "Trích xuất các vector đặc trưng (feature vectors / embeddings) từ tầng sâu của CNN và so sánh độ tương đồng góc giữa các vector",
+      "Dùng thuật toán sắp xếp từ điển trên tên file ảnh",
+      "Chuyển đổi toàn bộ ảnh thành các file mã nguồn nhị phân"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Truy vấn ảnh theo nội dung (CBIR):\nThay vì tìm theo từ khóa văn bản thủ công, hệ thống nạp ảnh vào CNN để lấy ra **vector đặc trưng (embedding)** ở tầng gần cuối (trước tầng Softmax). Hai bức ảnh có nội dung tương đồng (như cùng là bãi biển hay con chó) sẽ có các vector nằm rất gần nhau trong không gian biểu diễn (tính bằng khoảng cách Cosine hoặc Euclidean).",
+    "slideRef": "Slide Chương 7, Trang 41"
+  },
+  {
+    "id": 437,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Ứng dụng nào sau đây trong máy ảnh số và điện thoại thông minh là minh chứng tiêu biểu cho khả năng phân tích biểu cảm và trạng thái của CNN?",
+    "options": [
+      "Tính năng tự động zoom quang học",
+      "Tính năng Smile Shutter (tự động nhận diện nụ cười để chụp ảnh)",
+      "Tính năng điều chỉnh độ nhạy sáng ISO thủ công",
+      "Tính năng đo dung lượng pin còn lại"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Phân tích biểu cảm khuôn mặt:\nCông nghệ **Smile Shutter** trên máy ảnh kỹ thuật số (Sony, Canon) và smartphone sử dụng mô hình CNN để phát hiện khuôn mặt và nhận diện trạng thái cơ mặt khi người chụp cười, từ đó tự động kích hoạt màn trập chụp ảnh mà không cần bấm nút.",
+    "slideRef": "Slide Chương 7, Trang 47-48"
+  },
+  {
+    "id": 438,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Ví dụ lịch sử nổi tiếng nào trong slide bài giảng minh chứng cho độ chính xác cực cao của công nghệ nhận dạng mống mắt (Iris Recognition) bằng thị giác máy tính?",
+    "options": [
+      "Nhận dạng danh tính bức họa nàng Mona Lisa",
+      "Xác định chính xác danh tính \"Cô gái Afghanistan\" của tạp chí National Geographic sau nhiều thập kỷ",
+      "Phân biệt cặp song sinh giống hệt nhau tại lễ hội hoa",
+      "Nhận diện các loài chim quý hiếm ở rừng rậm Amazon"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vụ án nhận dạng mống mắt kinh điển:\nBức ảnh bức chân dung nổi tiếng \"Cô gái Afghanistan\" (Sharbat Gula) chụp năm 1984. Sau 17 năm (năm 2002), các nhà khoa học đã sử dụng công nghệ nhận dạng mống mắt (Iris Recognition) của John Daugman để đối chiếu cấu trúc mống mắt của người phụ nữ trưởng thành và khẳng định chắc chắn 100% đó chính là cô bé trong bức ảnh năm xưa.",
+    "slideRef": "Slide Chương 7, Trang 48"
+  },
+  {
+    "id": 439,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Trong công nghệ xe tự hành (Autonomous Vehicles), CNN đóng vai trò nòng cốt trong việc xử lý các tác vụ nào?",
+    "options": [
+      "Chỉ dùng để bật tắt hệ thống điều hòa trên xe",
+      "Nhận diện làn đường thông qua phân đoạn ảnh và phát hiện, theo dõi người đi bộ, phương tiện xung quanh theo thời gian thực",
+      "Đo lượng nhiên liệu tiêu thụ của động cơ đốt trong",
+      "Tự động tính cước phí bảo hiểm định kỳ cho xe"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 CNN trong xe tự hành:\nXe tự hành (Tesla, Waymo) sử dụng chuỗi camera xung quanh kết hợp các mạng CNN thời gian thực để:\n1. Phân đoạn ngữ nghĩa làn đường, vạch kẻ đường, vỉa hè.\n2. Phát hiện và theo dõi khung bao (Bounding Box) của các vật cản: xe hơi, xe máy, người đi bộ, biển báo giao thông để đưa ra quyết định đánh lái hoặc phanh gấp an toàn.",
+    "slideRef": "Slide Chương 7, Trang 50"
+  },
+  {
+    "id": 440,
+    "chapter": 7,
+    "chapterTitle": "Chương 7: Mạng tích chập (CNN)",
+    "question": "Thiết bị giải trí và tương tác người - máy nào của Microsoft được nhắc đến trong slide như một ứng dụng tiêu biểu của mạng tích chập trong việc hiểu cấu trúc không gian và nhận diện cử chỉ cơ thể?",
+    "options": [
+      "Microsoft Surface Pro",
+      "Microsoft HoloLens 2",
+      "Microsoft Kinect",
+      "Microsoft Xbox Controller không dây"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Microsoft Kinect:\nMicrosoft Kinect sử dụng camera chiều sâu (depth camera) kết hợp các mô hình tích chập để phân tích khung xương (skeleton tracking), tái tạo tư thế 3D và nhận diện cử chỉ chuyển động cơ thể của người chơi theo thời gian thực mà không cần người dùng phải cầm tay cầm điều khiển.",
+    "slideRef": "Slide Chương 7, Trang 52"
+  },
+  {
+    "id": 441,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Nguyên lý cốt lõi nào giúp Support Vector Machine (SVM) tìm ra siêu phẳng phân loại tối ưu giữa nhiều đường phân chia khả dĩ?",
+    "options": [
+      "Nguyên lý cực tiểu hóa tổng bình phương phần dư (OLS)",
+      "Nguyên lý cực đại hóa khoảng cách lề (Maximum-Margin Principle) - chọn siêu phẳng có khoảng cách tới các điểm gần nhất ở cả hai phía là lớn nhất",
+      "Nguyên lý cực đại hóa hàm hợp lý cực đại (MLE)",
+      "Nguyên lý tăng giảm độ dốc ngẫu nhiên (SGD)"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Nguyên lý Maximum-Margin:\nVới dữ liệu phân tách tuyến tính, có vô số siêu phẳng có thể phân chia đúng tập train. SVM giải quyết vấn đề ranh giới (Boundary Problem) bằng cách chọn siêu phẳng tạo ra **độ rộng lề (Margin - \"con đường\") rộng nhất**. Siêu phẳng có lề lớn nhất sẽ có rủi ro tổng quát hóa (Generalization Error) thấp nhất trên dữ liệu mới.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 5-6"
+  },
+  {
+    "id": 442,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Trong mô hình SVM, khái niệm \"Support Vectors\" (Các vectơ hỗ trợ) dùng để chỉ các điểm dữ liệu nào?",
+    "options": [
+      "Tất cả các điểm dữ liệu nằm trong tập kiểm thử (Test Set)",
+      "Các điểm dữ liệu nằm gần siêu phẳng nhất, nằm trên đường biên lề (hoặc phạm lề) và trực tiếp định hình vị trí siêu phẳng phân loại",
+      "Trọng tâm (Centroid) trung bình của mỗi lớp đối tượng",
+      "Các điểm dữ liệu bị gán nhãn sai trong quá trình gán nhãn"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất của Support Vectors:\nChỉ các điểm dữ liệu nằm sát lề (trên siêu phẳng $w^Tx + b = \\pm 1$) hoặc các điểm vi phạm lề mới tham gia trực tiếp vào việc xác định nghiệm $w$ và $b$. Mọi điểm dữ liệu khác nằm an toàn ngoài lề dù dịch chuyển hay xóa bỏ hoàn toàn cũng **không làm thay đổi siêu phẳng quyết định** của SVM!",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 9"
+  },
+  {
+    "id": 443,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Khoảng cách lề (Margin) giữa hai siêu phẳng biên $w^Tx + b = 1$ và $w^Tx + b = -1$ trong bài toán Hard-Margin SVM bằng bao nhiêu?",
+    "options": [
+      "$\\frac{1}{\\|w\\|}$",
+      "$\\frac{2}{\\|w\\|}$",
+      "$\\frac{1}{2}\\|w\\|^2$",
+      "$\\frac{\\|w\\|}{2}$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức độ rộng lề SVM:\nKhoảng cách hình học từ gốc tới mặt phẳng $w^Tx + b = 1$ là $\\frac{1 - b}{\\|w\\|}$ và tới mặt phẳng $w^Tx + b = -1$ là $\\frac{-1 - b}{\\|w\\|}$. Khoảng cách giữa 2 mặt phẳng này là:\n$$\\text{Margin} = \\frac{2}{\\|w\\|}$$\nDo đó, cực đại hóa Margin tương đương với **cực tiểu hóa $\\frac{1}{2}\\|w\\|^2$**.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 8, 39"
+  },
+  {
+    "id": 444,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Điểm khác biệt căn bản giữa Hard-Margin SVM và Soft-Margin SVM là gì?",
+    "options": [
+      "Hard-Margin dùng hàm kích hoạt phi tuyến, Soft-Margin dùng hàm tuyến tính",
+      "Hard-Margin yêu cầu dữ liệu phải phân tách tuyến tính tuyệt đối 100% không cho phép lỗi; Soft-Margin đưa vào các biến bù lỏng (slack variables $\\xi_i$) để dung nạp một số điểm lấn lề hoặc phân loại sai",
+      "Hard-Margin chỉ chạy được trên CPU, Soft-Margin chạy được trên GPU",
+      "Hard-Margin là học không giám sát, Soft-Margin là học có giám sát"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hard-Margin vs Soft-Margin:\n* **Hard-Margin:** Ép mọi mẫu thỏa mãn $y_i(w^Tx_i + b) \\ge 1$. Cực kỳ nhạy cảm với ngoại lai (outliers) và vô nghiệm nếu dữ liệu không phân tách tuyến tính hoàn hảo.\n* **Soft-Margin (Cortes & Vapnik 1995):** Thêm biến bù lỏng $\\xi_i \\ge 0$: $y_i(w^Tx_i + b) \\ge 1 - \\xi_i$, cho phép mô hình chấp nhận một lượng lỗi nhất định để có đường biên rộng và khái quát hơn.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 11"
+  },
+  {
+    "id": 445,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Trong Soft-Margin SVM, siêu tham số điều chuẩn $C$ đóng vai trò gì?",
+    "options": [
+      "Số lượng cây quyết định trong mô hình",
+      "Hệ số phạt vi phạm lề: $C$ càng lớn thì phạt càng nặng lỗi vi phạm, lề càng hẹp và dễ Overfitting; $C$ nhỏ thì lề rộng hơn và chấp nhận nhiều vi phạm hơn",
+      "Bán kính của siêu cầu trong thuật toán Ball Tree",
+      "Tốc độ học (Learning Rate) của mạng nơ-ron"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Siêu tham số phạt $C$:\nHàm mục tiêu: $\\min \\frac{1}{2}\\|w\\|^2 + C \\sum_{i=1}^n \\xi_i$.\n* **$C$ lớn (tiến về Hard-Margin):** Phạt cực nặng các điểm vi phạm $\\implies$ cố gắng phân loại đúng từng mẫu $\\implies$ Lề hẹp, dễ bị **Overfitting**.\n* **$C$ nhỏ (Soft-Margin mạnh):** Ít quan tâm đến từng điểm vi phạm $\\implies$ Ưu tiên tối đa hóa độ rộng lề $\\implies$ Lề rộng, tăng tính tổng quát, nhưng nếu quá nhỏ sẽ bị **Underfitting**.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 12"
+  },
+  {
+    "id": 446,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "\"Kernel Trick\" (Bí quyết hạt nhân) trong SVM cho phép mô hình làm được điều gì mà không làm bùng nổ chi phí tính toán?",
+    "options": [
+      "Tự động điền dữ liệu khuyết bằng trung vị",
+      "Ánh xạ ngầm định các mẫu dữ liệu vào không gian nhiều chiều hơn để phân tách tuyến tính, thông qua việc tính tích vô hướng $K(x, z) = \\langle \\phi(x), \\phi(z) \\rangle$ mà không cần tính toán tọa độ chiếu cụ thể $\\phi(x)$",
+      "Tự động loại bỏ các thuộc tính bị đa cộng tuyến",
+      "Chuyển đổi bài toán phân loại thành bài toán phân cụm"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất kỳ diệu của Kernel Trick:\nKhi dữ liệu gốc phi tuyến không thể phân tách bằng đường thẳng trong không gian 2D, ta có thể chiếu lên không gian 3D hoặc vô hạn chiều để phân tách phẳng. Thay vì phải tính vector biến đổi khổng lồ $\\phi(x)$, Kernel Trick sử dụng hàm nhân $K(x, z)$ tính trực tiếp độ tương đồng ngay trong không gian gốc $\\implies$ Chi phí tính toán cực thấp!",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 14"
+  },
+  {
+    "id": 447,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Hàm nhân RBF (Radial Basis Function / Gaussian Kernel) trong Scikit-Learn có công thức toán học là gì?",
+    "options": [
+      "$K(x, x') = \\langle x, x' \\rangle$",
+      "$K(x, x') = (\\gamma \\langle x, x' \\rangle + r)^d$",
+      "$K(x, x') = \\exp(-\\gamma \\|x - x'\\|^2)$ với $\\gamma > 0$",
+      "$K(x, x') = \\tanh(\\gamma \\langle x, x' \\rangle + r)$"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Công thức RBF Kernel:\n$$K(x, x') = \\exp(-\\gamma \\|x - x'\\|^2)$$\nĐây là hàm nhân phổ biến và mạnh mẽ nhất trong SVM, ánh xạ dữ liệu vào một không gian đặc trưng vô hạn chiều (Hilbert space) dựa trên khoảng cách bình phương Euclidean giữa 2 điểm.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 15-16"
+  },
+  {
+    "id": 448,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Trong hàm nhân RBF của SVM, siêu tham số $\\gamma$ (gamma) kiểm soát điều gì và tác động thế nào đến ranh giới quyết định?",
+    "options": [
+      "Kiểm soát số lớp đầu ra",
+      "Kiểm soát bán kính ảnh hưởng của từng mẫu Support Vector: $\\gamma$ lớn làm quả chuông Gaussian hẹp $\\implies$ ranh giới uốn lượn sát từng điểm, dễ Overfitting; $\\gamma$ nhỏ làm quả chuông phẳng rộng $\\implies$ ranh giới trơn, phẳng",
+      "Kiểm soát tốc độ suy giảm của gradient",
+      "Kiểm soát số lượng cây lặp trong mô hình"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Siêu tham số $\\gamma$ (Gamma) trong RBF:\n* **$\\gamma$ lớn:** Bán kính ảnh hưởng rất hẹp, chỉ các điểm cực gần mới tương đồng $\\implies$ Ranh giới quyết định co cụm quanh từng mẫu huấn luyện $\\implies$ Nguy cơ cao bị **Overfitting**.\n* **$\\gamma$ nhỏ:** Bán kính ảnh hưởng rất rộng $\\implies$ Ranh giới trơn phẳng mượt mà, nhưng nếu quá nhỏ sẽ làm ranh giới gần như đường thẳng $\\implies$ **Underfitting**.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 16-17"
+  },
+  {
+    "id": 449,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Để xử lý bài toán phân loại đa lớp ($K > 2$ lớp), lớp `SVC` trong thư viện Scikit-Learn mặc định sử dụng chiến lược nào ở tầng huấn luyện nội bộ?",
+    "options": [
+      "One-vs-Rest (OvR) với đúng $K$ bộ phân loại",
+      "One-vs-One (OvO) với $\\frac{K(K-1)}{2}$ bộ phân loại nhị phân độc lập",
+      "Hàm kích hoạt Softmax đa thức",
+      "Thuật toán cây bao trùm tối thiểu Prim"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cơ chế đa lớp trong Scikit-Learn `SVC`:\n`SVC` (dựa trên thư viện libsvm) **luôn luôn huấn luyện nội bộ theo chiến lược One-vs-One (OvO)**:\n$$\\text{Số mô hình} = \\frac{K(K-1)}{2}$$\nVí dụ với bài toán Iris ($K = 3$ lớp), `SVC` huấn luyện $\\frac{3 \\times 2}{2} = 3$ bộ phân loại nhị phân (Lớp 0 vs 1, Lớp 0 vs 2, Lớp 1 vs 2).",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 21, 34"
+  },
+  {
+    "id": 450,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Điểm khác biệt kỹ thuật then chốt giữa `LinearSVC` và `SVC(kernel='linear')` trong Scikit-Learn là gì?",
+    "options": [
+      "`LinearSVC` hỗ trợ kernel RBF, còn `SVC(kernel='linear')` thì không",
+      "`LinearSVC` dựa trên thư viện liblinear, mặc định dùng One-vs-Rest (OvR), tối ưu hóa hàm mất mát bình phương bản lề (squared hinge loss) và có tốc độ mở rộng tốt hơn nhiều trên dữ liệu lớn",
+      "`LinearSVC` chỉ chạy được trên CPU 32-bit",
+      "Hai class này hoàn toàn đồng nhất 100% về mặt thuật toán và cài đặt"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 So sánh `LinearSVC` vs `SVC(kernel='linear')`:\n* `SVC(kernel='linear')`: Dựa trên libsvm, huấn luyện One-vs-One, độ phức tạp khoảng $O(n^2)$ đến $O(n^3)$, chậm khi số mẫu lớn.\n* `LinearSVC`: Dựa trên liblinear, dùng One-vs-Rest, tối ưu hóa trực tiếp hàm mục tiêu tuyến tính (thường dùng Squared Hinge Loss), chạy cực kỳ nhanh trên tập dữ liệu hàng triệu dòng hoặc văn bản thưa.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 20, 37"
+  },
+  {
+    "id": 451,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Mô hình hồi quy bằng máy vectơ hỗ trợ (Support Vector Regression - SVR) sử dụng cơ chế dải ống nào để kiểm soát sai số?",
+    "options": [
+      "Dải phân vị IQR",
+      "Dải ống không nhạy sai số $\\epsilon$ ($\\epsilon$-insensitive tube): các sai số dự đoán nằm trong phạm vi $\\pm \\epsilon$ so với giá trị thực sẽ có hàm mất mát bằng 0",
+      "Dải độ lệch chuẩn $3\\sigma$",
+      "Dải khoảng cách Mahalanobis"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 $\\epsilon$-Insensitive Tube trong SVR:\nKhác với OLS luôn phạt mọi sai số $y - \\hat{y}$, SVR định nghĩa một vùng an toàn có độ rộng $\\pm \\epsilon$ quanh đường hồi quy. Bất kỳ mẫu nào rơi vào bên trong ống này đều được xem là dự đoán hoàn hảo (loss $= 0$). Chỉ các mẫu nằm ngoài ống mới bị phạt tỷ lệ tuyến tính với khoảng cách vi phạm.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 26-27, 41"
+  },
+  {
+    "id": 452,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Lớp `OneClassSVM` trong thư viện Scikit-Learn thường được ứng dụng cho bài toán nào?",
+    "options": [
+      "Hồi quy đa biến số",
+      "Phát hiện điểm bất thường, ngoại lai hoặc dữ liệu mới lạ (Novelty & Outlier Detection) trên tập dữ liệu không nhãn",
+      "Phân loại hình ảnh chữ số viết tay",
+      "Phân tích cú pháp văn bản ngữ pháp"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Ứng dụng của OneClassSVM:\n`OneClassSVM` (Schölkopf et al.) học một ranh giới bao quanh vùng tập trung đa số của dữ liệu bình thường trong không gian đặc trưng. Bất kỳ mẫu mới nào rơi ra ngoài ranh giới này sẽ bị gắn nhãn là điểm dị biệt / bất thường (Anomaly/Outlier).",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 29"
+  },
+  {
+    "id": 453,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Mô hình SVM nguyên bản chỉ cho điểm khoảng cách hình học (`decision_function`). Muốn có xác suất dự đoán `predict_proba()` trong Scikit-Learn `SVC`, kỹ thuật nào được sử dụng?",
+    "options": [
+      "Hàm kích hoạt Tanh trực tiếp",
+      "Kỹ thuật hiệu chuẩn Platt Scaling (fit hàm Logistic Sigmoid trên điểm số thông qua Cross-Validation 5-fold) khi thiết lập `probability=True`",
+      "Chia đều xác suất cho tất cả các lớp",
+      "Chuẩn hóa Min-Max điểm số về đoạn [0, 1]"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Platt Scaling trong SVM:\nSVM không sinh ra xác suất tự nhiên như Logistic Regression. Khi đặt `probability=True`, `SVC` chạy phương pháp Platt Scaling: huấn luyện một hàm Sigmoid $P(y=1|f) = \\frac{1}{1 + \\exp(A f + B)}$ trên điểm khoảng cách $f(x)$ bằng 5-fold cross-validation. Thao tác này làm tăng thời gian huấn luyện đáng kể.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 22, 36"
+  },
+  {
+    "id": 454,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Khi làm việc với dữ liệu mất cân bằng lớp nghiêm trọng (Imbalanced Data), tham số nào trong `SVC` giúp tự động tăng trọng số phạt cho các lớp thiểu số?",
+    "options": [
+      "`kernel='poly'`",
+      "`class_weight='balanced'`",
+      "`shrinking=False`",
+      "`decision_function_shape='ovo'`"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tham số `class_weight='balanced'`:\nTự động điều chỉnh hệ số phạt $C$ tỷ lệ nghịch với tần suất xuất hiện của từng lớp:\n$$C_k = C \\times \\frac{n_{\\text{samples}}}{n_{\\text{classes}} \\times n_k}$$\nNhờ đó, việc đoán sai một mẫu thuộc lớp hiếm sẽ bị phạt nặng hơn nhiều, giúp đường biên không bị lớp đa số chèn ép.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 23-25"
+  },
+  {
+    "id": 455,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Vì sao việc chuẩn hóa thang đo dữ liệu (Feature Scaling như `StandardScaler`) lại là bước BẮT BUỘC trước khi huấn luyện mô hình SVM?",
+    "options": [
+      "Vì SVM không chấp nhận các giá trị số âm",
+      "Vì hàm mục tiêu của SVM tính khoảng cách hình học Euclidean trong không gian; nếu không chuẩn hóa, các đặc trưng có thang đo lớn sẽ chi phối hoàn toàn khoảng cách lề và hàm nhân RBF",
+      "Vì chuẩn hóa giúp giảm số lượng mẫu dữ liệu",
+      "Vì thư viện Scikit-Learn sẽ báo lỗi cú pháp nếu dữ liệu chưa scale"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tầm quan trọng của Scaling trong SVM:\nKhoảng cách lề $\\frac{2}{\\|w\\|}$ và hàm nhân RBF $\\exp(-\\gamma \\|x - x'\\|^2)$ đều dựa trên khoảng cách hình học. Nếu thuộc tính Thu nhập ($10^7$) không chuẩn hóa trong khi thuộc tính Tuổi ($10^1$), thì độ lệch của Thu nhập sẽ lấn át 99.99% khoảng cách, làm thuộc tính Tuổi hoàn toàn bị bỏ qua!",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 30, 38"
+  },
+  {
+    "id": 456,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Trong bài toán quy hoạch đối ngẫu (Dual Formulation) của SVM, điều kiện KKT (Karush-Kuhn-Tucker) chỉ ra rằng một mẫu $x_i$ chỉ có nhân tử Lagrange $\\alpha_i > 0$ khi nào?",
+    "options": [
+      "Khi mẫu đó có giá trị đặc trưng lớn hơn 100",
+      "Khi mẫu đó nằm đúng trên đường biên lề hoặc vi phạm lề (chính là Support Vector)",
+      "Khi mẫu đó nằm sâu bên trong vùng phân loại an toàn",
+      "Khi mẫu đó là tâm cụm của dữ liệu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Điều kiện bù KKT (Complementary Slackness):\n$$\\alpha_i [y_i(w^Tx_i + b) - 1 + \\xi_i] = 0$$\n* Với các điểm nằm an toàn ngoài lề ($y_i(w^Tx_i + b) > 1$): bắt buộc $\\alpha_i = 0$.\n* Chỉ các điểm nằm sát biên hoặc vi phạm lề mới có $\\alpha_i > 0$. Vectơ trọng số $w$ chỉ được tổng hợp từ các điểm có $\\alpha_i > 0$: $w = \\sum_{i \\in SV} \\alpha_i y_i x_i$.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 39"
+  },
+  {
+    "id": 457,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Khi số lượng thuộc tính đặc trưng ($p$) lớn hơn rất nhiều so với số lượng mẫu ($n$) (ví dụ: dữ liệu biểu hiện gen vi sinh $p = 10.000, n = 50$), lựa chọn kernel nào cho SVM thường là phù hợp và tối ưu nhất?",
+    "options": [
+      "RBF Kernel với $\\gamma$ cực lớn",
+      "Linear Kernel (Nhân tuyến tính)",
+      "Polynomial Kernel bậc 10",
+      "Sigmoid Kernel"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Quy tắc chọn Kernel trong SVM:\nKhi số chiều $p \\gg n$ (không gian đã có số chiều cực cao), dữ liệu vốn dĩ đã có xác suất rất cao để phân tách tuyến tính được mà không cần phải ánh xạ lên không gian cao hơn nữa. Dùng **Linear Kernel** vừa tránh Overfitting vừa tính toán cực nhanh.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 30"
+  },
+  {
+    "id": 458,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Nếu mô hình SVM sử dụng RBF Kernel đang bị hiện tượng Quá khớp (Overfitting), hai hành động điều chỉnh siêu tham số nào sau đây là chuẩn xác nhất?",
+    "options": [
+      "Tăng cả $C$ và tăng cả $\\gamma$",
+      "Giảm $C$ (tăng độ rộng lề) và giảm $\\gamma$ (làm mượt đường biên quả chuông)",
+      "Chuyển sang Polynomial Kernel bậc cao hơn",
+      "Tắt hoàn toàn việc chuẩn hóa dữ liệu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Trị bệnh Overfitting trong SVM:\n* **Giảm $C$:** Giảm mức phạt lỗi vi phạm, chấp nhận đường lề rộng rãi hơn.\n* **Giảm $\\gamma$:** Mở rộng bán kính tác động của từng Support Vector, làm đường biên quyết định bớt uốn éo theo từng điểm nhiễu, trở nên phẳng và trơn hơn.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 17"
+  },
+  {
+    "id": 459,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Trong bài toán phân loại đa lớp có $K = 5$ lớp, nếu dùng `SVC` (One-vs-One), tổng số bộ phân loại nhị phân cần huấn luyện là bao nhiêu?",
+    "options": [
+      "5 bộ phân loại",
+      "10 bộ phân loại",
+      "20 bộ phân loại",
+      "25 bộ phân loại"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức số bộ phân loại OvO:\n$$\\text{Số mô hình} = \\frac{K(K - 1)}{2} = \\frac{5 \\times 4}{2} = 10 \\text{ bộ phân loại}.$$",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 21, 34"
+  },
+  {
+    "id": 460,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Hàm mất mát gốc mà mô hình Tuyến tính SVM (Linear SVM) tối thiểu hóa có tên gọi là gì?",
+    "options": [
+      "Mean Squared Error (MSE)",
+      "Hinge Loss (Hàm mất mát bản lề): $\\max(0, 1 - y \\cdot f(x))$",
+      "Cross-Entropy Loss",
+      "Huber Loss"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hinge Loss:\n$$L(y, f(x)) = \\max(0, 1 - y \\cdot f(x))$$\n* Nếu $y \\cdot f(x) \\ge 1$: Điểm nằm đúng phía và ngoài lề $\\implies$ Loss $= 0$.\n* Nếu $y \\cdot f(x) < 1$: Điểm vi phạm lề hoặc đoán sai $\\implies$ Loss tăng tuyến tính với độ vi phạm.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 39-40"
+  },
+  {
+    "id": 461,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Thuộc tính `support_vectors_` trong đối tượng `SVC` đã fit của Scikit-Learn lưu trữ thông tin gì?",
+    "options": [
+      "Các hệ số hồi quy góc của tất cả các đặc trưng",
+      "Tọa độ của chính các điểm dữ liệu trong tập train đóng vai trò là Support Vectors",
+      "Xác suất dự đoán của tập test",
+      "Chỉ số hàng của các mẫu bị xóa bỏ"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Thuộc tính của Scikit-Learn `SVC`:\n* `support_vectors_`: Ma trận chứa tọa độ các điểm Support Vectors.\n* `support_`: Mảng chứa chỉ số dòng (index) của các Support Vectors trong tập train gốc.\n* `n_support_`: Số lượng Support Vectors của từng lớp.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 10, 35"
+  },
+  {
+    "id": 462,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Mô hình `NuSVC` trong Scikit-Learn khác với `SVC` chuẩn ở điểm nào?",
+    "options": [
+      "`NuSVC` sử dụng tham số $\\nu \\in (0, 1]$ kiểm soát cận trên của tỷ lệ lỗi huấn luyện và cận dưới của tỷ lệ số lượng Support Vectors thay cho tham số $C$",
+      "`NuSVC` là mô hình học không giám sát",
+      "`NuSVC` không hỗ trợ kernel RBF",
+      "`NuSVC` chỉ áp dụng cho bài toán hồi quy"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Tham số $\\nu$ trong NuSVC:\nTham số $\\nu$ (nu) trực quan hơn tham số $C$: nó đại diện cho cận trên của tỷ lệ vi phạm lề (margin errors) và cận dưới của tỷ lệ các mẫu trở thành Support Vectors.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 20, 40"
+  },
+  {
+    "id": 463,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Khi sử dụng Ma trận Gram tính trước (Precomputed Kernel) trong Scikit-Learn `SVC(kernel='precomputed')`, kích thước của ma trận đầu vào nạp vào hàm `fit(K, y)` bắt buộc phải là bao nhiêu?",
+    "options": [
+      "$n_{\\text{samples}} \\times n_{\\text{features}}$",
+      "$n_{\\text{samples}} \\times n_{\\text{samples}}$",
+      "$n_{\\text{features}} \\times n_{\\text{features}}$",
+      "$1 \\times n_{\\text{samples}}$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Ma trận Gram (Precomputed Kernel):\nMa trận Gram chứa tích vô hướng hoặc độ tương đồng giữa mọi cặp mẫu trong tập dữ liệu: $K_{i,j} = K(x_i, x_j)$. Do đó, nó bắt buộc phải là ma trận vuông đối xứng kích thước $n \\times n$.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 42"
+  },
+  {
+    "id": 464,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Độ phức tạp tính toán thời gian huấn luyện của thuật toán SVM chuẩn (dựa trên giải thuật SMO / libsvm) tỷ lệ với kích thước tập dữ liệu $n$ xấp xỉ ở mức nào?",
+    "options": [
+      "Tuyến tính $O(n)$",
+      "Khoảng $O(n^2)$ đến $O(n^3)$",
+      "Hằng số $O(1)$",
+      "Độ phức tạp logarit $O(\\log n)$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Độ phức tạp tính toán của SVM:\nThuật toán giải bài toán quy hoạch toàn phương của SVM chuẩn có độ phức tạp khoảng giữa $O(n^2)$ và $O(n^3)$ tùy thuộc vào dung lượng bộ đệm cache. Vì vậy, khi tập dữ liệu có hơn 100.000 dòng, SVM với kernel phi tuyến sẽ chạy rất chậm.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 30, 38"
+  },
+  {
+    "id": 465,
+    "chapter": 8,
+    "chapterTitle": "Chương 8: Seminar - Support Vector Machine (SVM)",
+    "question": "Kỹ thuật co rút (\"Shrinking\") được bật mặc định (`shrinking=True`) trong Scikit-Learn `SVC` nhằm mục đích gì?",
+    "options": [
+      "Giảm số chiều đặc trưng của dữ liệu xuống 2 chiều",
+      "Tạm thời loại bỏ các biến không bị ràng buộc đã tối ưu trong quá trình giải bài toán quy hoạch SMO để tăng tốc độ huấn luyện",
+      "Nén kích thước bộ nhớ RAM tiêu thụ",
+      "Tự động làm nhỏ kích thước các bức ảnh đầu vào"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Kỹ thuật Shrinking trong libsvm:\nTrong quá trình lặp tối ưu hóa SMO, nhiều biến $\\alpha_i$ nhanh chóng đạt giá trị $0$ hoặc $C$ và giữ nguyên. Heuristic Shrinking tạm thời loại bớt các biến này khỏi các vòng lặp kiểm tra tiếp theo, giúp giảm đáng kể thời gian hội tụ mà không làm giảm độ chính xác.",
+    "slideRef": "Seminar Nhóm 25 (SVM), Trang 38"
+  },
+  {
+    "id": 466,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Vì sao thuật toán K-Nearest Neighbors (KNN) được gọi là một thuật toán \"Học lười\" (Lazy Learner / Instance-based Learning)?",
+    "options": [
+      "Vì thuật toán không thể tính toán được ma trận hiệp phương sai",
+      "Vì nó không có pha huấn luyện tham số tường minh; giai đoạn fit() chỉ đơn giản là lưu trữ toàn bộ dữ liệu train vào bộ nhớ và chỉ tính toán khi có truy vấn mới",
+      "Vì thuật toán chỉ sử dụng duy nhất 1 luồng CPU",
+      "Vì độ chính xác của nó luôn thấp hơn các thuật toán khác"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất Lazy Learner của KNN:\nKhác với các mô hình Eager Learners (như Hồi quy, Cây, Mạng nơ-ron) phải tốn thời gian học ra các trọng số $w$ hoặc cấu trúc cây trước khi dự đoán, KNN không học trước bất cứ phương trình nào. Giai đoạn training gần như tốn $0$ giây (chỉ nạp dữ liệu vào RAM); toàn bộ chi phí tính toán bị dồn vào **giai đoạn suy luận (Inference)** khi có điểm query mới cần tìm hàng xóm.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 2-4"
+  },
+  {
+    "id": 467,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Trong bài toán Phân loại KNN (`KNeighborsClassifier`), nhãn của điểm dữ liệu mới được quyết định dựa trên quy tắc nào?",
+    "options": [
+      "Lấy nhãn của điểm nằm xa nhất trong tập dữ liệu",
+      "Biểu quyết theo đa số (Majority Vote) trong số K điểm lân cận gần nhất (hoặc biểu quyết có trọng số khoảng cách)",
+      "Tính giá trị trung bình cộng của các nhãn lớp",
+      "Lấy nhãn ngẫu nhiên từ 1 trong K lân cận"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Biểu quyết đa số trong KNN:\nTìm $K$ mẫu trong tập train có khoảng cách nhỏ nhất tới điểm query $x_q$. Nhãn lớp nào xuất hiện nhiều nhất trong $K$ mẫu này sẽ được gán cho $x_q$.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 3, 6"
+  },
+  {
+    "id": 468,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Trong bài toán Hồi quy KNN (`KNeighborsRegressor`), giá trị dự đoán cho một điểm mới được tính bằng cách nào?",
+    "options": [
+      "Lấy giá trị lớn nhất của K lân cận",
+      "Tính giá trị trung bình cộng (hoặc trung bình có trọng số nghịch đảo khoảng cách) của các biến mục tiêu $y$ từ K lân cận gần nhất",
+      "Giải hệ phương trình chuẩn OLS trên K lân cận",
+      "Lấy giá trị của lân cận gần nhất duy nhất"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hồi quy KNN:\n$$\\hat{y}(x_q) = \\frac{1}{K} \\sum_{i=1}^K y_i \\quad \\text{hoặc} \\quad \\hat{y}(x_q) = \\frac{\\sum w_i y_i}{\\sum w_i}$$\nGiá trị dự đoán là trung bình liên tục của các hàng xóm xung quanh.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 10"
+  },
+  {
+    "id": 469,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Khi thiết lập tham số `weights='distance'` trong Scikit-Learn `KNeighborsClassifier`, trọng số $w_i$ của từng lân cận được gán như thế nào?",
+    "options": [
+      "Tất cả các lân cận đều có trọng số bằng nhau là 1",
+      "Tỷ lệ nghịch với khoảng cách: $w_i = \\frac{1}{d(x_q, x_i)}$ (lân cận càng ở gần điểm query thì tiếng nói biểu quyết càng có trọng lượng lớn)",
+      "Tỷ lệ thuận với khoảng cách: lân cận càng ở xa thì trọng số càng cao",
+      "Trọng số được khởi tạo ngẫu nhiên từ phân phối đều"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tham số `weights='distance'`:\n* `weights='uniform'`: Mỗi lân cận có 1 phiếu biểu quyết ngang nhau.\n* `weights='distance'`: Lân cận ở cực gần sẽ có trọng số áp đảo, giúp giảm thiểu tác động tiêu cực của các lân cận nằm ở rìa ngoài cửa sổ $K$.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 9-10"
+  },
+  {
+    "id": 470,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Khi giá trị siêu tham số $K$ trong KNN được chọn quá nhỏ (ví dụ $K = 1$), mô hình có xu hướng gặp phải hiện tượng gì?",
+    "options": [
+      "Mô hình bị Underfitting do ranh giới quá trơn",
+      "Mô hình bị Overfitting nặng: ranh giới quyết định trở nên cực kỳ phức tạp, uốn lượn quanh từng điểm nhiễu",
+      "Mô hình không thể dự đoán được các điểm ngoại lai",
+      "Chi phí tính toán ở giai đoạn dự đoán tiến về 0"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tác động của siêu tham số $K$:\n* **$K = 1$:** Mỗi điểm train tạo thành một vùng ranh giới riêng (đa giác Voronoi), sai số tập train bằng đúng 0 (100% accuracy trên train set), cực kỳ nhạy cảm với nhiễu $\\implies$ **Overfitting**.\n* **$K$ quá lớn (tiến về $N$):** Ranh giới bị san phẳng, mô hình luôn dự đoán lớp chiếm đa số trong toàn bộ tập dữ liệu $\\implies$ **Underfitting**.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 6, 9"
+  },
+  {
+    "id": 471,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Khoảng cách Minkowski giữa hai điểm $x$ và $z$ trong không gian $D$ chiều có công thức tổng quát là:",
+    "options": [
+      "$D(x, z) = \\sum_{j=1}^D |x_j - z_j|$",
+      "$D(x, z) = \\left( \\sum_{j=1}^D |x_j - z_j|^p \\right)^{1/p}$",
+      "$D(x, z) = \\sqrt{\\sum_{j=1}^D (x_j - z_j)^2}$",
+      "$D(x, z) = \\max_j |x_j - z_j|$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khoảng cách Minkowski:\n$$D(x, z) = \\left( \\sum_{j=1}^D |x_j - z_j|^p \\right)^{1/p}$$\n* Khi $p = 1$: Trở thành khoảng cách Manhattan ($L_1$).\n* Khi $p = 2$: Trở thành khoảng cách Euclidean ($L_2$).\n* Khi $p \\to \\infty$: Trở thành khoảng cách Chebyshev ($L_\\infty$).",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 16, 26"
+  },
+  {
+    "id": 472,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Thuật toán tìm kiếm lân cận Brute Force trong KNN có độ phức tạp thời gian cho mỗi câu truy vấn (query) là bao nhiêu?",
+    "options": [
+      "$O(1)$",
+      "$O(\\log N)$",
+      "$O(N \\cdot D)$ với $N$ là số mẫu và $D$ là số chiều đặc trưng",
+      "$O(D^3)$"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Độ phức tạp Brute Force:\nVới mỗi điểm truy vấn, Brute Force phải tính khoảng cách tới toàn bộ $N$ điểm trong cơ sở dữ liệu, mỗi phép tính khoảng cách tốn $O(D)$ phép nhân trừ $\\implies$ Tổng chi phí cho mỗi query là $O(N \\cdot D)$. Khi cơ sở dữ liệu có hàng triệu mẫu, phương pháp này trở nên quá chậm chạp.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 11-12"
+  },
+  {
+    "id": 473,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Cấu trúc dữ liệu Cây K-D (K-D Tree) phân chia không gian dữ liệu theo nguyên lý nào để tăng tốc tìm kiếm lân cận?",
+    "options": [
+      "Tạo các đường tròn lồng nhau đồng tâm",
+      "Phân chia không gian đệ quy bằng các siêu phẳng trực giao xen kẽ lần lượt qua từng trục tọa độ (x, y, z...) tại điểm trung vị (median)",
+      "Sử dụng phép chiếu ngẫu nhiên PCA",
+      "Gom cụm dữ liệu bằng thuật toán K-Means"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cấu trúc K-D Tree:\nK-D Tree (Bentley 1975) là cây nhị phân phân chia không gian: tầng 1 cắt theo trục $x$, tầng 2 cắt theo trục $y$, tầng 3 cắt theo trục $z$, rồi lại lặp lại trục $x$... Điểm chia tại mỗi nút là trung vị (median) của các điểm dọc theo trục đó. Nhờ đó, thời gian tìm kiếm trung bình giảm xuống còn $O(D \\log N)$.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 13-14"
+  },
+  {
+    "id": 474,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Hạn chế lớn nhất của cấu trúc dữ liệu K-D Tree khi số chiều đặc trưng $D$ tăng cao ($D > 20$) là gì?",
+    "options": [
+      "Bộ nhớ RAM bị tiêu tốn quá ít",
+      "Hiện tượng lời nguyền số chiều khiến thuật toán phải quay lui (backtracking) kiểm tra gần như toàn bộ các nhánh cây, tốc độ suy thoái về ngang bằng Brute Force",
+      "Cây K-D không thể lưu trữ được các giá trị số thực",
+      "Cây chỉ hoạt động được khi dữ liệu có phân phối chuẩn"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Suy thoái của K-D Tree trong không gian nhiều chiều:\nKhi số chiều $D$ lớn ($D > 20$), khoảng cách từ điểm query tới các siêu phẳng biên phân chia nhỏ hơn khoảng cách tới lân cận hiện tại. Do đó, thuật toán buộc phải duyệt qua hầu hết các nhánh cây, khiến chi phí tìm kiếm tiệm cận $O(N \\cdot D)$, mất hoàn toàn ưu thế của cây nhị phân.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 15"
+  },
+  {
+    "id": 475,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Cấu trúc dữ liệu Ball Tree khắc phục nhược điểm của K-D Tree trong không gian nhiều chiều bằng cách nào?",
+    "options": [
+      "Phân hoạch không gian thành các siêu cầu (hyperspheres) lồng nhau có tâm $C$ và bán kính $R$, áp dụng bất đẳng thức tam giác để loại bỏ các nhánh cầu nằm xa",
+      "Chuyển đổi dữ liệu sang dạng ảnh nhị phân",
+      "Bỏ qua hoàn toàn việc tính khoảng cách hình học",
+      "Tự động xóa bớt các thuộc tính thừa"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Ưu thế của Ball Tree:\nBall Tree bao bọc các điểm dữ liệu bên trong các quả siêu cầu (Balls). Dựa vào bất đẳng thức tam giác $|d(q, C) - d(x, C)| \\le d(q, x)$, nếu khoảng cách từ query $q$ tới tâm cầu $C$ trừ đi bán kính $R$ lớn hơn khoảng cách tới lân cận gần nhất hiện tại, toàn bộ quả cầu đó sẽ bị loại bỏ ngay lập tức mà không cần kiểm tra từng điểm bên trong!",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 15-16"
+  },
+  {
+    "id": 476,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Sự khác biệt giữa `KNeighborsClassifier` và `RadiusNeighborsClassifier` trong Scikit-Learn là gì?",
+    "options": [
+      "`KNeighborsClassifier` cố định số lượng lân cận $K$; trong khi `RadiusNeighborsClassifier` tìm kiếm tất cả các lân cận nằm trong một bán kính cố định $r$",
+      "`RadiusNeighborsClassifier` chỉ dùng cho bài toán hồi quy",
+      "`RadiusNeighborsClassifier` không tính toán khoảng cách Euclidean",
+      "`KNeighborsClassifier` là thuật toán phân cụm không giám sát"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 KNN vs Radius-based Neighbors:\n* **K-Neighbors:** Cố định số lượng $K$. Ở vùng dữ liệu thưa, khoảng cách tới lân cận thứ $K$ có thể rất xa, dẫn đến việc lấy cả các điểm không liên quan.\n* **Radius-Neighbors:** Cố định bán kính $r$. Rất hữu ích khi mật độ dữ liệu không đồng đều; tuy nhiên nếu bán kính quá nhỏ, tại các vùng thưa có thể không có điểm nào rơi vào vòng tròn.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 3, 20"
+  },
+  {
+    "id": 477,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Lớp `NearestNeighbors` trong module `sklearn.neighbors` được sử dụng cho tác vụ nào?",
+    "options": [
+      "Phân loại có giám sát với nhãn chuỗi",
+      "Tìm kiếm láng giềng gần nhất không giám sát (Unsupervised Nearest Neighbors Search), trả về ma trận chỉ số và khoảng cách",
+      "Hồi quy phi tuyến tính bằng mạng nơ-ron",
+      "Tối ưu hóa các siêu tham số bằng Grid Search"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 `NearestNeighbors` (Học không giám sát):\n`NearestNeighbors` cung cấp giao diện thống nhất cho BallTree, KDTree và Brute Force để thực hiện truy vấn láng giềng mà **không cần nhãn $y$**. Hai phương thức cốt lõi là `.kneighbors()` (tìm K điểm gần nhất) và `.radius_neighbors()` (tìm các điểm trong bán kính $r$).",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 4-5"
+  },
+  {
+    "id": 478,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Trong Scikit-Learn, tham số `leaf_size` trong KD-Tree hoặc Ball-Tree quy định điều gì?",
+    "options": [
+      "Số lượng lá tối đa trên toàn bộ cây",
+      "Số lượng điểm tối đa chứa trong một nút lá; khi số điểm nhỏ hơn ngưỡng này, thuật toán sẽ chuyển sang tìm kiếm Brute Force cục bộ",
+      "Độ sâu tối đa của cây",
+      "Số lượng cây con được tạo ra song song"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tham số `leaf_size`:\nQuy định số lượng mẫu tại đó việc phân chia nút dừng lại. Giá trị mặc định là 30. Nếu `leaf_size` nhỏ, cây sẽ rất sâu (tốn bộ nhớ dựng cây); nếu `leaf_size` quá lớn, việc tìm kiếm sẽ thoái hóa thành Brute Force.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 17, 24"
+  },
+  {
+    "id": 479,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Vì sao việc chuẩn hóa dữ liệu (StandardScaler hoặc MinMaxScaler) lại là bắt buộc đối với thuật toán KNN?",
+    "options": [
+      "Vì hàm mất mát của KNN không khả vi nếu chưa scale",
+      "Vì KNN dựa trên khoảng cách số học; nếu không scale, đặc trưng có đơn vị đo lớn (như lương tính bằng triệu đồng) sẽ chi phối 100% khoảng cách và triệt tiêu ảnh hưởng của các đặc trưng khác (như số con: 1, 2)",
+      "Vì nếu không scale, cây KD-Tree không thể sắp xếp được dữ liệu",
+      "Vì thuật toán KNN chỉ chấp nhận các giá trị từ 0 đến 1"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tầm quan trọng của Scaling trong KNN:\nKhoảng cách Euclidean $d = \\sqrt{(x_1 - z_1)^2 + (x_2 - z_2)^2}$. Nếu $x_1$ đo bằng đồng ($10^7$) và $x_2$ đo bằng tuổi ($10^1$), thì độ chênh lệch $(x_1 - z_1)^2 \\approx 10^{14}$ sẽ đè bẹp hoàn toàn $(x_2 - z_2)^2 \\approx 10^2$, khiến đặc trưng Tuổi hoàn toàn vô nghĩa!",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 7, 18"
+  },
+  {
+    "id": 480,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Để tránh trường hợp hòa phiếu (Tie) trong bài toán phân loại nhị phân (2 lớp) dùng cơ chế biểu quyết đa số bằng nhau (`weights='uniform'`), người ta thường chọn giá trị $K$ như thế nào?",
+    "options": [
+      "Chọn $K$ là một số chẵn",
+      "Chọn $K$ là một số lẻ (ví dụ $K = 3, 5, 7$)",
+      "Chọn $K$ bằng đúng số lượng mẫu của lớp thiểu số",
+      "Chọn $K = 0$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Mẹo chọn $K$ lẻ trong phân loại nhị phân:\nNếu có 2 lớp và chọn $K$ chẵn (ví dụ $K = 4$), có thể xảy ra trường hợp 2 phiếu cho lớp A và 2 phiếu cho lớp B (hòa phiếu). Chọn $K$ lẻ (ví dụ $K = 5$) bảo đảm luôn có một lớp giành đa số phiếu tối thiểu (3 vs 2).",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 6"
+  },
+  {
+    "id": 481,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Độ đo khoảng cách Cosine (Cosine Distance) giữa hai vector đặc trưng $u$ và $v$ được tính theo công thức nào?",
+    "options": [
+      "$D_C(u, v) = 1 - \\frac{u \\cdot v}{\\|u\\|_2 \\|v\\|_2}$",
+      "$D_C(u, v) = \\frac{u \\cdot v}{\\|u\\|_2 + \\|v\\|_2}$",
+      "$D_C(u, v) = \\|u - v\\|_2$",
+      "$D_C(u, v) = \\sum |u_i - v_i|$"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Khoảng cách Cosine:\n$$D_C(u, v) = 1 - \\cos(u, v) = 1 - \\frac{u \\cdot v}{\\|u\\|_2 \\|v\\|_2}$$\nĐo góc lệch giữa 2 vector, rất phổ biến trong xử lý ngôn ngữ tự nhiên (NLP) và tìm kiếm tài liệu văn bản thưa.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 26"
+  },
+  {
+    "id": 482,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Trong Scikit-Learn, tham số `algorithm='auto'` trong `KNeighborsClassifier` hoạt động theo cơ chế nào?",
+    "options": [
+      "Luôn luôn dùng Brute Force cho mọi tập dữ liệu",
+      "Tự động chọn giải thuật phù hợp nhất giữa 'ball_tree', 'kd_tree' hoặc 'brute' dựa trên kích thước dữ liệu, độ thưa và số chiều đặc trưng",
+      "Tự động chuyển bài toán phân loại thành hồi quy",
+      "Chạy ngẫu nhiên một trong ba thuật toán mỗi lần gọi"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tham số `algorithm='auto'`:\nScikit-Learn sẽ tự động kiểm tra cấu trúc dữ liệu:\n* Dữ liệu thưa (Sparse matrix): Bắt buộc dùng `brute`.\n* Dữ liệu dày, số chiều $D$ nhỏ ($D \\le 20$): Dùng `kd_tree`.\n* Dữ liệu số chiều lớn hơn hoặc khoảng cách tùy biến: Dùng `ball_tree`.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 23"
+  },
+  {
+    "id": 483,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Thuật toán Nearest Centroid Classifier (Phân loại theo tâm lân cận) khác với KNN chuẩn ở điểm cốt lõi nào?",
+    "options": [
+      "Mỗi lớp được đại diện bằng một tâm trung bình (Centroid) duy nhất; khi dự đoán chỉ tính khoảng cách tới các tâm này thay vì lưu toàn bộ mẫu",
+      "Chỉ tính khoảng cách theo trục tung",
+      "Không thể phân loại được dữ liệu có nhiều hơn 2 lớp",
+      "Là thuật toán hồi quy chứ không phải phân loại"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Nearest Centroid Classifier:\nTính vector trung bình của từng lớp trong pha huấn luyện: $\\mu_k = \\frac{1}{N_k} \\sum_{i \\in C_k} x_i$. Khi dự đoán, mẫu mới được gán cho lớp có tâm gần nhất. Mô hình này rất nhẹ về bộ nhớ và không phụ thuộc vào toàn bộ tập train.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 28"
+  },
+  {
+    "id": 484,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Mô hình Neighborhood Components Analysis (NCA) trong module `sklearn.neighbors` được sử dụng nhằm mục đích gì?",
+    "options": [
+      "Học một ma trận biến đổi tuyến tính để co giãn không gian sao cho độ chính xác phân loại của KNN đạt mức tối ưu nhất",
+      "Loại bỏ các dòng dữ liệu bị trùng lặp",
+      "Huấn luyện mạng nơ-ron sâu tự động",
+      "Tạo cây quyết định ngẫu nhiên"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Neighborhood Components Analysis (NCA):\nNCA là một kỹ thuật học số liệu khoảng cách (Distance Metric Learning). Nó tìm một ma trận biến đổi $L$ kích thước $d \\times D$ để chiếu dữ liệu sang không gian mới $Lx$, sao cho các điểm cùng lớp nằm gần nhau hơn và các điểm khác lớp bị đẩy ra xa nhau.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 29"
+  },
+  {
+    "id": 485,
+    "chapter": 9,
+    "chapterTitle": "Chương 9: Seminar - K-Nearest Neighbors (KNN)",
+    "question": "Ưu điểm lớn nhất của mô hình KNN so với các mô hình tuyến tính (như Logistic Regression hay Linear SVM) là gì?",
+    "options": [
+      "Thời gian dự đoán cực nhanh trên tập dữ liệu hàng tỷ mẫu",
+      "Khả năng học các ranh giới quyết định phi tuyến có hình dạng cực kỳ phức tạp một cách tự nhiên mà không cần giả định trước dạng hàm toán học",
+      "Bộ nhớ lưu trữ mô hình bằng 0",
+      "Không bao giờ bị ảnh hưởng bởi giá trị ngoại lai (Outliers)"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Sức mạnh phi tham số của KNN:\nVì không bị gò bó trong một siêu phẳng tuyến tính $w^Tx + b = 0$, KNN có thể tạo ra các vùng biên quyết định uốn lượn, phân mảnh bất kỳ theo phân bố cục bộ của dữ liệu. Miễn là có đủ dữ liệu, KNN có thể xấp xỉ bất kỳ hàm mục tiêu nào.",
+    "slideRef": "Seminar Nhóm 09 (KNN), Trang 9, 31"
+  },
+  {
+    "id": 486,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Động lực lịch sử lớn nhất thúc đẩy sự ra đời của kiến trúc Transformer (\"Attention Is All You Need\", 2017) thay thế cho RNN/LSTM là gì?",
+    "options": [
+      "RNN tiêu tốn quá ít bộ nhớ GPU",
+      "RNN xử lý tuần tự từng bước thời gian nên không thể song song hóa quá trình huấn luyện, đồng thời khó duy trì mối quan hệ phụ thuộc ngữ cảnh rất dài",
+      "RNN chỉ xử lý được hình ảnh chứ không xử lý được văn bản",
+      "LSTM không có hàm kích hoạt phi tuyến"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Động lực ra đời Transformer:\n* **Tính tuần tự của RNN/LSTM:** Muốn tính bước $t$ bắt buộc phải đợi bước $t-1$ tính xong $\\implies$ không tận dụng được sức mạnh tính toán song song của GPU.\n* **Điểm nghẽn ngữ cảnh:** Vector trạng thái ẩn cố định phải nén thông tin qua hàng trăm bước $\\implies$ suy hao thông tin phụ thuộc xa.\nTransformer loại bỏ hoàn toàn tính tuần tự, xử lý toàn bộ các từ cùng lúc nhờ cơ chế Self-Attention.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 3-5"
+  },
+  {
+    "id": 487,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Công thức chuẩn xác của cơ chế chú ý tích vô hướng có tỷ lệ (Scaled Dot-Product Attention) là gì?",
+    "options": [
+      "$\\text{Attention}(Q, K, V) = \\text{softmax}(QK^T) V$",
+      "$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right) V$",
+      "$\\text{Attention}(Q, K, V) = \\frac{\\text{softmax}(QV)}{K^T}$",
+      "$\\text{Attention}(Q, K, V) = \\sigma(W_q Q + W_k K) V$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Scaled Dot-Product Attention:\n$$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right) V$$\n* $Q$ (Query): Vector truy vấn.\n* $K$ (Key): Vector khóa (để đối chiếu tương đồng với Query).\n* $V$ (Value): Vector giá trị thông tin.\n* $d_k$: Số chiều của vector Key.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 9, Notebook Section 9"
+  },
+  {
+    "id": 488,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Tại sao trong công thức Scaled Dot-Product Attention, tích vô hướng $QK^T$ lại bắt buộc phải chia cho hệ số tỷ lệ $\\sqrt{d_k}$?",
+    "options": [
+      "Để chuyển đổi vector thành ma trận vuông",
+      "Khi chiều $d_k$ lớn, tích vô hướng $QK^T$ có độ lớn rất lớn đẩy hàm Softmax vào vùng bão hòa có gradient cực nhỏ (triệt tiêu đạo hàm); chia cho $\\sqrt{d_k}$ giúp giữ phương sai ổn định quanh 1",
+      "Để bảo đảm tổng các phần tử bằng 0",
+      "Để giảm số lượng tham số cần học của mạng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vai trò sống còn của $\\sqrt{d_k}$:\nGiả sử các thành phần của $Q$ và $K$ là các biến ngẫu nhiên độc lập có trung bình 0 và phương sai 1. Tích vô hướng $q \\cdot k = \\sum_{i=1}^{d_k} q_i k_i$ sẽ có kỳ vọng bằng 0 nhưng **phương sai bằng $d_k$**. Khi $d_k$ lớn (ví dụ 64 hoặc 512), giá trị tích vô hướng rất lớn khiến Softmax bị bão hòa (tiến sát 1 hoặc 0), gradient bị triệt tiêu khiến mạng không học được.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 10, Notebook Section 9"
+  },
+  {
+    "id": 489,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Cơ chế Chú ý Đa đầu (Multi-Head Attention) mang lại lợi ích đột phá nào so với việc chỉ sử dụng một đầu chú ý duy nhất?",
+    "options": [
+      "Tăng gấp đôi tốc độ xử lý trên CPU",
+      "Cho phép mô hình đồng thời chú ý đến thông tin từ các không gian biểu diễn con khác nhau ở các vị trí khác nhau (ví dụ một đầu bắt quan hệ ngữ pháp, một đầu bắt quan hệ ngữ nghĩa)",
+      "Tự động dịch văn bản sang nhiều ngôn ngữ cùng lúc",
+      "Loại bỏ hoàn toàn sự cần thiết của hàm mất mát Cross-Entropy"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Multi-Head Attention:\nThay vì chỉ tính một ma trận attention duy nhất, Multi-Head chiếu $Q, K, V$ qua $h$ bộ ma trận trọng số độc lập để tạo ra $h$ đầu tính song song:\n$$\\text{MultiHead}(Q, K, V) = \\text{Concat}(\\text{head}_1, \\dots, \\text{head}_h) W^O$$\nĐiều này cho phép mạng cùng lúc nhìn câu dưới nhiều góc độ khác nhau (chủ ngữ - vị ngữ, đại từ - danh từ thay thế...).",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 11, Notebook Section 10"
+  },
+  {
+    "id": 490,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Vì sao kiến trúc Transformer bắt buộc phải bổ sung Mã hóa Vị trí (Positional Encoding) vào vector nhúng từ (Token Embedding)?",
+    "options": [
+      "Vì Transformer không thể phân biệt được chữ hoa và chữ thường",
+      "Vì các phép toán Self-Attention hoàn toàn bất biến đối với thứ tự vị trí; nếu không có Positional Encoding, câu đảo từ lộn xộn sẽ cho ra kết quả biểu diễn y hệt nhau",
+      "Vì hàm Softmax đòi hỏi dữ liệu phải có tính tuần hoàn",
+      "Để nén độ dài câu văn về một hằng số cố định"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bản chất của Positional Encoding:\nKhác với RNN xử lý tuần tự từng từ một, phép nhân ma trận Self-Attention xử lý tất cả các từ trong câu cùng một lúc. Do đó, câu \"Tôi cắn con chó\" và \"Con chó cắn tôi\" nếu không có mã hóa vị trí sẽ sinh ra ma trận biểu diễn y hệt nhau! Positional Encoding đưa thông tin thứ tự trước sau vào mạng.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 7, Notebook Section 7"
+  },
+  {
+    "id": 491,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Hàm số nào được tác giả Vaswani et al. sử dụng để tạo ra vector Positional Encoding dạng sin/cosin trong Transformer gốc?",
+    "options": [
+      "Hàm bước nhảy Heaviside",
+      "$PE_{(pos, 2i)} = \\sin\\left(\\frac{pos}{10000^{2i/d_{\\text{model}}}}\\right)$ và $PE_{(pos, 2i+1)} = \\cos\\left(\\frac{pos}{10000^{2i/d_{\\text{model}}}}\\right)$",
+      "Hàm Sigmoid đối xứng",
+      "Hàm đa thức bậc ba Lagrange"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức Sinusoidal Positional Encoding:\nSử dụng các bước sóng sin và cosin có tần số khác nhau từ $2\\pi$ đến $10000 \\cdot 2\\pi$. Nhờ tính chất lượng giác, vị trí tương đối $pos + k$ có thể biểu diễn tuyến tính qua $pos$, giúp mô hình dễ dàng học cách chú ý đến khoảng cách tương đối giữa các từ.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 8, Notebook Section 7"
+  },
+  {
+    "id": 492,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Mặt nạ nhân quả (Causal Mask / Look-ahead Mask) trong khối Decoder của Transformer có nhiệm vụ gì?",
+    "options": [
+      "Bỏ qua các từ đồng nghĩa trong câu",
+      "Gán giá trị $-\\infty$ vào các vị trí tương lai trong ma trận attention để ngăn Decoder \"nhìn trộm\" các từ phía sau khi huấn luyện tự hồi quy",
+      "Tự động phát hiện lỗi chính tả",
+      "Xóa bỏ các token `<pad>` trong câu nguồn"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Causal Mask (Look-ahead Mask):\nKhi sinh từ tiếp theo (Autoregressive), tại bước $t$, Decoder chỉ được phép nhìn các từ từ $1$ đến $t$. Trong quá trình huấn luyện song song, Causal Mask đặt một ma trận tam giác trên chứa $-\\infty$. Khi qua hàm Softmax, $e^{-\\infty} = 0$, triệt tiêu hoàn toàn sự chú ý tới các từ tương lai.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 14, Notebook Section 8.2"
+  },
+  {
+    "id": 493,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Mặt nạ đệm (Padding Mask) trong Transformer được sử dụng nhằm mục đích gì?",
+    "options": [
+      "Đệm thêm số 0 vào 4 cạnh của ảnh",
+      "Che giấu các token đệm `<pad>` để chúng không tham gia tính toán và không nhận trọng số chú ý trong hàm Softmax",
+      "Ngăn chặn việc tràn bộ nhớ khi câu quá ngắn",
+      "Mã hóa các ký tự đặc biệt"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Padding Mask:\nKhi huấn luyện theo Batch, các câu có độ dài ngắn khác nhau được thêm các token `<pad>` cho bằng nhau. Padding Mask gán giá trị $-\\infty$ tại các vị trí `<pad>` để Softmax gán xác suất bằng 0, bảo đảm mô hình không lãng phí sự chú ý vào các ký tự vô nghĩa này.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 8.1"
+  },
+  {
+    "id": 494,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Trong tầng Cross-Attention của khối Decoder, các vector Query ($Q$), Key ($K$) và Value ($V$) được lấy từ đâu?",
+    "options": [
+      "$Q, K, V$ đều được lấy từ đầu ra của Decoder trước đó",
+      "$Q$ lấy từ Decoder; còn $K$ và $V$ lấy từ đầu ra cuối cùng của Encoder",
+      "$Q$ và $K$ lấy từ Encoder; còn $V$ lấy từ Decoder",
+      "$Q, K, V$ đều được lấy trực tiếp từ bảng từ điển Embedding"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cơ chế Cross-Attention (Decoder-Encoder Attention):\n* **Query ($Q$):** Đến từ tầng Decoder bên dưới (đại diện cho những gì câu đích tiếng Việt đang cần tìm).\n* **Key ($K$) & Value ($V$):** Đến từ đầu ra của Encoder (đại diện cho toàn bộ thông tin câu nguồn tiếng Anh).\nNhờ đó, Decoder có thể tra cứu thông tin ngữ nghĩa từ câu nguồn để dịch chính xác từ tiếp theo.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 15, Notebook Section 12"
+  },
+  {
+    "id": 495,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Kỹ thuật Chuẩn hóa tầng (Layer Normalization - LayerNorm) trong Transformer khác với Chuẩn hóa theo lô (Batch Normalization - BatchNorm) ở điểm mấu chốt nào?",
+    "options": [
+      "BatchNorm tính trung bình trên từng mẫu riêng lẻ; LayerNorm tính trung bình trên cả mini-batch",
+      "LayerNorm chuẩn hóa các đặc trưng trên từng mẫu độc lập (không phụ thuộc vào kích thước batch), cực kỳ ổn định cho dữ liệu chuỗi có độ dài thay đổi",
+      "LayerNorm không có tham số học được",
+      "BatchNorm chỉ dùng được cho văn bản, LayerNorm chỉ dùng cho hình ảnh"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 LayerNorm vs BatchNorm:\n* **BatchNorm:** Tính trung bình và phương sai dọc theo chiều batch size $\\implies$ phụ thuộc vào các mẫu khác trong batch, không phù hợp với chuỗi có độ dài khác nhau.\n* **LayerNorm:** Chuẩn hóa ngang qua tất cả các đặc trưng kích hoạt của **chính mẫu đó tại mỗi bước thời gian**, hoàn toàn độc lập với kích thước batch.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 12, Notebook Section 11"
+  },
+  {
+    "id": 496,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Mạng truyền thẳng theo vị trí (Position-wise Feed-Forward Network - FFN) trong mỗi khối Transformer gồm cấu trúc nào?",
+    "options": [
+      "Hai phép biến đổi tuyến tính xen kẽ một hàm kích hoạt phi tuyến (như ReLU): $\\text{FFN}(x) = \\max(0, xW_1 + b_1)W_2 + b_2$",
+      "Một mạng tích chập 3D",
+      "Một tầng hồi quy Logistic duy nhất",
+      "Chuỗi 5 lớp Max Pooling"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Khối Feed-Forward (FFN):\nMỗi block Attention được tiếp nối bởi một mạng FFN đơn giản gồm 2 lớp tuyến tính: lớp 1 mở rộng số chiều (thường từ $d_{\\text{model}} = 512$ lên $d_{ff} = 2048$), áp dụng ReLU, sau đó lớp 2 nén chiều trở lại $512$.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 12, Notebook Section 11"
+  },
+  {
+    "id": 497,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Độ phức tạp tính toán thời gian của cơ chế Self-Attention chuẩn đối với một chuỗi đầu vào có độ dài $N$ là bao nhiêu?",
+    "options": [
+      "Tuyến tính $O(N)$",
+      "Bậc hai $O(N^2)$",
+      "Logarit $O(\\log N)$",
+      "Hằng số $O(1)$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Điểm nghẽn bậc 2 của Transformer:\nPhép nhân $QK^T$ tạo ra một ma trận trọng số chú ý kích thước $N \\times N$ (mỗi từ phải đối chiếu với tất cả $N$ từ còn lại trong câu). Chi phí tính toán và bộ nhớ đều tỷ lệ thuận với $O(N^2)$, gây khó khăn khi xử lý văn bản siêu dài (hàng chục ngàn từ).",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 18"
+  },
+  {
+    "id": 498,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Phương pháp sinh từ tham lam (Greedy Decoding) trong giai đoạn suy luận (Inference) của Transformer hoạt động như thế nào?",
+    "options": [
+      "Chọn ngẫu nhiên một từ trong từ điển theo phân phối đều",
+      "Tại mỗi bước sinh, chọn từ có xác suất dự đoán cao nhất từ hàm Softmax ở đầu ra",
+      "Tìm kiếm tất cả các câu khả dĩ rồi chọn câu dài nhất",
+      "Dịch ngược câu tiếng Việt về lại tiếng Anh để so sánh"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Greedy Decoding:\nỞ mỗi bước suy luận, mô hình lấy $\\arg\\max$ của phân phối xác suất Softmax làm từ dự đoán, sau đó nối từ này vào chuỗi đầu vào của Decoder để tiếp tục dự đoán từ kế tiếp cho đến khi gặp token kết thúc `<eos>`.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 18"
+  },
+  {
+    "id": 499,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Chiến lược huấn luyện ép buộc giáo viên (Teacher Forcing) trong Transformer có đặc điểm gì?",
+    "options": [
+      "Người dạy học ngồi chấm điểm trực tiếp từng bước",
+      "Tại mỗi bước thời gian của Decoder trong lúc training, mô hình luôn được nạp từ mục tiêu đúng thực tế (Ground Truth) của bước trước làm đầu vào, thay vì nạp từ do chính nó vừa dự đoán sai",
+      "Đóng băng toàn bộ trọng số của Encoder",
+      "Chỉ tính gradient trên các câu có độ dài chẵn"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Teacher Forcing:\nGiúp quá trình huấn luyện nhanh và ổn định hơn. Nếu để mô hình tự nạp từ dự đoán sai ở bước 1 vào bước 2, lỗi sai sẽ bị khuếch đại theo dây chuyền (Exposure Bias). Teacher Forcing sửa sai ngay lập tức bằng cách luôn đưa đáp án đúng làm đầu vào bước kế tiếp.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 16"
+  },
+  {
+    "id": 500,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Sự kết hợp giữa Kết nối tắt phần dư (Residual Connection) và Chuẩn hóa tầng trong Transformer thường được ký hiệu là gì?",
+    "options": [
+      "$\\text{Softmax}(\\text{Dropout}(x))$",
+      "$\\text{LayerNorm}(x + \\text{Sublayer}(x))$",
+      "$\\text{BatchNorm}(x \\cdot W)$",
+      "$\\text{ReLU}(x - \\mu)$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Cấu trúc Add & Norm:\nMỗi tầng con (Sublayer) trong khối Encoder và Decoder đều được bao quanh bởi một kết nối phần dư và theo sau là chuẩn hóa tầng:\n$$\\text{Output} = \\text{LayerNorm}(x + \\text{Sublayer}(x))$$\nGiúp gradient lan truyền dễ dàng qua hàng chục tầng Transformer sâu mà không bị suy hao.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 12, Notebook Section 11"
+  },
+  {
+    "id": 501,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Nếu một mô hình Transformer có kích thước vector ẩn $d_{\\text{model}} = 512$ và sử dụng $h = 8$ đầu chú ý (Attention Heads), thì kích thước không gian chiếu của mỗi đầu $d_k$ bằng bao nhiêu?",
+    "options": [
+      "8",
+      "64",
+      "256",
+      "512"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức phân bổ chiều Multi-Head:\n$$d_k = d_v = \\frac{d_{\\text{model}}}{h} = \\frac{512}{8} = 64$$\nNhờ chia nhỏ $d_{\\text{model}}$ thành $h$ phần, tổng chi phí tính toán của $h$ đầu Multi-Head tương đương với một đầu duy nhất có kích thước $d_{\\text{model}}$.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 11, Notebook Section 10"
+  },
+  {
+    "id": 502,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Mô hình BERT (Devlin et al., 2018) chỉ sử dụng thành phần nào của kiến trúc Transformer gốc?",
+    "options": [
+      "Chỉ sử dụng Decoder",
+      "Chỉ sử dụng Encoder (với cơ chế Self-Attention hai chiều không che mặt nạ nhân quả)",
+      "Chỉ sử dụng lớp Positional Encoding",
+      "Sử dụng đầy đủ cả Encoder và Decoder"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Các nhánh tiến hóa của Transformer:\n* **Chỉ dùng Encoder (Autoencoding):** **BERT, RoBERTa** — phù hợp cho hiểu văn bản, phân loại, NER (nhìn được ngữ cảnh 2 chiều).\n* **Chỉ dùng Decoder (Autoregressive):** **GPT, LLaMA** — phù hợp cho sinh văn bản tiếp nối (dùng Causal Mask).\n* **Đầy đủ Encoder - Decoder:** **T5, BART, Transformer gốc** — phù hợp cho dịch máy, tóm tắt văn bản.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 22"
+  },
+  {
+    "id": 503,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Dòng mô hình GPT (Generative Pre-trained Transformer) của OpenAI được xây dựng dựa trên thành phần nào của kiến trúc Transformer?",
+    "options": [
+      "Chỉ dùng các khối Decoder xếp chồng với Causal Mask (Mặt nạ nhân quả)",
+      "Chỉ dùng các khối Encoder xếp chồng",
+      "Chỉ dùng mạng nơ-ron tích chập 1D",
+      "Chỉ dùng mạng hồi quy GRU"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Kiến trúc Decoder-only của GPT:\nGPT loại bỏ khối Encoder và tầng Cross-Attention, chỉ sử dụng chuỗi các tầng **Masked Decoder** xếp chồng liên tiếp để thực hiện bài toán mô hình hóa ngôn ngữ tự hồi quy (Next-token prediction).",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 22"
+  },
+  {
+    "id": 504,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Thuật toán Beam Search trong giải mã văn bản vượt trội hơn Greedy Decoding ở điểm nào?",
+    "options": [
+      "Beam Search chạy nhanh hơn gấp 10 lần",
+      "Thay vì chỉ giữ lại 1 từ tốt nhất ở mỗi bước, Beam Search duy trì một chùm gồm $B$ giả thuyết có xác suất tích lũy cao nhất, giúp tránh rơi vào các ngõ cụt tối ưu cục bộ",
+      "Beam Search không cần dùng đến từ điển Vocabulary",
+      "Beam Search chỉ dịch các từ danh từ"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Thuật toán Beam Search:\nGreedy search có thể chọn một từ có xác suất cao ở bước 1 nhưng dẫn đến toàn bộ các bước sau có xác suất cực thấp. Beam Search duy trì $B$ chuỗi ứng viên (Beam width) song song, tìm kiếm bao quát hơn không gian câu để cho ra bản dịch tự nhiên và chính xác hơn.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 18"
+  },
+  {
+    "id": 505,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Trong ma trận Attention $A = \\text{softmax}(QK^T / \\sqrt{d_k})$, phần tử tại dòng $i$ và cột $j$ biểu thị điều gì?",
+    "options": [
+      "Khoảng cách địa lý giữa từ $i$ và từ $j$",
+      "Mức độ quan trọng (trọng số chú ý) mà từ thứ $i$ dành cho từ thứ $j$ khi tổng hợp thông tin ngữ cảnh",
+      "Số lần từ $i$ xuất hiện trước từ $j$",
+      "Xác suất từ $j$ bị xóa khỏi câu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Ý nghĩa của Attention Weight:\nTrọng số $A_{i,j}$ cho biết khi nơ-ron đang xây dựng biểu diễn cho token thứ $i$, nó cần \"chú ý\" (tập trung) bao nhiêu phần trăm thông tin vào token thứ $j$. Tổng các phần tử trên mỗi hàng luôn bằng 1.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 9, Notebook Section 20-21"
+  },
+  {
+    "id": 506,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Quá trình chuyển đổi từ từ ngữ dạng chữ thành các chỉ số số nguyên trước khi nạp vào mạng Transformer được gọi là gì?",
+    "options": [
+      "Tokenization và Numericalization",
+      "Continuous Wavelet Transform",
+      "Principal Component Projection",
+      "Data Augmentation"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Pipeline tiền xử lý văn bản:\n1. **Tokenization:** Tách câu thành các mảnh từ nhỏ (token) như BPE, WordPiece.\n2. **Numericalization:** Ánh xạ từng token thành chỉ số ID nguyên trong từ điển (Vocabulary).\n3. **Embedding:** Tra cứu ID trong bảng ma trận để biến thành vector số thực $d$-chiều.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 3-4"
+  },
+  {
+    "id": 507,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Kích thước ma trận trọng số chiếu $W^Q, W^K, W^V$ trong một tầng Transformer chuẩn với kích thước mô hình $d_{\\text{model}}$ là bao nhiêu?",
+    "options": [
+      "$d_{\\text{model}} \\times d_k$",
+      "$N \\times N$",
+      "$d_{\\text{model}} \\times d_{\\text{model}}$",
+      "$1 \\times d_{\\text{model}}$"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Ma trận chiếu Attention:\nĐể chiếu vector đầu vào $x \\in \\mathbb{R}^{d_{\\text{model}}}$ thành $Q, K, V$, mạng nhân với các ma trận tham số học được có kích thước $d_{\\text{model}} \\times d_{\\text{model}}$ (hoặc $d_{\\text{model}} \\times d_k$ cho từng head riêng lẻ).",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 11, Notebook Section 22"
+  },
+  {
+    "id": 508,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Token đặc biệt nào thường được thêm vào đầu chuỗi trong các mô hình như BERT để phục vụ cho các tác vụ phân loại câu?",
+    "options": [
+      "`<pad>`",
+      "`[CLS]`",
+      "`[SEP]`",
+      "`<eos>`"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Token `[CLS]` (Classification):`\nTrong kiến trúc BERT, token `[CLS]` luôn được đặt ở đầu câu. Sau khi đi qua các tầng Transformer, vector biểu diễn tương ứng của `[CLS]` sẽ tổng hợp toàn bộ ngữ cảnh của cả câu và được đưa vào bộ phân loại để gán nhãn (ví dụ phân loại cảm xúc tích cực/tiêu cực).",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 22"
+  },
+  {
+    "id": 509,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Hàm mất mát tiêu chuẩn được sử dụng để huấn luyện mô hình Transformer dịch máy hoặc sinh ngôn ngữ là gì?",
+    "options": [
+      "Mean Squared Error (MSE)",
+      "Cross-Entropy Loss (với kỹ thuật Label Smoothing và bỏ qua nhãn `<pad>`)",
+      "Hinge Loss",
+      "Contrastive Loss"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hàm mất mát trong Transformer:\nMô hình dự đoán phân phối xác suất trên toàn bộ từ điển (Vocabulary) tại mỗi bước, do đó hàm mất mát chuẩn là **Cross-Entropy Loss**. Các vị trí token `<pad>` được bỏ qua (ignore_index) để không tính lỗi.",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Notebook Section 15"
+  },
+  {
+    "id": 510,
+    "chapter": 10,
+    "chapterTitle": "Chương 10: Seminar - Transformer Architecture & Attention",
+    "question": "Mô hình Vision Transformer (ViT - Dosovitskiy et al., 2020) áp dụng kiến trúc Transformer vào xử lý hình ảnh bằng cách nào?",
+    "options": [
+      "Coi mỗi điểm pixel là một nơ-ron riêng biệt",
+      "Cắt bức ảnh thành các mảnh vuông nhỏ (Patches, ví dụ 16x16 pixel), trải phẳng mỗi mảnh thành vector và coi chúng tương tự như các token từ trong câu",
+      "Sử dụng các bộ lọc tích chập thay cho cơ chế Attention",
+      "Chỉ áp dụng Transformer lên phần âm thanh của video"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Vision Transformer (ViT):\nViT chia bức ảnh $224 \\times 224$ thành lưới các patch vuông $16 \\times 16$ (tổng cộng có $14 \\times 14 = 196$ patches). Mỗi patch được chiếu tuyến tính thành một vector embedding, cộng thêm Positional Encoding và đưa vào Transformer Encoder y hệt như một chuỗi văn bản!",
+    "slideRef": "Seminar Nhóm 11 (Transformer), Slide 24"
+  },
+  {
+    "id": 511,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Dữ liệu chuỗi (Sequence Data) khác biệt với dữ liệu bảng độc lập thông thường ở đặc tính cốt lõi nào?",
+    "options": [
+      "Dữ liệu chuỗi luôn luôn có kích thước cố định bằng 100",
+      "Thứ tự sắp xếp trước sau giữa các phần tử mang ý nghĩa ngữ nghĩa sống còn; nếu xáo trộn thứ tự, ý nghĩa của dữ liệu sẽ bị thay đổi hoặc mất hoàn toàn",
+      "Dữ liệu chuỗi chỉ bao gồm các ký tự số nguyên",
+      "Dữ liệu chuỗi không thể chuyển đổi thành vector số học"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khái niệm Dữ liệu chuỗi (Sequence Data):\nTrong văn bản, âm thanh, video hay chuỗi thời gian, thứ tự các từ hoặc tín hiệu quyết định toàn bộ ngữ nghĩa. Ví dụ: \"không tốt\" khác hoàn toàn \"tốt không\"; đảo lộn vị trí sẽ làm hỏng dữ liệu. Các mô hình mạng truyền thẳng (Feed-forward) xem các mẫu độc lập không nắm bắt được mối quan hệ thời gian này.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 4"
+  },
+  {
+    "id": 512,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Bài toán Nhận dạng Thực thể có tên (Named Entity Recognition - NER) thuộc dạng cấu trúc I/O nào trong mô hình chuỗi?",
+    "options": [
+      "One-to-One",
+      "One-to-Many",
+      "Many-to-One",
+      "Many-to-Many (cùng độ dài chuỗi: $T_x = T_y$)"
+    ],
+    "answer": 3,
+    "explanation": "### 🎯 Phân loại I/O Sequence Model:\n* **One-to-Many:** Image Captioning (1 ảnh $\\to$ chuỗi từ mô tả).\n* **Many-to-One:** Sentiment Analysis (chuỗi từ bình luận $\\to$ 1 nhãn tích cực/tiêu cực).\n* **Many-to-Many cùng độ dài:** NER, POS tagging (mỗi từ $x^{\\langle t \\rangle}$ tương ứng 1 nhãn thực thể $y^{\\langle t \\rangle}$).\n* **Many-to-Many khác độ dài:** Machine Translation (câu tiếng Anh 5 từ dịch sang câu tiếng Việt 7 từ).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 12, 28-30"
+  },
+  {
+    "id": 513,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Ý tưởng trung tâm của Mạng nơ-ron hồi quy (RNN cổ điển) trong việc xử lý chuỗi là gì?",
+    "options": [
+      "Xóa bỏ hoàn toàn các tầng ẩn",
+      "Sử dụng trạng thái ẩn (Hidden state $a^{\\langle t \\rangle}$) như một \"bộ nhớ\" tóm tắt thông tin quá khứ từ các bước trước để truyền tiếp sang bước hiện tại",
+      "Huấn luyện các cây quyết định độc lập tại mỗi từ",
+      "Tính nghịch đảo ma trận tại mỗi bước thời gian"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Trạng thái ẩn $a^{\\langle t \\rangle}$ trong RNN:\nTrạng thái ẩn $a^{\\langle t \\rangle}$ là bản tóm tắt mọi thông tin mà mạng đã quan sát được từ thời điểm $1$ đến $t$. Tại bước $t$, mạng kết hợp trạng thái ẩn bước trước $a^{\\langle t-1 \\rangle}$ và từ hiện tại $x^{\\langle t \\rangle}$ để sinh ra trạng thái ẩn mới $a^{\\langle t \\rangle}$.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 17"
+  },
+  {
+    "id": 514,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Lợi ích sống còn của việc Chia sẻ tham số (Parameter Sharing) qua mọi bước thời gian trong RNN là gì?",
+    "options": [
+      "Làm tăng số lượng tham số tỷ lệ thuận với độ dài chuỗi",
+      "Giữ số lượng tham số cố định và không phụ thuộc vào độ dài chuỗi đầu vào, đồng thời cho phép mạng nhận diện cùng một quy luật ngữ pháp ở bất kỳ vị trí nào trong câu",
+      "Ngăn chặn mô hình sử dụng hàm kích hoạt Tanh",
+      "Làm cho hàm mất mát luôn đạt giá trị 0"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Chia sẻ tham số (Parameter Sharing):\nNếu dùng mạng truyền thẳng, mỗi vị trí từ sẽ cần một bộ trọng số riêng $\\implies$ số tham số bùng nổ theo độ dài câu. Trong RNN, cùng một bộ ma trận trọng số $(W_{ax}, W_{aa}, W_{ya})$ được tái sử dụng qua mọi bước thời gian. Điều này giúp mô hình nhận ra một từ khóa dù nó đứng ở đầu câu hay cuối câu.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 19-20"
+  },
+  {
+    "id": 515,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Công thức lan truyền thuận (Forward propagation) để tính trạng thái ẩn $a^{\\langle t \\rangle}$ trong RNN chuẩn là:",
+    "options": [
+      "$a^{\\langle t \\rangle} = \\sigma(W_{ya} x^{\\langle t \\rangle} + b_y)$",
+      "$a^{\\langle t \\rangle} = g(W_{aa} a^{\\langle t-1 \\rangle} + W_{ax} x^{\\langle t \\rangle} + b_a)$ với $g$ thường là hàm Tanh hoặc ReLU",
+      "$a^{\\langle t \\rangle} = a^{\\langle t-1 \\rangle} + x^{\\langle t \\rangle}$",
+      "$a^{\\langle t \\rangle} = \\text{softmax}(W_{ax} x^{\\langle t \\rangle})$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Công thức cập nhật RNN:\n$$a^{\\langle t \\rangle} = g(W_{aa} a^{\\langle t-1 \\rangle} + W_{ax} x^{\\langle t \\rangle} + b_a)$$\nHàm kích hoạt $g$ truyền thống luôn là **Tanh** (đưa giá trị về $[-1, 1]$ để kiểm soát miền giá trị không bị bùng nổ sau nhiều bước lặp).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 21"
+  },
+  {
+    "id": 516,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Thuật toán tính đạo hàm và cập nhật trọng số trong mạng nơ-ron hồi quy được gọi là gì?",
+    "options": [
+      "Stochastic Gradient Descent thông thường",
+      "Lan truyền ngược qua thời gian (Backpropagation Through Time - BPTT)",
+      "Thuật toán di truyền hồi quy",
+      "Thuật toán K-Means++"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 BPTT (Backpropagation Through Time):\nVì mạng RNN được trải phẳng (unrolled) qua các bước thời gian $t = 1, \\dots, T_x$, gradient của hàm mất mát tại bước cuối cùng phải được lan truyền ngược dọc theo toàn bộ chuỗi thời gian quay về các bước ban đầu để cập nhật các ma trận trọng số dùng chung.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 26"
+  },
+  {
+    "id": 517,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Hạn chế chí tử nhất của kiến trúc RNN cổ điển khi xử lý các chuỗi văn bản dài là gì?",
+    "options": [
+      "Mạng không thể xử lý được từ ngữ tiếng Việt",
+      "Hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient) khi lan truyền qua nhiều bước thời gian, khiến mạng bị \"trí nhớ ngắn hạn\" và không học được các phụ thuộc dài hạn",
+      "Mạng luôn luôn sinh ra các số nguyên âm",
+      "Hàm kích hoạt Tanh bị tràn số"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Bệnh lý Vanishing Gradient trong RNN:\nKhi lan truyền ngược qua $T$ bước, gradient bị nhân liên tiếp với ma trận trọng số $W_{aa}^T$ và đạo hàm Tanh (luôn $\\le 1$). Nếu trị riêng lớn nhất của $W_{aa} < 1$, gradient suy giảm theo hàm mũ về 0 $\\implies$ các từ ở bước $100$ không thể truyền tín hiệu học về từ ở bước $1$. Ví dụ: câu \"The **dog** that ate the apple ... was **full**\", mạng không nhớ được chủ ngữ là số ít hay số nhiều.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 36-41"
+  },
+  {
+    "id": 518,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Để xử lý hiện tượng Bùng nổ đạo hàm (Exploding Gradient) trong huấn luyện RNN (khi gradient tăng vọt dẫn đến lỗi NaN), kỹ thuật đơn giản và hiệu quả nhất là gì?",
+    "options": [
+      "Tăng tốc độ học Learning Rate lên gấp 10 lần",
+      "Cắt tỉa đạo hàm (Gradient Clipping) - nếu độ dài vector gradient vượt ngưỡng $threshold$, co nó lại về ngưỡng đó",
+      "Xóa bỏ các từ cuối câu",
+      "Chuyển sang dùng hàm Sigmoid"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Kỹ thuật Gradient Clipping:\nNếu $\\|g\\| > c$, ta co lại: $g = \\frac{c}{\\|g\\|} g$. Thao tác này giữ nguyên hướng dốc của gradient nhưng giới hạn độ dài bước nhảy tối đa, ngăn không cho trọng số văng khỏi vùng hội tụ hoặc bị tràn số (NaN).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 40"
+  },
+  {
+    "id": 519,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Thành phần cốt lõi nào trong tế bào mạng LSTM (Long Short-Term Memory) đóng vai trò là \"đường cao tốc thông tin\" giúp gradient lan truyền không bị suy biến?",
+    "options": [
+      "Trạng thái tế bào (Cell State - $C_t$)",
+      "Cổng ra Output Gate",
+      "Vector One-Hot đầu vào",
+      "Lớp chuẩn hóa LayerNorm"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Cell State ($C_t$) - Đường cao tốc thông tin:\nCell State chạy thẳng tắp xuyên suốt toàn bộ chuỗi với rất ít tương tác phi tuyến (chỉ có phép nhân phần tử và phép cộng tuyến tính). Gradient khi truyền ngược dọc theo Cell State không phải qua các phép nhân ma trận liên hoàn, giải quyết triệt để bài toán Vanishing Gradient.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 44, 46"
+  },
+  {
+    "id": 520,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Ba cổng kiểm soát luồng thông tin trong một tế bào LSTM (Hochreiter & Schmidhuber, 1997) là gì?",
+    "options": [
+      "Cổng AND, cổng OR, cổng NOT",
+      "Cổng quên (Forget Gate), Cổng nạp/nhập (Input Gate), Cổng xuất (Output Gate)",
+      "Cổng Stride, cổng Padding, cổng Pooling",
+      "Cổng Encoder, cổng Decoder, cổng Mask"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 3 Cổng của LSTM:\n1. **Forget Gate ($f_t$):** Quyết định vứt bỏ bao nhiêu phần trăm thông tin từ Cell State cũ $C_{t-1}$.\n2. **Input Gate ($i_t$):** Quyết định nạp bao nhiêu phần trăm thông tin ứng viên mới $\\tilde{C}_t$ vào Cell State.\n3. **Output Gate ($o_t$):** Quyết định xuất bao nhiêu phần trăm từ Cell State ra trạng thái ẩn $a_t$ (hoặc $h_t$).\nTất cả các cổng đều dùng hàm kích hoạt Sigmoid (cho ra giá trị từ $0$ = đóng hoàn toàn đến $1$ = mở hoàn toàn).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 44-45"
+  },
+  {
+    "id": 521,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Công thức cập nhật Trạng thái tế bào ($C_t$) trong LSTM là gì?",
+    "options": [
+      "$C_t = C_{t-1} + x_t$",
+      "$C_t = f_t * C_{t-1} + i_t * \\tilde{C}_t$",
+      "$C_t = o_t * \\tanh(C_{t-1})$",
+      "$C_t = \\sigma(W_c x_t + b_c)$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Phương trình cập nhật Cell State:\n$$C_t = f_t * C_{t-1} + i_t * \\tilde{C}_t$$\n* $f_t * C_{t-1}$: Quên đi các thông tin cũ không còn hữu ích (ví dụ đổi chủ ngữ).\n* $i_t * \\tilde{C}_t$: Bổ sung thêm các thông tin mới từ ngữ cảnh hiện tại.\nDấu $*$ là phép nhân từng phần tử (Hadamard product).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 45"
+  },
+  {
+    "id": 522,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Vì sao mô hình BiLSTM (Bidirectional LSTM - LSTM hai chiều) lại vượt trội hơn LSTM đơn hướng trong các bài toán hiểu ngôn ngữ như NER?",
+    "options": [
+      "Vì BiLSTM chỉ tốn một nửa bộ nhớ so với LSTM",
+      "Vì BiLSTM kết hợp đồng thời hai luồng thông tin: một luồng chạy xuôi từ quá khứ và một luồng chạy ngược từ tương lai, cho phép mạng hiểu trọn vẹn ngữ cảnh hai phía",
+      "Vì BiLSTM loại bỏ hoàn toàn các cổng Forget Gate",
+      "Vì BiLSTM không sử dụng hàm kích hoạt Tanh"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Sức mạnh của BiLSTM:\nXét câu: *\"Teddy Roosevelt was a great president\"* và *\"Teddy bears are on sale\"*. Nếu chỉ đọc từ trái sang phải, khi gặp từ \"Teddy\", mô hình đơn hướng không thể biết đó là tên người hay con gấu bông. BiLSTM đọc cả từ phía sau (\"Roosevelt\" vs \"bears\"), cung cấp ngữ cảnh tương lai để phân loại chính xác.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 48-50"
+  },
+  {
+    "id": 523,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Mô hình Không gian Trạng thái liên tục (Continuous-time State Space Model - SSM) trong lý thuyết điều khiển tuyến tính được mô tả bởi hệ phương trình vi phân nào?",
+    "options": [
+      "$h(t) = w^T x(t) + b$",
+      "$\\dot{h}(t) = A h(t) + B x(t)$ và $y(t) = C h(t)$",
+      "$y(t) = \\text{softmax}(x(t))$",
+      "$\\Delta h(t) = \\max(0, h(t))$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hệ phương trình LTI SSM:\n$$\\dot{h}(t) = A h(t) + B x(t)$$\n$$y(t) = C h(t)$$\n* $x(t)$: Tín hiệu đầu vào liên tục theo thời gian.\n* $h(t)$: Trạng thái ẩn bên trong (Internal state vector).\n* $y(t)$: Tín hiệu đầu ra.\n* $A, B, C$: Các ma trận tham số của hệ thống tuyến tính bất biến theo thời gian (LTI).",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 54-57"
+  },
+  {
+    "id": 524,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Kỹ thuật Rời rạc hóa (Discretization) bằng phương pháp giữ bậc không (Zero-Order Hold - ZOH) với bước nhảy thời gian $\\Delta$ biến đổi ma trận $A$ liên tục thành ma trận $\\bar{A}$ rời rạc theo công thức nào?",
+    "options": [
+      "$\\bar{A} = A + \\Delta$",
+      "$\\bar{A} = \\exp(\\Delta A)$",
+      "$\\bar{A} = \\frac{A}{\\Delta}$",
+      "$\\bar{A} = A^T A$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Rời rạc hóa ZOH:\n$$\\bar{A} = \\exp(\\Delta A)$$\n$$\\bar{B} = (\\Delta A)^{-1}(\\exp(\\Delta A) - I) \\cdot \\Delta B$$\nBiến đổi hệ liên tục thành hệ rời rạc để máy tính có thể xử lý các chuỗi token rời rạc theo từng bước thời gian: $h_t = \\bar{A} h_{t-1} + \\bar{B} x_t$.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 58"
+  },
+  {
+    "id": 525,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Tính chất tính toán kép (Dual Computation Modes) của mô hình LTI SSM mang lại hai ưu thế vượt bậc nào?",
+    "options": [
+      "Chạy được trên cả Windows và macOS",
+      "Dạng Hồi quy (Recurrent Mode) cho phép suy luận (Inference) cực nhanh trong thời gian $O(1)$ mỗi bước; Dạng Tích chập (Convolutional Mode) cho phép huấn luyện song song toàn chuỗi cực nhanh trong thời gian $O(N \\log N)$ nhờ phép biến đổi Fourier (FFT)",
+      "Chỉ tính toán khi người dùng nhấn phím Enter",
+      "Tự động dịch mã sang ngôn ngữ C++"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tính toán kép của LTI SSM:\n* **Khi Training:** Khai triển $y = x * \\bar{K}$, là một phép tích chập 1D với kernel $\\bar{K} = (C\\bar{B}, C\\bar{A}\\bar{B}, C\\bar{A}^2\\bar{B}, \\dots)$. Tính song song toàn bộ câu qua FFT trong $O(N \\log N)$ giống như CNN!\n* **Khi Inference:** Chuyển sang dạng hồi quy $h_t = \\bar{A} h_{t-1} + \\bar{B} x_t$, chỉ mất $O(1)$ thời gian và bộ nhớ cố định giống như RNN, không cần cache ma trận KV khổng lồ như Transformer!",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 59-60"
+  },
+  {
+    "id": 526,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Hạn chế căn bản của các mô hình State Space Model thế hệ trước (như S4) dựa trên giả định Bất biến theo thời gian tuyến tính (Linear Time Invariance - LTI) là gì?",
+    "options": [
+      "Các ma trận $A, B, C$ bị cố định cho mọi token, khiến mô hình không thể chọn lọc hoặc ghi nhớ thông tin phụ thuộc vào ngữ cảnh (không thể lọc bỏ từ rác hoặc nhớ từ khóa)",
+      "Mô hình không thể chạy được trên card đồ họa GPU",
+      "Mô hình chỉ áp dụng được cho dữ liệu bảng 1 chiều",
+      "Số tham số của mô hình thay đổi liên tục theo thời gian"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Giới hạn của LTI SSM:\nTrong hệ LTI, cách thức thông tin được nén vào trạng thái ẩn luôn cố định bất kể từ đó là từ nối vô nghĩa (\"the\", \"and\") hay danh từ then chốt. Mô hình không thể thực hiện tác vụ chọn lọc nội dung (Selective Copying hay Induction Heads) mà Transformer làm rất tốt.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 62-63"
+  },
+  {
+    "id": 527,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Đột phá cốt lõi của kiến trúc Mamba (Selective State Space Model - S6, Gu & Dao 2024) là gì?",
+    "options": [
+      "Tăng số đầu Attention lên 128 đầu",
+      "Cơ chế Chọn lọc (Selection Mechanism): phá vỡ tính LTI bằng cách cho các ma trận tham số $B, C$ và bước thời gian $\\Delta$ biến thiên phụ thuộc trực tiếp vào dữ liệu đầu vào hiện tại: $B_t = s_B(x_t), C_t = s_C(x_t), \\Delta_t = \\tau_\\Delta(\\text{Linear}(x_t))$",
+      "Thay thế hoàn toàn mạng nơ-ron bằng thuật toán K-Nearest Neighbors",
+      "Xóa bỏ hoàn toàn bước rời rạc hóa ZOH"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Đột phá S6 của Mamba:\nBằng cách biến các tham số thành hàm phụ thuộc vào input $x_t$, Mamba cho phép mô hình tự quyết định:\n* Khi gặp từ rác: Đặt $\\Delta_t$ nhỏ $\\implies$ không lưu vào bộ nhớ.\n* Khi gặp từ quan trọng: Đặt $\\Delta_t$ lớn $\\implies$ nạp sâu vào trạng thái ẩn.\nĐiều này mang lại sức mạnh chú ý ngữ cảnh y hệt như Attention của Transformer!",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 63-65"
+  },
+  {
+    "id": 528,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Khi phá vỡ tính chất LTI (các tham số phụ thuộc vào $x_t$), mô hình Mamba không còn dùng được phép tích chập song song FFT. Mamba đã giải quyết bài toán tốc độ huấn luyện trên GPU bằng thuật toán phần cứng nào?",
+    "options": [
+      "Thuật toán quét song song nhận thức phần cứng (Hardware-aware Selective Scan) tận dụng bộ nhớ SRAM nhanh trên chip GPU và tính toán lại (Recomputation) ở lượt truyền ngược",
+      "Chuyển toàn bộ dữ liệu lên bộ nhớ đám mây Cloud",
+      "Giảm độ sâu của mô hình xuống còn 1 tầng duy nhất",
+      "Chỉ tính toán trên các số nguyên 8-bit mà không dùng số thực"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Hardware-aware Selective Scan trong Mamba:\nThay vì đưa các ma trận trạng thái trung gian khổng lồ ra bộ nhớ HBM (DRAM) chậm của GPU (vốn là điểm nghẽn cổ chai I/O), Mamba sử dụng **Kernel Fusion** để tải dữ liệu vào bộ nhớ cực nhanh **SRAM** trên chip GPU, thực hiện thuật toán Parallel Scan trực tiếp trên SRAM, và tính toán lại (Recomputation) ở lượt backward thay vì lưu lại. Nhờ đó Mamba chạy nhanh hơn Transformer tới 5 lần trên chuỗi dài!",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 68-70"
+  },
+  {
+    "id": 529,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "So sánh độ phức tạp tính toán theo độ dài chuỗi $N$ giữa kiến trúc Mamba và cơ chế Attention của Transformer:",
+    "options": [
+      "Mamba có độ phức tạp bậc hai $O(N^2)$, Transformer có độ phức tạp tuyến tính $O(N)$",
+      "Mamba có độ phức tạp tuyến tính $O(N)$ cả về thời gian và bộ nhớ; trong khi Attention của Transformer có độ phức tạp bậc hai $O(N^2)$",
+      "Cả hai mô hình đều có độ phức tạp hằng số $O(1)$",
+      "Mamba có độ phức tạp hàm mũ $O(2^N)$"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 So sánh Độ phức tạp Mamba vs Transformer:\n* **Transformer Self-Attention:** $O(N^2)$ (mỗi token phải tính tích vô hướng với tất cả các token khác) $\\implies$ chi phí bùng nổ khi chuỗi dài hàng triệu token.\n* **Mamba:** Đạt **chi phí tuyến tính $O(N)$**, cho phép mở rộng ngữ cảnh lên hàng trăm ngàn đến hàng triệu tokens mượt mà và suy luận với tốc độ hằng số $O(1)$ mỗi token.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 52, 74"
+  },
+  {
+    "id": 530,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Khối kiến trúc Mamba Block kết hợp thống nhất các thành phần nào thay vì tách rời Attention và MLP như Transformer truyền thống?",
+    "options": [
+      "Chiếu mở rộng HBN, tích chập 1D ngắn, hàm kích hoạt SiLU / Swish, khối SSM chọn lọc và cổng gating tương tự Gated MLP",
+      "Khối Pooling, khối Dropout và tầng Softmax",
+      "Cây quyết định nhị phân và hồi quy Logistic",
+      "Mạng nơ-ron lan truyền ngược đơn tầng"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Kiến trúc Mamba Block:\nMamba thiết kế một block đồng nhất (Homogeneous Architecture): vector đầu vào được nhân đôi chiều, một nhánh đi qua Conv 1D + SiLU + SSM chọn lọc S6, nhánh kia làm cổng Gating nhân phần tử, sau đó chiếu nén trở lại kích thước gốc. Thiết kế này loại bỏ sự cần thiết của khối MLP tách biệt.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 71"
+  },
+  {
+    "id": 531,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Trong bài toán mô hình hóa chuỗi, kiến trúc nào sau đây KHÔNG THỂ chạy song song trên GPU trong giai đoạn huấn luyện (Training)?",
+    "options": [
+      "Mạng Transformer",
+      "Mạng nơ-ron hồi quy cổ điển (Standard RNN)",
+      "Mạng tích chập 1D (CNN 1D)",
+      "Mô hình Mamba (với Hardware-aware Selective Scan)"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Điểm yếu của RNN thuần túy:\nDo công thức $a_t = g(W_{aa} a_{t-1} + W_{ax} x_t)$, bước $t$ hoàn toàn lệ thuộc vào kết quả của bước $t-1$. GPU có hàng ngàn nhân tính toán nhưng buộc phải ngồi chờ từng bước thời gian tính tuần tự $\\implies$ không thể song song hóa trong training.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 18, 52"
+  },
+  {
+    "id": 532,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Định lý 1 trong bài báo Mamba (Gu & Dao, 2024) chỉ ra mối liên hệ mật thiết giữa cơ chế chọn lọc SSM và cơ chế cổng nào của RNN?",
+    "options": [
+      "Cơ chế cổng ReLU",
+      "Cơ chế cổng Gated Recurrent Unit (GRU) và LSTM, trong đó tham số $\\Delta_t$ đóng vai trò tương tự như cổng quên (Forget Gate)",
+      "Cổng lượng tử hóa",
+      "Cổng phân nhánh cây C4.5"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Mối liên hệ toán học giữa SSM và RNN Gating:\nĐịnh lý 1 chứng minh rằng cơ chế rời rạc hóa ZOH với tham số bước thời gian phụ thuộc đầu vào $\\Delta_t$ chính là một dạng tổng quát hóa của cơ chế Gating trong LSTM/GRU. Khi $\\Delta_t \\to 0$, mô hình bỏ qua trạng thái hiện tại (giữ nguyên bộ nhớ cũ); khi $\\Delta_t \\to \\infty$, mô hình xóa sạch bộ nhớ cũ để nạp thông tin mới.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 67"
+  },
+  {
+    "id": 533,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Trong mạng RNN, bài toán Lấy mẫu sinh chuỗi mới (Sampling) hoạt động theo cơ chế nào?",
+    "options": [
+      "Tại mỗi bước, lấy mẫu từ phân phối xác suất đầu ra $\\hat{y}^{\\langle t \\rangle}$ và nạp kết quả đó làm đầu vào $x^{\\langle t+1 \\rangle}$ cho bước tiếp theo",
+      "Sinh ngẫu nhiên toàn bộ câu trong 1 lần duy nhất",
+      "Sao chép y nguyên câu trong tập dữ liệu huấn luyện",
+      "Tính nghịch đảo của chuỗi gốc"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Cơ chế Sampling trong Sequence Generation:\nĐể sinh văn bản hay âm nhạc mới, ở bước 1 ta nạp vector 0 hoặc token `<sos>`. Mạng sinh ra xác suất của từ tiếp theo. Ta dùng hàm `np.random.choice` để bốc ngẫu nhiên một từ theo phân phối xác suất này, rồi nạp chính từ vừa sinh làm đầu vào cho bước 2.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 33"
+  },
+  {
+    "id": 534,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Mô hình ngôn ngữ mức ký tự (Character-level Language Model) trong RNN khác với mô hình mức từ (Word-level) ở điểm nào?",
+    "options": [
+      "Từ điển (Vocabulary) của mức ký tự nhỏ hơn rất nhiều (chỉ gồm các chữ cái a-z, chữ số, dấu câu) và không bao giờ gặp lỗi từ ngoài từ điển (Out-Of-Vocabulary - OOV)",
+      "Mức ký tự có độ dài chuỗi ngắn hơn mức từ",
+      "Mức ký tự không thể huấn luyện được bằng BPTT",
+      "Mức ký tự chỉ dùng được cho tiếng La-tinh"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Character-level vs Word-level:\n* **Word-level:** Từ điển khổng lồ ($50.000 - 100.000$ từ), dễ gặp từ lạ OOV, nhưng chuỗi ngắn.\n* **Character-level:** Từ điển cực nhỏ (khoảng 100 ký tự), không sợ từ lạ OOV, nhưng chuỗi trở nên dài gấp 5-10 lần $\\implies$ đòi hỏi mô hình phải nhớ được phụ thuộc xa hơn.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 34"
+  },
+  {
+    "id": 535,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Biến thể GRU (Gated Recurrent Unit) đơn giản hóa cấu trúc của LSTM bằng cách nào?",
+    "options": [
+      "Gộp Cell State và Hidden State làm một, chỉ sử dụng 2 cổng: Cổng cập nhật (Update Gate) và Cổng đặt lại (Reset Gate)",
+      "Tăng số cổng lên thành 5 cổng",
+      "Loại bỏ hoàn toàn các phép nhân có trọng số",
+      "Thay thế hàm kích hoạt Sigmoid bằng hàm bậc thang"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 GRU (Cho et al., 2014):\nGRU đơn giản hóa tế bào LSTM: hòa trộn trạng thái $C_t$ và $a_t$ thành một vector trạng thái ẩn duy nhất $h_t$; kết hợp cổng quên và cổng nạp thành **Update Gate ($z_t$)**, và dùng **Reset Gate ($r_t$)**. GRU có ít tham số hơn LSTM, tính toán nhanh hơn và thường cho hiệu năng tương đương.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 47"
+  },
+  {
+    "id": 536,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Ma trận $A$ trong mô hình S4 và Mamba thường được khởi tạo đặc biệt theo ma trận nào để tối ưu hóa khả năng ghi nhớ dài hạn?",
+    "options": [
+      "Ma trận toàn số 0",
+      "Ma trận HiPPO (High-order Polynomial Projection Operators)",
+      "Ma trận đơn vị Identity",
+      "Ma trận ngẫu nhiên phân phối Gauss"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khởi tạo HiPPO (Gu et al., 2020):\nHiPPO cung cấp cơ sở toán học để nén lịch sử tín hiệu liên tục vào một không gian đa thức trực giao Legendre. Việc khởi tạo ma trận $A$ theo cấu trúc HiPPO cho phép hệ SSM duy trì trí nhớ qua hàng chục ngàn bước thời gian mà không bị suy hao thông tin.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 61"
+  },
+  {
+    "id": 537,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Trong bài toán Dịch máy (Machine Translation) sử dụng mạng RNN, kiến trúc nào được sử dụng để chuyển đổi câu từ ngôn ngữ nguồn sang ngôn ngữ đích có độ dài khác nhau?",
+    "options": [
+      "Mô hình Perceptron đơn tầng",
+      "Kiến trúc Bộ mã hóa - Bộ giải mã (Encoder - Decoder)",
+      "Mô hình hồi quy tuyến tính Lasso",
+      "Thuật toán phân cụm DBSCAN"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Kiến trúc Encoder - Decoder (Seq2Seq):\n* **Encoder:** Đọc toàn bộ câu nguồn tiếng Anh từng từ một và nén toàn bộ thông tin vào vector trạng thái ẩn cuối cùng.\n* **Decoder:** Nhận vector trạng thái này làm khởi đầu và sinh từng từ tiếng Việt tiếp theo cho đến khi gặp token kết thúc.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 10, 30"
+  },
+  {
+    "id": 538,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Hiện tượng \"Bottleneck\" trong kiến trúc RNN Encoder-Decoder truyền thống (trước khi có Attention) là gì?",
+    "options": [
+      "Dung lượng lưu trữ của ổ cứng bị quá tải",
+      "Toàn bộ ngữ nghĩa của câu nguồn dù dài bao nhiêu từ cũng bị ép phải nén vào một vector kích thước cố định duy nhất, gây mất mát thông tin nghiêm trọng trên các câu dài",
+      "Tốc độ mạng internet bị suy giảm",
+      "Hàm Softmax không thể chạy trên GPU"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Điểm nghẽn biểu diễn của Seq2Seq cổ điển:\nBắt một vector có độ dài cố định (ví dụ 512 số thực) phải ghi nhớ đầy đủ từng chi tiết của một đoạn văn dài 100 từ là điều bất khả thi. Đây chính là lý do cơ chế Attention ra đời: cho phép Decoder nhìn lại toàn bộ các trạng thái ẩn trung gian của Encoder.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 30, 52"
+  },
+  {
+    "id": 539,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Trong thực nghiệm đánh giá mô hình Mamba trên các lĩnh vực phi ngôn ngữ (Non-language domains), Mamba thể hiện sự vượt trội rõ rệt nhất ở dạng dữ liệu nào?",
+    "options": [
+      "Hình ảnh đen trắng kích thước 8x8",
+      "Dữ liệu chuỗi DNA dài hàng triệu cặp bazơ và tín hiệu âm thanh thô độ phân giải cao",
+      "Dữ liệu bảng có ít hơn 10 dòng",
+      "Tập dữ liệu hoa Iris"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Ứng dụng chuỗi siêu dài của Mamba:\nNhờ độ phức tạp tuyến tính $O(N)$ và khả năng chọn lọc, Mamba cực kỳ xuất sắc trong mô hình hóa chuỗi DNA (nơi chuỗi dài hàng triệu base-pairs mà Transformer bị nổ bộ nhớ) và dữ liệu sóng âm thanh thô độ dài hàng trăm ngàn mẫu.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 74"
+  },
+  {
+    "id": 540,
+    "chapter": 11,
+    "chapterTitle": "Chương 11: Seminar - RNN, LSTM & Mamba (SSM)",
+    "question": "Hạn chế hiện tại của mô hình Mamba so với các mô hình Transformer đã được thừa nhận trong bài báo là gì?",
+    "options": [
+      "Mamba không thể chạy được trên card đồ họa NVIDIA",
+      "Chi phí phần cứng khi huấn luyện từ đầu vẫn đòi hỏi các GPU hiện đại có băng thông SRAM cao, và hệ sinh thái tối ưu hóa phần mềm chưa phong phú bằng Transformer vốn đã phát triển gần 10 năm",
+      "Mamba chỉ hoạt động với chuỗi có độ dài nhỏ hơn 10",
+      "Mamba không có hàm mất mát toán học"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Giới hạn của Mamba:\nTransformer đã có hệ sinh thái phần cứng (FlashAttention, TensorRT, TPU) được tối ưu hóa cực sâu trong nhiều năm. Mamba phụ thuộc vào các GPU có kiến trúc SRAM hiện đại (như A100/H100) để đạt tốc độ tối đa của Selective Scan, và quá trình huấn luyện quy mô hàng trăm tỷ tham số vẫn cần thời gian kiểm chứng cộng đồng.",
+    "slideRef": "Seminar Nhóm 17 (RNN-LSTM-Mamba), Slide 75"
+  },
+  {
+    "id": 541,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Phương pháp Mã sửa lỗi đầu ra (Error-Correcting Output Codes - ECOC, Dietterich & Bakiri 1995) giải quyết bài toán phân loại đa lớp ($K > 2$ lớp) theo nguyên lý nào?",
+    "options": [
+      "Gộp tất cả các lớp thành 1 lớp duy nhất",
+      "Phân tách bài toán đa lớp thành nhiều bài toán phân loại nhị phân độc lập dựa trên một ma trận mã hóa nhị phân kích thước $K \\times L$, sau đó dự đoán lớp dựa trên khoảng cách Hamming nhỏ nhất",
+      "Sử dụng thuật toán K-Means để gom các lớp lại",
+      "Huấn luyện duy nhất 1 đường hồi quy tuyến tính OLS"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Nguyên lý cốt lõi của ECOC:\nECOC mượn ý tưởng từ lý thuyết truyền tin (Information Theory). Mỗi lớp được gán một \"từ mã\" (codeword) nhị phân độ dài $L$ bit (tạo thành ma trận mã hóa $K \\times L$). Ta huấn luyện $L$ bộ phân loại nhị phân độc lập. Khi dự đoán, chuỗi đầu ra của $L$ bộ phân loại sẽ được so sánh với từ mã của từng lớp bằng khoảng cách Hamming; lớp nào gần nhất sẽ được chọn.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 2, Paper Trang 1"
+  },
+  {
+    "id": 542,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Khoảng cách Hamming (Hamming Distance) giữa hai từ mã nhị phân có độ dài bằng nhau được định nghĩa là:",
+    "options": [
+      "Tích vô hướng giữa hai vector",
+      "Số lượng vị trí bit mà tại đó hai từ mã có giá trị khác nhau",
+      "Độ dài cạnh huyền tam giác vuông",
+      "Tổng bình phương khoảng cách giữa các số thực"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khoảng cách Hamming:\nĐo số lượng bit khác biệt giữa 2 chuỗi nhị phân. Ví dụ: từ mã $A = [1, 0, 1, 1]$ và $B = [1, 1, 1, 0]$ có 2 vị trí bit khác nhau (ở vị trí thứ 2 và thứ 4) $\\implies$ Khoảng cách Hamming $d(A, B) = 2$.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 2"
+  },
+  {
+    "id": 543,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Theo định lý sửa sai trong lý thuyết thông tin, nếu ma trận mã hóa ECOC có khoảng cách Hamming tối thiểu giữa 2 hàng bất kỳ là $d_{\\min}$, mô hình có khả năng tự động sửa đúng bao nhiêu lỗi phân loại nhị phân?",
+    "options": [
+      "$d_{\\min}$ lỗi",
+      "Tối đa $\\left\\lfloor \\frac{d_{\\min} - 1}{2} \\right\\rfloor$ lỗi phân loại nhị phân",
+      "Không thể sửa được lỗi nào",
+      "$2 \\times d_{\\min}$ lỗi"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khả năng sửa sai kỳ diệu của ECOC:\nNếu khoảng cách tối thiểu giữa 2 lớp bất kỳ là $d_{\\min}$, thì một lỗi dự đoán làm dịch chuyển từ mã đi 1 bit. Để từ mã bị biến thành một lớp khác, nó cần phải sai tối thiểu $\\lfloor \\frac{d_{\\min} - 1}{2} \\rfloor + 1$ bit. Do đó, nếu số bộ phân loại con bị đoán sai nhỏ hơn hoặc bằng $\\left\\lfloor \\frac{d_{\\min} - 1}{2} \\right\\rfloor$, từ mã dự đoán **vẫn nằm gần lớp đúng nhất**, và ECOC tự động sửa sai để cho ra kết quả cuối cùng hoàn toàn chính xác!",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 4, Paper Trang 2"
+  },
+  {
+    "id": 544,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Chiến lược One-vs-Rest (OvR) kinh điển có thể được biểu diễn như một trường hợp đặc biệt của ma trận mã hóa ECOC với dạng ma trận nào?",
+    "options": [
+      "Ma trận toàn số 0",
+      "Ma trận đơn vị đường chéo kích thước $K \\times K$ (hoặc ma trận có đường chéo là 1 và các phần tử khác là 0 hoặc -1)",
+      "Ma trận ngẫu nhiên kích thước vô hạn",
+      "Ma trận tam giác dưới"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 OvR là một dạng ECOC suy biến:\nTrong One-vs-Rest cho $K$ lớp, từ mã của lớp $i$ có bit thứ $i$ bằng 1 và tất cả các bit khác bằng 0 (hoặc -1). Khi đó, ma trận mã hóa chính là ma trận đơn vị $I_K$. Khoảng cách Hamming giữa hai lớp bất kỳ chỉ bằng đúng 2 $\\implies$ Khả năng sửa sai: $\\lfloor (2-1)/2 \\rfloor = 0$ (OvR hoàn toàn không có khả năng tự sửa sai nếu 1 bộ phân loại đoán hỏng!).",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 2-3"
+  },
+  {
+    "id": 545,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Vì sao phương pháp Mã ngẫu nhiên (Random ECOC) với độ dài từ mã dài hơn (ví dụ $L = 50$ đến $60$ bit) lại vượt trội hơn hẳn so với One-vs-Rest (OvR)?",
+    "options": [
+      "Vì Random ECOC chạy nhanh hơn gấp 100 lần",
+      "Vì độ dài mã dài hơn giúp tạo ra khoảng cách Hamming tối thiểu $d_{\\min}$ rất lớn, mang lại năng lực sửa sai dự phòng cực cao và chống chịu rất tốt trước hiện tượng nhãn nhiễu hoặc bộ phân loại yếu",
+      "Vì Random ECOC không cần dùng dữ liệu huấn luyện",
+      "Vì Random ECOC chỉ dùng được với cây quyết định"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Sức mạnh của Random ECOC dài:\nKhi tăng độ dài mã ngẫu nhiên lên $L = 50 - 60$ bit, khoảng cách Hamming $d_{\\min}$ giữa các lớp tăng vọt (thường đạt $d_{\\min} > 15$). Khi đó, dù có tới 5–7 bộ phân loại nhị phân con bị dự đoán sai hoàn toàn do nhiễu, khoảng cách Hamming tới lớp thật vẫn là nhỏ nhất $\\implies$ Kết quả cuối cùng vẫn đúng 100%!",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 6, Paper Trang 4-6"
+  },
+  {
+    "id": 546,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Sự khác biệt căn bản giữa bài toán Phân loại Đa lớp (Multiclass Classification) và bài toán Phân loại Đa nhãn (Multilabel Classification) trong Scikit-Learn là gì?",
+    "options": [
+      "Multiclass chỉ dùng được cho ảnh đen trắng",
+      "Multiclass có các lớp loại trừ lẫn nhau (mỗi mẫu CHỈ THUỘC DUY NHẤT 1 lớp trong số K lớp); Multilabel cho phép mỗi mẫu thuộc về NHIỀU NHÃN CÙNG MỘT LÚC (vector nhãn nhị phân $y \\in \\{0, 1\\}^m$)",
+      "Multiclass là học không giám sát, Multilabel là học có giám sát",
+      "Hai bài toán này hoàn toàn đồng nhất về bản chất toán học"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Phân biệt Multiclass vs Multilabel:\n* **Multiclass:** Ví dụ nhận diện chữ số MNIST ($0, 1, \\dots, 9$): một ảnh chỉ có thể là số 3 HOẶC số 7 (không thể vừa là 3 vừa là 7).\n* **Multilabel:** Ví dụ gán thẻ cho bài báo: một tin tức có thể đồng thời thuộc các nhãn `['Kinh tế', 'Công nghệ', 'Chứng khoán']`.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 2, Paper Trang 2"
+  },
+  {
+    "id": 547,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Bài toán Hồi quy Đa đầu ra (Multioutput Regression) trong Scikit-Learn được định nghĩa như thế nào?",
+    "options": [
+      "Dự đoán 1 giá trị số nguyên duy nhất",
+      "Dự đoán đồng thời nhiều biến mục tiêu liên tục ($y \\in \\mathbb{R}^m$) cho mỗi mẫu quan sát",
+      "Dự đoán xác suất của 10 lớp rời rạc",
+      "Gom cụm dữ liệu thành m cụm"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Multioutput Regression:\nMục tiêu $y$ không phải là một số vô hướng mà là một vector số thực liên tục có $m$ chiều. Ví dụ: Dự đoán tọa độ không gian 3 chiều $(x, y, z)$ và vận tốc của một vật thể bay.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 2, Paper Trang 2"
+  },
+  {
+    "id": 548,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Mô hình Chuỗi phân loại (Classifier Chains - Read et al., 2011) giải quyết bài toán Đa nhãn (Multilabel) vượt trội hơn phương pháp Binary Relevance độc lập ở điểm nào?",
+    "options": [
+      "Classifier Chains không cần dùng thuật toán tối ưu hóa",
+      "Mô hình hóa được mối quan hệ phụ thuộc giữa các nhãn mục tiêu bằng cách xâu chuỗi: kết quả dự đoán của nhãn trước được dùng làm đặc trưng đầu vào bổ sung cho bộ phân loại của nhãn tiếp theo",
+      "Classifier Chains huấn luyện nhanh hơn gấp 10 lần",
+      "Classifier Chains chỉ áp dụng được cho dữ liệu văn bản tiếng Anh"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Sức mạnh của Classifier Chains:\nPhương pháp độc lập (Binary Relevance) giả định các nhãn hoàn toàn không liên quan đến nhau (sai thực tế). Classifier Chains sắp xếp các nhãn theo thứ tự: nhãn $y_1$ được đoán từ $X$; nhãn $y_2$ được đoán từ $[X, y_1]$; nhãn $y_3$ được đoán từ $[X, y_1, y_2]$... Nhờ đó, nếu đã đoán có nhãn \"Bệnh cúm\", mô hình sẽ dễ dàng dự đoán thêm nhãn \"Sốt cao\".",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 4, Paper Trang 4"
+  },
+  {
+    "id": 549,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Lớp `OutputCodeClassifier` trong module `sklearn.multiclass` của Scikit-Learn cung cấp tham số `code_size` nhằm kiểm soát điều gì?",
+    "options": [
+      "Kích thước bộ nhớ RAM tối đa của máy tính",
+      "Tỷ lệ độ dài từ mã so với số lượng lớp: tổng số bộ phân loại nhị phân $L = \\text{round}(\\text{code\\_size} \\times K)$",
+      "Số lượng cây trong rừng ngẫu nhiên",
+      "Bán kính của siêu cầu"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Tham số `code_size` trong Scikit-Learn:\nNếu bài toán có $K$ lớp, thiết lập `code_size=1.5` sẽ tạo ra ma trận mã hóa có số cột $L = 1.5 \\times K$ bộ phân loại nhị phân. Nếu `code_size` lớn, độ dài từ mã càng dài, khoảng cách Hamming càng lớn và khả năng sửa sai càng cao.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 3"
+  },
+  {
+    "id": 550,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Những mô hình học máy nào sau đây trong Scikit-Learn hỗ trợ bài toán Đa đầu ra (Multioutput) một cách TỰ NHIÊN (natively) trong một mô hình duy nhất mà không cần wrapper bọc ngoài?",
+    "options": [
+      "Hồi quy Logistic và Linear SVM",
+      "Cây quyết định (Decision Trees), Rừng ngẫu nhiên (Random Forests), Hồi quy Ridge và K-Nearest Neighbors",
+      "Naïve Bayes và AdaBoost cổ điển",
+      "Perceptron đơn tầng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hỗ trợ Native Multioutput trong Scikit-Learn:\n* `DecisionTreeRegressor` / `DecisionTreeClassifier`: Tại mỗi lá có thể lưu trữ trực tiếp vector nhiều giá trị trung bình hoặc tỷ lệ lớp.\n* `RandomForestRegressor`: Tổng hợp kết quả vector từ các cây.\n* `Ridge`: Nghiệm ma trận đóng $W = (X^TX + \\alpha I)^{-1} X^TY$ với $Y$ là ma trận nhiều cột.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 4"
+  },
+  {
+    "id": 551,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Hạn chế hoặc rủi ro tiềm ẩn lớn nhất của mô hình Chuỗi phân loại (Classifier Chains) là gì?",
+    "options": [
+      "Không thể lưu mô hình vào đĩa cứng",
+      "Hiện tượng lan truyền lỗi sai theo dây chuyền (Error Propagation): nếu các bộ phân loại ở đầu chuỗi dự đoán sai, sai số đó sẽ trở thành đặc trưng đầu vào gây hại cho tất cả các bộ phân loại phía sau",
+      "Mô hình không hỗ trợ hàm mất mát Cross-Entropy",
+      "Chỉ chạy được với tập dữ liệu có ít hơn 100 dòng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Rủi ro của Classifier Chains:\nVì nhãn phía sau phụ thuộc hoàn toàn vào dự đoán của nhãn trước, việc sắp xếp thứ tự nhãn (ordering risk) cực kỳ nhạy cảm. Để giảm thiểu rủi ro này, người ta thường dùng **Ensemble of Classifier Chains (ECC)**: huấn luyện nhiều chuỗi với thứ tự nhãn ngẫu nhiên khác nhau và lấy trung bình dự đoán.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 4"
+  },
+  {
+    "id": 552,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Trong bài toán Đa nhãn (Multilabel), độ đo đánh giá nào kiểm tra xem tập nhãn dự đoán có KHỚP HOÀN TOÀN 100% với tập nhãn thực tế hay không (chỉ cần sai 1 nhãn là tính sai cả mẫu)?",
+    "options": [
+      "Hamming Loss",
+      "Exact Match Ratio (còn gọi là Subset Accuracy)",
+      "Macro-Averaged F1-score",
+      "Mean Squared Error"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Exact Match Ratio (Subset Accuracy):\nĐây là độ đo khắt khe nhất trong Multilabel: một mẫu chỉ được tính là đúng (1 điểm) nếu toàn bộ vector nhãn dự đoán $\\hat{y}$ trùng khớp tuyệt đối từng bit với vector nhãn thật $y$.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 3"
+  },
+  {
+    "id": 553,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Độ đo Hamming Loss trong đánh giá bài toán Đa nhãn (Multilabel Classification) được tính bằng:",
+    "options": [
+      "Tổng thời gian huấn luyện của mô hình",
+      "Tỷ lệ phần trăm giữa số lượng nhãn bị dự đoán sai trên tổng số nhãn của toàn bộ các mẫu",
+      "Khoảng cách giữa tâm các lớp",
+      "Số lượng thuộc tính bị loại bỏ"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hamming Loss:\n$$\\text{Hamming Loss} = \\frac{1}{N \\cdot M} \\sum_{i=1}^N \\sum_{j=1}^M \\mathbb{I}(y_{i,j} \\ne \\hat{y}_{i,j})$$\nĐo tỷ lệ dự đoán nhãn sai trung bình trên từng nhãn nhị phân con. Giá trị càng nhỏ càng tốt ($0$ là hoàn hảo).",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 3"
+  },
+  {
+    "id": 554,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Hai tiêu chuẩn thiết kế ma trận mã hóa ECOC tối ưu theo lý thuyết của Dietterich và Bakiri (1995) là gì?",
+    "options": [
+      "Tất cả các hàng phải hoàn toàn giống nhau và tất cả các cột phải có tổng bằng 0",
+      "Khoảng cách giữa các hàng phải lớn (Row Separation: các cặp lớp có từ mã xa nhau để tối đa hóa khả năng sửa sai) và các cột không được tương quan hoặc bổ sung nhau (Column Separation: các bài toán nhị phân con độc lập nhau)",
+      "Ma trận phải là ma trận số nguyên tố",
+      "Số cột phải luôn nhỏ hơn số hàng"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Hai nguyên tắc thiết kế mã ECOC:\n1. **Row Separation:** Khoảng cách Hamming giữa các cặp hàng (lớp) phải lớn để phân biệt rõ và sửa sai tốt.\n2. **Column Separation:** Các cột (bộ phân loại con) không được giống nhau hoặc là phần bù đảo bit của nhau, nhằm bảo đảm các bộ phân loại con học các khía cạnh độc lập của dữ liệu.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 2"
+  },
+  {
+    "id": 555,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Trong báo cáo thực nghiệm seminar Nhóm 6, phương pháp ECOC-R60 (Random ECOC với độ dài 60 bit) thể hiện hiệu năng thế nào so với One-vs-Rest (OvR) chuẩn?",
+    "options": [
+      "ECOC-R60 luôn cho độ chính xác thấp hơn OvR",
+      "ECOC-R60 xếp hạng nhất trên 6/8 tập dữ liệu thực nghiệm, đem lại mức cải thiện độ chính xác vượt trội (accuracy gain) so với One-vs-Rest",
+      "ECOC-R60 chỉ chạy được với tập dữ liệu nhỏ hơn 10 mẫu",
+      "ECOC-R60 cho kết quả giống hệt OvR"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Kết quả thực nghiệm ECOC:\nThực nghiệm trên 8 tập dữ liệu đa lớp chuẩn (Segment, Vowel, Optdigits...) chỉ ra rằng ECOC-R60 vượt trội hoàn toàn so với OvR nhờ khả năng chịu lỗi và tính độc lập của các mã ngẫu nhiên 60-bit.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 5, Figure 2 & 3"
+  },
+  {
+    "id": 556,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Khi nào người ta nên ưu tiên sử dụng mã ECOC dài thay vì dùng One-vs-Rest (OvR) hay One-vs-One (OvO)?",
+    "options": [
+      "Khi thời gian huấn luyện đòi hỏi phải dưới 1 mili-giây",
+      "Khi dữ liệu có nhãn bị nhiễu (Noisy labels) hoặc khi bộ phân loại cơ sở (base learner) không ổn định (Unstable / High Variance)",
+      "Khi tập dữ liệu chỉ có đúng 2 lớp đối tượng",
+      "Khi bài toán không có dữ liệu kiểm thử"
+    ],
+    "answer": 1,
+    "explanation": "### 🎯 Khi nào nên dùng ECOC dài:\nBáo cáo khuyến nghị: Khi dữ liệu bị nhiễu nhãn hoặc mô hình con dễ bị overfit (như cây quyết định sâu), các mã ECOC dài ($\\ge 60$ bits) đóng vai trò như một bộ đệm sửa lỗi bảo vệ hệ thống khỏi các quyết định sai lầm của từng mô hình đơn lẻ.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 11"
+  },
+  {
+    "id": 557,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Mô hình Regressor Chains (Spyromitros-Xioufis et al., 2011) áp dụng tư tưởng của Classifier Chains cho bài toán nào?",
+    "options": [
+      "Bài toán Hồi quy Đa đầu ra (Multioutput Regression) bằng cách xâu chuỗi các giá trị dự đoán liên tục của đầu ra trước làm đầu vào bổ sung cho đầu ra sau",
+      "Bài toán phân cụm phân cấp",
+      "Bài toán trích xuất đặc trưng PCA",
+      "Bài toán mã hóa One-Hot"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Regressor Chains:\nChuyển giao ý tưởng chuỗi sang bài toán hồi quy đa biến: thay vì dự đoán độc lập từng biến $y_j$, mô hình hồi quy thứ $j$ nhận các biến mục tiêu đã dự đoán trước đó $(\\hat{y}_1, \\dots, \\hat{y}_{j-1})$ làm các thuộc tính đầu vào để nắm bắt tương quan giữa các biến liên tục.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 4"
+  },
+  {
+    "id": 558,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Trong Scikit-Learn, hàm tiện ích nào được sử dụng để tự động kiểm tra định dạng của biến mục tiêu `y` (trả về `'multiclass'`, `'multilabel-indicator'`, `'multiclass-multioutput'`, v.v.)?",
+    "options": [
+      "`sklearn.utils.multiclass.type_of_target(y)`",
+      "`np.shape(y)`",
+      "`sklearn.metrics.accuracy_score(y)`",
+      "`pd.DataFrame(y).info()`"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 Hàm `type_of_target(y)`:\nĐây là hàm chuẩn nội bộ của Scikit-Learn giúp xác định chính xác bài toán mục tiêu dựa trên hình dạng và kiểu dữ liệu của $y$, từ đó điều hướng lựa chọn meta-estimator phù hợp.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 2, Paper Trang 2"
+  },
+  {
+    "id": 559,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Lớp `MultiOutputClassifier` trong Scikit-Learn hoạt động theo chiến lược mở rộng nào?",
+    "options": [
+      "Chiến lược Binary Relevance: tự động khởi tạo và huấn luyện một mô hình phân loại độc lập cho mỗi cột nhãn mục tiêu trong bài toán đa nhãn",
+      "Chiến lược Stacking với Meta-learner",
+      "Chiến lược giảm chiều dữ liệu t-SNE",
+      "Chiến lược cây bao trùm ngắn nhất"
+    ],
+    "answer": 0,
+    "explanation": "### 🎯 `MultiOutputClassifier`:\nWrapper đơn giản cho phép bất kỳ bộ phân loại nhị phân hay đa lớp nào mở rộng sang dự đoán nhiều cột nhãn đồng thời bằng cách nhân bản mô hình độc lập cho từng cột mục tiêu.",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Slide 2, Paper Trang 2"
+  },
+  {
+    "id": 560,
+    "chapter": 12,
+    "chapterTitle": "Chương 12: Seminar - ECOC & Multi-label / Multi-output",
+    "question": "Một bài toán có $K = 4$ lớp đối tượng, ma trận mã hóa ECOC được thiết kế sao cho khoảng cách Hamming giữa mọi cặp lớp đều bằng $d = 5$. Mô hình này có thể tự động sửa được tối đa bao nhiêu lỗi phân loại nhị phân con?",
+    "options": [
+      "0 lỗi",
+      "1 lỗi",
+      "2 lỗi",
+      "5 lỗi"
+    ],
+    "answer": 2,
+    "explanation": "### 🎯 Tính toán khả năng sửa sai ECOC:\nÁp dụng công thức:\n$$\\text{Số lỗi sửa được} = \\left\\lfloor \\frac{d - 1}{2} \\right\\rfloor = \\left\\lfloor \\frac{5 - 1}{2} \\right\\rfloor = \\left\\lfloor \\frac{4}{2} \\right\\rfloor = 2 \\text{ lỗi}.$$\nDù có 2 bộ phân loại nhị phân con bị phán đoán sai, mô hình ECOC vẫn chọn chính xác lớp đúng!",
+    "slideRef": "Seminar Nhóm 06 (ECOC & Multioutput), Paper Trang 2"
+  },
+  {
+    "id": 561,
+    "chapter": 13,
+    "question": "Bản chất toán học của mô hình Cây quyết định (Decision Tree) trong bài toán hồi quy là gì?",
+    "options": [
+      "A. Một xấp xỉ hằng số từng đoạn (piecewise constant approximation) phân chia không gian đặc trưng thành các siêu hộp trực giao",
+      "B. Một hàm liên tục khả vi bậc cao xấp xỉ không gian bằng đa thức",
+      "C. Một tổ hợp tuyến tính các đặc trưng sau khi qua hàm phi tuyến sigmoid",
+      "D. Một hàm siêu phẳng phân chia không gian tối đa hóa lề (maximum margin hyperplane)"
+    ],
+    "answer": "A",
+    "explanation": "Decision Tree chia không gian đầu vào thành tập hợp các khối/siêu hộp trực giao (hyper-rectangles) song song với các trục tọa độ và gán một giá trị hằng số (thường là trung bình nhãn) cho mỗi vùng lá. Do đó nó tạo ra xấp xỉ hằng số từng đoạn (piecewise constant)."
+  },
+  {
+    "id": 562,
+    "chapter": 13,
+    "question": "Trong thư viện Scikit-Learn (`DecisionTreeRegressor`), tiêu chí tách nhánh mặc định `criterion='squared_error'` tối thiểu hóa đại lượng nào tại mỗi bước phân chia?",
+    "options": [
+      "A. Tổng sai số bình phương dư thừa (Mean Squared Error / L2 loss) so với trung bình của mỗi nút con",
+      "B. Tổng sai số tuyệt đối (Mean Absolute Error / L1 loss) so với trung vị của mỗi nút con",
+      "C. Sai số tương đối phần trăm trung bình (MAPE)",
+      "D. Khoảng cách Mahalanobis giữa hai nút con"
+    ],
+    "answer": "A",
+    "explanation": "`criterion='squared_error'` (trước đây là 'mse') đo lường độ giảm của sai số bình phương trung bình (MSE), tức là tìm điểm chia sao cho tổng phương sai có trọng số của hai nút con là nhỏ nhất (tương đương tối đa hóa phương sai giải thích được)."
+  },
+  {
+    "id": 563,
+    "chapter": 13,
+    "question": "Tiêu chí tách nhánh `criterion='friedman_mse'` trong Scikit-Learn thường được thiết kế chuyên biệt và tối ưu nhất cho mô hình nào?",
+    "options": [
+      "A. Gradient Boosting Regressor (cải thiện xấp xỉ MSE với điểm số Friedman)",
+      "B. Logistic Regression",
+      "C. Ordinary Least Squares",
+      "D. Naive Bayes Classifier"
+    ],
+    "answer": "A",
+    "explanation": "`friedman_mse` sử dụng phương pháp tính điểm cải tiến của Jerome Friedman, tối ưu hóa tốc độ và chất lượng phân tách đặc biệt phù hợp khi cây đóng vai trò là weak learner trong Gradient Boosting."
+  },
+  {
+    "id": 564,
+    "chapter": 13,
+    "question": "Tham số `splitter='random'` khác biệt như thế nào so với `splitter='best'` trong `DecisionTreeClassifier`/`DecisionTreeRegressor` của Scikit-Learn?",
+    "options": [
+      "A. `best` đánh giá tất cả các ngưỡng phân chia của mọi đặc trưng để chọn tối ưu; còn `random` chọn ngẫu nhiên một ngưỡng cho mỗi đặc trưng rồi chọn đặc trưng tốt nhất, giúp chống overfitting và chạy nhanh hơn",
+      "B. `random` xáo trộn ngẫu nhiên nhãn mục tiêu y trước khi huấn luyện",
+      "C. `random` chia dữ liệu thành tập con ngẫu nhiên trước khi tính độ vẩn đục Gini",
+      "D. `best` chỉ xét 1 đặc trưng ngẫu nhiên còn `random` xét tất cả đặc trưng"
+    ],
+    "answer": "A",
+    "explanation": "`splitter='best'` duyệt qua mọi ngưỡng phân chia khả dĩ của tất cả đặc trưng (hoặc `max_features`) để tìm điểm phân chia hoàn hảo nhất. `splitter='random'` sinh ngưỡng ngẫu nhiên cho từng đặc trưng và chọn phân tách tốt nhất trong số đó, giảm độ phụ thuộc vào nhiễu và tăng tốc độ tính toán."
+  },
+  {
+    "id": 565,
+    "chapter": 13,
+    "question": "Khi cây quyết định hồi quy gặp dữ liệu kiểm tra nằm ngoài miền giá trị cực trị của tập huấn luyện (extrapolation), hành vi dự đoán của cây sẽ như thế nào?",
+    "options": [
+      "A. Không thể ngoại suy xu hướng tuyến tính mà sẽ dự đoán bằng giá trị hằng số của nút lá tương ứng tại biên",
+      "B. Tiếp tục ngoại suy tuyến tính theo độ dốc gần nhất",
+      "C. Báo lỗi ngoại lệ Out-of-Range Exception trong Scikit-Learn",
+      "D. Tự động chuyển đổi thành mô hình hồi quy bậc hai"
+    ],
+    "answer": "A",
+    "explanation": "Cây quyết định hoàn toàn không thể ngoại suy (cannot extrapolate). Mọi điểm dữ liệu lớn hơn giá trị lớn nhất trong tập train đều rơi vào cùng một nút lá ngoài cùng và nhận cùng giá trị dự đoán hằng số của lá đó."
+  },
+  {
+    "id": 566,
+    "chapter": 13,
+    "question": "Kỹ thuật tỉa cành Minimal Cost-Complexity Pruning (tỉa cành tối thiểu chi phí - độ phức tạp) trong Scikit-Learn được điều khiển thông qua tham số nào?",
+    "options": [
+      "A. `ccp_alpha`",
+      "B. `alpha_pruning_ratio`",
+      "C. `tree_l1_penalty`",
+      "D. `cost_complexity_factor`"
+    ],
+    "answer": "A",
+    "explanation": "Hàm chi phí tỉa cành là $R_\\alpha(T) = R(T) + \\alpha |T|$, trong đó $R(T)$ là tổng độ vẩn đục/sai số và $|T|$ là số lượng nút lá. Tham số `ccp_alpha` ($\\ge 0$) điều khiển mức độ phạt kích thước cây. $\\alpha = 0$ là cây không tỉa, $\\alpha$ càng lớn cây càng bị cắt gọt nhiều."
+  },
+  {
+    "id": 567,
+    "chapter": 13,
+    "question": "Phương thức nào trong `DecisionTreeClassifier` cho phép trích xuất dãy các giá trị `ccp_alphas` hiệu dụng và độ vẩn đục tương ứng để dò tìm siêu tham số tối ưu?",
+    "options": [
+      "A. `cost_complexity_pruning_path(X, y)`",
+      "B. `get_pruning_alphas()`",
+      "C. `compute_effective_alphas(X, y)`",
+      "D. `tree_prune_schedule()`"
+    ],
+    "answer": "A",
+    "explanation": "Trong Scikit-Learn, hàm `tree.cost_complexity_pruning_path(X, y)` trả về `ccp_alphas` và `impurities`, biểu diễn các ngưỡng alpha làm xuất hiện các cây tỉa cành khác nhau dọc theo lộ trình cắt tỉa."
+  },
+  {
+    "id": 568,
+    "chapter": 13,
+    "question": "Sự khác biệt căn bản giữa tham số `min_samples_split` và `min_samples_leaf` là gì?",
+    "options": [
+      "A. `min_samples_split` là số lượng mẫu tối thiểu cần có tại một nút để nút đó được phép phân chia tiếp; còn `min_samples_leaf` là số mẫu tối thiểu bắt buộc phải có ở mỗi nút con (nút lá) sau phân chia",
+      "B. `min_samples_leaf` chỉ áp dụng cho phân loại, `min_samples_split` chỉ áp dụng cho hồi quy",
+      "C. `min_samples_split` đo lường số đặc trưng, còn `min_samples_leaf` đo lường số mẫu",
+      "D. Cả hai có vai trò hoàn toàn tương đương và có thể dùng thay thế nhau mà không đổi kết quả"
+    ],
+    "answer": "A",
+    "explanation": "`min_samples_split` quy định điều kiện để một nút mẹ được xét chia nhánh. `min_samples_leaf` đảm bảo rằng bất kể chia theo ngưỡng nào, cả hai nút con tạo thành đều phải chứa ít nhất số mẫu này, giúp làm mượt mô hình và chống học vẹt các mẫu ngoại lai đơn lẻ."
+  },
+  {
+    "id": 569,
+    "chapter": 13,
+    "question": "Độ phức tạp tính toán thời gian (time complexity) để xây dựng một cây quyết định cân bằng với $n$ mẫu và $p$ đặc trưng là bao nhiêu?",
+    "options": [
+      "A. $O(p \\cdot n \\log(n))$",
+      "B. $O(n^3 \\cdot p)$",
+      "C. $O(p^2 \\cdot \\log(n))$",
+      "D. $O(2^n \\cdot p)$"
+    ],
+    "answer": "A",
+    "explanation": "Tại mỗi tầng của cây, việc sắp xếp hoặc duyệt các mẫu tốn $O(n \\log n)$ hoặc $O(n)$ cho mỗi đặc trưng $p$, và một cây cân bằng có chiều sâu $O(\\log n)$. Tổng chi phí xây dựng cây xấp xỉ $O(p \\cdot n \\log n)$."
+  },
+  {
+    "id": 570,
+    "chapter": 13,
+    "question": "Cây quyết định tiêu chuẩn sử dụng các phép phân tách trực giao (axis-aligned splits). Nhược điểm cố hữu lớn nhất của đặc tính này là gì?",
+    "options": [
+      "A. Rất nhạy cảm với phép quay hệ tọa độ của không gian dữ liệu; nếu đường biên quyết định có hướng chéo 45 độ, cây phải xấp xỉ dạng bậc thang rất phức tạp",
+      "B. Không thể áp dụng cho các bài toán phân loại nhị phân",
+      "C. Bắt buộc tất cả các đặc trưng phải chuẩn hóa StandardScaler trước khi huấn luyện",
+      "D. Tốc độ suy luận (inference time) chậm hơn mạng nơ-ron sâu"
+    ],
+    "answer": "A",
+    "explanation": "Vì các nhát cắt luôn vuông góc với các trục tọa độ ($x_j \\le \\theta$), khi đường ranh giới thực tế nghiêng một góc chéo so với các trục, cây quyết định phải tạo ra vô số bậc thang zigzag để xấp xỉ, dẫn đến cây quá sâu và giảm khả năng tổng quát hóa."
+  },
+  {
+    "id": 571,
+    "chapter": 13,
+    "question": "Tham số `max_features` trong `DecisionTreeClassifier` của Scikit-Learn có tác dụng gì?",
+    "options": [
+      "A. Giới hạn số lượng đặc trưng được xem xét ngẫu nhiên khi tìm kiếm phép phân chia tốt nhất tại mỗi nút",
+      "B. Lọc bỏ các đặc trưng có phương sai thấp trước khi bắt đầu huấn luyện",
+      "C. Tự động áp dụng phân tích thành phần chính PCA để giảm chiều dữ liệu",
+      "D. Giới hạn số lượng nhãn đầu ra tối đa của bài toán phân loại"
+    ],
+    "answer": "A",
+    "explanation": "`max_features` quy định số đặc trưng tối đa được lấy mẫu ngẫu nhiên tại mỗi nút phân chia. Việc giảm `max_features` làm tăng tính ngẫu nhiên, giảm tương quan giữa các cây (cơ chế trọng tâm của Random Forest)."
+  },
+  {
+    "id": 572,
+    "chapter": 13,
+    "question": "Trong Scikit-Learn, cây quyết định có cần bước chuẩn hóa dữ liệu (StandardScaler hoặc MinMaxScaler) không? Vì sao?",
+    "options": [
+      "A. Không cần, vì cây quyết định là mô hình bất biến với các phép biến đổi đơn điệu (monotonic transformations) trên từng đặc trưng riêng lẻ",
+      "B. Rất cần, vì khoảng cách Euclidean giữa các điểm dữ liệu quyết định việc phân chia",
+      "C. Bắt buộc với hồi quy, nhưng không cần với phân loại",
+      "D. Bắt buộc nếu số lượng đặc trưng lớn hơn 100"
+    ],
+    "answer": "A",
+    "explanation": "Cây quyết định chỉ quan tâm đến thứ tự xếp hạng (rank order) của các giá trị trên từng đặc trưng để chọn ngưỡng phân chia, chứ không tính khoảng cách độ lớn. Do đó bất kỳ biến đổi đơn điệu nào (như nhân hằng số dương, logarit, chuẩn hóa z-score) đều không làm thay đổi kết quả phân chia."
+  },
+  {
+    "id": 573,
+    "chapter": 13,
+    "question": "Phương thức `export_text` và `export_graphviz` trong `sklearn.tree` dùng để làm gì?",
+    "options": [
+      "A. Trực quan hóa cấu trúc luật if-else và vẽ sơ đồ phân nhánh của cây quyết định đã huấn luyện",
+      "B. Xuất trọng số mô hình sang định dạng ONNX",
+      "C. Chuyển đổi cây quyết định thành mạng nơ-ron nhiều tầng",
+      "D. Biên dịch cây quyết định sang mã máy C++ để chạy nhúng"
+    ],
+    "answer": "A",
+    "explanation": "`export_text` in cấu trúc cây dưới dạng các dòng thụt lề if-else text, còn `export_graphviz` xuất file đồ thị Graphviz DOT để trực quan hóa cây thành biểu đồ nhánh đẹp mắt."
+  },
+  {
+    "id": 574,
+    "chapter": 13,
+    "question": "Đặc trưng quan trọng (Feature Importances) trong Decision Tree của Scikit-Learn được tính toán dựa trên chỉ số nào?",
+    "options": [
+      "A. Tổng độ giảm độ vẩn đục Gini/MSE (Mean Decrease Impurity) chuẩn hóa do đặc trưng đó đem lại trên toàn bộ các nút phân chia",
+      "B. Trị tuyệt đối của hệ số hồi quy góc nghiêng",
+      "C. Hệ số tương quan Pearson giữa đặc trưng và nhãn mục tiêu",
+      "D. Tỷ lệ phần trăm dữ liệu bị thiếu trong đặc trưng đó"
+    ],
+    "answer": "A",
+    "explanation": "Feature importance trong scikit-learn (còn gọi là Gini importance hay MDI - Mean Decrease Impurity) được tính bằng tổng độ giảm độ vẩn đục có trọng số (weighted decrease in impurity) do đặc trưng đó mang lại khi dùng làm điểm cắt trên toàn bộ cây, chia cho tổng độ giảm của tất cả đặc trưng."
+  },
+  {
+    "id": 575,
+    "chapter": 13,
+    "question": "Khi dữ liệu phân loại bị mất cân bằng nghiêm trọng (imbalanced classes), tham số nào trong `DecisionTreeClassifier` giúp cân bằng trọng số tự động tỉ lệ nghịch với tần suất nhãn?",
+    "options": [
+      "A. `class_weight='balanced'`",
+      "B. `resample_data=True`",
+      "C. `imbalance_ratio='auto'`",
+      "D. `stratified_split=True`"
+    ],
+    "answer": "A",
+    "explanation": "Thiết lập `class_weight='balanced'` sẽ tự động gán trọng số cho từng lớp tỉ lệ nghịch với tần số xuất hiện của lớp đó trong tập train theo công thức $n\\_samples / (n\\_classes * \\text{bincount}(y))$, giúp cây chú trọng hơn đến lớp thiểu số."
+  },
+  {
+    "id": 576,
+    "chapter": 14,
+    "question": "Nghiệm giải tích phương trình pháp tuyến (Normal Equations) của hồi quy tuyến tính bình phương cực tiểu OLS là gì?",
+    "options": [
+      "A. $\\hat{w} = (X^T X)^{-1} X^T y$",
+      "B. $\\hat{w} = (X X^T)^{-1} X y$",
+      "C. $\\hat{w} = X^T (X X^T) y$",
+      "D. $\\hat{w} = (X^T y)^{-1} X^T X$"
+    ],
+    "answer": "A",
+    "explanation": "Để tìm nghiệm tối thiểu hóa hàm mất mát bình phương tổng sai số $L(w) = \\|y - Xw\\|^2$, ta đạo hàm theo $w$ và cho bằng $0$: $-2 X^T (y - Xw) = 0 \\iff X^T X w = X^T y \\implies \\hat{w} = (X^T X)^{-1} X^T y$ khi $X^T X$ khả nghịch."
+  },
+  {
+    "id": 577,
+    "chapter": 14,
+    "question": "Khi ma trận thiết kế $X$ xảy ra hiện tượng đa cộng tuyến hoàn hảo (multicollinearity), điều gì xảy ra với ma trận hiệp phương sai $X^T X$?",
+    "options": [
+      "A. $X^T X$ trở nên suy biến (singular), định thức bằng 0 và không tồn tại ma trận nghịch đảo thông thường $(X^T X)^{-1}$",
+      "B. $X^T X$ trở thành ma trận đường chéo đơn vị",
+      "C. Các giá trị riêng (eigenvalues) của $X^T X$ đều tiến tới vô cùng",
+      "D. Sai số huấn luyện $R^2$ lập tức giảm về 0"
+    ],
+    "answer": "A",
+    "explanation": "Đa cộng tuyến hoàn hảo khiến các cột của $X$ phụ thuộc tuyến tính, hạng ma trận rank($X$) < $p$, dẫn đến ma trận vuông $X^T X$ bị suy biến (không đủ hạng, định thức det = 0), không thể nghịch đảo trực tiếp."
+  },
+  {
+    "id": 578,
+    "chapter": 14,
+    "question": "Số điều kiện (Condition Number $\\kappa(X)$) của ma trận đo lường điều gì trong bài toán giải hệ phương trình tuyến tính?",
+    "options": [
+      "A. Độ nhạy của nghiệm hồi quy đối với những biến thiên hoặc nhiễu nhỏ trong dữ liệu đầu vào ($X$ hoặc $y$)",
+      "B. Số lượng giá trị khuyết tật (missing values) trong ma trận $X$",
+      "C. Tỉ số giữa số lượng hàng và số lượng cột của $X$",
+      "D. Tỉ lệ mẫu dương so với mẫu âm trong bài toán phân loại"
+    ],
+    "answer": "A",
+    "explanation": "Số điều kiện $\\kappa(A) = \\|A\\| \\|A^{-1}\\| = \\sigma_{max} / \\sigma_{min}$. Nếu $\\kappa(A)$ rất lớn (ill-conditioned), ma trận gần suy biến và một thay đổi cực nhỏ ở đầu vào cũng làm nghiệm biến đổi khổng lồ, gây mất ổn định số học."
+  },
+  {
+    "id": 579,
+    "chapter": 14,
+    "question": "Trong thực tế cài đặt thư viện (`scipy.linalg.lstsq` được Scikit-Learn `LinearRegression` gọi bên dưới), giải pháp số học nào được sử dụng thay vì nghịch đảo trực tiếp $(X^T X)^{-1}$?",
+    "options": [
+      "A. Phân rã giá trị suy biến SVD (Singular Value Decomposition) hoặc phân rã QR",
+      "B. Phương pháp nhân ma trận Strassen",
+      "C. Thuật toán quy hoạch nguyên (Integer Linear Programming)",
+      "D. Giải thuật di truyền (Genetic Algorithm)"
+    ],
+    "answer": "A",
+    "explanation": "Tính trực tiếp $(X^T X)^{-1}$ làm bình phương số điều kiện (từ $\\kappa(X)$ lên $\\kappa(X)^2$), gây tổn thất chính xác số học nghiêm trọng. Các thư viện đại số tuyến tính chuẩn sử dụng SVD (tính giả nghịch đảo Moore-Penrose $X^+$) hoặc phân rã QR để đảm bảo tính ổn định số học cao nhất."
+  },
+  {
+    "id": 580,
+    "chapter": 14,
+    "question": "Với phân tích giá trị suy biến $X = U \\Sigma V^T$, ma trận giả nghịch đảo Moore-Penrose $X^+$ được tính như thế nào?",
+    "options": [
+      "A. $X^+ = V \\Sigma^+ U^T$, trong đó $\\Sigma^+$ được tạo bằng cách lấy nghịch đảo các giá trị kỳ dị khác 0",
+      "B. $X^+ = U \\Sigma^{-1} V$",
+      "C. $X^+ = (U^T V) \\Sigma$",
+      "D. $X^+ = V^T \\Sigma^+ U$"
+    ],
+    "answer": "A",
+    "explanation": "Từ $X = U \\Sigma V^T$, ma trận giả nghịch đảo là $X^+ = V \\Sigma^+ U^T$. Nghiệm bình phương cực tiểu ổn định nhất luôn là $\\hat{w} = X^+ y$."
+  },
+  {
+    "id": 581,
+    "chapter": 14,
+    "question": "Hồi quy Ridge (Tikhonov Regularization) giải quyết triệt để vấn đề ma trận suy biến bằng cách thêm số hạng nào vào ma trận cần nghịch đảo?",
+    "options": [
+      "A. Thêm ma trận đường chéo $\\alpha I$, chuyển thành $(X^T X + \\alpha I)^{-1}$",
+      "B. Nhân ma trận với hệ số tỉ lệ $\\alpha$",
+      "C. Trừ đi ma trận đơn vị $(X^T X - \\alpha I)^{-1}$",
+      "D. Thay thế các phần tử ngoại đường chéo bằng 0"
+    ],
+    "answer": "A",
+    "explanation": "Công thức nghiệm Ridge là $\\hat{w}_{ridge} = (X^T X + \\alpha I)^{-1} X^T y$. Vì $X^T X$ là ma trận nửa xác định dương (bán xác định dương), khi cộng thêm $\\alpha I$ (với $\\alpha > 0$), ma trận trở thành xác định dương nghiêm ngặt (strictly positive definite), đảm bảo luôn luôn khả nghịch."
+  },
+  {
+    "id": 582,
+    "chapter": 14,
+    "question": "Vì sao hàm mất mát của Lasso ($L_1$ regularization) không thể giải bằng phương trình đạo hàm giải tích đóng như Ridge?",
+    "options": [
+      "A. Vì hàm chuẩn $L_1$ ($\\|w\\|_1 = \\sum |w_j|$) không khả vi tại điểm gốc tọa độ $w_j = 0$",
+      "B. Vì Lasso có vô số nghiệm địa phương không hội tụ",
+      "C. Vì Lasso yêu cầu số mẫu phải nhỏ hơn số đặc trưng",
+      "D. Vì ma trận đạo hàm bậc hai Hessian của Lasso luôn bằng 0"
+    ],
+    "answer": "A",
+    "explanation": "Hàm giá trị tuyệt đối $|w|$ có góc nhọn tại 0 và không có đạo hàm tại đó (chỉ có dưới đạo hàm - subgradient). Do đó không thể triệt tiêu gradient bậc nhất để giải nghiệm đóng, mà phải dùng thuật toán số như Coordinate Descent hoặc LARS."
+  },
+  {
+    "id": 583,
+    "chapter": 14,
+    "question": "Thuật toán tối ưu hóa mặc định được Scikit-Learn sử dụng để huấn luyện mô hình `Lasso` là gì?",
+    "options": [
+      "A. Tọa độ giảm dần (Coordinate Descent)",
+      "B. Adam Optimizer",
+      "C. L-BFGS-B",
+      "D. Đạo hàm ngẫu nhiên phân rã QR"
+    ],
+    "answer": "A",
+    "explanation": "Scikit-Learn sử dụng thuật toán Coordinate Descent (hạ tọa độ theo từng biến riêng lẻ với toán tử ngưỡng mềm soft-thresholding) để giải bài toán tối ưu Lasso lồi."
+  },
+  {
+    "id": 584,
+    "chapter": 14,
+    "question": "Thuật toán LARS (Least Angle Regression) trong thư viện hồi quy tuyến tính có ưu điểm nổi bật nào khi tìm toàn bộ đường nghiệm Lasso (Lasso path)?",
+    "options": [
+      "A. Xây dựng toàn bộ nghiệm thưa hiệu quả với chi phí tính toán tương đương một lần chạy OLS thông thường",
+      "B. Tự động xử lý biến dạng chuỗi văn bản không cần nhúng",
+      "C. Luôn luôn chọn tất cả đặc trưng cùng lúc mà không làm triệt tiêu hệ số nào",
+      "D. Khử hoàn toàn hiện tượng overfitting mà không cần tập validation"
+    ],
+    "answer": "A",
+    "explanation": "LARS di chuyển theo hướng phân giác đều (equiangular) tạo bởi các đặc trưng tương quan nhất với phần dư. Khi kết hợp với điều kiện Lasso, nó sinh ra toàn bộ lộ trình nghiệm (regularization path) của Lasso một cách cực kỳ nhanh chóng."
+  },
+  {
+    "id": 585,
+    "chapter": 14,
+    "question": "Mô hình `MultiTaskLasso` trong Scikit-Learn giải quyết bài toán hồi quy đa mục tiêu bằng cách ràng buộc đặc trưng nào?",
+    "options": [
+      "A. Sử dụng chuẩn hỗn hợp $L_{2,1}$ để chọn chung cùng một tập các đặc trưng hữu ích cho tất cả các nhiệm vụ đầu ra (joint feature selection)",
+      "B. Huấn luyện các mô hình Lasso độc lập trên từng biến mục tiêu",
+      "C. Ghép nối tất cả biến mục tiêu thành một chuỗi duy nhất",
+      "D. Sử dụng mạng nơ-ron hồi quy với hàm kích hoạt softmax"
+    ],
+    "answer": "A",
+    "explanation": "`MultiTaskLasso` áp dụng chuẩn hỗn hợp Frobenius/L21 norm lên ma trận trọng số $W$. Nó ép nguyên cả một hàng của ma trận $W$ về 0, nghĩa là nếu một đặc trưng bị loại thì sẽ bị loại đồng thời trên tất cả các biến mục tiêu đầu ra."
+  },
+  {
+    "id": 586,
+    "chapter": 14,
+    "question": "Trong mô hình `ElasticNet`, tham số `l1_ratio` đại diện cho điều gì?",
+    "options": [
+      "A. Tỉ lệ cân bằng giữa số hạng phạt L1 (Lasso) và L2 (Ridge) trong hàm mất mát",
+      "B. Tỉ lệ giữa kích thước tập huấn luyện và kiểm tra",
+      "C. Tỉ số giữa learning rate và số lượng epoch",
+      "D. Ngưỡng cắt tỉa cây quyết định"
+    ],
+    "answer": "A",
+    "explanation": "Hàm phạt của ElasticNet là $\\alpha \\cdot [\\text{l1\\_ratio} \\|w\\|_1 + \\frac{1 - \\text{l1\\_ratio}}{2} \\|w\\|_2^2]$. Khi `l1_ratio=1` mô hình trở thành thuần Lasso, khi `l1_ratio=0` mô hình trở thành thuần Ridge."
+  },
+  {
+    "id": 587,
+    "chapter": 14,
+    "question": "Hồi quy Huber (`HuberRegressor`) trong các biến thể tuyến tính giải quyết nhược điểm nào của hồi quy OLS chuẩn?",
+    "options": [
+      "A. Rất mạnh mẽ chống lại nhiễu ngoại lai (robust to outliers) nhờ chuyển từ hàm mất mát bậc 2 sang bậc 1 tuyến tính khi sai số vượt quá ngưỡng $\\epsilon$",
+      "B. Giảm số chiều dữ liệu tự động mà không cần chuẩn hóa",
+      "C. Tự động tính toán ma trận tương quan giữa các nhãn",
+      "D. Huấn luyện nhanh hơn OLS trên dữ liệu nhỏ"
+    ],
+    "answer": "A",
+    "explanation": "OLS sử dụng sai số bình phương nên các điểm ngoại lai bị phạt theo hàm bậc hai cực lớn, kéo lệch đường hồi quy. Huber loss dùng sai số bậc hai cho phần dư nhỏ ($|e| \\le \\epsilon$) và sai số bậc nhất tuyến tính cho phần dư lớn, giúp mô hình miễn nhiễm với nhiễu ngoại lai."
+  },
+  {
+    "id": 588,
+    "chapter": 14,
+    "question": "Phân rã QR của ma trận thiết kế $X = Q R$ có cấu trúc hai ma trận $Q$ và $R$ như thế nào?",
+    "options": [
+      "A. $Q$ là ma trận trực giao ($Q^T Q = I$) và $R$ là ma trận tam giác trên khả nghịch",
+      "B. $Q$ là ma trận đường chéo và $R$ là ma trận đối xứng",
+      "C. $Q$ là ma trận ngẫu nhiên và $R$ là ma trận nghịch đảo của $X$",
+      "D. Cả $Q$ và $R$ đều là ma trận đơn vị"
+    ],
+    "answer": "A",
+    "explanation": "Phân rã QR tách $X$ thành ma trận trực giao $Q$ ($Q^T Q = I$) và ma trận tam giác trên $R$. Khi đó hệ phương trình bình phương cực tiểu trở thành $R w = Q^T y$, giải cực kỳ nhanh và ổn định bằng phép thế ngược (back substitution)."
+  },
+  {
+    "id": 589,
+    "chapter": 14,
+    "question": "Tham số `fit_intercept=False` trong `LinearRegression` nên được sử dụng trong tình huống nào?",
+    "options": [
+      "A. Khi dữ liệu $X$ và $y$ đã được trừ trung bình (centered/standardized) hoặc bài toán bắt buộc đường hồi quy phải đi qua gốc tọa độ $(0, 0)$",
+      "B. Khi ma trận $X$ có nhiều biến phân loại dạng One-Hot",
+      "C. Khi số chiều $p$ lớn hơn số quan sát $n$",
+      "D. Khi huấn luyện mô hình trên GPU"
+    ],
+    "answer": "A",
+    "explanation": "Nếu dữ liệu đã được trừ trung bình (mean-centered) thì hệ số chặn bias bằng 0. Nếu đặt `fit_intercept=False`, mô hình không thêm cột hệ số tự do $w_0$ và đường hồi quy bắt buộc đi qua gốc tọa độ."
+  },
+  {
+    "id": 590,
+    "chapter": 14,
+    "question": "Vì sao việc chuẩn hóa đặc trưng (Feature Scaling) lại đặc biệt bắt buộc đối với Ridge và Lasso nhưng không làm thay đổi nghiệm dự đoán của OLS thuần túy (về mặt toán học)?",
+    "options": [
+      "A. Vì số hạng phạt chuẩn $\\|w\\|_1$ và $\\|w\\|_2^2$ phạt công bằng mọi trọng số; nếu đặc trưng có thang đo lớn, trọng số tự nhiên của nó sẽ nhỏ và ít bị phạt hơn đặc trưng có thang đo nhỏ",
+      "B. Vì OLS không thể hội tụ nếu dữ liệu chưa chuẩn hóa",
+      "C. Vì Lasso chỉ chấp nhận đầu vào trong khoảng $[0, 1]$",
+      "D. Vì chuẩn hóa làm ma trận $X^T X$ trở thành ma trận đơn vị"
+    ],
+    "answer": "A",
+    "explanation": "Trong OLS, việc đổi đơn vị (thang đo) của đặc trưng chỉ làm hệ số $w_j$ tỉ lệ nghịch lại mà không đổi hàm mất mát. Nhưng trong Regularization, $\\lambda \\sum w_j^2$ phạt mọi $w$ ngang nhau, nên đặc trưng có đơn vị nhỏ (giá trị số lớn $\\to$ trọng số $w$ bé) sẽ né được án phạt, còn đặc trưng đơn vị lớn (trọng số $w$ to) bị phạt oan. Do đó chuẩn hóa là tiên quyết."
+  },
+  {
+    "id": 591,
+    "chapter": 15,
+    "question": "Định lý Bồi thẩm đoàn Condorcet (Condorcet's Jury Theorem) - nền tảng lý thuyết xác suất của Ensemble Learning - phát biểu điều gì?",
+    "options": [
+      "A. Nếu mỗi người đánh giá độc lập có xác suất đúng $p > 0.5$, thì khi tăng số lượng người tham gia bỏ phiếu theo đa số, xác suất phán quyết tập thể chính xác sẽ tiến dần tới 1 (100%)",
+      "B. Nếu các mô hình cơ sở phụ thuộc tuyến tính vào nhau thì sai số tổng thể luôn bằng 0",
+      "C. Tập hợp các mô hình yếu chỉ mạnh lên khi tất cả cùng mắc chung một loại sai lầm",
+      "D. Kích thước tập huấn luyện tối thiểu của ensemble phải gấp đôi số lượng cây con"
+    ],
+    "answer": "A",
+    "explanation": "Condorcet's Jury Theorem chỉ ra rằng chỉ cần các bộ phân loại cá nhân độc lập và có độ chính xác nhỉnh hơn đoán mò ngẫu nhiên ($p > 0.5$), thì luật đa số (majority voting) của một tập thể đủ lớn sẽ hội tụ về độ chính xác tiệm cận tuyệt đối 1."
+  },
+  {
+    "id": 592,
+    "chapter": 15,
+    "question": "Trong kỹ thuật Bagging (Bootstrap Aggregating) với kích thước tập dữ liệu $n$, khi $n$ tiến ra vô cùng, tỉ lệ phần trăm các mẫu không bao giờ được chọn vào một túi con (Out-of-Bag - OOB samples) là khoảng bao nhiêu?",
+    "options": [
+      "A. Khoảng 36.8% (xấp xỉ $1/e$)",
+      "B. Khoảng 50.0%",
+      "C. Khoảng 10.0%",
+      "D. Khoảng 63.2%"
+    ],
+    "answer": "A",
+    "explanation": "Xác suất một mẫu không được rút trong $n$ lần rút có hoàn lại là $(1 - 1/n)^n$. Khi $n \\to \\infty$, $\\lim_{n \\to \\infty} (1 - 1/n)^n = e^{-1} \\approx 0.367879$ (36.8%). Khoảng 63.2% dữ liệu được chọn vào túi bootstrap, và 36.8% còn lại làm tập kiểm tra OOB."
+  },
+  {
+    "id": 593,
+    "chapter": 15,
+    "question": "Tính năng đánh giá OOB (Out-of-Bag score) trong `RandomForestClassifier(oob_score=True)` đem lại lợi ích lớn nào trong thực tế?",
+    "options": [
+      "A. Cung cấp một ước lượng khách quan về độ chính xác kiểm thử tương đương cross-validation mà không cần phải tốn công chia tập validation riêng biệt",
+      "B. Tăng tốc độ huấn luyện của cây gấp đôi",
+      "C. Tự động loại bỏ các thuộc tính bị thiếu dữ liệu",
+      "D. Đảm bảo mô hình đạt 100% độ chính xác trên tập kiểm tra"
+    ],
+    "answer": "A",
+    "explanation": "Vì khoảng 37% số mẫu trong mỗi cây hoàn toàn không được dùng để huấn luyện cây đó, ta có thể dùng chính những mẫu OOB này để kiểm tra chéo từng cây và tính điểm tổng thể (OOB score), đóng vai trò như một bộ kiểm định độc lập hoàn toàn miễn phí."
+  },
+  {
+    "id": 594,
+    "chapter": 15,
+    "question": "Điểm khác biệt cốt lõi giữa Random Forest và mô hình Cây ngẫu nhiên cực độ (Extra-Trees / Extremely Randomized Trees) trong Scikit-Learn là gì?",
+    "options": [
+      "A. Extra-Trees sinh ngẫu nhiên luôn cả ngưỡng cắt (split threshold) cho từng đặc trưng ứng viên thay vì đi tìm ngưỡng cắt tối ưu nhất như Random Forest",
+      "B. Extra-Trees sử dụng mạng nơ-ron để tìm điểm phân nhánh",
+      "C. Extra-Trees chỉ cho phép cây có độ sâu tối đa bằng 2",
+      "D. Extra-Trees không áp dụng được cho bài toán hồi quy"
+    ],
+    "answer": "A",
+    "explanation": "Trong khi Random Forest tìm ngưỡng phân chia tối ưu nhất trong số các đặc trưng con, Extra-Trees rút ngẫu nhiên hoàn toàn các ngưỡng cho mỗi đặc trưng và chỉ chọn ngưỡng tốt nhất trong số các ngưỡng ngẫu nhiên đó. Kỹ thuật này giúp giảm variance nhiều hơn nữa và huấn luyện nhanh hơn đáng kể."
+  },
+  {
+    "id": 595,
+    "chapter": 15,
+    "question": "Trong thuật toán AdaBoost (Adaptive Boosting), trọng số của các mẫu dữ liệu được cập nhật như thế nào sau mỗi vòng lặp của mô hình yếu?",
+    "options": [
+      "A. Các mẫu bị phân loại sai ở vòng trước được tăng trọng số lên, buộc mô hình ở vòng tiếp theo phải tập trung học sửa các lỗi này",
+      "B. Các mẫu dự đoán đúng được tăng trọng số lên để củng cố niềm tin",
+      "C. Tất cả các mẫu đều bị giảm trọng số về 0",
+      "D. Trọng số của các mẫu được xáo trộn ngẫu nhiên"
+    ],
+    "answer": "A",
+    "explanation": "AdaBoost điều chỉnh trọng số mẫu theo công thức $w_i \\leftarrow w_i \\exp(\\alpha_m)$ nếu đoán sai và $w_i \\leftarrow w_i \\exp(-\\alpha_m)$ nếu đoán đúng (với $\\alpha_m > 0$ là độ tin cậy của learner thứ $m$). Do đó, các mẫu khó/đoán sai nhận trọng số lớn hơn nhiều trong các vòng sau."
+  },
+  {
+    "id": 596,
+    "chapter": 15,
+    "question": "Hệ số tin cậy $\\alpha_m$ của mô hình cơ sở thứ $m$ trong AdaBoost phụ thuộc vào tỉ lệ lỗi phân loại có trọng số $err_m$ theo công thức nào?",
+    "options": [
+      "A. $\\alpha_m = \\frac{1}{2} \\ln \\left(\\frac{1 - err_m}{err_m}\\right)$",
+      "B. $\\alpha_m = 1 - err_m^2$",
+      "C. $\\alpha_m = \\exp(-err_m)$",
+      "D. $\\alpha_m = \\frac{err_m}{1 - err_m}$"
+    ],
+    "answer": "A",
+    "explanation": "Công thức tính trọng số đóng góp của base estimator trong AdaBoost SAMME là $\\alpha_m = \\frac{1}{2} \\ln \\frac{1 - err_m}{err_m}$. Khi lỗi $err_m < 0.5$, $\\alpha_m > 0$; lỗi càng thấp thì $\\alpha_m$ càng lớn. Nếu mô hình đoán mò $err_m = 0.5$, $\\alpha_m = 0$."
+  },
+  {
+    "id": 597,
+    "chapter": 15,
+    "question": "Điểm khác biệt căn bản trong chiến lược học giữa AdaBoost và Gradient Boosting là gì?",
+    "options": [
+      "A. AdaBoost điều chỉnh trọng số của mẫu dữ liệu sai; còn Gradient Boosting giữ nguyên trọng số mẫu nhưng khớp (fit) mô hình kế tiếp vào phần dư (residuals) hoặc gradient âm của hàm mất mát",
+      "B. AdaBoost dùng cây quyết định còn Gradient Boosting dùng hồi quy tuyến tính",
+      "C. Gradient Boosting chỉ chạy được trên một luồng CPU duy nhất",
+      "D. AdaBoost giảm variance còn Gradient Boosting chỉ giảm bias"
+    ],
+    "answer": "A",
+    "explanation": "Trong Gradient Boosting, thay vì cập nhật phân phối trọng số các điểm dữ liệu như AdaBoost, mỗi cây quyết định mới được huấn luyện để dự đoán phần dư sai số $y - \\hat{y}$ (chính là gradient âm $-\\frac{\\partial L}{\\partial \\hat{y}}$ của hàm mất mát)."
+  },
+  {
+    "id": 598,
+    "chapter": 15,
+    "question": "Trong Gradient Boosting, siêu tham số `learning_rate` (còn gọi là hệ số co - shrinkage rate) có vai trò gì?",
+    "options": [
+      "A. Thu nhỏ sự đóng góp của mỗi cây bằng một hệ số nhân $\\eta \\in (0, 1]$, làm chậm quá trình học để giảm nguy cơ overfitting",
+      "B. Điều chỉnh tốc độ cập nhật trọng số nơ-ron bằng phương pháp quán tính",
+      "C. Tăng số lượng mẫu được lấy vào mỗi cây",
+      "D. Tự động dừng sớm nếu sau $k$ vòng lặp kết quả không cải thiện"
+    ],
+    "answer": "A",
+    "explanation": "Công thức cộng dồn của Gradient Tree Boosting là $\\hat{y}^{(m)} = \\hat{y}^{(m-1)} + \\eta \\cdot h_m(x)$. Hệ số $\\eta$ (learning rate) làm giảm bước nhảy của mỗi cây, cho phép nhiều cây cùng phối hợp nhịp nhàng và cải thiện khả năng tổng quát hóa."
+  },
+  {
+    "id": 599,
+    "chapter": 15,
+    "question": "Kiến trúc mô hình xếp chồng (Stacking / Stacked Generalization) bao gồm những thành phần cấu tạo nào?",
+    "options": [
+      "A. Một tập các mô hình cơ sở (base estimators / Level-0) và một mô hình tổng hợp siêu cấp (meta-learner / Level-1) học cách kết hợp dự đoán của các mô hình cơ sở",
+      "B. Nhiều cây quyết định được nối tiếp nhau thành một chuỗi Markov",
+      "C. Một bộ giải mã Transformer kết hợp cùng mạng tự hồi quy RNN",
+      "D. Tập hợp các bộ phân loại được gán nhãn mã nhị phân ECOC"
+    ],
+    "answer": "A",
+    "explanation": "Stacking hoạt động theo kiến trúc 2 tầng (hoặc nhiều tầng): Tầng Level-0 gồm các mô hình đa dạng (SVM, Random Forest, KNN, MLP...). Dự đoán của các mô hình Level-0 được dùng làm đặc trưng đầu vào cho mô hình Level-1 (Meta-model / Blender, thường là Logistic Regression hoặc Ridge) để đưa ra quyết định cuối."
+  },
+  {
+    "id": 600,
+    "chapter": 15,
+    "question": "Trong `StackingClassifier` của Scikit-Learn, cơ chế nào được sử dụng để tạo ra tập dữ liệu huấn luyện cho meta-learner nhằm triệt tiêu rủi ro rò rỉ dữ liệu (data leakage) và overfitting?",
+    "options": [
+      "A. Sử dụng dự đoán kiểm định chéo Out-of-Fold (K-Fold cross-validation predictions) từ các mô hình cơ sở",
+      "B. Cho các mô hình cơ sở dự đoán trực tiếp trên chính toàn bộ tập train ban đầu",
+      "C. Thêm nhiễu Gaussian trắng ngẫu nhiên vào nhãn mục tiêu",
+      "D. Chia đôi tập dữ liệu và chỉ dùng một nửa để train Level-0"
+    ],
+    "answer": "A",
+    "explanation": "Nếu cho Level-0 dự đoán trên chính dữ liệu nó đã học, các dự đoán sẽ quá lạc quan (overfitting), khiến Meta-learner phụ thuộc sai lệch. Scikit-Learn chia tập train thành K-folds, mỗi fold được dự đoán bởi mô hình train trên K-1 folds còn lại (out-of-fold predictions) để sinh đặc trưng sạch cho Level-1."
+  },
+  {
+    "id": 601,
+    "chapter": 15,
+    "question": "Tham số `passthrough=True` trong `StackingClassifier`/`StackingRegressor` có ý nghĩa gì?",
+    "options": [
+      "A. Nối trực tiếp các đặc trưng huấn luyện gốc ban đầu $X$ cùng với các dự đoán của mô hình cơ sở để làm đầu vào cho meta-learner",
+      "B. Bỏ qua bước kiểm tra điều kiện hội tụ của meta-model",
+      "C. Cho phép dữ liệu kiểm thử đi thẳng vào bước dự đoán mà không qua tiền xử lý",
+      "D. Tự động chuyển đổi toàn bộ bài toán phân loại thành hồi quy"
+    ],
+    "answer": "A",
+    "explanation": "Khi `passthrough=True`, ma trận đầu vào cho meta-model ở Level-1 sẽ là $[X_{original}, \\hat{y}_{base1}, \\hat{y}_{base2}, ...]$. Điều này cho phép meta-learner vừa xem xét dự đoán của base models vừa tham chiếu lại bối cảnh của các đặc trưng gốc."
+  },
+  {
+    "id": 602,
+    "chapter": 15,
+    "question": "Sự khác biệt giữa `VotingClassifier(voting='hard')` và `VotingClassifier(voting='soft')` là gì?",
+    "options": [
+      "A. `hard` dựa trên đa số phiếu bầu của các nhãn dự đoán (majority voting); còn `soft` tính trung bình cộng xác suất dự đoán (predicted probabilities) của các mô hình và chọn nhãn có xác suất cao nhất",
+      "B. `hard` áp dụng cho hồi quy còn `soft` áp dụng cho phân loại",
+      "C. `soft` yêu cầu tất cả các mô hình cơ sở phải là Random Forest",
+      "D. `hard` chỉ sử dụng khi số lượng mô hình cơ sở là số chẵn"
+    ],
+    "answer": "A",
+    "explanation": "Hard voting đếm số lượng mô hình dự đoán mỗi class và chọn class nhiều phiếu nhất (chỉ cần hàm `.predict()`). Soft voting lấy trung bình trọng số của xác suất dự đoán (cần hàm `.predict_proba()`), thường đem lại hiệu năng phân loại cao hơn vì tận dụng được độ tự tin của mô hình."
+  },
+  {
+    "id": 603,
+    "chapter": 15,
+    "question": "Kỹ thuật Pasting khác với Bagging ở điểm nào?",
+    "options": [
+      "A. Pasting lấy mẫu con không hoàn lại (without replacement); trong khi Bagging lấy mẫu con có hoàn lại (with replacement)",
+      "B. Pasting lấy mẫu trên các đặc trưng còn Bagging lấy mẫu trên các hàng dữ liệu",
+      "C. Pasting sử dụng cây quyết định còn Bagging sử dụng SVM",
+      "D. Pasting chỉ áp dụng cho dữ liệu văn bản"
+    ],
+    "answer": "A",
+    "explanation": "Trong `BaggingClassifier(bootstrap=True)` là Bagging (lấy mẫu có hoàn lại). Nếu đặt `bootstrap=False` thì kỹ thuật đó gọi là Pasting (lấy mẫu tập con ngẫu nhiên không hoàn lại)."
+  },
+  {
+    "id": 604,
+    "chapter": 15,
+    "question": "Phương pháp Random Patches và Random Subspaces trong Ensemble Learning lấy mẫu như thế nào?",
+    "options": [
+      "A. Random Patches lấy mẫu ngẫu nhiên cả quan sát (samples) lẫn đặc trưng (features); Random Subspaces giữ nguyên toàn bộ mẫu nhưng lấy mẫu ngẫu nhiên trên đặc trưng",
+      "B. Random Patches chỉ dùng cho xử lý ảnh còn Random Subspaces dùng cho âm thanh",
+      "C. Random Subspaces dùng cho mô hình tuyến tính còn Random Patches dùng cho cây",
+      "D. Cả hai phương pháp đều loại bỏ 90% dữ liệu ngẫu nhiên"
+    ],
+    "answer": "A",
+    "explanation": "Trong Scikit-Learn: Lấy mẫu cả samples và features gọi là Random Patches (thường dùng khi dữ liệu vừa nhiều dòng vừa nhiều cột). Giữ toàn bộ samples (`bootstrap=False`, `max_samples=1.0`) nhưng lấy tập con features (`max_features < 1.0`) gọi là Random Subspaces."
+  },
+  {
+    "id": 605,
+    "chapter": 15,
+    "question": "Tại sao trong Stacking, việc kết hợp các mô hình có bản chất thuật toán rất khác nhau (ví dụ: Cây quyết định + SVM + Tuyến tính + KNN) lại mang lại hiệu quả vượt trội hơn so với kết hợp các mô hình cùng loại?",
+    "options": [
+      "A. Vì các mô hình khác loại có không gian giả thuyết và cơ chế tạo sai số khác nhau (low error correlation), sai lầm của mô hình này được bù đắp bởi thế mạnh của mô hình khác",
+      "B. Vì các mô hình khác loại chạy song song nhanh hơn",
+      "C. Vì chuẩn hóa dữ liệu chỉ có tác dụng khi có ít nhất một mô hình tuyến tính",
+      "D. Vì meta-learner chỉ hoạt động được khi các base models có độ phức tạp khác nhau"
+    ],
+    "answer": "A",
+    "explanation": "Sức mạnh cốt lõi của Ensemble là tính đa dạng (diversity). Các mô hình có nguyên lý toán học khác nhau tạo ra các đường biên quyết định hoàn toàn khác nhau. Khi một mô hình bị đánh lừa bởi một dạng nhiễu cụ thể, các mô hình khác với bias khác sẽ không mắc cùng sai lầm đó, giúp meta-model đưa ra quyết định toàn diện nhất."
   }
 ];

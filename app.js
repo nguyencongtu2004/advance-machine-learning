@@ -59,6 +59,78 @@
       desc: "Perceptron giới hạn XOR, Hàm kích hoạt Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax; Vấn đề Triệt tiêu đạo hàm, Quy tắc chuỗi Lan truyền ngược, Gradient Descent (BGD, SGD, Mini-batch), Momentum, Adam, Đếm tham số mạng.",
       total: 80,
       weight: "TRỌNG TÂM (18 câu trong đề)"
+    },
+    {
+      id: 7,
+      num: "CHƯƠNG 7",
+      title: "Mạng tích chập (CNN)",
+      desc: "Convolution 2D, Feature Maps, Stride & Padding (Valid vs Same), Pooling (Max vs Average), Flatten & Fully Connected, Công thức kích thước đầu ra [(W - F + 2P)/S] + 1, Đếm tham số bộ lọc CNN, Trực quan hóa đặc trưng.",
+      total: 40,
+      weight: "Trọng tâm bài giảng (40 câu)"
+    },
+    {
+      id: 8,
+      num: "CHƯƠNG 8",
+      title: "Seminar: Support Vector Machine (SVM)",
+      desc: "Định đề Siêu phẳng lề cực đại (Max Margin Hyperplane), Vector hỗ trợ (Support Vectors), Hàm mất mát Hinge Loss, Siêu tham số C (Hard vs Soft Margin), Kernel Trick (Linear, Polynomial, RBF/Gaussian, Sigmoid), Điều kiện KKT.",
+      total: 25,
+      weight: "Seminar Nhóm 25 (25 câu)"
+    },
+    {
+      id: 9,
+      num: "CHƯƠNG 9",
+      title: "Seminar: K-Nearest Neighbors (KNN)",
+      desc: "Thuật toán học lười (Lazy Learner / Instance-based), Khoảng cách Minkowski, Euclidean, Manhattan, Cosine; Lựa chọn k & Hiện tượng Lời nguyền số chiều (Curse of Dimensionality), Cấu trúc cây KD-Tree & Ball Tree.",
+      total: 20,
+      weight: "Seminar Nhóm 09 (20 câu)"
+    },
+    {
+      id: 10,
+      num: "CHƯƠNG 10",
+      title: "Seminar: Transformer & Attention",
+      desc: "Cơ chế Self-Attention ma trận Q, K, V; Scaled Dot-Product Attention (chia căn d_k), Multi-Head Attention song song hóa, Mã hóa vị trí Positional Encoding (Sin-Cos), LayerNorm, Residual Connections, Khắc phục nghẽn cổ chai RNN.",
+      total: 25,
+      weight: "Seminar Nhóm 11 (25 câu)"
+    },
+    {
+      id: 11,
+      num: "CHƯƠNG 11",
+      title: "Seminar: RNN, LSTM & Mamba SSM",
+      desc: "Mạng hồi quy RNN & Lan truyền ngược qua thời gian BPTT, Triệt tiêu/Bùng nổ Gradient; Cổng tế bào LSTM (Forget, Input, Output gate, Cell State); Cổng GRU (Reset, Update); Kiến trúc Mamba SSM (Selective State Space Model, O(N) thời gian tuyến tính).",
+      total: 30,
+      weight: "Seminar Nhóm 17 (30 câu)"
+    },
+    {
+      id: 12,
+      num: "CHƯƠNG 12",
+      title: "Seminar: ECOC & Multi-label/output",
+      desc: "Mã sửa lỗi đầu ra ECOC (Error-Correcting Output Codes), Khoảng cách Hamming, Ma trận nhị phân (One-vs-All, All-Pairs) & ma trận tam phân; Phân loại Đa nhãn (Multi-label) vs Đa đầu ra (Multi-output), Binary Relevance, Classifier Chains.",
+      total: 20,
+      weight: "Seminar Nhóm 06 (20 câu)"
+    },
+    {
+      id: 13,
+      num: "CHƯƠNG 13",
+      title: "Seminar: Nâng cao Cây quyết định Scikit-Learn",
+      desc: "Bản chất xấp xỉ hằng số từng đoạn, Scikit-learn Criterion (squared_error, friedman_mse), Splitter best vs random, Minimal Cost-Complexity Pruning (ccp_alpha, path), Đặc trưng quan trọng (MDI Gini Importance), Giới hạn ngoại suy & độ nhạy phép quay.",
+      total: 15,
+      weight: "Seminar Nhóm 02 (15 câu)"
+    },
+    {
+      id: 14,
+      num: "CHƯƠNG 14",
+      title: "Seminar: Nâng cao Tuyến tính & Phân rã SVD/QR",
+      desc: "Phương trình pháp tuyến OLS, Hiện tượng đa cộng tuyến & Số điều kiện ma trận ill-conditioned, Phân rã QR & SVD tính giả nghịch đảo Moore-Penrose, Đảm bảo khả nghịch nghiêm ngặt của Ridge (X^T X + alpha I), Lasso Coordinate Descent & LARS, MultiTaskLasso.",
+      total: 15,
+      weight: "Seminar Nhóm 08 (15 câu)"
+    },
+    {
+      id: 15,
+      num: "CHƯƠNG 15",
+      title: "Seminar: Nâng cao Ensemble & Stacking",
+      desc: "Định lý Bồi thẩm đoàn Condorcet (xác suất tiệm cận 1), Bagging vs Pasting, Mẫu Out-of-Bag (36.8% và OOB Score), Extremely Randomized Trees (Extra-Trees), AdaBoost cập nhật trọng số exp, Gradient Boosting khớp phần dư âm, Stacking Level-0/1 K-Fold out-of-fold.",
+      total: 15,
+      weight: "Seminar Nhóm 12 (15 câu)"
     }
   ];
 
@@ -83,7 +155,7 @@
     practiceAnsweredThisTurn: false, // Kiểm tra đã chọn đáp án ở lượt xem hiện tại chưa
     practicePositions: {
       currentChapter: 'all',
-      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 }
+      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, '11': 0, '12': 0, '13': 0, '14': 0, '15': 0 }
     },
 
     // Exam Tab
@@ -102,7 +174,7 @@
     flashcardFlipped: false,
     flashcardPositions: {
       currentChapter: 'all',
-      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 }
+      indices: { 'all': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, '11': 0, '12': 0, '13': 0, '14': 0, '15': 0 }
     },
 
     // Docs Tab

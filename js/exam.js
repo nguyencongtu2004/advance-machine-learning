@@ -238,14 +238,12 @@
     state.examActive = false;
 
     let correctCount = 0;
-    const chapterStats = {
-      1: { total: 0, correct: 0, title: "Chương 1: Tổng quan" },
-      2: { total: 0, correct: 0, title: "Chương 2: Tiền xử lý & PCA" },
-      3: { total: 0, correct: 0, title: "Chương 3: Tuyến tính & Đánh giá" },
-      4: { total: 0, correct: 0, title: "Chương 4: Cây quyết định & Ensemble" },
-      5: { total: 0, correct: 0, title: "Chương 5: Phân cụm" },
-      6: { total: 0, correct: 0, title: "Chương 6: MLP & Backpropagation" }
-    };
+    const chapterStats = {};
+    if (typeof CHAPTERS_INFO !== 'undefined') {
+      CHAPTERS_INFO.forEach(ch => {
+        chapterStats[ch.id] = { total: 0, correct: 0, title: `${ch.num}: ${ch.title}` };
+      });
+    }
 
     state.examQuestions.forEach((q, idx) => {
       const chosen = state.examAnswers[idx];
@@ -302,9 +300,10 @@
     const breakdownContainer = document.getElementById('result-breakdown-container');
     if (breakdownContainer) {
       breakdownContainer.innerHTML = '';
-      for (let chId = 1; chId <= 6; chId++) {
+      Object.keys(chapterStats).forEach(chId => {
         const stat = chapterStats[chId];
-        const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+        if (!stat || stat.total === 0) return;
+        const pct = Math.round((stat.correct / stat.total) * 100);
         const color = pct >= 80 ? 'var(--success)' : (pct >= 50 ? 'var(--primary)' : 'var(--error)');
 
         const item = document.createElement('div');
@@ -319,7 +318,7 @@
           </div>
         `;
         breakdownContainer.appendChild(item);
-      }
+      });
     }
 
     renderExamReviewList();

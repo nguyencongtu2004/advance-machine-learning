@@ -13,7 +13,16 @@
       ...(window.QUESTIONS_CHUONG_3 || []),
       ...(window.QUESTIONS_CHUONG_4 || []),
       ...(window.QUESTIONS_CHUONG_5 || []),
-      ...(window.QUESTIONS_CHUONG_6 || [])
+      ...(window.QUESTIONS_CHUONG_6 || []),
+      ...(window.QUESTIONS_CHUONG_7 || []),
+      ...(window.QUESTIONS_CHUONG_8 || []),
+      ...(window.QUESTIONS_CHUONG_9 || []),
+      ...(window.QUESTIONS_CHUONG_10 || []),
+      ...(window.QUESTIONS_CHUONG_11 || []),
+      ...(window.QUESTIONS_CHUONG_12 || []),
+      ...(window.QUESTIONS_CHUONG_13 || []),
+      ...(window.QUESTIONS_CHUONG_14 || []),
+      ...(window.QUESTIONS_CHUONG_15 || [])
     ];
     if (combined.length > 0) {
       window.QUESTION_BANK = combined;

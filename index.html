@@ -48,7 +48,7 @@
         <span id="theme-icon">☀️</span> <span id="theme-label">Sáng</span>
       </button>
       <div class="stat-badge" title="Tiến độ hoàn thành bộ câu hỏi">
-        <span id="global-progress-stat">0/400 (0%)</span>
+        <span id="global-progress-stat">0/605 (0%)</span>
       </div>
       <button id="btn-reset-data" class="quiz-back-btn" title="Đặt lại toàn bộ tiến độ">
         Đặt lại
@@ -65,11 +65,11 @@
         <div class="hero-content">
           <div class="hero-title">
             <h2>Kế hoạch Luyện thi Học máy Tiên tiến & Ứng dụng</h2>
-            <p>Ngân hàng 400 câu hỏi trọng tâm, bám sát 6 slide bài giảng TS. Hà Minh Tân.</p>
+            <p>Ngân hàng 605 câu hỏi toàn diện: 7 chương bài giảng chính thức & 8 chuyên đề seminar nâng cao.</p>
           </div>
           <div class="stat-boxes-row">
             <div class="mini-stat-box">
-              <span class="mini-stat-num" id="dash-total-q">400</span>
+              <span class="mini-stat-num" id="dash-total-q">605</span>
               <span class="mini-stat-label">Tổng câu hỏi</span>
             </div>
             <div class="mini-stat-box">
@@ -88,8 +88,8 @@
       </div>
 
       <div class="section-heading">
-        <span>Danh mục 6 Chương & Tiến độ chi tiết</span>
-        <span class="sub-hint">Chương 3, 4, 6 chiếm tỷ trọng cao nhất trong đề thi</span>
+        <span>Danh mục 15 Chương & Chuyên đề Seminar</span>
+        <span class="sub-hint">7 Chương cốt lõi + 8 Chuyên đề Seminar chuyên sâu</span>
       </div>
 
       <div class="chapters-grid" id="chapters-list-container">
@@ -105,18 +105,27 @@
         <div class="quiz-toolbar">
           <div class="toolbar-left">
             <select id="practice-chapter-select" class="custom-select">
-              <option value="all">Tất cả các chương (Toàn bộ 400 câu)</option>
+              <option value="all">Tất cả các chương (Toàn bộ 605 câu)</option>
               <option value="1">Chương 1: Tổng quan Học máy (50 câu)</option>
               <option value="2">Chương 2: Tiền xử lý & PCA (50 câu)</option>
               <option value="3">Chương 3: Tuyến tính & Đánh giá (90 câu - Trọng tâm)</option>
               <option value="4">Chương 4: Cây quyết định & Ensemble (80 câu - Trọng tâm)</option>
               <option value="5">Chương 5: Bài toán Phân cụm (50 câu)</option>
               <option value="6">Chương 6: MLP & Backpropagation (80 câu - Trọng tâm)</option>
+              <option value="7">Chương 7: Mạng tích chập CNN (40 câu - Trọng tâm)</option>
+              <option value="8">Chương 8: Seminar - Support Vector Machine (25 câu)</option>
+              <option value="9">Chương 9: Seminar - K-Nearest Neighbors (20 câu)</option>
+              <option value="10">Chương 10: Seminar - Transformer & Attention (25 câu)</option>
+              <option value="11">Chương 11: Seminar - RNN, LSTM & Mamba (30 câu)</option>
+              <option value="12">Chương 12: Seminar - ECOC & Multi-label/output (20 câu)</option>
+              <option value="13">Chương 13: Seminar - Nâng cao Cây quyết định Scikit-Learn (15 câu)</option>
+              <option value="14">Chương 14: Seminar - Nâng cao Tuyến tính & Phân rã SVD/QR (15 câu)</option>
+              <option value="15">Chương 15: Seminar - Nâng cao Ensemble & Stacking (15 câu)</option>
             </select>
           </div>
 
           <div class="toolbar-right">
-            <span class="q-counter-text" id="practice-counter">Câu 1 / 400</span>
+            <span class="q-counter-text" id="practice-counter">Câu 1 / 605</span>
             <button id="btn-toggle-grid-drawer" class="quiz-back-btn" title="Mở danh sách câu hỏi">
               Mục lục câu
             </button>
@@ -402,10 +411,19 @@
               <option value="4">Chương 4: Cây quyết định & Ensemble (Trọng tâm)</option>
               <option value="5">Chương 5: Phân cụm</option>
               <option value="6">Chương 6: MLP & Backpropagation (Trọng tâm)</option>
+              <option value="7">Chương 7: Mạng tích chập (CNN)</option>
+              <option value="8">Chương 8: Seminar Support Vector Machine (SVM)</option>
+              <option value="9">Chương 9: Seminar K-Nearest Neighbors (KNN)</option>
+              <option value="10">Chương 10: Seminar Transformer & Attention</option>
+              <option value="11">Chương 11: Seminar RNN, LSTM & Mamba</option>
+              <option value="12">Chương 12: Seminar ECOC & Multi-label/output</option>
+              <option value="13">Chương 13: Seminar Nâng cao Cây quyết định</option>
+              <option value="14">Chương 14: Seminar Nâng cao Mô hình Tuyến tính</option>
+              <option value="15">Chương 15: Seminar Nâng cao Ensemble & Stacking</option>
             </select>
           </div>
           <div class="toolbar-right">
-            <span class="q-counter-text" id="flashcard-counter">Thẻ 1 / 400</span>
+            <span class="q-counter-text" id="flashcard-counter">Thẻ 1 / 605</span>
           </div>
         </div>
 
@@ -607,6 +625,15 @@
   <script src="data/questions/chuong_4.js"></script>
   <script src="data/questions/chuong_5.js"></script>
   <script src="data/questions/chuong_6.js"></script>
+  <script src="data/questions/chuong_7.js"></script>
+  <script src="data/questions/chuong_8.js"></script>
+  <script src="data/questions/chuong_9.js"></script>
+  <script src="data/questions/chuong_10.js"></script>
+  <script src="data/questions/chuong_11.js"></script>
+  <script src="data/questions/chuong_12.js"></script>
+  <script src="data/questions/chuong_13.js"></script>
+  <script src="data/questions/chuong_14.js"></script>
+  <script src="data/questions/chuong_15.js"></script>
   <script src="data/data_questions.js"></script>
   <script src="data/data_docs.js"></script>
 
