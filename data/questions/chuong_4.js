@@ -1,7 +1,10 @@
 /* ==============================================================================
-   NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM - CHƯƠNG 4: CÂY QUYẾT ĐỊNH VÀ HỌC KẾT HỢP
+   NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM - CHƯƠNG 4: CÂY QUYẾT ĐỊNH VÀ ENSEMBLE LEARNING
    - Số lượng: 80 câu
-   - Nội dung: Decision Tree (Entropy, Information Gain ID3, Gini CART, Pruning), Bagging, Random Forest, Boosting (AdaBoost, Gradient Boosting)
+   - Nội dung: Decision Tree (Entropy, Information Gain ID3, Gini CART, Pruning),
+     Bagging, Random Forest, Boosting (AdaBoost, Gradient Boosting, XGBoost, LightGBM), Stacking
+   - Giải thích chi tiết & trực quan hóa bản chất từ Giai_Thich_Chi_Tiet_Chuong_4.md
+   - Hỗ trợ hiển thị Markdown & Công thức Toán LaTeX (KaTeX)
    - Tự động gộp vào window.QUESTION_BANK
 ============================================================================== */
 
@@ -18,7 +21,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Giá trị Entropy của thuộc tính"
     ],
     "answer": 1,
-    "explanation": "Nút lá là điểm kết thúc của đường đi dự đoán, lưu nhãn lớp dự đoán hoặc xác suất các lớp của mẫu rơi vào đó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCây quyết định (Decision Tree) là một cấu trúc phân cấp hình cây lộn ngược (Gốc ở trên, Lá ở dưới):\n* **Nút gốc (Root Node):** Nút trên cùng, chứa toàn bộ tập dữ liệu huấn luyện và thực hiện phép kiểm tra điều kiện đầu tiên.\n* **Nút trong (Internal Node):** Kiểm tra điều kiện trên một đặc trưng ($x_j \\le t$ hoặc $x_j == \\text{Giá trị}$).\n* **Nhánh (Branch):** Đại diện cho một kết quả kiểm tra logic (Đúng/Sai hoặc các danh mục).\n* **Nút lá (Leaf Node):** Là điểm dừng cuối cùng của đường đi suy diễn.\n  - Trong **Cây phân loại (Classification Tree):** Nút lá lưu **nhãn lớp dự đoán** (lớp chiếm đa số trong lá đó) hoặc phân phối xác suất dự đoán của các lớp.\n  - Trong **Cây hồi quy (Regression Tree):** Nút lá lưu **giá trị trung bình cộng** $\\bar{y}$ của các mẫu rơi vào lá.\n\n> 💡 **Quy tắc trắc nghiệm:** Nút lá không còn điều kiện phân nhánh nào nữa, nó chính là câu trả lời / kết luận cuối cùng của mô hình.",
     "slideRef": "Slide Chương 4, Trang 8, 17"
   },
   {
@@ -33,7 +36,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Các mặt cầu đa chiều"
     ],
     "answer": 1,
-    "explanation": "Mỗi phép chia của cây kiểm tra một đặc trưng đơn lẻ (x_j <= t), tạo thành các lát cắt song song trực giao với các trục tọa độ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khác với Logistic Regression hay SVM tạo ra các đường thẳng hoặc mặt phẳng nghiêng chéo góc tự do trong không gian ($w^Tx + b = 0$):\n* Tại mỗi nút phân chia, Cây quyết định **chỉ kiểm tra duy nhất một đặc trưng** tại một thời điểm (ví dụ: $x_1 \\le 3.5$ hoặc $x_2 > 10$).\n* Về mặt hình học, mỗi phép kiểm tra này tương ứng với một lát cắt **vuông góc với trục tọa độ của đặc trưng đó**.\n* Khi kết hợp nhiều lát cắt liên tiếp từ gốc xuống lá, ranh giới quyết định (Decision Boundary) tạo thành **các đường gấp khúc trực giao**, chia không gian thành các **siêu hộp chữ nhật song song với các trục tọa độ (Axis-aligned Hyper-rectangles)**.\n\n### ⚠️ Bẫy thi kinh điển:\nRanh giới của Cây quyết định chuẩn **không bao giờ là đường chéo nghiêng mượt mà**, mà luôn luôn có dạng bậc thang gấp khúc vuông góc!",
     "slideRef": "Slide Chương 4, Trang 12-13, 57"
   },
   {
@@ -48,7 +51,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Luôn có độ chính xác cao hơn mọi mô hình khác"
     ],
     "answer": 1,
-    "explanation": "Cây chỉ so sánh thứ tự lớn hơn / nhỏ hơn của giá trị đặc trưng, do đó thang đo độ lớn của biến hoàn toàn không ảnh hưởng đến cấu trúc cây.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐây là một trong những câu hỏi **hay ra thi nhất** về Cây quyết định:\n* Trong các mô hình tuyến tính (OLS, Logistic, SVM) hay Mạng nơ-ron, khoảng cách số học cực kỳ quan trọng. Nếu một biến đo bằng \"triệu đồng\" ($10^6$) và một biến đo bằng \"số con\" ($1, 2$), biến tiền bạc sẽ lấn át hoàn toàn $\\implies$ Bắt buộc phải chuẩn hóa (StandardScaler / MinMaxScaler).\n* Ngược lại, **Cây quyết định hoàn toàn KHÔNG CẦN chuẩn hóa dữ liệu (Scale Invariant)**:\n  - Để tìm điểm chia cắt tối ưu, cây chỉ sắp xếp các giá trị của từng đặc trưng theo thứ tự tăng dần.\n  - Phép biến đổi đơn điệu (nhân với $1.000.000$, cộng $500$, lấy $\\log$) **hoàn toàn không làm thay đổi thứ tự tương quan** giữa các mẫu!\n  - Điểm cắt trước khi nhân nằm ở vị trí nào thì sau khi nhân nó vẫn chia các mẫu dữ liệu thành 2 nửa y hệt như vậy!\n\n> 💡 **Chốt lại:** Cây quyết định miễn nhiễm với thang đo dữ liệu và xử lý mượt mà cả biến liên tục lẫn biến danh mục.",
     "slideRef": "Slide Chương 4, Trang 56"
   },
   {
@@ -63,7 +66,7 @@ window.QUESTIONS_CHUONG_4 = [
       "H(S) = +∞"
     ],
     "answer": 1,
-    "explanation": "Với 2 lớp cân bằng p=0.5, H(S) = - (0.5 log2 0.5 + 0.5 log2 0.5) = 1.0 (độ hỗn tạp tối đa).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Shannon Entropy:\n$$H(S) = - \\sum_{k=1}^C p_k \\log_2(p_k)$$\nVới bài toán 2 lớp ($C = 2$):\n* Khi hai lớp cân bằng tuyệt đối ($p_1 = 0.5, p_2 = 0.5$): Mức độ hỗn loạn / khó đoán đạt đỉnh cao nhất (như tung đồng xu).\n$$H(S) = - (0.5 \\log_2 0.5 + 0.5 \\log_2 0.5) = - [0.5 \\times (-1) + 0.5 \\times (-1)] = \\mathbf{1.0\\text{ bit}}$$\n* Đồ thị Entropy có hình quả chuông úp đối xứng qua $p = 0.5$, đạt đỉnh $H_{\\max} = 1.0$ và chạm đáy $H_{\\min} = 0$ tại hai đầu $p=0$ và $p=1$.\n\n### ⚠️ Bẫy trắc nghiệm:\n* Cực đại của **Entropy** là **$1.0$**.\n* Cực đại của **Gini Impurity** (bài toán 2 lớp) chỉ là **$0.5$**! Đừng nhầm lẫn giữa hai độ đo này.",
     "slideRef": "Slide Chương 4, Trang 18, 20"
   },
   {
@@ -78,7 +81,7 @@ window.QUESTIONS_CHUONG_4 = [
       "-1.0"
     ],
     "answer": 1,
-    "explanation": "Khi một lớp có xác suất bằng 1 (thuần khiết hoàn toàn), không còn sự bất định nào, do đó H(S) = - 1 * log2(1) = 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Thuần khiết 100% (Pure Node):** Tất cả các mẫu trong nút đều thuộc về cùng một lớp (ví dụ lớp 1 có $p_1 = 1$, lớp 2 có $p_2 = 0$).\n* Khi đó:\n  $$H(S) = - (1 \\log_2 1 + 0 \\log_2 0) = - (1 \\times 0 + 0) = \\mathbf{0.0}$$\n* **Ý nghĩa thực tế:** Bạn thò tay vào hộp bi chỉ toàn màu đỏ, chắc chắn 100% bốc trúng bi đỏ $\\implies$ Hệ thống không còn chút bất định hay hỗn loạn nào $\\implies$ Entropy bằng 0!\n* Khi một nút đạt Entropy = 0, thuật toán sẽ dừng phân chia và biến nút đó thành **Nút lá (Leaf Node)**.",
     "slideRef": "Slide Chương 4, Trang 20"
   },
   {
@@ -93,7 +96,7 @@ window.QUESTIONS_CHUONG_4 = [
       "IG(S, A) = H(S) * H(S|A)"
     ],
     "answer": 1,
-    "explanation": "Information Gain đo mức giảm độ hỗn tạp sau khi phân chia theo thuộc tính A: IG(S, A) = H(S) - H(S|A).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nInformation Gain (Độ lợi thông tin) đo lường: **\"Sau khi chia dữ liệu theo thuộc tính A, độ hỗn loạn giảm được bao nhiêu?\"**\n$$IG(S, A) = H(S) - H(S|A)$$\n* $H(S)$: Độ hỗn loạn (Entropy) của nút cha ban đầu trước khi chia.\n* $H(S|A)$: Entropy trung bình có trọng số của các nút con sau khi chia:\n  $$H(S|A) = \\sum_{v \\in Values(A)} \\frac{|S_v|}{|S|} H(S_v)$$\n* **Nguyên tắc chọn:** Thuộc tính nào làm cho $H(S|A)$ nhỏ nhất $\\implies$ mang lại **$IG$ LỚN NHẤT** sẽ được chọn để phân nhánh!",
     "slideRef": "Slide Chương 4, Trang 21"
   },
   {
@@ -108,7 +111,7 @@ window.QUESTIONS_CHUONG_4 = [
       "0.25"
     ],
     "answer": 1,
-    "explanation": "Gini = 1 - Σ(p_k^2) = 1 - (0.5^2 + 0.5^2) = 1 - 0.5 = 0.5.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức tính độ vẩn đục Gini (Gini Impurity):\n$$Gini(S) = 1 - \\sum_{k=1}^C p_k^2$$\nVới bài toán 2 lớp cân bằng ($p_1 = 0.5, p_2 = 0.5$):\n$$Gini(S) = 1 - (0.5^2 + 0.5^2) = 1 - (0.25 + 0.25) = 1 - 0.5 = \\mathbf{0.5}$$\n* Đây là giá trị hỗn tạp cực đại của chỉ số Gini đối với bài toán phân loại nhị phân.\n* Khác với Entropy đạt cực đại bằng $1.0$, Gini đạt cực đại tại **$0.5$**.",
     "slideRef": "Slide Chương 4, Trang 22-23"
   },
   {
@@ -123,7 +126,7 @@ window.QUESTIONS_CHUONG_4 = [
       "-0.5"
     ],
     "answer": 1,
-    "explanation": "Khi nút chỉ chứa 1 lớp, p_1 = 1, Gini = 1 - 1^2 = 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKhi tất cả các mẫu trong nút đều thuộc về một lớp duy nhất ($p_1 = 1$, các lớp khác $p_k = 0$):\n$$Gini(S) = 1 - \\sum p_k^2 = 1 - (1^2 + 0^2 + \\dots) = 1 - 1 = \\mathbf{0.0}$$\n* **Ý nghĩa xác suất:** Gini Impurity đo xác suất phân loại sai một mẫu nếu ta gán nhãn ngẫu nhiên theo phân bố lớp trong nút. Khi toàn bộ mẫu là lớp 1, xác suất đoán sai bằng 0.\n* Cả **Entropy** và **Gini** đều bằng **$0.0$** khi nút hoàn toàn thuần khiết.",
     "slideRef": "Slide Chương 4, Trang 23, 25"
   },
   {
@@ -138,7 +141,7 @@ window.QUESTIONS_CHUONG_4 = [
       "ID3 huấn luyện song song; CART huấn luyện tuần tự"
     ],
     "answer": 1,
-    "explanation": "ID3 sử dụng Information Gain dựa trên Entropy; CART sử dụng Gini cho phân loại, phương sai cho hồi quy và luôn tạo phép chia nhị phân 2 nhánh.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBảng đối chiếu \"sống còn\" giữa ID3 và CART:\n* **ID3 (Iterative Dichotomiser 3 - Quinlan):**\n  - Tiêu chí chia: **Information Gain** (dựa trên Entropy Shannon).\n  - Kiểu chia: **Đa nhánh (Multi-way split)** theo các giá trị danh mục (ví dụ Outlook chia thành 3 nhánh Sunny, Overcast, Rain).\n  - Bài toán: Ban đầu chỉ hỗ trợ phân loại.\n* **CART (Classification and Regression Trees - Breiman):**\n  - Tiêu chí chia: **Gini Impurity** cho phân loại, Giảm phương sai (Variance Reduction) cho hồi quy.\n  - Kiểu chia: **Luôn luôn chia nhị phân (Binary split - đúng 2 nhánh Trái/Phải)**.\n  - Tốc độ: Nhanh hơn ID3 vì không cần tính hàm $\\log_2$. Thư viện Scikit-learn mặc định dùng CART!",
     "slideRef": "Slide Chương 4, Trang 26"
   },
   {
@@ -153,7 +156,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tổng các phần dư"
     ],
     "answer": 1,
-    "explanation": "Với bài toán hồi quy, nút lá dự đoán một giá trị liên tục bằng giá trị trung bình của các mẫu thuộc nút lá đó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong bài toán Hồi quy, nhãn mục tiêu $y$ là biến số liên tục (ví dụ: Giá nhà, Nhiệt độ, Doanh thu).\n* Khi một mẫu dữ liệu mới rơi vào một nút lá cụ thể $S_{\\text{lá}}$, mô hình không thể \"bỏ phiếu lớp\" như phân loại.\n* Giá trị dự đoán tối ưu cực tiểu hóa sai số bình phương $MSE$ chính là **Giá trị trung bình cộng (Mean)** của tất cả các mẫu rơi vào lá đó:\n  $$\\hat{y} = \\bar{y} = \\frac{1}{|S_{\\text{lá}}|} \\sum_{i \\in S_{\\text{lá}}} y_i$$",
     "slideRef": "Slide Chương 4, Trang 29-30"
   },
   {
@@ -168,7 +171,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Wind (Gió)"
     ],
     "answer": 2,
-    "explanation": "Outlook có IG = 0.25 (lớn nhất so với Humidity 0.16, Wind 0.05, Temperature 0.03) nên được chọn làm nút gốc của cây.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong bài toán Golf kinh điển (14 mẫu: 9 Play = Yes, 5 Play = No):\n* Entropy nút gốc: $H(S) \\approx 0.940$.\n* Tính Information Gain cho 4 thuộc tính ứng viên:\n  - $IG(S, \\text{Outlook}) \\approx \\mathbf{0.247}$ (Cao nhất)\n  - $IG(S, \\text{Humidity}) \\approx 0.151$\n  - $IG(S, \\text{Wind}) \\approx 0.048$\n  - $IG(S, \\text{Temperature}) \\approx 0.029$ (Thấp nhất)\n👉 Do có $IG$ lớn nhất, thuộc tính **Outlook** thắng cuộc và được chọn làm **Nút gốc (Root Node)**!",
     "slideRef": "Slide Chương 4, Trang 35-36"
   },
   {
@@ -183,7 +186,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Thời gian dự đoán cực kỳ chậm"
     ],
     "answer": 1,
-    "explanation": "Cây sâu có Bias thấp nhưng Variance rất cao, dễ thuộc lòng cả nhiễu và rất nhạy cảm với việc thay đổi dữ liệu huấn luyện.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMột Cây quyết định đơn lẻ có 2 nhược điểm chí mạng:\n1. **Variance rất cao (Overfitting nghiêm trọng):** Cây mọc càng sâu thì ranh giới quyết định càng vụn vặt, học vẹt cả nhiễu trong tập Train $\\implies$ Train $100\\%$ nhưng Test rất kém.\n2. **Tính bất ổn định (Instability):** Thuật toán mang tính chất tham lam (Greedy). Chỉ cần thay đổi nhẹ một vài mẫu dữ liệu, đặc trưng chọn ở nút gốc có thể bị thay đổi, kéo theo toàn bộ cấu trúc cây bên dưới bị đảo lộn hoàn toàn!\n👉 Để khắc phục nhược điểm này, người ta phát minh ra **Ensemble Learning (Random Forest)**.",
     "slideRef": "Slide Chương 4, Trang 47, 54-55"
   },
   {
@@ -198,7 +201,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Thay đổi hàm mất mát sang MSE"
     ],
     "answer": 1,
-    "explanation": "Pre-pruning đặt ra các điều kiện dừng sớm như giới hạn độ sâu tối đa, số mẫu tối thiểu ở nút lá để ngăn cây mọc quá sâu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKỹ thuật cắt tỉa (Pruning) gồm 2 phương pháp:\n* **Tiền cắt tỉa (Pre-pruning / Dừng sớm - Early Stopping):** Can thiệp trong quá trình cây đang mọc. Nếu vi phạm một trong các điều kiện chặn thì không cho chia tiếp:\n  - `max_depth`: Giới hạn độ sâu tối đa của cây.\n  - `min_samples_split`: Số mẫu tối thiểu tại một nút để được phép chia tiếp.\n  - `min_samples_leaf`: Số mẫu tối thiểu bắt buộc phải có trong nút lá.\n* **Hậu cắt tỉa (Post-pruning):** Cho cây mọc tối đa (Overfitting), sau đó dùng Cost-Complexity Pruning để tỉa bớt các cành vô dụng từ dưới lên.",
     "slideRef": "Slide Chương 4, Trang 49"
   },
   {
@@ -213,7 +216,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Độ sâu không ảnh hưởng đến Bias và Variance"
     ],
     "answer": 1,
-    "explanation": "Cây nông có ít luật nên đơn giản (High Bias, Low Variance); Cây sâu biểu diễn linh hoạt quan hệ phức tạp nhưng dễ quá khớp (Low Bias, High Variance).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Cây NÔNG (Shallow tree / Decision Stump):** Mô hình quá đơn giản, không học hết các mối quan hệ phức tạp trong dữ liệu $\\implies$ **Bias cao (Underfitting)**, nhưng dự đoán rất ổn định giữa các tập dữ liệu khác nhau $\\implies$ **Variance thấp**.\n* **Cây SÂU (Deep tree):** Mô hình cực kỳ phức tạp, cố gắng chia nhỏ dữ liệu để khớp từng điểm $\\implies$ **Bias rất thấp**, nhưng cực kỳ nhạy cảm với dữ liệu $\\implies$ **Variance rất cao (Overfitting)**.",
     "slideRef": "Slide Chương 4, Trang 54"
   },
   {
@@ -228,7 +231,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tập dữ liệu phải có số chiều lớn hơn 1000"
     ],
     "answer": 1,
-    "explanation": "Ba điều kiện: 1. Năng lực dự đoán > ngẫu nhiên; 2. Đa dạng (không cùng mắc một lỗi); 3. Quy tắc kết hợp hợp lý.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐể \"Hội đồng\" thông thái hơn từng cá nhân, theo lý thuyết toán học (Định lý bồi thẩm đoàn Condorcet), bắt buộc phải có 3 điều kiện:\n1. **Từng mô hình cơ sở phải tốt hơn đoán ngẫu nhiên:** Độ chính xác $Accuracy > 50\\%$. (Nếu kết hợp những mô hình đoán tệ hơn tung đồng xu thì hội đồng sẽ càng tệ hại).\n2. **Tính đa dạng (Diversity) — QUAN TRỌNG NHẤT:** Các mô hình phải mắc các sai lầm khác nhau (sai số độc lập, không đồng pha). Nếu mọi mô hình đều sai cùng lúc thì bỏ phiếu vô nghĩa.\n3. **Quy tắc kết hợp phù hợp:** Bỏ phiếu đa số cho phân loại hoặc lấy trung bình cho hồi quy.",
     "slideRef": "Slide Chương 4, Trang 63"
   },
   {
@@ -243,7 +246,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Hard Voting đòi hỏi số lượng mô hình chẵn"
     ],
     "answer": 1,
-    "explanation": "Hard Voting đếm số phiếu nhãn rời rạc; Soft Voting lấy trung bình xác suất của từng lớp rồi chọn lớp có xác suất cao nhất (thường cho kết quả tốt hơn).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hard Voting (Bỏ phiếu cứng):** Đếm theo số đông nhãn lớp. (Mô hình 1 phán A, Mô hình 2 phán A, Mô hình 3 phán B $\\to$ Lớp A thắng vì có 2/3 phiếu).\n* **Soft Voting (Bỏ phiếu mềm):** Lấy **trung bình cộng xác suất** mà các mô hình gán cho từng lớp, rồi chọn lớp có xác suất trung bình cao nhất.\n* ⚠️ **So sánh thi cử:** **Soft Voting thường vượt trội hơn Hard Voting** vì nó tận dụng được thông tin về **độ tự tin (Confidence)** của từng mô hình, tránh việc các phiếu phân vân (51%) lấn át một phiếu rất tự tin (99%).",
     "slideRef": "Slide Chương 4, Trang 71-73"
   },
   {
@@ -258,7 +261,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chỉ lấy 50% dữ liệu đầu tiên"
     ],
     "answer": 1,
-    "explanation": "Bootstrap lấy ngẫu nhiên n mẫu có hoàn lại từ tập n mẫu ban đầu, cho phép một mẫu có thể được chọn nhiều lần.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bootstrap Sampling** là kỹ thuật lấy mẫu thống kê:\n  - Cho tập dữ liệu gốc gồm $n$ mẫu.\n  - Ta rút ngẫu nhiên $n$ lần **CÓ HOÀN LẠI (with replacement)** để tạo ra một tập dữ liệu con cũng có đúng $n$ mẫu.\n* Do có hoàn lại:\n  - Một mẫu có thể được chọn nhiều lần (trùng lặp).\n  - Một số mẫu sẽ không bao giờ được bốc trúng (gọi là tập Out-Of-Bag).",
     "slideRef": "Slide Chương 4, Trang 76"
   },
   {
@@ -273,7 +276,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Khớp cây vào gradient của hàm mất mát"
     ],
     "answer": 1,
-    "explanation": "Bagging huấn luyện độc lập và song song nhiều mô hình trên các tập mẫu bootstrap riêng lẻ, sau đó tổng hợp kết quả.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTên gọi **BAGGING** là viết tắt của **B**ootstrap **AGG**regat**ING**:\n1. **Bootstrap:** Tạo ra $B$ tập dữ liệu con bằng cách lấy mẫu có hoàn lại từ tập gốc.\n2. **Huấn luyện Song song (Parallel):** Huấn luyện $B$ mô hình độc lập (thường là các cây quyết định sâu) trên $B$ tập dữ liệu này.\n3. **Aggregating (Tổng hợp):** Gom dự đoán của cả $B$ mô hình lại bằng cách **Bỏ phiếu đa số** (cho phân loại) hoặc **Lấy trung bình cộng** (cho hồi quy).",
     "slideRef": "Slide Chương 4, Trang 75, 77-79"
   },
   {
@@ -288,7 +291,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Không thay đổi cả Bias lẫn Variance"
     ],
     "answer": 1,
-    "explanation": "Nhờ trung bình hóa dự đoán của nhiều mô hình có phương sai cao, Bagging triệt tiêu các dao động riêng lẻ và làm GIẢM VARIANCE hiệu quả.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong lý thuyết xác suất thống kê:\n* Giả sử ta có $B$ biến ngẫu nhiên độc lập cùng phân phối, mỗi biến có phương sai là $\\sigma^2$. Khi ta lấy trung bình cộng của chúng, phương sai của trung bình cộng sẽ giảm xuống còn:\n  $$\\text{Var}(\\bar{X}) = \\frac{\\sigma^2}{B}$$\n* Áp dụng vào Machine Learning:\n  - Từng cây quyết định sâu có **Variance rất cao (Overfitting)**.\n  - Bagging gom nhiều cây sâu lại và lấy trung bình $\\implies$ **TRIỆT TIÊU PHƯƠNG SAI $\\implies$ GIẢM VARIANCE MẠNH MẼ!**\n  - Trong khi đó, Bias của Bagging xấp xỉ bằng Bias của từng cây đơn lẻ (vốn dĩ đã thấp).",
     "slideRef": "Slide Chương 4, Trang 80, 84"
   },
   {
@@ -303,7 +306,7 @@ window.QUESTIONS_CHUONG_4 = [
       "63.2%"
     ],
     "answer": 1,
-    "explanation": "Xác suất một mẫu không được chọn sau n lượt rút là (1 - 1/n)^n -> 1/e ≈ 0.368 (36.8%).",
+    "explanation": "### 🎯 Bản chất trực quan & Chứng minh toán học:\nXét 1 mẫu dữ liệu cụ thể trong tập $n$ phần tử:\n1. Xác suất để mẫu đó **không được chọn** trong 1 lần rút thăm là:\n   $$1 - \\frac{1}{n}$$\n2. Vì ta rút thăm $n$ lần độc lập có hoàn lại, xác suất để mẫu đó **không bao giờ được chọn trong cả $n$ lần** là:\n   $$P(\\text{không chọn}) = \\left(1 - \\frac{1}{n}\\right)^n$$\n3. Trong giải tích toán học, khi $n \\to \\infty$:\n   $$\\lim_{n \\to \\infty} \\left(1 - \\frac{1}{n}\\right)^n = \\frac{1}{e} \\approx \\mathbf{0.368 = 36.8\\%}$$\n* Như vậy, khoảng **$36.8\\%$** dữ liệu không hề tham gia huấn luyện cây đó, gọi là tập **Out-Of-Bag (OOB)**!\n* Ngược lại, tỷ lệ mẫu được chọn tham gia huấn luyện xấp xỉ $1 - 36.8\\% = 63.2\\%$.",
     "slideRef": "Slide Chương 4, Trang 81"
   },
   {
@@ -318,7 +321,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tính toán trọng số alpha"
     ],
     "answer": 1,
-    "explanation": "Mỗi cây có khoảng 36.8% mẫu OOB không dùng để train cây đó; tổng hợp các dự đoán OOB cho phép đánh giá hiệu năng mô hình hoàn toàn miễn phí.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Bagging và Random Forest:\n* Mỗi cây chỉ được huấn luyện trên khoảng $63.2\\%$ dữ liệu từ mẫu Bootstrap. Khoảng $36.8\\%$ số mẫu còn lại hoàn toàn \"vô hình\" đối với cây đó (tập Out-Of-Bag - OOB).\n* **Ứng dụng đột phá:** Ta lấy chính các mẫu OOB này đưa vào cây tương ứng để dự đoán và tính toán sai số (gọi là **OOB Error / OOB Score**).\n* **Lợi ích to lớn:**\n  1. Đóng vai trò như một tập **Validation tự nhiên được tích hợp sẵn**.\n  2. Kỹ sư ML không cần phải cắt bớt một phần dữ liệu quý giá để làm tập Validation riêng, và cũng không cần tốn chi phí chạy K-Fold Cross-Validation!",
     "slideRef": "Slide Chương 4, Trang 82, 93"
   },
   {
@@ -333,7 +336,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Ngẫu nhiên số lượng lớp dự đoán"
     ],
     "answer": 1,
-    "explanation": "Ngoài bootstrap dữ liệu, Random Forest chỉ xét ngẫu nhiên một tập con đặc trưng (thường là √p) tại mỗi nút để tìm phép chia tốt nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nNếu Bagging chỉ ngẫu nhiên hóa **dòng dữ liệu** (lấy mẫu Bootstrap), thì Random Forest bổ sung thêm tầng ngẫu nhiên thứ hai trên **cột đặc trưng**:\n* **Kỹ thuật Lấy mẫu đặc trưng ngẫu nhiên (Feature Subsampling):**\n  - Tại **MỖI NÚT PHÂN CHIA** của từng cây, thuật toán **không duyệt qua toàn bộ $p$ đặc trưng**, mà chỉ chọn ngẫu nhiên một tập con gồm $m$ đặc trưng ($m < p$).\n  - Thuật toán chỉ tìm điểm cắt tối ưu trên tập con $m$ đặc trưng này.\n* **Quy tắc ngón tay cái chuẩn (Rule of Thumb):**\n  - Với bài toán Phân loại: $m = \\sqrt{p}$.\n  - Với bài toán Hồi quy: $m = \\frac{p}{3}$.",
     "slideRef": "Slide Chương 4, Trang 85-88"
   },
   {
@@ -348,7 +351,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Vì nó biến bài toán thành học không giám sát"
     ],
     "answer": 1,
-    "explanation": "Nếu luôn xét mọi đặc trưng, các cây sẽ có cấu trúc rất giống nhau (tương quan cao). Lấy mẫu ngẫu nhiên đặc trưng buộc các cây phải độc lập và đa dạng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hạn chế của Bagging chuẩn:** Nếu trong tập dữ liệu có 1 hoặc vài đặc trưng quá mạnh (Predictive power áp đảo), thì hầu như mọi cây trong Bagging đều sẽ chọn đặc trưng đó làm Nút gốc $\\implies$ Hàng trăm cây có cấu trúc na ná nhau $\\implies$ Các cây bị **tương quan cao (Highly Correlated)**.\n* Khi các mô hình bị tương quan cao, việc lấy trung bình cộng không giúp giảm nhiều phương sai (giống như hỏi ý kiến của 100 người nhưng cả 100 người đều cùng chung một góc nhìn).\n* **Giải pháp của Random Forest:** Bằng cách ngẫu nhiên chỉ cho chọn $m = \\sqrt{p}$ đặc trưng tại mỗi nút, các cây bị ép phải thử nghiệm các đặc trưng yếu hơn $\\implies$ Giải trừ sự tương quan (**Decorrelate the trees**) $\\implies$ Rừng trở nên cực kỳ phong phú và đa dạng $\\implies$ **Giảm Variance tối đa!**",
     "slideRef": "Slide Chương 4, Trang 88"
   },
   {
@@ -363,7 +366,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Extra Trees không dùng cho bài toán phân loại"
     ],
     "answer": 1,
-    "explanation": "Extra Trees tăng tính ngẫu nhiên bằng cách chọn ngẫu nhiên cả ngưỡng phân chia trên các thuộc tính, giúp huấn luyện nhanh hơn và giảm variance thêm nữa.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Random Forest:** Chọn ngẫu nhiên $m$ đặc trưng, nhưng trên mỗi đặc trưng được chọn, nó vẫn dùng thuật toán tìm ngưỡng cắt $t$ tối ưu nhất (làm sạch Gini nhất).\n* **Extra Trees (Extremely Randomized Trees):** Đẩy tính ngẫu nhiên lên mức tối đa!\n  - Không đi tìm ngưỡng cắt tối ưu nữa, mà **chọn ngẫu nhiên luôn ngưỡng cắt $t$** cho từng đặc trưng ứng viên!\n  - Sau đó chỉ so sánh giữa các ngưỡng ngẫu nhiên này để chọn cái tốt nhất.\n* **Hệ quả:**\n  1. Tốc độ huấn luyện **nhanh hơn Random Forest rất nhiều** (bỏ qua bước quét tìm điểm cắt tốn CPU).\n  2. Tăng tính ngẫu nhiên giúp giảm thêm một chút Variance, nhưng có thể tăng nhẹ Bias.",
     "slideRef": "Slide Chương 4, Trang 94-95"
   },
   {
@@ -378,7 +381,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Bagging dùng mạng nơ-ron; Boosting dùng hồi quy tuyến tính"
     ],
     "answer": 1,
-    "explanation": "Bagging xây dựng các cây độc lập song song; Boosting xây dựng chuỗi mô hình tuần tự, mỗi mô hình mới tập trung khắc phục điểm yếu của tập hợp hiện tại.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐây là câu hỏi cốt lõi phân biệt 2 nhánh lớn của Ensemble:\n* **BAGGING:**\n  - Cách thức: **Song song (Parallel)**.\n  - Các cây hoàn toàn độc lập với nhau, có thể phân tán chạy trên nhiều nhân CPU/GPU cùng một lúc.\n* **BOOSTING:**\n  - Cách thức: **Tuần tự theo chuỗi (Sequential)**.\n  - Cây thứ $k$ bắt buộc phải chờ cây thứ $k-1$ huấn luyện xong để biết cây trước đoán sai ở đâu, từ đó tập trung học để sửa chữa sai lầm! Không thể huấn luyện song song các cây trong Boosting.",
     "slideRef": "Slide Chương 4, Trang 96-97"
   },
   {
@@ -393,7 +396,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Không thay đổi cả hai"
     ],
     "answer": 1,
-    "explanation": "Boosting sử dụng các bộ học yếu (High Bias) và kết hợp tuần tự để làm GIẢM BIAS, tạo ra mô hình có độ chính xác cao.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Mô hình cơ sở trong Boosting thường là các **bộ học rất yếu (Weak Learners)**, ví dụ như Cây 1 tầng (Decision Stump). Mô hình yếu thì dự đoán rất đơn giản $\\implies$ **Bias rất cao**.\n* Bằng cách xâu chuỗi tuần tự hàng trăm bộ học yếu, mỗi bộ học gánh vác việc sửa một phần lỗi của hệ thống, Boosting biến một tập hợp các mô hình yếu thành một **mô hình tổng thể cực mạnh (Strong Learner)**.\n* 👉 **Mục tiêu chính của Boosting là GIẢM BIAS!** (Ngược lại với Bagging tập trung giảm Variance).",
     "slideRef": "Slide Chương 4, Trang 99, 114"
   },
   {
@@ -408,7 +411,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Hồi quy Ridge với λ cực lớn"
     ],
     "answer": 1,
-    "explanation": "Boosting bắt đầu từ các mô hình cơ sở rất đơn giản, thường là các cây rất nông (Decision Stumps) chỉ cần có độ chính xác nhỉnh hơn đoán ngẫu nhiên.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong Boosting, ta **không dùng cây sâu phức tạp** (vì cây sâu có High Variance, xâu chuỗi lại sẽ bị quá khớp bùng nổ).\n* Ngược lại, Boosting sử dụng các **cây quyết định rất nông**, kinh điển nhất là **Decision Stump (Gốc cây / Cây 1 tầng)**:\n  - Cây chỉ gồm đúng 1 nút kiểm tra ở trên và chẻ ra 2 nút lá ở dưới.\n  - Mỗi Decision Stump chỉ cần dự đoán tốt hơn đoán ngẫu nhiên một chút (ví dụ $Accuracy > 50\\%$).\n  - Hàng trăm Decision Stump kết hợp lại sẽ tạo ra biên phân loại phi tuyến cực kỳ phức tạp và chính xác.",
     "slideRef": "Slide Chương 4, Trang 99, 114"
   },
   {
@@ -423,7 +426,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Trọng số của mẫu đoán sai bị gán về 0"
     ],
     "answer": 1,
-    "explanation": "Sau mỗi vòng, AdaBoost tăng trọng số của các mẫu bị đoán sai để buộc mô hình kế tiếp phải tập trung học các trường hợp khó này.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCơ chế \"thưởng phạt\" tâm lý trong AdaBoost (Adaptive Boosting):\n* Ban đầu, tất cả $m$ mẫu đều có trọng số bình đẳng: $w_i = \\frac{1}{m}$.\n* Ở mỗi vòng lặp:\n  - Mẫu nào được mô hình hiện tại đoán **ĐÚNG** $\\to$ Giảm trọng số (vì dễ rồi, không cần tốn tài nguyên bận tâm nữa).\n  - Mẫu nào bị mô hình đoán **SAI** $\\to$ **BỊ TĂNG TRỌNG SỐ LÊN RẤT MẠNH**!\n* Sang vòng tiếp theo, cây mới được huấn luyện trên phân bố trọng số mới, buộc nó phải dồn toàn bộ sự chú ý để **ưu tiên phân loại đúng các mẫu khó bị đoán sai ở vòng trước**.",
     "slideRef": "Slide Chương 4, Trang 100, 105"
   },
   {
@@ -438,7 +441,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Thời gian huấn luyện mô hình đó"
     ],
     "answer": 1,
-    "explanation": "Trọng số alpha_j = 0.5 * ln[(1 - r_j) / r_j]. Mô hình nào có tỷ lệ sai số r_j càng nhỏ thì alpha_j càng lớn, tiếng nói trong biểu quyết càng nặng ký.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức tính trọng số đóng góp $\\alpha_j$ của mô hình thứ $j$ trong AdaBoost:\n$$\\alpha_j = \\frac{1}{2} \\ln\\left(\\frac{1 - r_j}{r_j}\\right)$$\n*(Trong đó $r_j$ là tỷ lệ sai số có trọng số của mô hình $j$)*.\n* **Ý nghĩa:**\n  - Nếu mô hình đoán rất giỏi ($r_j$ rất nhỏ, ví dụ $0.01$) $\\implies \\frac{1 - r_j}{r_j}$ rất lớn $\\implies \\alpha_j$ là số dương rất lớn $\\implies$ Tiếng nói của mô hình này trong hội đồng rất có trọng lượng!\n  - Nếu mô hình chỉ đoán ngang ngửa tung đồng xu ($r_j = 0.5$) $\\implies \\alpha_j = \\frac{1}{2}\\ln(1) = 0 \\implies$ Không có tiếng nói nào.\n  - Nếu mô hình đoán tệ hơn ngẫu nhiên ($r_j > 0.5$) $\\implies \\alpha_j < 0$ (phủ quyết ý kiến).",
     "slideRef": "Slide Chương 4, Trang 104"
   },
   {
@@ -453,7 +456,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Gradient Boosting không dùng siêu tham số"
     ],
     "answer": 1,
-    "explanation": "Gradient Boosting điều chỉnh mô hình bằng cách cho cây mới học trực tiếp phần dư sai số (pseudo-residuals), tức hướng âm gradient của loss function.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **AdaBoost:** Sửa sai bằng cách **điều chỉnh trọng số của mẫu dữ liệu** (phạt mẫu sai bằng cách tăng trọng số).\n* **Gradient Boosting:** Không đổi trọng số mẫu. Thay vào đó, nó dùng toán giải tích:\n  - Mỗi cây mới $h_k(x)$ được giao nhiệm vụ **học cách dự đoán trực tiếp PHẦN DƯ SAI SỐ (Pseudo-residuals)** của mô hình hiện tại:\n    $$r_{ik} = - \\left[ \\frac{\\partial L(y_i, F(x_i))}{\\partial F(x_i)} \\right]$$\n  - Phần dư âm gradient chính là hướng giảm sai số nhanh nhất của hàm mất mát. Cây mới bù đắp phần còn thiếu mà các cây trước chưa dự đoán được.",
     "slideRef": "Slide Chương 4, Trang 107, 110"
   },
   {
@@ -468,7 +471,7 @@ window.QUESTIONS_CHUONG_4 = [
       "F_k(x) = F_0(x) - h_k(x)"
     ],
     "answer": 1,
-    "explanation": "Gradient Boosting cộng dồn dự đoán của cây mới h_k(x) có nhân với hệ số co tốc độ học η (learning rate): F_k(x) = F_{k-1}(x) + η * h_k(x).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nGradient Boosting xây dựng mô hình theo phương pháp **cộng dồn từng bước (Additive Model)**:\n$$F_k(x) = F_{k-1}(x) + \\eta \\cdot h_k(x)$$\n* $F_{k-1}(x)$: Dự đoán của toàn bộ chuỗi mô hình ở bước trước đó.\n* $h_k(x)$: Cây mới vừa được huấn luyện để sửa phần dư sai số.\n* $\\eta$ (hoặc $\\nu$): Tốc độ học (Learning Rate / Shrinkage), giúp thu nhỏ đóng góp của mỗi cây mới để mô hình học từ tốn, tránh Overfitting.",
     "slideRef": "Slide Chương 4, Trang 109, 111"
   },
   {
@@ -483,7 +486,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Quy định số lượng fold trong cross validation"
     ],
     "answer": 1,
-    "explanation": "Learning rate η điều khiển bước đi dọc theo gradient. Giá trị η nhỏ đóng vai trò như regularization giúp mô hình bền vững hơn.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Tham số $\\eta$ (thường chọn trong khoảng $0.01 - 0.1$) đóng vai trò như một **khoản chiết khấu (Shrinkage)**:\n  - Nếu $\\eta = 1$: Cây mới sửa sai $100\\%$ phần dư ngay lập tức $\\implies$ Mô hình học rất nhanh nhưng cực kỳ dễ bị quá khớp (Overfitting).\n  - Khi $\\eta$ nhỏ (ví dụ $0.05$): Mỗi cây mới chỉ được phép đóng góp $5\\%$ công sức $\\implies$ Chuỗi mô hình phải học từ tốn qua hàng trăm bước $\\implies$ Khả năng tổng quát hóa trên tập Test tốt hơn rất nhiều.\n* **Đánh đổi:** $\\eta$ càng nhỏ thì đòi hỏi số lượng cây (`n_estimators`) phải càng nhiều và thời gian huấn luyện lâu hơn.",
     "slideRef": "Slide Chương 4, Trang 112"
   },
   {
@@ -498,7 +501,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Pandas và NumPy"
     ],
     "answer": 1,
-    "explanation": "XGBoost và LightGBM là hai đại diện xuất sắc nhất của họ mô hình Gradient Boosting nâng cao được xếp trong đề cương.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **XGBoost (Extreme Gradient Boosting):** Nâng cấp Gradient Boosting bằng cách dùng khai triển Taylor bậc 2 của hàm mất mát, tối ưu hóa bộ nhớ đệm (Cache-aware) và tích hợp sẵn Regularization phạt độ phức tạp cây.\n* **LightGBM (do Microsoft phát triển):** Tối ưu hóa tốc độ xử lý dữ liệu lớn bằng kỹ thuật chia nhóm Histogram và phát triển cây theo chiều sâu lá (**Leaf-wise**), giúp giảm sai số nhanh hơn so với kiểu chia tầng truyền thống (Level-wise).",
     "slideRef": "Slide Chương 4, Trang 113"
   },
   {
@@ -513,7 +516,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Boosting luôn có Variance cao hơn Bagging"
     ],
     "answer": 1,
-    "explanation": "Do cơ chế liên tục tăng trọng số hoặc khớp phần dư của mẫu sai, Boosting rất dễ bị cuốn theo các mẫu nhiễu/ngoại lai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐây là **bẫy trắc nghiệm kinh điển** về tính nhạy cảm với nhiễu:\n* Trong **Bagging (Random Forest)**: Mỗi cây lấy mẫu Bootstrap độc lập, một vài điểm nhiễu chỉ rơi vào một số cây và bị triệt tiêu khi lấy trung bình $\\implies$ **Rất bền vững, ít bị ảnh hưởng bởi Outliers/Nhiễu**.\n* Trong **Boosting (AdaBoost, Gradient Boosting)**:\n  - Bản chất của Boosting là \"thấy chỗ nào sai thì tập trung dồn lực sửa chỗ đó\".\n  - Một điểm dữ liệu nhiễu/ngoại lai là cực kỳ khó dự đoán đúng $\\implies$ Nó liên tục bị dự đoán sai qua các vòng.\n  - AdaBoost sẽ liên tục **nhân trọng số của điểm nhiễu này lên cực đại**, hoặc Gradient Boosting sẽ cố gò các cây sau khớp vào phần dư của điểm nhiễu này $\\implies$ Toàn bộ mô hình bị \"dắt mũi\" chạy theo nhiễu $\\implies$ **Overfitting nặng nề!**",
     "slideRef": "Slide Chương 4, Trang 114"
   },
   {
@@ -528,7 +531,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Lấy giá trị lớn nhất của biến"
     ],
     "answer": 1,
-    "explanation": "Thuật toán duyệt qua các giá trị ngưỡng tiềm năng giữa các điểm dữ liệu và chọn cặp (đặc trưng, ngưỡng t) làm giảm Gini nhiều nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐể tìm điểm chia $x_j \\le t$ cho thuộc tính liên tục trong CART:\n1. Sắp xếp tất cả các giá trị phân biệt của đặc trưng $x_j$ trong tập dữ liệu theo thứ tự tăng dần.\n2. Tạo ra các ngưỡng ứng viên $t$ bằng **trung điểm giữa hai giá trị liên tiếp**: $t_i = \\frac{x_{(i)} + x_{(i+1)}}{2}$.\n3. Với mỗi ngưỡng ứng viên $t$, chia dữ liệu thành 2 nửa (Trái: $x_j \\le t$ và Phải: $x_j > t$) và tính chỉ số $Gini_{\\text{split}}$.\n4. Chọn ngưỡng $t^*$ nào tạo ra **$Gini_{\\text{split}}$ nhỏ nhất** (thuần khiết nhất)!",
     "slideRef": "Slide Chương 4, Trang 27"
   },
   {
@@ -543,7 +546,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Nhân các xác suất lại với nhau"
     ],
     "answer": 1,
-    "explanation": "Random Forest tổng hợp dự đoán của tất cả các cây thành viên bằng biểu quyết đa số (Hard voting) hoặc trung bình xác suất (Soft voting).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Random Forest cho bài toán phân loại:\n* Mỗi cây trong rừng sẽ đưa ra dự đoán nhãn lớp của riêng nó (hoặc phân phối xác suất dự đoán).\n* Dự đoán cuối cùng của toàn bộ rừng được tổng hợp bằng:\n  1. **Biểu quyết theo đa số (Majority / Hard Voting):** Lớp nào nhận được nhiều phiếu bầu nhất từ các cây sẽ là nhãn dự đoán chung.\n  2. **Soft Voting (Trung bình xác suất):** Lấy trung bình cộng xác suất dự đoán của từng lớp trên toàn bộ các cây rồi chọn lớp có xác suất cao nhất.",
     "slideRef": "Slide Chương 4, Trang 91"
   },
   {
@@ -558,7 +561,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Vì nó không sử dụng hàm mất mát"
     ],
     "answer": 1,
-    "explanation": "Non-parametric không có nghĩa là không có tham số, mà là dạng hàm và số lượng tham số không bị ấn định cố định trước (như trong hồi quy tuyến tính) mà phát triển theo dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong thống kê học:\n* **Mô hình tham số (Parametric):** Có số lượng tham số cố định từ đầu, không phụ thuộc vào kích thước dữ liệu (ví dụ Hồi quy tuyến tính có đúng $p+1$ trọng số $w$, dù bạn có 100 hay 1 triệu dòng thì số lượng $w$ vẫn y nguyên).\n* **Mô hình phi tham số (Non-parametric):** Số lượng tham số (số nút, số nhánh, độ sâu) **không được định sẵn**, mà tự do phình to hoặc thu nhỏ theo kích thước và độ phức tạp của tập dữ liệu huấn luyện. Càng nhiều dữ liệu, cây càng có thể mọc nhiều nút hơn.",
     "slideRef": "Slide Chương 4, Trang 56"
   },
   {
@@ -573,7 +576,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tập OOB"
     ],
     "answer": 1,
-    "explanation": "Hậu cắt tỉa dùng tập thẩm định (Validation set) để kiểm tra xem việc tỉa bớt một nhánh có làm giảm hiệu năng tổng quát hóa hay không.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu dùng chính tập Training set để đánh giá việc cắt tỉa thì thuật toán sẽ **không bao giờ cắt bất kỳ nhánh nào**, vì trên tập Train, cây càng sâu thì độ chính xác càng cao ($100\\%$).\n* Do đó, bắt buộc phải dùng **Validation set (Tập kiểm định độc lập)**:\n  - Thử nghiệm cắt bỏ một nhánh con từ dưới lên.\n  - Nếu sau khi cắt bỏ nhánh đó mà độ chính xác trên tập Validation **không đổi hoặc tăng lên** (chứng tỏ nhánh đó chỉ học vẹt dữ liệu nhiễu), thuật toán sẽ chính thức chặt bỏ nhánh đó!",
     "slideRef": "Slide Chương 4, Trang 52-53"
   },
   {
@@ -588,7 +591,7 @@ window.QUESTIONS_CHUONG_4 = [
       "K-Means Clustering"
     ],
     "answer": 2,
-    "explanation": "Decision Tree là mô hình tiêu biểu có cấu trúc luật Nếu-Thì trực quan và hoàn toàn không bị ảnh hưởng bởi thang đo dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tính năng giải thích trực quan bằng luật If - Then:** Mỗi nhánh đi từ nút gốc đến nút lá tương đương với một mệnh đề logic (ví dụ `NẾU Tuổi > 30 VÀ Thu nhập > 20tr THÌ Mua xe = YES`).\n* **Không đòi hỏi chuẩn hóa dữ liệu:** Do thuật toán chỉ so sánh thứ tự lớn hơn / nhỏ hơn của từng đặc trưng độc lập.\n* Trong 4 phương án, chỉ có **Cây quyết định (Decision Tree)** thỏa mãn đồng thời cả hai ưu điểm tuyệt vời này.",
     "slideRef": "Slide Chương 4, Trang 56"
   },
   {
@@ -603,7 +606,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Không có sự khác biệt nào giữa hai mô hình"
     ],
     "answer": 0,
-    "explanation": "Cây đơn lẻ dễ trực quan hóa (White-box) nhưng variance cao; Random Forest là ensemble gồm hàng trăm cây nên bền vững, chính xác cao nhưng hoạt động như hộp đen (Black-box).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nSự đánh đổi kinh điển giữa Cây đơn và Random Forest:\n* **Cây quyết định đơn lẻ (Single Tree):**\n  - **Ưu điểm:** Tính diễn giải cực cao (**White-box**), dễ vẽ sơ đồ giải thích cho khách hàng/sếp hiểu.\n  - **Nhược điểm:** Độ chính xác không cao, rất dễ bị Overfitting, cực kỳ bất ổn định (High Variance).\n* **Random Forest (Rừng ngẫu nhiên):**\n  - **Ưu điểm:** Độ chính xác vượt trội, chống Overfitting cực tốt, rất ổn định (Low Variance).\n  - **Nhược điểm:** Trở thành mô hình \"Hộp đen\" (**Black-box**), rất khó giải thích lý do cụ thể vì quyết định được tổng hợp từ hàng trăm cây khác nhau.",
     "slideRef": "Slide Chương 4, Trang 67, 114"
   },
   {
@@ -618,7 +621,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Không bao giờ hội tụ khi huấn luyện"
     ],
     "answer": 1,
-    "explanation": "Nếu thuộc tính có nhiều giá trị phân biệt như ID, mỗi nhánh con chỉ chứa đúng 1 mẫu (thuần khiết tuyệt đối, Entropy = 0), dẫn đến Information Gain tối đa giả tạo. Thuật toán C4.5 đã khắc phục nhược điểm này bằng cách chia cho Split Information để tạo ra Gain Ratio.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hiện tượng thiên vị đặc trưng phân mảnh (High Cardinality Bias):**\n  - Giả sử trong tập dữ liệu có thuộc tính `Mã sinh viên` hoặc `Số CCCD` (mỗi dòng là một giá trị duy nhất).\n  - Nếu thuật toán ID3 chọn thuộc tính này, nó sẽ chẻ ra $N$ nhánh con, mỗi nhánh con chỉ chứa đúng 1 sinh viên!\n  - Lúc này, mỗi nhánh con hoàn toàn thuần khiết $100\\%$ ($H(S_v) = 0$).\n  - Khi đó, Entropy sau chia $H(S|A) = 0 \\implies IG(S, A) = H(S) - 0 = H(S)$ đạt giá trị **CỰC ĐẠI TUYỆT ĐỐI**!\n* Thuật toán tưởng đây là thuộc tính hoàn hảo nhất và chọn làm nút gốc, nhưng trên thực tế cây này chỉ học vẹt mã số, hoàn toàn vô dụng trên dữ liệu mới!\n* 👉 **Giải pháp:** C4.5 ra đời dùng **Gain Ratio** để phạt các thuộc tính chia ra quá nhiều nhánh vụn vặt.",
     "slideRef": "Slide Chương 4, Trang 33-35"
   },
   {
@@ -633,7 +636,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Độ đo Information Gain của thuộc tính tốt nhất đạt giá trị cực đại bằng 100"
     ],
     "answer": 3,
-    "explanation": "Information Gain đạt cực đại là dấu hiệu phân chia tốt chứ không phải điều kiện dừng. Các điều kiện dừng chuẩn gồm: nút thuần khiết (pure node), hết thuộc tính phân chia, đạt max_depth, hoặc số mẫu nhỏ hơn min_samples_split/min_samples_leaf.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCác điều kiện dừng hợp lệ để một nút trở thành nút lá:\n1. **Nút đã thuần khiết:** Tất cả các mẫu đều cùng 1 lớp (Entropy = 0, Gini = 0).\n2. **Hết thuộc tính để chia** hoặc tất cả các mẫu đều có giá trị thuộc tính giống hệt nhau.\n3. **Chạm giới hạn tiền cắt tỉa:** Độ sâu đạt `max_depth`, hoặc số mẫu nhỏ hơn `min_samples_split`.\n\n### ⚠️ Vì sao phương án 4 là SAI (Bẫy thi)?\n* Công thức Information Gain: $IG(S, A) = H(S) - H(S|A)$.\n* Vì $H(S)$ với 2 lớp chỉ tối đa bằng $1.0$ (với $C$ lớp tối đa bằng $\\log_2 C$), nên $IG$ **không bao giờ có thể đạt tới giá trị 100**! Con số 100 là hoàn toàn vô lý về mặt toán học.",
     "slideRef": "Slide Chương 4, Trang 38-40"
   },
   {
@@ -648,7 +651,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Pre-pruning loại bỏ thuộc tính đầu vào trước khi huấn luyện"
     ],
     "answer": 0,
-    "explanation": "Pre-pruning (early stopping) dừng mở rộng nút khi chưa đạt yêu cầu (có thể dừng quá sớm). Post-pruning cho phép cây phát triển đầy đủ đến mức overfit, sau đó đánh giá từ lá ngược lên và cắt bỏ các nhánh không làm tăng độ chính xác trên tập kiểm định.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Pre-pruning (Cắt tỉa trước / Dừng sớm):** Giống như việc \"uốn cây cảnh từ bé\". Trong lúc cây đang mọc, nếu gặp điều kiện chặn (`max_depth`, `min_samples_split`, `min_samples_leaf`), thuật toán lập tức **chặn không cho mọc tiếp**.\n  - *Ưu điểm:* Huấn luyện nhanh, tốn ít bộ nhớ.\n  - *Nhược điểm:* Dễ bị dừng non (Early stopping) do không nhìn thấy những phép phân chia tiềm năng ở các tầng sâu hơn.\n* **Post-pruning (Cắt tỉa sau):** Giống như \"để cây mọc tự do sum suê rồi vác kéo đi tỉa cành\". Cho cây phát triển tối đa đến khi Overfitting, sau đó dựa vào **tập Validation** để tỉa dần các nhánh không mang lại lợi ích.\n  - *Ưu điểm:* Tìm ra cấu trúc cây tối ưu hơn.\n  - *Nhược điểm:* Tốn thời gian huấn luyện cây đầy đủ ban đầu.",
     "slideRef": "Slide Chương 4, Trang 42-45"
   },
   {
@@ -663,7 +666,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Bỏ qua thuộc tính liên tục và chỉ dùng thuộc tính phân loại"
     ],
     "answer": 1,
-    "explanation": "Thuật toán sắp xếp n giá trị liên tục thành v_1 <= v_2 <= ... <= v_n. Sau đó tạo ra (n - 1) ngưỡng ứng viên t_i = (v_i + v_{i+1}) / 2, tính toán Information Gain hoặc Gini cho từng ngưỡng để chọn ra ngưỡng tối ưu nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy trình biến đổi thuộc tính liên tục thành phép chia nhị phân:\n1. Lấy toàn bộ giá trị của đặc trưng đó trong tập dữ liệu và sắp xếp theo thứ tự tăng dần: $x_{(1)} < x_{(2)} < \\dots < x_{(N)}$.\n2. Tạo ra các ngưỡng chia ứng viên là **trung điểm của hai giá trị kề nhau**:\n   $$t_i = \\frac{x_{(i)} + x_{(i+1)}}{2}$$\n3. Với mỗi ngưỡng $t_i$, dữ liệu được tách thành hai nhóm ($x \\le t_i$ và $x > t_i$).\n4. Tính độ đo (Information Gain hoặc Gini) cho từng ngưỡng và chọn ngưỡng $t^*$ nào đem lại độ thuần khiết cao nhất.",
     "slideRef": "Slide Chương 4, Trang 48-50"
   },
   {
@@ -678,7 +681,7 @@ window.QUESTIONS_CHUONG_4 = [
       "m = log2(d) + 10"
     ],
     "answer": 1,
-    "explanation": "Theo khuyến nghị kinh điển của Leo Breiman: đối với bài toán Classification, m = floor(sqrt(d)); đối với bài toán Regression, m = floor(d / 3). Việc lấy mẫu ngẫu nhiên này giúp khử tương quan giữa các cây trong rừng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy tắc thực nghiệm kinh điển của Leo Breiman khi thiết kế Random Forest:\n* Với bài toán **Phân loại (Classification)** có $d$ đặc trưng:\n  $$m = \\lfloor\\sqrt{d}\\rfloor$$\n* *Ví dụ:* Nếu dữ liệu có $d = 100$ đặc trưng, tại mỗi nút phân chia, thuật toán chỉ rút ngẫu nhiên $m = \\sqrt{100} = 10$ đặc trưng để tìm điểm chia tốt nhất.\n* Trong thư viện Scikit-learn: Tham số này được gọi là `max_features='sqrt'` (mặc định cho `RandomForestClassifier`).",
     "slideRef": "Slide Chương 4, Trang 68-70"
   },
   {
@@ -693,7 +696,7 @@ window.QUESTIONS_CHUONG_4 = [
       "m = 1"
     ],
     "answer": 0,
-    "explanation": "Đối với bài toán Hồi quy, giá trị khuyến nghị tiêu chuẩn trong tài liệu và thư viện scikit-learn là m = floor(d / 3), kết hợp kích thước nút lá tối thiểu (min_samples_leaf) thường bằng 5.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khác với bài toán phân loại dùng $\\sqrt{d}$:\n* Với bài toán **Hồi quy (Regression)** có $d$ đặc trưng, giá trị lý thuyết và thực nghiệm tối ưu thường được khuyến nghị là:\n  $$m = \\left\\lfloor\\frac{d}{3}\\right\\rfloor$$\n* *Ví dụ:* Nếu bài toán dự đoán giá nhà có $d = 30$ đặc trưng, tại mỗi nút của mỗi cây hồi quy, ta lấy ngẫu nhiên $m = 30 / 3 = 10$ đặc trưng để tìm điểm chia cực tiểu hóa phương sai.",
     "slideRef": "Slide Chương 4, Trang 71"
   },
   {
@@ -708,7 +711,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Làm giảm số lượng cây trong rừng xuống còn 1 cây"
     ],
     "answer": 1,
-    "explanation": "Trong Bootstrap, xấp xỉ 36.8% mẫu không bao giờ xuất hiện trong tập huấn luyện của cây đó (gọi là OOB samples). Ta dùng chính các mẫu OOB này để kiểm tra cây tương ứng. Kết quả OOB Error tương đương với phương pháp K-fold Cross-Validation nhưng không tốn công chia tập dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì mỗi cây trong Random Forest được huấn luyện trên một mẫu Bootstrap khác nhau, nên với mỗi mẫu dữ liệu $x_i$, sẽ có khoảng $36.8\\%$ số cây trong rừng **chưa từng nhìn thấy $x_i$ trong lúc huấn luyện**.\n* Để dự đoán cho $x_i$, ta chỉ cho các cây mà $x_i$ là mẫu OOB bỏ phiếu.\n* **Lợi ích thực tiễn:**\n  - Cho ra ước lượng sai số khách quan không chệch (Unbiased estimate), chính xác tương đương với K-Fold Cross-Validation.\n  - Tiết kiệm $100\\%$ tài nguyên tính toán vì không phải chạy lại mô hình $K$ lần như K-Fold!",
     "slideRef": "Slide Chương 4, Trang 74-76"
   },
   {
@@ -723,7 +726,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Thứ tự xuất hiện ngẫu nhiên trong vòng lặp"
     ],
     "answer": 1,
-    "explanation": "Công thức alpha_m = 0.5 * ln( (1 - epsilon_m) / epsilon_m ). Nếu mô hình rất chuẩn xác (epsilon_m rất nhỏ), alpha_m sẽ rất lớn, đóng góp tiếng nói quan trọng. Nếu mô hình đoán như tung đồng xu (epsilon_m = 0.5), alpha_m = 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong AdaBoost, các mô hình cơ sở không có quyền biểu quyết ngang nhau:\n$$\\alpha_m = \\frac{1}{2} \\ln\\left(\\frac{1 - \\epsilon_m}{\\epsilon_m}\\right)$$\n* $\\epsilon_m$ là tỷ lệ sai số có trọng số của mô hình cơ sở thứ $m$.\n* **Mối quan hệ:**\n  - Khi $\\epsilon_m \\to 0$ (mô hình dự đoán gần như hoàn hảo) $\\implies \\alpha_m \\to +\\infty$ (tiếng nói cực lớn).\n  - Khi $\\epsilon_m = 0.5$ (đoán ngang ngửa đoán mò) $\\implies \\alpha_m = 0$ (bị tước quyền bỏ phiếu).\n  - Khi $\\epsilon_m > 0.5$ (đoán sai nhiều hơn đúng) $\\implies \\alpha_m < 0$ (bị đảo ngược dự đoán).",
     "slideRef": "Slide Chương 4, Trang 88-92"
   },
   {
@@ -738,7 +741,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Mô hình có thời gian suy luận quá chậm"
     ],
     "answer": 1,
-    "explanation": "Một weak learner chỉ cần có hiệu năng nhỉnh hơn việc đoán mò ngẫu nhiên (better than random guessing, accuracy > 50%). Ví dụ kinh điển là Decision Stump (cây quyết định chỉ có đúng 1 nút phân chia). Boosting sẽ kết hợp hàng trăm weak learner thành một strong learner có độ chính xác rất cao.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bộ học yếu (Weak Learner):** Là mô hình có khả năng dự đoán chỉ cần **nhỉnh hơn đoán ngẫu nhiên một chút** ($Accuracy > 50\\%$ trong bài toán nhị phân, tức $\\epsilon < 0.5$).\n* Không cần mô hình phải phức tạp hay chính xác cao. Ví dụ kinh điển là một Decision Stump (Cây quyết định 1 tầng chỉ kiểm tra 1 điều kiện duy nhất).\n* Định lý nền tảng của Schapire (1990) đã chứng minh rằng: **Bất kỳ thuật toán học yếu nào cũng có thể được nâng cấp (Boost) thành một bộ học mạnh (Strong Learner)** có độ chính xác tùy ý bằng cách kết hợp tuần tự!",
     "slideRef": "Slide Chương 4, Trang 82-84"
   },
   {
@@ -753,7 +756,7 @@ window.QUESTIONS_CHUONG_4 = [
       "AdaBoost chỉ dùng được với mạng nơ-ron sâu"
     ],
     "answer": 1,
-    "explanation": "Cả hai đều là Boosting tuần tự, nhưng cơ chế bù trừ khác nhau: AdaBoost tăng trọng số mẫu bị đoán sai ở vòng sau. GBDT xem bài toán dưới góc nhìn tối ưu hàm mục tiêu: cây ở bước m cố gắng dự đoán giá trị thặng dư r_i = y_i - y_hat_{i, m-1} (gradient âm của hàm loss).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMặc dù đều thuộc họ Boosting tuần tự:\n* **AdaBoost:** Tác động vào **DỮ LIỆU** bằng cách thay đổi trọng số của mẫu (mẫu đoán sai bị tăng trọng số để mô hình sau tập trung học).\n* **Gradient Boosting (GBDT):** Tác động vào **HÀM MẤT MÁT** bằng giải tích:\n  - Giữ nguyên trọng số mẫu.\n  - Tính toán độ lệch giữa nhãn thật và dự đoán hiện tại $\\implies$ Phần dư (Residuals / Âm gradient).\n  - Cây mới được huấn luyện để **dự đoán chính xác phần dư này**, sau đó cộng dồn vào mô hình tổng thể: $F_m(x) = F_{m-1}(x) + \\eta h_m(x)$.",
     "slideRef": "Slide Chương 4, Trang 98-102"
   },
   {
@@ -768,7 +771,7 @@ window.QUESTIONS_CHUONG_4 = [
       "2.0"
     ],
     "answer": 2,
-    "explanation": "p_+ = 8/16 = 0.5; p_- = 8/16 = 0.5. H(S) = - [ 0.5 * log2(0.5) + 0.5 * log2(0.5) ] = - [ 0.5 * (-1) + 0.5 * (-1) ] = 1.0. Khi phân bố đều 50-50, độ bất định đạt cực đại và Entropy bằng đúng 1.",
+    "explanation": "### 🎯 Bản chất trực quan & Tính toán chi tiết:\nTập dữ liệu có $N = 16$ mẫu:\n* Tỷ lệ mẫu Dương: $p_+ = \\frac{8}{16} = 0.5$.\n* Tỷ lệ mẫu Âm: $p_- = \\frac{8}{16} = 0.5$.\n\nÁp dụng công thức Shannon Entropy:\n$$H(S) = - \\left[ p_+ \\log_2(p_+) + p_- \\log_2(p_-) \\right]$$\n$$H(S) = - \\left[ 0.5 \\log_2(0.5) + 0.5 \\log_2(0.5) \\right]$$\nVì $\\log_2(0.5) = \\log_2(2^{-1}) = -1$:\n$$H(S) = - [0.5 \\times (-1) + 0.5 \\times (-1)] = - [-0.5 - 0.5] = \\mathbf{1.0\\text{ bit}}$$\n\n> 💡 **Mẹo thi cử:** Cứ thấy bài toán 2 lớp mà số mẫu 2 bên bằng nhau (50% - 50%), khoanh ngay **Entropy = 1.0** không cần bấm máy tính!",
     "slideRef": "Slide Chương 4, Trang 14-16"
   },
   {
@@ -783,7 +786,7 @@ window.QUESTIONS_CHUONG_4 = [
       "0.81"
     ],
     "answer": 0,
-    "explanation": "p_+ = 9/10 = 0.9; p_- = 1/10 = 0.1. Gini(S) = 1 - (p_+^2 + p_-^2) = 1 - (0.9^2 + 0.1^2) = 1 - (0.81 + 0.01) = 1 - 0.82 = 0.18.",
+    "explanation": "### 🎯 Bản chất trực quan & Tính toán chi tiết:\nTập dữ liệu có $N = 10$ mẫu:\n* Tỷ lệ mẫu Dương: $p_+ = \\frac{9}{10} = 0.9$.\n* Tỷ lệ mẫu Âm: $p_- = \\frac{1}{10} = 0.1$.\n\nÁp dụng công thức Gini Impurity của thuật toán CART:\n$$Gini(S) = 1 - \\sum_{k=1}^C p_k^2 = 1 - \\left( p_+^2 + p_-^2 \\right)$$\n$$Gini(S) = 1 - (0.9^2 + 0.1^2) = 1 - (0.81 + 0.01) = 1 - 0.82 = \\mathbf{0.18}$$\n\n* Kết quả là **$0.18$** (độ vẩn đục rất thấp vì nút gần như thuần khiết, 90% là mẫu Dương).",
     "slideRef": "Slide Chương 4, Trang 26-28"
   },
   {
@@ -798,7 +801,7 @@ window.QUESTIONS_CHUONG_4 = [
       "0.0, khi tập dữ liệu bị rỗng"
     ],
     "answer": 1,
-    "explanation": "Gini = 1 - (p1^2 + p2^2). Khi p1 = p2 = 0.5: Gini_max = 1 - (0.25 + 0.25) = 1 - 0.5 = 0.5. Đây là độ bất định lớn nhất của CART trong phân loại 2 lớp.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHàm Gini Impurity với 2 lớp ($p_2 = 1 - p_1$):\n$$Gini(p_1) = 1 - [p_1^2 + (1 - p_1)^2] = 2p_1(1 - p_1)$$\n* Đạo hàm: $Gini'(p_1) = 2 - 4p_1 = 0 \\iff p_1 = 0.5$.\n* Giá trị cực đại:\n  $$Gini_{\\max} = 2 \\times 0.5 \\times (1 - 0.5) = \\mathbf{0.5}$$\n* Đạt được khi hai lớp có tỷ lệ ngang nhau $50\\% - 50\\%$.\n\n⚠️ **Phân biệt cực đại:**\n* Bài toán 2 lớp: $\\text{Entropy}_{\\max} = \\mathbf{1.0}$; $\\text{Gini}_{\\max} = \\mathbf{0.5}$.",
     "slideRef": "Slide Chương 4, Trang 27"
   },
   {
@@ -813,7 +816,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chỉ áp dụng được cho bài toán hồi quy"
     ],
     "answer": 1,
-    "explanation": "Nếu một thuộc tính có N giá trị phân biệt cho N mẫu (như cột ID), mỗi nhánh con chỉ có đúng 1 mẫu (Entropy = 0), dẫn đến Information Gain cực đại nhưng hoàn toàn không có khả năng tổng quát hóa (Overfitting cực độ).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bản chất của Information Gain:** $IG(S, A) = H(S) - H(S|A)$.\n* Khi thuộc tính $A$ có số lượng giá trị phân biệt bằng đúng số dòng dữ liệu (như `Số CMND` hay `ID giao dịch`):\n  - Mỗi nhánh con $S_v$ chỉ chứa đúng 1 mẫu.\n  - Một mẫu thì thuần khiết $100\\% \\implies H(S_v) = 0 \\implies H(S|A) = 0$.\n  - Khi đó $IG(S, A) = H(S) - 0 = H(S)$ đạt giá trị lớn nhất tuyệt đối!\n* **Hậu quả:** Thuật toán luôn chọn thuộc tính ID này làm nút gốc, tạo ra một cây cực kỳ phân mảnh, học vẹt dữ liệu cũ nhưng dự đoán sai hoàn toàn trên dữ liệu mới!",
     "slideRef": "Slide Chương 4, Trang 20-22"
   },
   {
@@ -828,7 +831,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Bắt buộc cây chỉ được có tối đa 2 tầng"
     ],
     "answer": 1,
-    "explanation": "Gain Ratio(S, A) = IG(S, A) / SplitInfo(S, A), với SplitInfo(S, A) = - sum (|S_i| / |S|) * log2(|S_i| / |S|). Nếu thuộc tính chia thành quá nhiều nhánh nhỏ, SplitInfo sẽ rất lớn, kéo Gain Ratio giảm xuống, triệt tiêu thiên vị.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐể trừng phạt các thuộc tính có quá nhiều giá trị rời rạc, thuật toán **C4.5** cải tiến công thức thành **Gain Ratio (Tỷ số độ lợi)**:\n$$\\text{Gain Ratio}(S, A) = \\frac{IG(S, A)}{\\text{SplitInfo}(S, A)}$$\n* Trong đó, **Split Information** đo độ hỗn loạn của chính việc chia nhánh:\n  $$\\text{SplitInfo}(S, A) = - \\sum_{v=1}^K \\frac{|S_v|}{|S|} \\log_2\\left( \\frac{|S_v|}{|S|} \\right)$$\n* Nếu một thuộc tính bị bẻ vụn ra thành hàng trăm nhánh con li ti, mẫu số $\\text{SplitInfo}$ sẽ cực kỳ lớn $\\implies$ làm cho **Gain Ratio bị kéo tụt xuống**!\n* Nhờ vậy, C4.5 tránh được việc chọn các thuộc tính ID vô nghĩa.",
     "slideRef": "Slide Chương 4, Trang 22-24"
   },
   {
@@ -843,7 +846,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Dự đoán bằng phương trình siêu phẳng OLS"
     ],
     "answer": 1,
-    "explanation": "Với bài toán hồi quy, CART dự đoán đầu ra bằng trung bình số học y_bar của các mẫu trong vùng phân chia (nút lá), và chọn điểm cắt c trên thuộc tính x_j sao cho tổng phương sai / MSE trên hai nhánh con trái và phải là nhỏ nhất.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong Cây hồi quy (Regression Tree):\n1. **Giá trị dự đoán tại nút lá:** Không phải nhãn lớp mà là giá trị liên tục, được tính bằng **Trung bình cộng (Mean)** $\\hat{y} = \\bar{y}$ của các mẫu trong lá đó.\n2. **Tiêu chuẩn chọn điểm chia nhánh:** Không dùng Entropy hay Gini (vốn chỉ áp dụng cho biến nhãn rời rạc). Thay vào đó, nó tìm điểm chia làm **giảm phương sai nhiều nhất (Variance Reduction)**, tương đương với việc **cực tiểu hóa Tổng bình phương sai số phần dư (RSS / MSE)** của hai nhánh con:\n   $$RSS_{\\text{split}} = \\sum_{i \\in \\text{Trái}} (y_i - \\bar{y}_{\\text{Trái}})^2 + \\sum_{i \\in \\text{Phải}} (y_i - \\bar{y}_{\\text{Phải}})^2$$",
     "slideRef": "Slide Chương 4, Trang 31-33"
   },
   {
@@ -858,7 +861,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Số lượng cụm K trong thuật toán K-Means"
     ],
     "answer": 0,
-    "explanation": "Pre-pruning chặn không cho cây phát triển quá mức bằng các siêu tham số giới hạn cấu trúc cây ngay trong lúc xây dựng: giới hạn max_depth, quy định min_samples_split, min_samples_leaf, hoặc min_impurity_decrease.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCác siêu tham số Pre-pruning phổ biến nhất trong Scikit-learn (`DecisionTreeClassifier`):\n* `max_depth`: Khống chế độ sâu tối đa của cây (chặn không cho mọc quá sâu).\n* `min_samples_split`: Số lượng mẫu tối thiểu bắt buộc phải có tại một nút trong để được phép tiếp tục chia nhánh (ví dụ: nút chỉ còn 3 mẫu thì cấm chia).\n* `min_samples_leaf`: Số lượng mẫu tối thiểu bắt buộc phải có trong mỗi nút lá (ngăn chặn lá chỉ chứa 1 mẫu cá biệt).\n* `max_leaf_nodes`: Số lượng nút lá tối đa cho phép trong cây.",
     "slideRef": "Slide Chương 4, Trang 35-37"
   },
   {
@@ -873,7 +876,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tổng số mẫu trong tập huấn luyện"
     ],
     "answer": 1,
-    "explanation": "|T| là số lượng nút lá (độ phức tạp của cây). R(T) là sai số phân loại của cây. Tham số α >= 0 đóng vai trò phạt kích thước cây; khi α lớn, cây bị tỉa gọn thành cây nhỏ hơn.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nThuật toán Cost-Complexity Pruning (tương tự như Regularization):\n$$R_\\alpha(T) = R(T) + \\alpha |T|$$\n* $R(T)$: Sai số huấn luyện (hoặc độ vẩn đục) của toàn bộ cây $T$.\n* $|T|$: **Số lượng nút lá (Number of terminal/leaf nodes)** của cây $T$ $\\implies$ Đại diện cho độ cồng kềnh, phức tạp của cây!\n* $\\alpha$ (`ccp_alpha`): Siêu tham số điều khiển mức phạt độ phức tạp.\n  - Khi $\\alpha = 0$: Không phạt gì cả $\\implies$ Giữ nguyên cây gốc to nhất (Full tree).\n  - Khi $\\alpha$ càng lớn: Phạt cây cồng kềnh càng nặng $\\implies$ Buộc cây phải bị tỉa bớt các nhánh lá để thu nhỏ kích thước $|T|$.",
     "slideRef": "Slide Chương 4, Trang 38-40"
   },
   {
@@ -888,7 +891,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Các mô hình bắt buộc phải có trọng số bằng nhau"
     ],
     "answer": 0,
-    "explanation": "Định lý Condorcet chỉ ra sức mạnh của trí tuệ tập thể: Chỉ cần các mô hình cơ sở độc lập và có độ chính xác nhỉnh hơn đoán mò (p > 0.5), việc biểu quyết đa số (Majority Voting) sẽ khuếch đại độ chính xác lên mức tuyệt hảo.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐịnh lý Bồi thẩm đoàn Condorcet (1785):\n* Giả sử một bồi thẩm đoàn gồm $M$ người độc lập cần đưa ra phán quyết Đúng/Sai.\n* Nếu mỗi cá nhân có xác suất đoán đúng $p > 0.5$ (tốt hơn tung đồng xu ngẫu nhiên):\n* Thì khi kích thước bồi thẩm đoàn $M$ càng tăng lên, **xác suất để phán quyết của số đông (đa số phiếu) là chính xác sẽ tiến dần về $1$ ($100\\%$)**!\n* 👉 Đây chính là nền tảng toán học chứng minh vì sao gom nhiều mô hình cơ sở yếu (Weak learners) lại có thể tạo thành một mô hình tập hợp siêu mạnh (Strong learner)!",
     "slideRef": "Slide Chương 4, Trang 43-45"
   },
   {
@@ -903,7 +906,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chỉ lấy mẫu từ các quan sát có nhãn dương"
     ],
     "answer": 0,
-    "explanation": "Bootstrap rút mẫu kích thước N từ tập ban đầu có N mẫu CÓ HOÀN LẠI (with replacement). Do đó, một mẫu có thể xuất hiện nhiều lần trong tập con, trong khi một số mẫu khác không được chọn lần nào.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Kỹ thuật **Bootstrap** (Efron, 1979):\n  - Cho tập dữ liệu gốc gồm $N$ mẫu.\n  - Ta tiến hành bốc thăm ngẫu nhiên $N$ lần.\n  - Sau mỗi lần rút được 1 mẫu, ta ghi lại thông tin rồi **bỏ ngược mẫu đó lại vào túi (Sampling with replacement)**.\n* Vì có hoàn lại, xác suất mỗi mẫu được chọn ở mỗi lượt bốc luôn giữ nguyên là $\\frac{1}{N}$.\n* Một mẫu có thể xuất hiện nhiều lần trong tập con Bootstrap mới, trong khi một số mẫu khác không bao giờ được bốc trúng.",
     "slideRef": "Slide Chương 4, Trang 47-49"
   },
   {
@@ -918,7 +921,7 @@ window.QUESTIONS_CHUONG_4 = [
       "25.0%"
     ],
     "answer": 1,
-    "explanation": "Xác suất không được chọn ở 1 lần rút là (1 - 1/N). Sau N lần rút độc lập, xác suất là (1 - 1/N)^N. Khi N -> ∞, lim (1 - 1/N)^N = 1/e ≈ 0.3678 ≈ 36.8%. Khoảng 63.2% mẫu được chọn vào tập huấn luyện, còn 36.8% nằm ở nhóm OOB.",
+    "explanation": "### 🎯 Bản chất trực quan & Chứng minh toán học:\n* Trong 1 lần rút mẫu ngẫu nhiên từ $N$ phần tử, xác suất để 1 mẫu cụ thể **không được chọn** là:\n  $$p_1 = 1 - \\frac{1}{N}$$\n* Khi rút $N$ lần độc lập có hoàn lại, xác suất để mẫu đó **không bao giờ được chọn trong cả $N$ lần** là:\n  $$P(\\text{không chọn}) = \\left(1 - \\frac{1}{N}\\right)^N$$\n* Theo định nghĩa giới hạn của số $e$ trong giải tích toán học:\n  $$\\lim_{N \\to \\infty} \\left(1 - \\frac{1}{N}\\right)^N = e^{-1} = \\frac{1}{e} \\approx \\mathbf{0.367879... \\approx 36.8\\%}$$\n* $\\implies$ Khoảng **$36.8\\%$** số mẫu của tập gốc sẽ không xuất hiện trong tập Bootstrap (gọi là tập Out-of-Bag). Tỷ lệ mẫu được chọn xấp xỉ $1 - 36.8\\% = 63.2\\%$.",
     "slideRef": "Slide Chương 4, Trang 49-51"
   },
   {
@@ -933,7 +936,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chuyển mô hình từ phân loại sang hồi quy"
     ],
     "answer": 1,
-    "explanation": "Mỗi cây chỉ được huấn luyện trên khoảng 63.2% dữ liệu. Ta có thể dùng 36.8% mẫu OOB còn lại để kiểm tra cây đó. Tổng hợp dự đoán OOB của toàn rừng cho kết quả ước lượng sai số khách quan tương đương K-Fold Cross-Validation mà không tốn thêm chi phí train lại.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Đối với mỗi cây trong rừng, có $\\approx 36.8\\%$ mẫu dữ liệu mà cây đó chưa từng nhìn thấy trong tập huấn luyện (các mẫu OOB của cây đó).\n* Để tính điểm OOB cho toàn bộ rừng:\n  - Với mỗi mẫu dữ liệu $x_i$, ta chỉ cho các cây mà $x_i$ **nằm ngoài túi OOB** tham gia dự đoán cho $x_i$.\n  - Sau đó tổng hợp lại và tính độ chính xác toàn cục.\n* **Lợi ích to lớn:** Đóng vai trò như một tập kiểm định chéo (Cross-Validation) hoàn toàn miễn phí, độc lập khách quan mà **không cần phải cắt xén dữ liệu để tạo Validation set riêng**!",
     "slideRef": "Slide Chương 4, Trang 51-52"
   },
   {
@@ -948,7 +951,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Random Forest chỉ áp dụng cho dữ liệu văn bản"
     ],
     "answer": 1,
-    "explanation": "Nếu có 1 đặc trưng cực mạnh, mọi cây trong Bagging thông thường đều sẽ chọn đặc trưng đó ở nút gốc, khiến các cây rất giống nhau (tương quan cao). Random Forest ngẫu nhiên hóa không gian đặc trưng (Feature Subsampling) tại mỗi nút để triệt tiêu tương quan giữa các cây, tối đa hóa hiệu quả giảm phương sai (Variance Reduction).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hạn chế của Bagging thuần túy:** Nếu có 1 đặc trưng cực mạnh (ví dụ `Thu nhập` trong bài toán tín dụng), thì hầu như $100\\%$ các cây trong Bagging đều chọn `Thu nhập` làm Nút gốc $\\implies$ Các cây trông rất giống nhau (tương quan cao). Khi các cây bị tương quan, hiệu quả giảm Variance của phép lấy trung bình bị triệt tiêu!\n* **Tuyệt chiêu của Random Forest:** Tại **mỗi nút của mỗi cây**, thuật toán chỉ bốc ngẫu nhiên một tập con $m$ đặc trưng (thường $m = \\sqrt{d}$) để tìm điểm chia.\n* **Tác dụng:** Ép các cây phải tìm các góc nhìn khác nhau, giải trừ tương quan giữa các cây (**Decorrelating the trees**), giúp rừng đa dạng tối đa và hạ Variance xuống mức thấp nhất!",
     "slideRef": "Slide Chương 4, Trang 54-56"
   },
   {
@@ -963,7 +966,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Phân loại: m = log2(d); Hồi quy: m = d / 2"
     ],
     "answer": 0,
-    "explanation": "Tiêu chuẩn do Leo Breiman đề xuất: Đối với bài toán phân loại, m = floor(sqrt(d)); Đối với bài toán hồi quy, m = floor(d / 3) (và kích thước nút lá tối thiểu thường là 5 thay vì 1).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy tắc thực nghiệm kinh điển do Leo Breiman đề xuất:\n* **Bài toán Phân loại (Classification):**\n  $$m = \\lfloor\\sqrt{d}\\rfloor$$\n  *(Ví dụ $d = 64$ đặc trưng thì lấy $m = \\sqrt{64} = 8$)*.\n* **Bài toán Hồi quy (Regression):**\n  $$m = \\left\\lfloor\\frac{d}{3}\\right\\rfloor$$\n  *(Ví dụ $d = 30$ đặc trưng thì lấy $m = 30 / 3 = 10$)*.",
     "slideRef": "Slide Chương 4, Trang 56"
   },
   {
@@ -978,7 +981,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tính hệ số tương quan Pearson với biến mục tiêu"
     ],
     "answer": 0,
-    "explanation": "MDI tính tổng mức giảm độ vẩn đục (Gini/MSE) trên tất cả các nút mà thuộc tính đó tham gia phân nhánh qua toàn bộ các cây. Permutation Importance (MDA) xáo trộn ngẫu nhiên giá trị của thuộc tính trên tập OOB và đo lường mức độ suy giảm độ chính xác của mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nRandom Forest cung cấp 2 cơ chế đo độ quan trọng của đặc trưng rất nổi tiếng:\n1. **Mean Decrease Impurity (MDI / Gini Importance):** Tính tổng mức độ làm giảm Gini (hoặc Entropy/MSE) của một đặc trưng trên tất cả các nút phân chia của toàn bộ các cây trong rừng. Đặc trưng nào làm giảm độ hỗn loạn càng nhiều thì càng quan trọng.\n2. **Permutation Importance (Mean Decrease Accuracy - MDA):** Xáo trộn ngẫu nhiên (shuffle) giá trị của một đặc trưng trên tập kiểm thử/OOB, rồi đo xem độ chính xác của mô hình bị sụt giảm bao nhiêu. Nếu xáo trộn biến đó mà độ chính xác tụt dốc thảm hại, chứng tỏ biến đó cực kỳ quan trọng!",
     "slideRef": "Slide Chương 4, Trang 58-60"
   },
   {
@@ -993,7 +996,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Thuật toán K-Means với K = 10"
     ],
     "answer": 1,
-    "explanation": "Boosting được thiết kế để kết hợp các bộ học yếu (Weak Learners - có độ chệch High Bias). Cây gốc cụt 1 tầng (Decision Stump) là bộ học yếu lý tưởng: huấn luyện cực nhanh, độ chệch cao, và qua từng vòng lặp sẽ được Boosting khắc phục sai số để giảm dần Bias.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong AdaBoost, mô hình cơ sở kinh điển nhất là **Decision Stump (Gốc cây / Cây 1 tầng)**:\n  - Cây có độ sâu đúng bằng 1 (`max_depth=1`).\n  - Chỉ có 1 nút kiểm tra duy nhất trên 1 đặc trưng, chia ra đúng 2 nút lá.\n* Mặc dù từng Decision Stump dự đoán rất yếu (High Bias), nhưng khi kết hợp tuần tự hàng trăm cây với cơ chế cập nhật trọng số mẫu, AdaBoost tạo ra một mô hình phân loại cực mạnh với đường ranh giới phi tuyến tinh vi.",
     "slideRef": "Slide Chương 4, Trang 63-65"
   },
   {
@@ -1008,7 +1011,7 @@ window.QUESTIONS_CHUONG_4 = [
       "α_m = ln(ε_m)"
     ],
     "answer": 0,
-    "explanation": "α_m = 0.5 * ln((1 - ε_m) / ε_m). Khi mô hình rất tốt (ε_m -> 0), α_m tiến đến +∞ (tiếng nói có trọng lượng cực lớn). Khi mô hình chỉ ngang đoán mò (ε_m = 0.5), α_m = 0.5 * ln(1) = 0 (không có tiếng nói). Khi ε_m > 0.5, α_m âm (đảo ngược dự đoán).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức tính trọng số của bộ học yếu thứ $m$ trong AdaBoost:\n$$\\alpha_m = \\frac{1}{2} \\ln\\left( \\frac{1 - \\epsilon_m}{\\epsilon_m} \\right)$$\n* $\\epsilon_m$: Tỷ lệ sai số có trọng số của mô hình thứ $m$ trên tập huấn luyện ($0 \\le \\epsilon_m \\le 1$).\n* **Ý nghĩa:**\n  - Khi mô hình dự đoán chuẩn xác (ví dụ $\\epsilon_m = 0.01$) $\\implies \\frac{1 - \\epsilon_m}{\\epsilon_m} = 99 \\implies \\alpha_m \\approx 2.3$ (được trao quyền biểu quyết rất lớn).\n  - Khi mô hình chỉ đạt độ chính xác $50\\%$ (đoán mò $\\epsilon_m = 0.5$) $\\implies \\alpha_m = \\frac{1}{2} \\ln(1) = 0$ (không có tiếng nói).",
     "slideRef": "Slide Chương 4, Trang 65-67"
   },
   {
@@ -1023,7 +1026,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chỉ tăng trọng số cho các mẫu nằm ở biên"
     ],
     "answer": 1,
-    "explanation": "Công thức cập nhật: w_i <- w_i * exp(- α_m * y_i * h_m(x_i)). Nếu đoán đúng (y_i * h_m = 1), nhân với exp(-α) < 1 (giảm trọng số). Nếu đoán sai (y_i * h_m = -1), nhân với exp(+α) > 1 (tăng vọt trọng số), khiến mô hình sau phải ưu tiên khắc phục các mẫu bị đoán sai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức cập nhật trọng số mẫu trong AdaBoost:\n$$w_i^{(m+1)} = w_i^{(m)} \\cdot \\exp\\left( - \\alpha_m y_i h_m(x_i) \\right)$$\n* Nếu mẫu được đoán **ĐÚNG** ($y_i h_m(x_i) = +1$):\n  $$w_i \\leftarrow w_i \\cdot e^{-\\alpha_m} \\implies \\text{Trọng số GIẢM đi!}$$\n* Nếu mẫu bị đoán **SAI** ($y_i h_m(x_i) = -1$):\n  $$w_i \\leftarrow w_i \\cdot e^{+\\alpha_m} \\implies \\text{Trọng số TĂNG LÊN MẠNH MẼ!}$$\n* Sau đó, toàn bộ trọng số được chuẩn hóa để có tổng bằng 1. Cây tiếp theo sẽ tập trung nguồn lực học các mẫu khó này.",
     "slideRef": "Slide Chương 4, Trang 67-69"
   },
   {
@@ -1038,7 +1041,7 @@ window.QUESTIONS_CHUONG_4 = [
       "GBDT chỉ dùng hàm mất mát Gini"
     ],
     "answer": 1,
-    "explanation": "Trong GBDT, mỗi cây mới được khớp để dự đoán phần dư r_i = - [ dL(y_i, F(x_i)) / dF(x_i) ]. Với hàm mất mát MSE, phần dư này chính là (y_i - F(x_i)). Bằng cách này, GBDT tổng quát hóa cơ chế Boosting cho mọi hàm mất mát tùy ý (Huber loss, Cross-Entropy...).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **AdaBoost:** Điều chỉnh phân bố xác suất bằng cách thay đổi trọng số của từng điểm dữ liệu.\n* **Gradient Boosting (GBDT):** Giữ nguyên trọng số mẫu, áp dụng phương pháp hạ độ dốc (Gradient Descent) trong không gian hàm:\n  - Với bất kỳ hàm mất mát khả vi nào $L(y, \\hat{y})$ (như MSE, Cross-Entropy, Huber), âm gradient:\n    $$r_{im} = - \\left[ \\frac{\\partial L(y_i, F(x_i))}{\\partial F(x_i)} \\right]_{F = F_{m-1}}$$\n    chính là **Phần dư giả định (Pseudo-residuals)**.\n  - Cây mới $h_m(x)$ được huấn luyện để **dự đoán chính xác phần dư $r_{im}$ này**, giúp mô hình tổng thể bước một bước theo hướng dốc nhất để giảm mất mát!",
     "slideRef": "Slide Chương 4, Trang 72-74"
   },
   {
@@ -1053,7 +1056,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Quy định số lượng đặc trưng tại nút lá"
     ],
     "answer": 1,
-    "explanation": "Shrinkage η in (0, 1] (thường chọn 0.01 đến 0.1) làm giảm tốc độ cập nhật của từng cây. Học chậm rãi (thêm nhiều cây nhỏ với learning rate bé) giúp mô hình khám phá không gian giải pháp mượt mà hơn và chống Overfitting hiệu quả hơn hẳn.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức cập nhật của Gradient Boosting:\n$$F_m(x) = F_{m-1}(x) + \\mathbf{\\eta} \\cdot h_m(x)$$\n* Siêu tham số $\\eta \\in (0, 1]$ được gọi là **Learning Rate** hoặc **Shrinkage factor**:\n  - Nó thu nhỏ quy mô đóng góp của mỗi cây sửa sai mới.\n  - Khi $\\eta$ nhỏ (ví dụ $0.05$ hoặc $0.1$), mô hình học từng bước nhỏ thận trọng $\\implies$ Giúp tránh hiện tượng quá khớp (Overfitting) và tăng cường khả năng tổng quát hóa trên tập Test.\n  - Đánh đổi: Cần tăng số lượng cây (`n_estimators`) để mô hình đạt độ hội tụ.",
     "slideRef": "Slide Chương 4, Trang 75-76"
   },
   {
@@ -1068,7 +1071,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Linear-wise (Chỉ phát triển theo một đường thẳng)"
     ],
     "answer": 1,
-    "explanation": "LightGBM sử dụng chiến lược Leaf-wise (chọn nút lá có delta Loss lớn nhất để chia tiếp, bất đối xứng) kết hợp thuật toán Histogram binning dữ liệu, thay vì chiến lược Level-wise mở rộng cân bằng toàn bộ tầng như GBDT truyền thống.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHai chiến lược phát triển cây kinh điển:\n* **Level-wise (Theo tầng / Độ sâu - dùng trong XGBoost truyền thống):** Chia đều tất cả các nút ở cùng một tầng trước khi chuyển sang tầng tiếp theo. Cách này cân bằng cây nhưng tốn thời gian tính toán cho những nút lá không mang lại nhiều lợi ích.\n* **Leaf-wise (Theo lá - dùng trong LightGBM):** Tại mỗi bước, thuật toán chỉ chọn **duy nhất một nút lá nào có mức giảm sai số (Loss reduction) lớn nhất** để tiếp tục phân nhánh, bất kể độ sâu của nó.\n  - *Ưu điểm:* Giảm sai số nhanh hơn nhiều, tốc độ huấn luyện siêu tốc và tiết kiệm RAM.\n  - *Lưu ý:* Khi dữ liệu nhỏ, Leaf-wise dễ bị Overfitting nên cần khống chế `max_depth` và `num_leaves`.",
     "slideRef": "Slide Chương 4, Trang 78-79"
   },
   {
@@ -1083,7 +1086,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Chạy thuật toán PCA trước khi train Random Forest"
     ],
     "answer": 1,
-    "explanation": "Stacking kết hợp các thuật toán dị thể (ví dụ: SVM + Random Forest + XGBoost). Dự đoán của các mô hình tầng 1 (Level-0) được dùng làm biến đầu vào để huấn luyện Meta-model (Level-1, thường là Logistic Regression hoặc Ridge) học cách phân bổ quyền lực tối ưu giữa các mô hình.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nKiến trúc của Stacking (Xếp chồng mô hình):\n```\n  Dữ liệu gốc ──► [ Mô hình SVM ]    ──► Dự đoán 1 ─┐\n              ──► [ Random Forest ] ──► Dự đoán 2 ─┼──► [ META-LEARNER ] ──► KẾT QUẢ CUỐI\n              ──► [ XGBoost ]       ──► Dự đoán 3 ─┘    (Hồi quy/Logistic)\n```\n* **Tầng 1 (Base-models):** Huấn luyện nhiều mô hình khác biệt nhau về bản chất thuật toán (ví dụ SVM, Random Forest, XGBoost, KNN).\n* **Tầng 2 (Meta-learner / Blender):** Dùng các giá trị dự đoán của Tầng 1 làm các đặc trưng đầu vào ($x_{\\text{meta}} = [\\hat{y}_1, \\hat{y}_2, \\hat{y}_3]$) để huấn luyện một mô hình cấp cao (thường là Logistic Regression hoặc Ridge) học cách gộp tối ưu nhất.",
     "slideRef": "Slide Chương 4, Trang 81-83"
   },
   {
@@ -1098,7 +1101,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Bỏ hoàn toàn nhãn y khỏi tập train"
     ],
     "answer": 1,
-    "explanation": "Nếu dùng chính mô hình đã train trên toàn bộ tập train để dự đoán lại tập train làm input cho meta-learner, mô hình sẽ bị rò rỉ (meta-learner học vẹt trên dự đoán đã overfit). Bắt buộc phải dùng Out-of-fold (OOF) predictions qua K-Fold để đảm bảo meta-model học từ các dự đoán khách quan.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nguy cơ Rò rỉ dữ liệu (Data Leakage) trong Stacking:**\n  - Nếu bạn dùng các Base-model đã được huấn luyện trên toàn bộ tập Train để dự đoán lại chính tập Train đó, các dự đoán này sẽ \"quá lạc quan\" (bị overfitted).\n  - Meta-learner khi học trên các dự đoán overfitted này sẽ bị sai lệch nghiêm trọng khi áp dụng vào tập Test thực tế!\n* **Giải pháp bắt buộc: Out-of-Fold (OOF) Predictions:**\n  - Chia tập Train thành $K$ phần (ví dụ $K=5$).\n  - Huấn luyện Base-model trên 4 phần, rồi dự đoán cho phần thứ 5 còn lại.\n  - Lặp lại cho cả 5 phần để thu được vector dự đoán ngoài mẫu (Out-of-Fold).\n  - Nhờ vậy, Meta-learner chỉ học trên những dự đoán khách quan chưa từng thấy của các mô hình cơ sở!",
     "slideRef": "Slide Chương 4, Trang 83-84"
   },
   {
@@ -1113,7 +1116,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Cả Bagging và Boosting đều yêu cầu các mô hình cơ sở phải là mô hình tuyến tính"
     ],
     "answer": 1,
-    "explanation": "Bagging kết hợp các mô hình sâu độc lập (High Variance) để triệt tiêu phương sai. Boosting sử dụng các mô hình nông đơn giản (High Bias) và học tuần tự sửa sai để ép giảm độ chệch.",
+    "explanation": "### 🎯 Bản chất trực quan & Bảng tổng kết sống còn:\nBảng đối chiếu cốt lõi giữa Bagging và Boosting:\n* **BAGGING (Random Forest):**\n  - Cơ chế: **Song song (Parallel)**, các cây độc lập.\n  - Cây cơ sở: Cây sâu, phức tạp (High Variance, Low Bias).\n  - Mục tiêu cốt lõi: **GIẢM VARIANCE** (chữa bệnh Overfitting).\n  - Nhiễu: Rất ổn định, ít bị ảnh hưởng bởi nhiễu.\n* **BOOSTING (AdaBoost, Gradient Boosting):**\n  - Cơ chế: **Tuần tự (Sequential)**, cây sau sửa sai cho cây trước.\n  - Cây cơ sở: Cây rất nông (Decision Stumps - High Bias, Low Variance).\n  - Mục tiêu cốt lõi: **GIẢM BIAS** (tăng độ chính xác từ mô hình yếu).\n  - Nhiễu: Rất nhạy cảm với nhiễu.",
     "slideRef": "Slide Chương 4, Trang 85-86"
   },
   {
@@ -1128,7 +1131,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Vì AdaBoost chỉ chạy được trên dữ liệu 1 chiều"
     ],
     "answer": 1,
-    "explanation": "Các mẫu ngoại lai sai nhãn là 'bất khả thi để dự đoán đúng'. Trong AdaBoost và Gradient Boosting, thuật toán hiểu lầm đây là các mẫu khó và dồn toàn bộ trọng số/gradient để khớp vào chúng, dẫn đến mô hình bị méo mó và overfit vào nhiễu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Điểm ngoại lai (Outlier) hoặc nhãn bị gán sai (Nhiễu) là những điểm dữ liệu cực kỳ dị biệt và gần như không thể học đúng bằng các quy luật tổng quát.\n* Trong **AdaBoost**: Điểm nhiễu này sẽ liên tục bị đoán sai qua từng vòng $\\implies$ Thuật toán liên tục nhân trọng số của nó lên gấp nhiều lần $\\implies$ Sau vài vòng, điểm nhiễu chiếm tới $50\\%$ tổng trọng số của cả tập dữ liệu! Cây tiếp theo bị ép phải bẻ cong toàn bộ ranh giới để khớp đúng điểm nhiễu này.\n* Trong **Gradient Boosting**: Điểm nhiễu tạo ra phần dư sai số (Residual) khổng lồ $\\implies$ Gradient tại đó cực lớn, kéo lệch hướng tối ưu của toàn bộ chuỗi mô hình.\n* 👉 Do đó, Boosting cực kỳ nhạy cảm với Outliers, trong khi Random Forest (lấy trung bình độc lập) thì rất trơ và bền bỉ trước nhiễu.",
     "slideRef": "Slide Chương 4, Trang 86"
   },
   {
@@ -1143,7 +1146,7 @@ window.QUESTIONS_CHUONG_4 = [
       "0.50"
     ],
     "answer": 1,
-    "explanation": "Gini = 1 - (0.5^2 + 0.3^2 + 0.2^2) = 1 - (0.25 + 0.09 + 0.04) = 1 - 0.38 = 0.62.",
+    "explanation": "### 🎯 Bản chất trực quan & Tính toán chi tiết:\nCông thức tính Gini Impurity tổng quát cho $C$ lớp:\n$$Gini(S) = 1 - \\sum_{k=1}^C p_k^2$$\nThay các xác suất vào:\n* $p(A) = 0.5 \\implies p(A)^2 = 0.25$\n* $p(B) = 0.3 \\implies p(B)^2 = 0.09$\n* $p(C) = 0.2 \\implies p(C)^2 = 0.04$\n\nTính tổng các bình phương:\n$$\\sum p_k^2 = 0.25 + 0.09 + 0.04 = 0.38$$\n\nTính giá trị Gini:\n$$Gini(S) = 1 - 0.38 = \\mathbf{0.62}$$\n\n⚠️ **Lưu ý thi trắc nghiệm:** Rất nhiều bạn tính ra $0.38$ rồi vội vàng khoanh luôn đáp án $0.38$. Hãy nhớ công thức Gini bắt đầu bằng **$1 -$ (Tổng bình phương)**! Do đó đáp án đúng phải là $1 - 0.38 = \\mathbf{0.62}$.",
     "slideRef": "Slide Chương 4, Trang 27-29"
   },
   {
@@ -1158,7 +1161,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Vô số ngưỡng vì là biến liên tục"
     ],
     "answer": 1,
-    "explanation": "CART lấy trung điểm giữa các cặp giá trị kề nhau làm ngưỡng cắt ứng viên: (10+20)/2 = 15; (20+30)/2 = 25; (30+40)/2 = 35. Với m giá trị phân biệt, có đúng m - 1 điểm cắt ứng viên.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong thuật toán CART:\n* Nếu một đặc trưng liên tục có $K$ giá trị phân biệt được sắp xếp tăng dần: $x_{(1)} < x_{(2)} < \\dots < x_{(K)}$, thì số lượng ngưỡng cắt phân hoạch nhị phân ứng viên luôn luôn là **$K - 1$ ngưỡng**, tương ứng với các trung điểm giữa 2 giá trị liên tiếp:\n  $$t_i = \\frac{x_{(i)} + x_{(i+1)}}{2}$$\n* Cụ thể với 4 giá trị $[10, 20, 30, 40]$:\n  - Ngưỡng 1: $t_1 = \\frac{10 + 20}{2} = 15$\n  - Ngưỡng 2: $t_2 = \\frac{20 + 30}{2} = 25$\n  - Ngưỡng 3: $t_3 = \\frac{30 + 40}{2} = 35$\n👉 Tổng cộng có đúng **3 ngưỡng cắt ứng viên**.",
     "slideRef": "Slide Chương 4, Trang 30-31"
   },
   {
@@ -1173,7 +1176,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Tất cả các cây sẽ biến thành cây 1 tầng"
     ],
     "answer": 1,
-    "explanation": "Theo Định luật số lớn (Law of Large Numbers) của Breiman, việc tăng số cây trong Random Forest không làm mô hình overfit mà chỉ giúp phương sai của phép bình quân hội tụ ổn định. Giới hạn duy nhất là thời gian huấn luyện và tài nguyên tính toán.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Đây là một tính chất cực kỳ đặc biệt của **Random Forest**:\n  - Theo Định luật số lớn (Law of Large Numbers), khi số lượng cây $B \\to \\infty$, sai số khái quát hóa của Random Forest sẽ **hội tụ về một hằng số giới hạn tiệm cận**.\n  - **Random Forest KHÔNG BỊ OVERFITTING khi tăng số lượng cây!** Thêm cây chỉ làm cho việc lấy trung bình mượt mà và ổn định hơn.\n* **Hạn chế duy nhất:** Khi tăng từ 100 lên 1000 cây, thời gian huấn luyện và dung lượng bộ nhớ tăng gấp 10 lần, trong khi độ chính xác chỉ tăng rất nhẹ hoặc đi ngang. Do đó, thường chọn $100 - 300$ cây là điểm cân bằng thực tiễn.",
     "slideRef": "Slide Chương 4, Trang 57"
   },
   {
@@ -1188,7 +1191,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Hàm mất mát bị phân kỳ vô hạn"
     ],
     "answer": 1,
-    "explanation": "Khác với Random Forest, việc tăng số cây trong Boosting liên tục ép giảm hàm mất mát trên tập train. Nếu không có Early Stopping hoặc Regularization, Boosting sẽ bắt đầu khớp vào các phần dư nhiễu ngẫu nhiên, dẫn đến Overfitting nghiêm trọng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrái ngược hoàn toàn với Random Forest:\n* **Gradient Boosting CỰC KỲ DỄ BỊ OVERFITTING KHI TĂNG QUÁ NHIỀU CÂY (`n_estimators`)!**\n* **Lý do:**\n  - Ở những vòng đầu, các cây học những quy luật lớn của dữ liệu.\n  - Càng về các vòng sau, phần dư còn lại chủ yếu là **nhiễu ngẫu nhiên (Random noise)**.\n  - Nếu cứ tiếp tục thêm cây mà không kiểm soát, các cây sau sẽ khớp hoàn hảo vào từng điểm nhiễu $\\implies$ Sai số trên tập Test bắt đầu tăng vọt trở lại!\n* 👉 **Giải pháp sống còn:** Luôn phải sử dụng cơ chế **Dừng sớm (Early Stopping)**: Nếu sau một số vòng liên tiếp (ví dụ 10-20 vòng) mà sai số trên tập Validation không giảm nữa thì lập tức dừng huấn luyện.",
     "slideRef": "Slide Chương 4, Trang 76-77"
   },
   {
@@ -1203,7 +1206,7 @@ window.QUESTIONS_CHUONG_4 = [
       "Mọi tham số của cây đều bằng 0"
     ],
     "answer": 1,
-    "explanation": "Cây quyết định có tính diễn giải (Interpretability) tuyệt vời nhất trong ML. Mỗi đường đi từ nút gốc đến nút lá là một chuỗi logic IF (điều kiện) THEN (kết luận) tường minh, hoàn toàn không phải hộp đen như mạng nơ-ron sâu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong lĩnh vực Trí tuệ nhân tạo có thể giải thích (Explainable AI - XAI):\n* **Mô hình Hộp đen (Black-box Models):** Như Mạng nơ-ron sâu (Deep Neural Networks), Random Forest, Gradient Boosting. Dù dự đoán rất chính xác nhưng con người không thể hiểu nổi tại sao mô hình lại đưa ra quyết định đó (hàng triệu phép tính ma trận phức tạp).\n* **Mô hình Hộp trắng (White-box Models):** Điển hình là **Cây quyết định (Decision Tree)**:\n  - Cấu trúc cây hoàn toàn minh bạch.\n  - Mọi đường đi từ gốc đến lá đều có thể viết lại thành câu văn logic đời thường: `NẾU Tuổi > 30 VÀ Thu nhập > 20 triệu THÌ Duyệt vay vốn`.\n  - Giúp chuyên gia, bác sĩ, thanh tra ngân hàng dễ dàng kiểm chứng và tin tưởng phán quyết của mô hình.",
     "slideRef": "Slide Chương 4, Trang 41-42"
   }
 ];
