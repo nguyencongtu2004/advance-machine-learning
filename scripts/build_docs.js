@@ -45,14 +45,14 @@ files.forEach((filename) => {
   if (filename.includes('00_')) {
     category = 'Kế hoạch';
     badge = 'Lộ trình';
-  } else if (filename.includes('07_')) {
+  } else if (filename.includes('So_Tay')) {
     category = 'Sổ tay';
     badge = 'Tổng hợp';
   } else {
     const match = filename.match(/Chuong_(\d+)/i);
     if (match) {
       category = `Chương ${match[1]}`;
-      if (['3', '4', '6'].includes(match[1])) {
+      if (['3', '4', '6', '7'].includes(match[1])) {
         badge = 'Trọng tâm';
       }
     }
