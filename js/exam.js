@@ -11,16 +11,44 @@
     state.examTimeRemaining = durationMinutes * 60;
     state.examMode = modeSelect ? modeSelect.value : 'submit';
 
-    // RÚT NGẪU NHIÊN 100 CÂU THEO TỶ LỆ CHUẨN 6 CHƯƠNG
-    const distribution = { 1: 10, 2: 12, 3: 25, 4: 22, 5: 13, 6: 18 };
+    // RÚT NGẪU NHIÊN 100 CÂU THEO TỶ LỆ CHUẨN 15 CHƯƠNG (80 CÂU CHÍNH + 20 CÂU SEMINAR)
+    const distribution = {
+      1: 6,   // Ch1: Tổng quan (6 câu)
+      2: 8,   // Ch2: Tiền xử lý & PCA (8 câu)
+      3: 18,  // Ch3: Tuyến tính & Đánh giá (18 câu - TRỌNG TÂM)
+      4: 16,  // Ch4: Cây quyết định & Ensemble (16 câu - TRỌNG TÂM)
+      5: 10,  // Ch5: Phân cụm (10 câu)
+      6: 11,  // Ch6: MLP & Backpropagation (11 câu - TRỌNG TÂM)
+      7: 11,  // Ch7: CNN Mạng tích chập (11 câu - TRỌNG TÂM)
+      8: 3,   // Ch8 Seminar: SVM (3 câu)
+      9: 2,   // Ch9 Seminar: KNN (2 câu)
+      10: 3,  // Ch10 Seminar: Transformer & Attention (3 câu)
+      11: 3,  // Ch11 Seminar: RNN, LSTM & Mamba SSM (3 câu)
+      12: 2,  // Ch12 Seminar: ECOC & Multi-label/output (2 câu)
+      13: 2,  // Ch13 Seminar: Cây quyết định nâng cao (2 câu)
+      14: 2,  // Ch14 Seminar: Tuyến tính & SVD/QR (2 câu)
+      15: 3   // Ch15 Seminar: Ensemble & Stacking (3 câu)
+    };
     let examPool = [];
 
-    for (let chId = 1; chId <= 6; chId++) {
-      const quota = distribution[chId];
+    for (let chId = 1; chId <= 15; chId++) {
+      const quota = distribution[chId] || 0;
+      if (quota <= 0) continue;
       const chQuestions = state.allQuestions.filter(q => q.chapter === chId);
       const shuffled = [...chQuestions].sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, quota);
       examPool = examPool.concat(selected);
+    }
+
+    // Đảm bảo đúng 100 câu nếu có bất kỳ sai lệch nào
+    if (examPool.length < 100) {
+      const usedIds = new Set(examPool.map(q => q.id));
+      const remainingQuestions = state.allQuestions.filter(q => !usedIds.has(q.id));
+      const shuffledRemaining = remainingQuestions.sort(() => 0.5 - Math.random());
+      const extraNeeded = 100 - examPool.length;
+      examPool = examPool.concat(shuffledRemaining.slice(0, extraNeeded));
+    } else if (examPool.length > 100) {
+      examPool = examPool.slice(0, 100);
     }
 
     state.examQuestions = examPool.sort(() => 0.5 - Math.random());
@@ -284,13 +312,13 @@
 
     if (score >= 8.5) {
       if (ratingTitleEl) ratingTitleEl.textContent = 'Xuất Sắc! Điểm Tuyệt Đối Trong Tầm Tay';
-      if (ratingDescEl) ratingDescEl.textContent = `Bạn đã trả lời đúng ${correctCount}/100 câu! Kiến thức 6 chương của bạn rất vững vàng.`;
+      if (ratingDescEl) ratingDescEl.textContent = `Bạn đã trả lời đúng ${correctCount}/100 câu! Kiến thức toàn diện 15 chương (gồm 7 chương chính & 8 chuyên đề Seminar) của bạn rất vững vàng.`;
     } else if (score >= 7.0) {
       if (ratingTitleEl) ratingTitleEl.textContent = 'Rất Tốt! Đạt Mục Tiêu Điểm Giỏi';
       if (ratingDescEl) ratingDescEl.textContent = `Bạn đã trả lời đúng ${correctCount}/100 câu. Hãy củng cố thêm các câu sai trong Sổ tay câu sai nhé!`;
     } else if (score >= 5.0) {
       if (ratingTitleEl) ratingTitleEl.textContent = 'Đạt Yêu Cầu! Cần Rà Soát Kỹ Các Chương Trọng Tâm';
-      if (ratingDescEl) ratingDescEl.textContent = `Bạn đúng ${correctCount}/100 câu. Đặc biệt chú ý ôn sâu Chương 3, 4, 6 để kéo điểm bứt phá.`;
+      if (ratingDescEl) ratingDescEl.textContent = `Bạn đúng ${correctCount}/100 câu. Đặc biệt chú ý ôn sâu các chương trọng tâm (Chương 3, 4, 6, 7) để bứt phá điểm số.`;
     } else {
       if (ratingTitleEl) ratingTitleEl.textContent = 'Cần Nỗ Lực Ôn Lại Khẩn Trương';
       if (ratingDescEl) ratingDescEl.textContent = `Đạt ${correctCount}/100 câu. Hãy đọc lại các file Note tóm tắt và luyện riêng từng chương.`;

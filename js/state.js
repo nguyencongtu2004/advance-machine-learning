@@ -3,7 +3,7 @@
    Chứa thông tin chương, trạng thái toàn cục (state), localStorage & Dark/Light Theme
 ============================================================================== */
 
-  // --- THÔNG TIN 6 CHƯƠNG ---
+  // --- THÔNG TIN 15 CHƯƠNG (7 CHƯƠNG CHÍNH + 8 CHUYÊN ĐỀ SEMINAR) ---
   const CHAPTERS_INFO = [
     {
       id: 1,
@@ -11,7 +11,7 @@
       title: "Tổng quan về Học máy",
       desc: "Định nghĩa Arthur Samuel & Tom Mitchell (T-E-P), Phân loại Học có giám sát, Không giám sát, Bán giám sát, Tăng cường; Phân chia Train/Validation/Test, K-Fold CV.",
       total: 50,
-      weight: "10 câu trong đề thi"
+      weight: "6 câu trong đề thi"
     },
     {
       id: 2,
@@ -19,7 +19,7 @@
       title: "Tiền xử lý & PCA",
       desc: "Xử lý dữ liệu khuyết (Imputation, Indicator), Ngoại lai (IQR, Z-score 3-sigma), Chuẩn hóa Min-Max Scaling vs Standard Scaler, Giảm chiều dữ liệu PCA 7 bước & EVR.",
       total: 50,
-      weight: "12 câu trong đề thi"
+      weight: "8 câu trong đề thi"
     },
     {
       id: 3,
@@ -27,7 +27,7 @@
       title: "Tuyến tính & Đánh giá",
       desc: "Hồi quy OLS nghiệm đóng, Hiện tượng đa cộng tuyến & giả nghịch đảo, Chính quy hóa L2 Ridge & L1 Lasso & Elastic Net, Logistic Regression, Confusion Matrix, Precision, Recall, F1, ROC-AUC.",
       total: 90,
-      weight: "TRỌNG TÂM (25 câu trong đề)"
+      weight: "TRỌNG TÂM (18 câu trong đề)"
     },
     {
       id: 4,
@@ -35,7 +35,7 @@
       title: "Cây quyết định & Ensemble",
       desc: "Entropy, Information Gain (ID3), Gain Ratio (C4.5), Gini Index (CART), Cắt tỉa Pre/Post-pruning, Bagging, Random Forest OOB & m=sqrt(d), AdaBoost cập nhật trọng số, Gradient Boosting (GBDT) dự đoán phần dư.",
       total: 80,
-      weight: "TRỌNG TÂM (22 câu trong đề)"
+      weight: "TRỌNG TÂM (16 câu trong đề)"
     },
     {
       id: 5,
@@ -43,7 +43,7 @@
       title: "Bài toán Phân cụm",
       desc: "K-Means cực tiểu WCSS, Khởi tạo K-Means++ theo khoảng cách D(x)^2, Phương pháp Elbow, Hệ số Silhouette s(i) [-1, 1], Mô hình hỗn hợp Gauss (GMM) & thuật toán EM, DBSCAN (Eps, MinPts, Core, Border, Noise).",
       total: 50,
-      weight: "13 câu trong đề thi"
+      weight: "10 câu trong đề thi"
     },
     {
       id: 6,
@@ -51,7 +51,7 @@
       title: "MLP & Backpropagation",
       desc: "Perceptron giới hạn XOR, Hàm kích hoạt Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax; Vấn đề Triệt tiêu đạo hàm, Quy tắc chuỗi Lan truyền ngược, Gradient Descent (BGD, SGD, Mini-batch), Momentum, Adam, Đếm tham số mạng.",
       total: 80,
-      weight: "TRỌNG TÂM (18 câu trong đề)"
+      weight: "TRỌNG TÂM (11 câu trong đề)"
     },
     {
       id: 7,
@@ -59,7 +59,7 @@
       title: "Mạng tích chập (CNN)",
       desc: "Convolution 2D, Feature Maps, Stride & Padding (Valid vs Same), Pooling (Max vs Average), Flatten & Fully Connected, Công thức kích thước đầu ra [(W - F + 2P)/S] + 1, Đếm tham số bộ lọc CNN, Trực quan hóa đặc trưng.",
       total: 40,
-      weight: "Trọng tâm bài giảng (40 câu)"
+      weight: "TRỌNG TÂM (11 câu trong đề)"
     },
     {
       id: 8,
@@ -67,7 +67,7 @@
       title: "Seminar: Support Vector Machine (SVM)",
       desc: "Định đề Siêu phẳng lề cực đại (Max Margin Hyperplane), Vector hỗ trợ (Support Vectors), Hàm mất mát Hinge Loss, Siêu tham số C (Hard vs Soft Margin), Kernel Trick (Linear, Polynomial, RBF/Gaussian, Sigmoid), Điều kiện KKT.",
       total: 25,
-      weight: "Seminar Nhóm 25 (25 câu)"
+      weight: "Seminar (3 câu trong đề)"
     },
     {
       id: 9,
@@ -75,7 +75,7 @@
       title: "Seminar: K-Nearest Neighbors (KNN)",
       desc: "Thuật toán học lười (Lazy Learner / Instance-based), Khoảng cách Minkowski, Euclidean, Manhattan, Cosine; Lựa chọn k & Hiện tượng Lời nguyền số chiều (Curse of Dimensionality), Cấu trúc cây KD-Tree & Ball Tree.",
       total: 20,
-      weight: "Seminar Nhóm 09 (20 câu)"
+      weight: "Seminar (2 câu trong đề)"
     },
     {
       id: 10,
@@ -83,7 +83,7 @@
       title: "Seminar: Transformer & Attention",
       desc: "Cơ chế Self-Attention ma trận Q, K, V; Scaled Dot-Product Attention (chia căn d_k), Multi-Head Attention song song hóa, Mã hóa vị trí Positional Encoding (Sin-Cos), LayerNorm, Residual Connections, Khắc phục nghẽn cổ chai RNN.",
       total: 25,
-      weight: "Seminar Nhóm 11 (25 câu)"
+      weight: "Seminar (3 câu trong đề)"
     },
     {
       id: 11,
@@ -91,7 +91,7 @@
       title: "Seminar: RNN, LSTM & Mamba SSM",
       desc: "Mạng hồi quy RNN & Lan truyền ngược qua thời gian BPTT, Triệt tiêu/Bùng nổ Gradient; Cổng tế bào LSTM (Forget, Input, Output gate, Cell State); Cổng GRU (Reset, Update); Kiến trúc Mamba SSM (Selective State Space Model, O(N) thời gian tuyến tính).",
       total: 30,
-      weight: "Seminar Nhóm 17 (30 câu)"
+      weight: "Seminar (3 câu trong đề)"
     },
     {
       id: 12,
@@ -99,7 +99,7 @@
       title: "Seminar: ECOC & Multi-label/output",
       desc: "Mã sửa lỗi đầu ra ECOC (Error-Correcting Output Codes), Khoảng cách Hamming, Ma trận nhị phân (One-vs-All, All-Pairs) & ma trận tam phân; Phân loại Đa nhãn (Multi-label) vs Đa đầu ra (Multi-output), Binary Relevance, Classifier Chains.",
       total: 20,
-      weight: "Seminar Nhóm 06 (20 câu)"
+      weight: "Seminar (2 câu trong đề)"
     },
     {
       id: 13,
@@ -107,7 +107,7 @@
       title: "Seminar: Nâng cao Cây quyết định Scikit-Learn",
       desc: "Bản chất xấp xỉ hằng số từng đoạn, Scikit-learn Criterion (squared_error, friedman_mse), Splitter best vs random, Minimal Cost-Complexity Pruning (ccp_alpha, path), Đặc trưng quan trọng (MDI Gini Importance), Giới hạn ngoại suy & độ nhạy phép quay.",
       total: 15,
-      weight: "Seminar Nhóm 02 (15 câu)"
+      weight: "Seminar (2 câu trong đề)"
     },
     {
       id: 14,
@@ -115,7 +115,7 @@
       title: "Seminar: Nâng cao Tuyến tính & Phân rã SVD/QR",
       desc: "Phương trình pháp tuyến OLS, Hiện tượng đa cộng tuyến & Số điều kiện ma trận ill-conditioned, Phân rã QR & SVD tính giả nghịch đảo Moore-Penrose, Đảm bảo khả nghịch nghiêm ngặt của Ridge (X^T X + alpha I), Lasso Coordinate Descent & LARS, MultiTaskLasso.",
       total: 15,
-      weight: "Seminar Nhóm 08 (15 câu)"
+      weight: "Seminar (2 câu trong đề)"
     },
     {
       id: 15,
@@ -123,7 +123,7 @@
       title: "Seminar: Nâng cao Ensemble & Stacking",
       desc: "Định lý Bồi thẩm đoàn Condorcet (xác suất tiệm cận 1), Bagging vs Pasting, Mẫu Out-of-Bag (36.8% và OOB Score), Extremely Randomized Trees (Extra-Trees), AdaBoost cập nhật trọng số exp, Gradient Boosting khớp phần dư âm, Stacking Level-0/1 K-Fold out-of-fold.",
       total: 15,
-      weight: "Seminar Nhóm 12 (15 câu)"
+      weight: "Seminar (3 câu trong đề)"
     }
   ];
 
