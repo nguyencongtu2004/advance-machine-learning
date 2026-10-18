@@ -4065,131 +4065,131 @@ window.QUESTION_BANK = [
       "Học có giám sát (Supervised Learning)",
       "Học không giám sát (Unsupervised Learning)",
       "Học tăng cường (Reinforcement Learning)",
-      "Học bán giám sát"
+      "Học bán giám sát (Semi-supervised Learning)"
     ],
     "answer": 1,
-    "explanation": "Phân cụm là phương pháp học không giám sát điển hình, phân nhóm dữ liệu chỉ dựa trên đặc trưng mà không hề có nhãn mục tiêu.",
-    "slideRef": "Slide Chương 5, Trang 4"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhân cụm (Clustering) là bài toán tiêu biểu nhất của **Học không giám sát (Unsupervised Learning)**:\n* **Đầu vào:** Chỉ có các vector đặc trưng $X = [x_1, x_2, \\dots, x_n]$, **hoàn toàn không có nhãn đầu ra $y$ (Ground truth)**.\n* **Mục tiêu:** Tự động khám phá cấu trúc tiềm ẩn, phát hiện các nhóm tự nhiên trong dữ liệu sao cho các điểm trong cùng một cụm tương đồng nhau nhất, và các cụm khác nhau tách biệt nhau nhất.\n* Ngược lại, **Học có giám sát (Supervised Learning)** bắt buộc phải có cặp dữ liệu $(X, y)$ để học hàm ánh xạ $f(X) \\to y$.\n\n> 💡 **Quy tắc trắc nghiệm:** Cứ thấy bài toán gom nhóm không có nhãn đầu ra thì 100% là Unsupervised Learning.",
+    "slideRef": "Slide Chương 5, Trang 4, 7"
   },
   {
     "id": 147,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Đầu vào của thuật toán K-Means gồm những gì?",
+    "question": "Đầu vào của thuật toán $K$-Means gồm những thành phần nào?",
     "options": [
-      "Tập dữ liệu và nhãn lớp thực tế",
-      "Tập n điểm dữ liệu và số lượng cụm K được ấn định trước",
-      "Chỉ cần tập dữ liệu, không cần biết số cụm",
-      "Bán kính Eps và số điểm tối thiểu MinPts"
+      "Tập dữ liệu đặc trưng và nhãn lớp thực tế của từng mẫu",
+      "Tập $n$ điểm dữ liệu và số lượng cụm $K$ bắt buộc phải được ấn định trước",
+      "Chỉ cần tập dữ liệu, không cần biết trước số lượng cụm",
+      "Bán kính lân cận $Eps$ và số điểm tối thiểu $MinPts$"
     ],
     "answer": 1,
-    "explanation": "K-Means bắt buộc người dùng phải cung cấp dữ liệu số và số lượng cụm K cần phân chia ngay từ đầu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nThuật toán $K$-Means đòi hỏi hai yếu tố đầu vào tiên quyết:\n1. **Tập dữ liệu:** $n$ điểm dữ liệu số trong không gian $d$ chiều: $\\mathcal{D} = \\{x_1, x_2, \\dots, x_n\\} \\subset \\mathbb{R}^d$.\n2. **Số lượng cụm $K$:** **Bắt buộc người dùng phải chỉ định trước** (ví dụ $K = 3, 5, \\dots$).\n\n### ⚠️ Bẫy thi kinh điển:\n* $K$-Means **KHÔNG THỂ tự động đoán ra số cụm $K$**. Muốn chọn $K$ tối ưu, kỹ sư phải dùng các phương pháp bổ trợ như **Elbow Method (Khuỷu tay)** hoặc **Silhouette Analysis**.",
     "slideRef": "Slide Chương 5, Trang 10"
   },
   {
     "id": 148,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hàm mục tiêu WCSS (Within-Cluster Sum of Squares) mà K-Means cần tối thiểu hóa là gì?",
+    "question": "Hàm mục tiêu $WCSS$ (Within-Cluster Sum of Squares hay $SSE$) mà $K$-Means cần tối thiểu hóa có công thức là gì?",
     "options": [
-      "Tổng khoảng cách giữa các tâm cụm",
-      "Tổng bình phương khoảng cách từ mỗi điểm dữ liệu đến tâm cụm tương ứng của nó: Σ Σ ||x - μ_k||^2",
-      "Số lượng điểm nhiễu trong dữ liệu",
-      "Hệ số Silhouette trung bình"
+      "Tổng khoảng cách Manhattan giữa các tâm cụm",
+      "Tổng bình phương khoảng cách Euclidean từ mỗi điểm dữ liệu đến tâm cụm tương ứng: $J = \\sum_{k=1}^K \\sum_{x \\in C_k} \\|x - \\mu_k\\|^2$",
+      "Số lượng điểm nhiễu ngoại lai bị loại bỏ",
+      "Hệ số Silhouette trung bình của toàn bộ tập dữ liệu"
     ],
     "answer": 1,
-    "explanation": "K-Means tối thiểu hóa tổng bình phương khoảng cách từ các điểm tới tâm cụm của chúng: J = Σ_k Σ_{x ∈ C_k} ||x - μ_k||^2.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHàm mục tiêu cốt lõi của $K$-Means là cực tiểu hóa **Tổng bình phương sai số nội cụm** ($WCSS$ - Within-Cluster Sum of Squares hay $SSE$):\n$$J = \\sum_{k=1}^K \\sum_{x \\in C_k} \\|x - \\mu_k\\|^2$$\n* $C_k$: Tập hợp các điểm thuộc cụm thứ $k$.\n* $\\mu_k$: Vector tọa độ tâm (Centroid) của cụm thứ $k$.\n* $\\|x - \\mu_k\\|^2$: Bình phương khoảng cách Euclidean từ điểm $x$ đến tâm $\\mu_k$.\n\n> 💡 **Ý nghĩa:** $WCSS$ càng nhỏ chứng tỏ các điểm dữ liệu co cụm càng chặt chẽ quanh tâm của mình (High Compactness).",
     "slideRef": "Slide Chương 5, Trang 12"
   },
   {
     "id": 149,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hai bước luân phiên trong chu trình lặp của thuật toán K-Means (Lloyd's Algorithm) là gì?",
+    "question": "Hai bước luân phiên trong chu trình lặp của thuật toán $K$-Means (Thuật toán Lloyd) là gì?",
     "options": [
-      "Bước khởi tạo và Bước chuẩn hóa",
-      "Bước gán cụm (Assignment) và Bước cập nhật tâm cụm (Update)",
-      "Bước chọn đặc trưng và Bước giảm chiều",
-      "Bước tính đạo hàm và Bước cập nhật learning rate"
+      "Bước khởi tạo trọng số và Bước chuẩn hóa dữ liệu",
+      "Bước gán cụm (Assignment Step) và Bước cập nhật tọa độ tâm cụm (Update Step)",
+      "Bước mã hóa One-hot và Bước giảm chiều PCA",
+      "Bước tính ma trận hiệp phương sai và Bước tính giá trị riêng"
     ],
     "answer": 1,
-    "explanation": "K-Means luân phiên giữa: 1. Gán mỗi điểm vào tâm gần nó nhất; 2. Tính lại tâm cụm bằng trung bình cộng tọa độ các điểm vừa gán.",
-    "slideRef": "Slide Chương 5, Trang 13-15"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nThuật toán Lloyd giải bài toán $K$-Means bằng phương pháp tối ưu luân phiên 2 bước (Coordinate Descent):\n1. **Bước 1 - Gán cụm (Assignment Step):** Giữ cố định vị trí các tâm $\\mu_k$, tính khoảng cách từ mỗi điểm $x_i$ đến tất cả $K$ tâm, gán $x_i$ vào cụm có tâm gần nó nhất:\n   $$c_i = \\arg\\min_{k} \\|x_i - \\mu_k\\|^2$$\n2. **Bước 2 - Cập nhật tâm (Update Step):** Giữ cố định việc gán nhãn, tính lại tọa độ tâm $\\mu_k$ bằng **trung bình cộng tọa độ** của các điểm trong cụm đó:\n   $$\\mu_k = \\frac{1}{|C_k|} \\sum_{x \\in C_k} x$$\n\nChu trình này lặp lại liên tục cho đến khi nhãn cụm không đổi hoặc các tâm ngừng dịch chuyển.",
+    "slideRef": "Slide Chương 5, Trang 13-16"
   },
   {
     "id": 150,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Tại sao việc chuẩn hóa thang đo dữ liệu (Scaling) là BẮT BUỘC trước khi áp dụng K-Means?",
+    "question": "Trong bước cập nhật tâm (Update step) của $K$-Means, tọa độ tâm mới của mỗi cụm được tính bằng công thức nào?",
     "options": [
-      "Vì K-Means chỉ nhận dữ liệu trong khoảng [0, 1]",
-      "Vì K-Means sử dụng khoảng cách Euclidean; đặc trưng có thang đo lớn sẽ chi phối hoàn toàn khoảng cách và làm sai lệch việc gán cụm",
-      "Vì K-Means không thể chạy trên biến số thực",
-      "Vì chuẩn hóa giúp giảm số lượng cụm K"
+      "Trung vị (Median) của các điểm trong cụm",
+      "Trung bình cộng (Mean / Centroid) tọa độ của tất cả các điểm thuộc về cụm đó",
+      "Điểm có khoảng cách xa nhất trong cụm",
+      "Trọng tâm của toàn bộ tập dữ liệu ban đầu"
     ],
     "answer": 1,
-    "explanation": "Khoảng cách Euclidean rất nhạy cảm với độ lớn thang đo; biến có giá trị hàng triệu sẽ lấn át hoàn toàn biến có giá trị hàng chục.",
-    "slideRef": "Slide Chương 5, Trang 11"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTên gọi \"$K$-Means\" bắt nguồn chính từ phép toán này:\n* Tâm cụm $\\mu_k$ được tính bằng **trung bình cộng (Mean)** của tất cả các vector điểm $x$ nằm trong cụm $C_k$:\n  $$\\mu_k = \\frac{1}{|C_k|} \\sum_{x \\in C_k} x$$\n* *Chứng minh toán học:* Trong không gian Euclidean, trung bình cộng chính là điểm duy nhất làm đạo hàm của hàm tổng bình phương khoảng cách $\\sum \\|x - \\mu\\|^2$ bằng 0 $\\implies$ làm cho sai số nội cụm đạt cực tiểu tuyệt đối!\n\n### ⚠️ Mở rộng kiến thức:\nNếu ta thay phép tính trung bình cộng (Mean) bằng phép lấy trung vị (Median), ta thu được thuật toán **$K$-Medians** (bền vững hơn với Outliers).",
+    "slideRef": "Slide Chương 5, Trang 14, 19"
   },
   {
     "id": 151,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Trong không gian 2 chiều, ranh giới phân chia giữa các cụm tạo bởi thuật toán K-Means có dạng gì?",
+    "question": "Ranh giới quyết định phân chia giữa các cụm trong không gian của thuật toán $K$-Means tạo thành cấu trúc hình học nào?",
     "options": [
-      "Các đường cong elip",
-      "Các đường phân hoạch Voronoi (đường trung trực thẳng giữa các cặp tâm cụm)",
-      "Các đường tròn bao quanh từng điểm",
-      "Hình đa giác bất kỳ tự do"
+      "Các đường cong uốn lượn phi tuyến bậc 2",
+      "Phân hoạch Voronoi (Voronoi Tessellation) với các đường trung trực / siêu phẳng tuyến tính",
+      "Các đường tròn đồng tâm bao quanh gốc tọa độ",
+      "Các đa giác lõm bất kỳ tự do"
     ],
     "answer": 1,
-    "explanation": "Mỗi điểm được gán về tâm gần nhất tạo ra các vùng Voronoi với ranh giới phân chia là các đoạn thẳng/siêu phẳng trung trực tuyến tính.",
-    "slideRef": "Slide Chương 5, Trang 18, 22"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong $K$-Means, điểm $x$ được gán vào tâm $\\mu_k$ gần nó nhất.\n* Ranh giới giữa 2 cụm bất kỳ chính là tập hợp các điểm cách đều 2 tâm cụm: $\\|x - \\mu_1\\| = \\|x - \\mu_2\\|$.\n* Đây chính là phương trình của **đường trung trực (trong 2D)** hoặc **siêu phẳng trung trực tuyến tính (trong không gian nhiều chiều)**.\n* Tập hợp các siêu phẳng này chia không gian thành các đa giác lồi gọi là **Tế bào Voronoi (Voronoi Diagram / Voronoi Cells)**.\n\n> 💡 **Hệ quả thi cử:** Ranh giới $K$-Means luôn là các mặt phẳng thẳng, do đó $K$-Means chỉ phân tách được các cụm dạng lồi (hình cầu/elip tròn).",
+    "slideRef": "Slide Chương 5, Trang 22"
   },
   {
     "id": 152,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Trường hợp dữ liệu nào sau đây khiến thuật toán K-Means thất bại trong việc phân cụm đúng?",
+    "question": "Trường hợp cấu trúc dữ liệu nào sau đây khiến thuật toán $K$-Means THẤT BẠI hoàn toàn trong việc phân cụm chính xác?",
     "options": [
       "Các cụm có dạng hình cầu lồi tách biệt rõ ràng",
-      "Các cụm có hình dạng cong phức tạp (như 2 dải hình trăng khuyết lồng nhau, hoặc vòng tròn đồng tâm)",
-      "Các cụm có kích thước và mật độ tương đồng",
-      "Dữ liệu 2 chiều đã chuẩn hóa"
+      "Các cụm có hình dạng uốn lượn phi tuyến phức tạp (như 2 dải hình trăng khuyết lồng nhau, hoặc vòng tròn đồng tâm)",
+      "Các cụm có kích thước và mật độ tương đồng nhau",
+      "Dữ liệu 2 chiều đã được chuẩn hóa Standard Scaler"
     ],
     "answer": 1,
-    "explanation": "K-Means tạo ranh giới phẳng Voronoi nên chỉ gom được các cụm hình cầu/lồi (convex), bất lực với các cụm hình cong phi lồi.",
-    "slideRef": "Slide Chương 5, Trang 24"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBốn giới hạn chí tử của $K$-Means:\n1. **Chỉ hoạt động tốt với cụm hình cầu / lồi (Convex):** Vì ranh giới Voronoi là các siêu phẳng thẳng, $K$-Means **bất lực trước các cụm phi tuyến** (hình trăng khuyết lồng nhau, hình vòng tròn đồng tâm, hình xoắn ốc). $K$-Means sẽ cắt ngang dải trăng khuyết làm đôi thay vì gom trọn vẹn cả dải!\n2. **Nhạy cảm với ngoại lai (Outliers):** Bình phương khoảng cách khiến các điểm ở xa kéo lệch tâm cụm.\n3. **Giả định kích thước và mật độ cụm tương đương:** Nếu một cụm dày đặc và một cụm thưa thớt, $K$-Means sẽ chia sai ranh giới.\n4. **Nhạy cảm với khởi tạo tâm ban đầu.**",
+    "slideRef": "Slide Chương 5, Trang 23-24"
   },
   {
     "id": 153,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Mục đích chính của thuật toán K-Means++ so với K-Means truyền thống là gì?",
+    "question": "Mục đích chính của thuật toán $K$-Means++ so với $K$-Means truyền thống là gì?",
     "options": [
       "Thay đổi hàm khoảng cách từ Euclidean sang Manhattan",
-      "Cải thiện khâu khởi tạo tâm ban đầu, giúp các tâm phân tán đều khắp dữ liệu và giảm nguy cơ kẹt ở cực tiểu địa phương xấu",
-      "Tự động tìm ra số cụm K tối ưu",
-      "Loại bỏ hoàn toàn các điểm ngoại lai"
+      "Cải thiện khâu khởi tạo tâm ban đầu thông minh, giúp các tâm phân tán cách xa nhau và giảm thiểu nguy cơ kẹt ở cực tiểu địa phương xấu",
+      "Tự động tìm ra số lượng cụm $K$ tối ưu",
+      "Loại bỏ hoàn toàn các điểm ngoại lai khỏi tập dữ liệu"
     ],
     "answer": 1,
-    "explanation": "K-Means++ khởi tạo các tâm ban đầu cách xa nhau dựa trên xác suất tỷ lệ với bình phương khoảng cách, giúp hội tụ nhanh và nghiệm ổn định.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* $K$-Means truyền thống khởi tạo $K$ tâm hoàn toàn ngẫu nhiên đồng đều. Nếu vô tình chọn các tâm rơi vào cùng một cụm tự nhiên, thuật toán sẽ bị kẹt ở **cực tiểu địa phương xấu (Bad Local Minima)**.\n* **$K$-Means++ (Arthur & Vassilvitskii, 2007)** sinh ra để giải quyết triệt để khâu khởi tạo:\n  - Triết lý: *\"Các tâm ban đầu nên nằm càng cách xa nhau càng tốt\"*.\n  - Giúp thuật toán hội tụ nhanh hơn gấp nhiều lần và giảm đáng kể sai số $WCSS$ cuối cùng.\n\n> 💡 **Lưu ý:** $K$-Means++ chỉ cải tiến bước KHỞI TẠO TÂM ban đầu, sau đó vẫn chạy thuật toán Lloyd 2 bước như bình thường.",
     "slideRef": "Slide Chương 5, Trang 25, 29"
   },
   {
     "id": 154,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Trong thuật toán K-Means++, xác suất một điểm x được chọn làm tâm tiếp theo tỷ lệ thuận với đại lượng nào?",
+    "question": "Trong thuật toán $K$-Means++, xác suất một điểm $x$ được chọn làm tâm tiếp theo tỷ lệ thuận với đại lượng nào?",
     "options": [
       "Nghịch đảo khoảng cách đến tâm gần nhất",
-      "Bình phương khoảng cách D(x)^2 từ điểm đó đến tâm gần nhất đã chọn",
-      "Khoảng cách đến gốc tọa độ",
-      "Số lượng láng giềng xung quanh x"
+      "Bình phương khoảng cách $D(x)^2$ từ điểm đó đến tâm gần nhất đã chọn",
+      "Khoảng cách từ điểm đó đến gốc tọa độ $(0, 0)$",
+      "Số lượng điểm láng giềng xung quanh điểm $x$"
     ],
     "answer": 1,
-    "explanation": "P(x) = D(x)^2 / Σ D(x')^2. Điểm nào càng nằm xa các tâm đã chọn thì xác suất được chọn làm tâm mới càng cao.",
-    "slideRef": "Slide Chương 5, Trang 27-28"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức chọn tâm của $K$-Means++:\n$$P(x) = \\frac{D(x)^2}{\\sum_{x' \\in \\mathcal{X}} D(x')^2}$$\n* $D(x) = \\min_{j} \\|x - \\mu_j\\|$: Khoảng cách ngắn nhất từ điểm $x$ đến tâm cụm gần nó nhất trong số các tâm đã chọn trước đó.\n* **Ý nghĩa:** Điểm nào nằm càng xa các tâm đã chọn ($D(x)$ lớn) thì $D(x)^2$ càng lớn $\\implies$ Xác suất được chọn làm tâm mới càng cao!\n* Cơ chế xác suất có trọng số này ngăn chặn triệt để việc các tâm bị chọn chụm vào cùng một vị trí dày đặc.",
+    "slideRef": "Slide Chương 5, Trang 26-28"
   },
   {
     "id": 155,
@@ -4197,125 +4197,125 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
     "question": "Phương pháp Elbow (Khuỷu tay) dùng để xác định đại lượng nào trong bài toán phân cụm?",
     "options": [
-      "Xác định bán kính Eps",
-      "Lựa chọn số lượng cụm K hợp lý dựa trên điểm gập khúc của đồ thị WCSS",
-      "Xác định điểm ngoại lai",
-      "Chọn kích thước lô trong Mini-batch"
+      "Xác định bán kính lân cận $Eps$",
+      "Lựa chọn số lượng cụm $K$ hợp lý dựa trên điểm gập khúc của đồ thị $WCSS$",
+      "Xác định ngưỡng phân loại điểm ngoại lai",
+      "Chọn kích thước lô (batch size) trong Mini-batch $K$-Means"
     ],
     "answer": 1,
-    "explanation": "Đồ thị WCSS theo K có dạng cánh tay gập; điểm gập khúc (elbow) là nơi sau đó WCSS giảm chậm lại, thường là số cụm K tốt nhất.",
-    "slideRef": "Slide Chương 5, Trang 35"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhương pháp Elbow vẽ đồ thị biểu diễn hàm mất mát $WCSS$ theo số lượng cụm $K$ (từ $K = 1, 2, \\dots, 10$):\n* Khi $K$ tăng, $WCSS$ luôn luôn giảm (khi $K = n$, mỗi điểm là 1 cụm thì $WCSS = 0$).\n* **Điểm Elbow (Khuỷu tay):** Là điểm uốn cong gập khúc rõ nét trên đồ thị.\n  - Trước điểm này: $WCSS$ giảm cực kỳ dốc khi tăng $K$.\n  - Sau điểm này: Việc tăng thêm cụm chỉ làm giảm $WCSS$ một lượng rất nhỏ (bão hòa).\n* 👉 Điểm gập khúc chính là giá trị $K$ tối ưu nhất cần chọn.",
+    "slideRef": "Slide Chương 5, Trang 31"
   },
   {
     "id": 156,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hệ số Silhouette s(i) của một điểm dữ liệu i có miền giá trị nằm trong khoảng nào?",
+    "question": "Hệ số Silhouette $s(i)$ của một điểm dữ liệu $i$ có miền giá trị nằm trong đoạn nào?",
     "options": [
-      "[0, 1]",
-      "[-1, 1]",
-      "[0, +∞)",
-      "(-∞, +∞)"
+      "$[0, 1]$",
+      "$[-1, 1]$",
+      "$[0, +\\infty)$",
+      "$(-\\infty, +\\infty)$"
     ],
     "answer": 1,
-    "explanation": "Hệ số Silhouette luôn nằm trong đoạn chuẩn [-1, 1], đo lường mức độ phù hợp của điểm dữ liệu đối với cụm của nó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHệ số Silhouette được định nghĩa theo công thức:\n$$s(i) = \\frac{b(i) - a(i)}{\\max(a(i), b(i))}$$\n* Do mẫu số là $\\max(a(i), b(i))$, giá trị của $s(i)$ luôn bị chặn chặt chẽ trong đoạn:\n  $$\\mathbf{-1 \\le s(i) \\le +1}$$\n* Đây là chỉ số đánh giá nội tại không cần nhãn thật, chuẩn hóa tuyệt đối giữa các thuật toán và thang đo khác nhau.",
     "slideRef": "Slide Chương 5, Trang 32-33"
   },
   {
     "id": 157,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Trong công thức Silhouette s(i) = (b(i) - a(i)) / max(a(i), b(i)), đại lượng a(i) biểu thị điều gì?",
+    "question": "Trong công thức Silhouette $s(i) = \\frac{b(i) - a(i)}{\\max(a(i), b(i))}$, đại lượng $a(i)$ biểu thị điều gì?",
     "options": [
-      "Khoảng cách từ điểm i đến gốc tọa độ",
-      "Khoảng cách trung bình từ điểm i đến tất cả các điểm khác TRONG CÙNG CỤM của nó (Độ chặt nội cụm)",
-      "Khoảng cách trung bình từ điểm i đến cụm lân cận gần nhất",
-      "Khoảng cách giữa hai tâm cụm"
+      "Khoảng cách từ điểm $i$ đến gốc tọa độ",
+      "Khoảng cách trung bình từ điểm $i$ đến tất cả các điểm khác TRONG CÙNG CỤM của nó (Độ chặt nội cụm)",
+      "Khoảng cách trung bình từ điểm $i$ đến các điểm thuộc cụm lân cận gần nhất",
+      "Khoảng cách giữa hai tâm cụm xa nhau nhất"
     ],
     "answer": 1,
-    "explanation": "a(i) đo độ chặt chẽ nội cụm: khoảng cách trung bình từ i đến các điểm cùng cụm (a(i) càng nhỏ thì cụm càng đậm đặc).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **$a(i)$ (Độ chặt chẽ nội cụm - Intra-cluster distance):**\n  - Là khoảng cách trung bình từ điểm $i$ đến toàn bộ các điểm khác nằm trong cùng cụm với nó.\n  - $a(i)$ càng nhỏ chứng tỏ cụm càng đặc quánh, điểm $i$ càng gần gũi với đồng đội $\\implies$ **$a(i)$ càng nhỏ càng tốt!**\n* **$b(i)$ (Độ tách biệt ngoại cụm - Nearest-cluster distance):**\n  - Là khoảng cách trung bình từ điểm $i$ đến các điểm thuộc cụm láng giềng gần nó nhất.\n  - $b(i)$ càng lớn chứng tỏ cụm bên cạnh ở rất xa $\\implies$ **$b(i)$ càng lớn càng tốt!**",
     "slideRef": "Slide Chương 5, Trang 32"
   },
   {
     "id": 158,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Một điểm dữ liệu i có hệ số Silhouette s(i) nhận giá trị ÂM (s(i) < 0) mang ý nghĩa gì?",
+    "question": "Một điểm dữ liệu $i$ có hệ số Silhouette nhận giá trị ÂM ($s(i) < 0$) mang ý nghĩa gì?",
     "options": [
-      "Điểm i nằm rất gần tâm cụm của nó",
-      "Điểm i nằm sát ranh giới giữa 2 cụm",
-      "Điểm i đã bị gán nhầm cụm (khoảng cách đến cụm láng giềng nhỏ hơn khoảng cách đến cụm của chính nó)",
-      "Điểm i là một Core point"
+      "Điểm $i$ nằm rất sát tâm cụm của chính nó",
+      "Điểm $i$ nằm chính xác trên ranh giới phân cách giữa 2 cụm",
+      "Điểm $i$ ĐÃ BỊ GÁN NHẦM CỤM (khoảng cách đến cụm láng giềng nhỏ hơn khoảng cách đến cụm hiện tại)",
+      "Điểm $i$ là một Điểm lõi (Core point)"
     ],
     "answer": 2,
-    "explanation": "Khi s(i) < 0 tức là b(i) < a(i), nghĩa là điểm đó gần cụm bên cạnh hơn cụm hiện tại, dấu hiệu rõ ràng của việc bị gán nhầm cụm.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **CÂU HỎI BẪY KINH ĐIỂN TRONG PHÒNG THI!**\n* Từ công thức: $s(i) = \\frac{b(i) - a(i)}{\\max(a(i), b(i))}$.\n* $s(i) < 0 \\iff b(i) - a(i) < 0 \\iff \\mathbf{b(i) < a(i)}$.\n* **Ý nghĩa thực tế:** Khoảng cách từ điểm $i$ đến cụm hàng xóm lại **nhỏ hơn** khoảng cách đến cụm của chính mình!\n* 👉 **Kết luận:** Điểm dữ liệu này đã bị thuật toán **gán sai cụm (Misclassified / Misclustered)**! Đáng lẽ nó phải thuộc về cụm hàng xóm mới đúng.",
     "slideRef": "Slide Chương 5, Trang 33"
   },
   {
     "id": 159,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Giá trị Silhouette trung bình của toàn bộ dữ liệu tiến rất gần về +1 biểu thị điều gì?",
+    "question": "Hệ số Silhouette trung bình của toàn bộ tập dữ liệu tiến rất gần về $+1$ ($s \\approx +1$) biểu thị điều gì?",
     "options": [
-      "Kết quả phân cụm rất tồi tệ, các cụm dính vào nhau",
+      "Kết quả phân cụm rất tồi tệ, các cụm bị dính liền vào nhau",
       "Kết quả phân cụm xuất sắc: các điểm nằm rất chặt chẽ trong cụm của mình và các cụm phân tách rất xa nhau",
-      "Dữ liệu có quá nhiều điểm nhiễu",
-      "Mô hình đang bị Underfitting"
+      "Dữ liệu có quá nhiều điểm nhiễu ngoại lai",
+      "Mô hình đang bị Underfitting nghiêm trọng"
     ],
     "answer": 1,
-    "explanation": "Silhouette gần +1 chứng tỏ các cụm đặc quánh nội bộ và tách biệt rõ rệt với nhau ngoài biên, chất lượng phân cụm tối ưu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi $s(i) \\to +1 \\implies a(i) \\ll b(i)$ (khoảng cách nội cụm $a(i) \\approx 0$ và khoảng cách ngoại cụm $b(i)$ rất lớn).\n* Điều này thể hiện trạng thái phân cụm lý tưởng nhất:\n  - Cụm nội bộ đặc quánh, các điểm chụm sát nhau.\n  - Các cụm khác nhau nằm cách xa nhau một trời một vực.\n* 👉 Hệ số Silhouette trung bình càng cao gần 1 thì cấu trúc phân cụm càng rõ ràng và đáng tin cậy.",
     "slideRef": "Slide Chương 5, Trang 33"
   },
   {
     "id": 160,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Mô hình Gaussian Mixture Model (GMM) tiếp cận bài toán phân cụm theo góc nhìn nào?",
+    "question": "Mô hình Hỗn hợp Gauss (Gaussian Mixture Model - GMM) tiếp cận bài toán phân cụm theo góc nhìn nào?",
     "options": [
       "Góc nhìn tâm cụm hình học cứng",
-      "Góc nhìn xác suất: dữ liệu là sự pha trộn của K phân phối chuẩn nhiều chiều và thực hiện phân cụm mềm (Soft Clustering)",
-      "Góc nhìn mật độ lân cận bán kính Eps",
-      "Góc nhìn đồ thị phân nhánh"
+      "Góc nhìn xác suất: dữ liệu là sự pha trộn của $K$ phân phối chuẩn nhiều chiều và thực hiện phân cụm mềm (Soft Clustering)",
+      "Góc nhìn mật độ lân cận bán kính $Eps$",
+      "Góc nhìn đồ thị phân cấp nhị phân"
     ],
     "answer": 1,
-    "explanation": "GMM mô hình hóa cụm bằng các phân phối Gaussian; mỗi điểm thuộc về các cụm theo một phân phối xác suất mềm thay vì gán nhãn cứng.",
-    "slideRef": "Slide Chương 5, Trang 39, 44"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* GMM là đại diện tiêu biểu của trường phái **Phân cụm dựa trên phân phối xác suất (Distribution-based Clustering)**:\n  - Giả định dữ liệu được sinh ra từ một hỗn hợp gồm $K$ phân phối chuẩn đa biến (Multivariate Gaussian).\n  - Khác với $K$-Means ép mỗi điểm thuộc về đúng 1 cụm (Hard clustering), GMM thực hiện **Phân cụm mềm (Soft Clustering)**: Mỗi điểm thuộc về các cụm với một xác suất cụ thể (ví dụ: 85% Cụm 1, 15% Cụm 2).",
+    "slideRef": "Slide Chương 5, Trang 39-40, 44"
   },
   {
     "id": 161,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Ưu thế hình học của GMM so với K-Means là gì?",
+    "question": "Ưu thế hình học vượt trội của GMM so với $K$-Means là gì?",
     "options": [
-      "GMM chỉ tạo ra các cụm hình cầu",
-      "Nhờ ma trận hiệp phương sai Σ, các cụm trong GMM có thể mang hình elip xoay các hướng khác nhau với kích thước và độ lệch bất kỳ",
-      "GMM luôn chạy nhanh hơn K-Means",
-      "GMM không cần dữ liệu dạng số"
+      "GMM chỉ tạo ra các cụm hình cầu tròn trịa",
+      "Nhờ ma trận hiệp phương sai $\\Sigma$, các cụm trong GMM có thể mang hình elip xoay các hướng khác nhau với kích thước và độ lệch bất kỳ",
+      "GMM luôn chạy nhanh hơn $K$-Means gấp 10 lần",
+      "GMM không cần dữ liệu đầu vào dạng số"
     ],
     "answer": 1,
-    "explanation": "Ma trận hiệp phương sai cho phép GMM mô tả các cụm hình elip đa chiều có xu hướng tương quan và độ dẹt khác nhau.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* $K$-Means ngầm giả định các cụm có dạng hình cầu đồng nhất vì chỉ đo khoảng cách Euclidean tới 1 tâm duy nhất.\n* **GMM mô tả mỗi cụm bằng 3 tham số:** Trọng số pha trộn $\\pi_k$, Vector tâm $\\mu_k$, và **Ma trận hiệp phương sai $\\Sigma_k$**:\n  - Nhờ ma trận $\\Sigma_k$, các quả chuông Gaussian có thể kéo dãn thành **hình elip nghiêng chéo theo bất kỳ góc nào trong không gian**, mô hình hóa hoàn hảo mối tương quan giữa các đặc trưng!",
     "slideRef": "Slide Chương 5, Trang 41, 48"
   },
   {
     "id": 162,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Thuật toán EM (Expectation - Maximization) trong GMM gồm hai bước nào?",
+    "question": "Thuật toán EM (Expectation - Maximization) huấn luyện mô hình GMM gồm hai bước luân phiên nào?",
     "options": [
-      "E-step: tính trách nhiệm/xác suất mềm γ_ij; M-step: cập nhật lại các tham số (π, μ, Σ) từ các trọng số đó",
-      "E-step: cập nhật tâm; M-step: gán nhãn cứng",
-      "E-step: chuẩn hóa Z-score; M-step: tính PCA",
-      "E-step: tìm trị riêng; M-step: chiếu không gian"
+      "Bước E: tính trách nhiệm/xác suất mềm $\\gamma_{ik}$; Bước M: cập nhật lại các tham số $(\\pi, \\mu, \\Sigma)$ từ các trọng số đó",
+      "Bước E: cập nhật tọa độ tâm; Bước M: gán nhãn cứng 0 hoặc 1",
+      "Bước E: chuẩn hóa $z$-score; Bước M: tính phép chiếu PCA",
+      "Bước E: tìm trị riêng; Bước M: khử nhiễu ngoại lai"
     ],
     "answer": 0,
-    "explanation": "E-step ước lượng xác suất mềm mỗi điểm thuộc từng thành phần; M-step cập nhật tỷ trọng π, tâm μ và ma trận hiệp phương sai Σ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nVì nhãn cụm thực chất là **biến ẩn (Latent Variable)** không quan sát được, GMM dùng thuật toán EM:\n1. **Bước E (Expectation step):** Giữ cố định tham số, tính **Độ trách nhiệm (Responsibility $\\gamma_{ik}$)** — xác suất hậu nghiệm điểm $x_i$ thuộc về cụm $k$:\n   $$\\gamma_{ik} = \\frac{\\pi_k \\mathcal{N}(x_i | \\mu_k, \\Sigma_k)}{\\sum_{j=1}^K \\pi_j \\mathcal{N}(x_i | \\mu_j, \\Sigma_j)}$$\n2. **Bước M (Maximization step):** Dùng các trọng số $\\gamma_{ik}$ vừa tính để cập nhật lại các tham số $\\pi_k, \\mu_k, \\Sigma_k$ bằng trung bình có trọng số.\n* Thuật toán lặp lại cho đến khi hàm Log-Likelihood hội tụ.",
     "slideRef": "Slide Chương 5, Trang 46-47"
   },
   {
     "id": 163,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hai tiêu chuẩn thông tin nào thường được dùng để chọn số lượng thành phần K tối ưu trong mô hình GMM?",
+    "question": "Hai tiêu chuẩn thông tin nào thường được dùng để lựa chọn số lượng thành phần $K$ tối ưu trong mô hình GMM?",
     "options": [
       "Elbow và Silhouette",
       "AIC (Akaike Information Criterion) và BIC (Bayesian Information Criterion)",
@@ -4323,37 +4323,37 @@ window.QUESTION_BANK = [
       "MAE và MSE"
     ],
     "answer": 1,
-    "explanation": "Người ta so sánh các mô hình GMM với số thành phần K khác nhau bằng tiêu chuẩn AIC và BIC (chọn mô hình có AIC/BIC thấp hơn).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrong GMM, nếu tăng $K$ lên vô hạn thì Log-Likelihood sẽ luôn tăng (gây Overfitting). Để chọn $K$ tối ưu, người ta phạt thêm độ phức tạp của số lượng tham số bằng 2 tiêu chuẩn:\n* **AIC:** $\\text{AIC} = 2k - 2\\ln(L)$\n* **BIC:** $\\text{BIC} = k\\ln(n) - 2\\ln(L)$\n  *(với $k$ là số tham số, $n$ là số mẫu, $L$ là giá trị Likelihood cực đại)*.\n\n> 💡 **Quy tắc trắc nghiệm:** Mô hình GMM tốt nhất là mô hình có giá trị **AIC hoặc BIC NHỎ NHẤT (Cực tiểu)**.",
     "slideRef": "Slide Chương 5, Trang 49"
   },
   {
     "id": 164,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Đặc tính NỔI BẬT NHẤT của thuật toán phân cụm DBSCAN so với K-Means là gì?",
+    "question": "Đặc tính ĐỘT PHÁ NỔI BẬT NHẤT của thuật toán phân cụm DBSCAN so với $K$-Means là gì?",
     "options": [
-      "DBSCAN chạy nhanh hơn K-Means trên mọi bài toán",
-      "DBSCAN hoàn toàn KHÔNG CẦN người dùng ấn định trước số lượng cụm K",
-      "DBSCAN luôn tìm ra các cụm hình cầu lồi",
+      "DBSCAN chạy nhanh hơn $K$-Means trên mọi tập dữ liệu lớn",
+      "DBSCAN hoàn toàn KHÔNG CẦN người dùng ấn định trước số lượng cụm $K$",
+      "DBSCAN luôn tìm ra các cụm hình cầu đối xứng",
       "DBSCAN chỉ áp dụng được cho dữ liệu 1 chiều"
     ],
     "answer": 1,
-    "explanation": "DBSCAN phân cụm dựa trên mật độ thực tế của không gian, tự động xác định số lượng cụm K mà không cần người dùng nhập trước.",
-    "slideRef": "Slide Chương 5, Trang 51, 60"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Với $K$-Means và GMM, người dùng **bắt buộc phải chỉ định số cụm $K$ ngay từ đầu**.\n* Ngược lại, **DBSCAN (*Density-Based Spatial Clustering of Applications with Noise*)**:\n  - **TỰ ĐỘNG PHÁT HIỆN SỐ CỤM $K$** dựa trên cấu trúc liên thông mật độ thực tế của dữ liệu!\n  - Ngoài ra, DBSCAN còn có khả năng tự động phát hiện và loại bỏ các điểm nhiễu (Noise Filtering).",
+    "slideRef": "Slide Chương 5, Trang 51"
   },
   {
     "id": 165,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hai siêu tham số cốt lõi của thuật toán DBSCAN là gì?",
+    "question": "Hai siêu tham số cốt lõi kiểm soát hành vi của thuật toán DBSCAN là gì?",
     "options": [
-      "Số cụm K và số vòng lặp tối đa",
-      "Bán kính lân cận Eps (ε) và Số điểm tối thiểu trong lân cận MinPts",
-      "Tốc độ học η và hệ số co shrinkage",
-      "Số thành phần K và ma trận hiệp phương sai Σ"
+      "Số cụm $K$ và số vòng lặp tối đa `max_iter`",
+      "Bán kính lân cận $Eps$ ($\\varepsilon$) và Số điểm tối thiểu trong lân cận $MinPts$",
+      "Tốc độ học $\\eta$ và hệ số suy giảm trọng số",
+      "Số thành phần Gaussian $K$ và ma trận hiệp phương sai $\\Sigma$"
     ],
     "answer": 1,
-    "explanation": "DBSCAN được định nghĩa bởi 2 siêu tham số: Bán kính lân cận Eps và số lượng điểm tối thiểu MinPts trong bán kính đó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nDBSCAN hoạt động dựa trên cặp siêu tham số:\n1. **$Eps$ ($\\varepsilon$ - Epsilon):** Bán kính của hình tròn/mặt cầu xác định vùng lân cận xung quanh một điểm.\n2. **$MinPts$ (Minimum Points):** Số lượng điểm tối thiểu bắt buộc phải có bên trong vùng bán kính $Eps$ để vùng đó được xem là một \"vùng mật độ dày đặc\".\n\n> 💡 **Mẹo:** Dữ liệu $d$ chiều thường chọn $MinPts \\approx 2d$ (dữ liệu 2D thường chọn $MinPts = 4$).",
     "slideRef": "Slide Chương 5, Trang 52"
   },
   {
@@ -4362,149 +4362,149 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
     "question": "Trong DBSCAN, một điểm được định nghĩa là Điểm lõi (Core Point) khi thỏa mãn điều kiện nào?",
     "options": [
-      "Vùng lân cận bán kính Eps của nó chứa ít nhất MinPts điểm (tính cả chính nó)",
+      "Vùng lân cận bán kính $Eps$ của nó chứa ít nhất $MinPts$ điểm (TÍNH CẢ CHÍNH BẢN THÂN NÓ)",
       "Nó có khoảng cách gần nhất đến gốc tọa độ",
-      "Nó có ít hơn MinPts điểm trong bán kính Eps nhưng gần một điểm khác",
+      "Nó có ít hơn $MinPts$ điểm trong bán kính $Eps$ nhưng chạm vào một điểm khác",
       "Nó nằm cô lập không có láng giềng nào"
     ],
     "answer": 0,
-    "explanation": "Core Point là điểm có mật độ dày đặc: số lượng điểm nằm trong hình cầu bán kính Eps quanh nó đạt tối thiểu MinPts (bao gồm cả nó).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **BẪY THI CỰC HAY GẶP VỀ CÁCH ĐẾM ĐIỂM:**\n* Một điểm $p$ là **Core Point (Điểm lõi)** khi và chỉ khi:\n  $$|N_{Eps}(p)| \\ge MinPts$$\n* Trong đó, vùng lân cận $N_{Eps}(p)$ **BẮT BUỘC PHẢI TÍNH CẢ CHÍNH BẢN THÂN ĐIỂM $p$**!\n* *Ví dụ:* Nếu $MinPts = 4$, xung quanh điểm $p$ trong bán kính $Eps$ có 3 điểm khác $\\implies$ Tổng cộng tính cả $p$ là $3 + 1 = 4$ điểm $\\implies$ Điểm $p$ là Core Point!",
     "slideRef": "Slide Chương 5, Trang 53"
   },
   {
     "id": 167,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Trong DBSCAN, Điểm biên (Border Point) có đặc điểm gì?",
+    "question": "Trong DBSCAN, Điểm biên (Border Point) được nhận dạng bởi đặc điểm nào?",
     "options": [
-      "Có số láng giềng trong bán kính Eps lớn hơn MinPts",
-      "Có ít hơn MinPts điểm trong bán kính Eps của mình, nhưng nằm trong vùng lân cận Eps của một Core Point",
+      "Có số láng giềng trong bán kính $Eps$ lớn hơn hoặc bằng $MinPts$",
+      "Có ít hơn $MinPts$ điểm trong bán kính $Eps$ của mình, nhưng lại nằm trong vùng lân cận bán kính $Eps$ của một Core Point",
       "Bị cô lập hoàn toàn và bị gán nhãn là ngoại lai",
-      "Tự mình có thể khởi tạo một cụm mới"
+      "Tự mình có khả năng phát tán và mở rộng cụm mới"
     ],
     "answer": 1,
-    "explanation": "Border Point không đủ dày để làm Core Point, nhưng nằm sát cạnh một Core Point nên được kết nạp vào rìa của cụm đó.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Border Point (Điểm biên):**\n  - Bản thân nó **không đủ tiêu chuẩn làm Core** (trong bán kính $Eps$ có ít hơn $MinPts$ điểm).\n  - **NHƯNG** nó lại nằm lọt vào bên trong vùng lân cận bán kính $Eps$ của một Core Point nào đó.\n* **Đặc tính hoạt động:** Điểm biên được thu nhận vào cụm của Core Point đó, nhưng nó **KHÔNG THỂ tự mình mở rộng cụm tiếp** (nó là điểm tận cùng ở rìa mép của cụm).",
     "slideRef": "Slide Chương 5, Trang 53, 55"
   },
   {
     "id": 168,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Điểm nhiễu (Noise Point) trong DBSCAN được định nghĩa là gì?",
+    "question": "Điểm nhiễu (Noise Point / Outlier) trong thuật toán DBSCAN được định nghĩa là gì?",
     "options": [
-      "Điểm có giá trị âm",
-      "Điểm không phải Core Point cũng không phải Border Point (bị cô lập ở vùng mật độ thấp)",
-      "Điểm có hệ số Silhouette bằng 1",
-      "Điểm nằm tại tâm của cụm"
+      "Điểm có tọa độ mang giá trị âm",
+      "Điểm không phải Core Point và cũng không phải Border Point (thường được gán nhãn là -1)",
+      "Điểm có hệ số Silhouette bằng +1",
+      "Điểm nằm tại vị trí trung tâm của cụm"
     ],
     "answer": 1,
-    "explanation": "Những điểm nằm ở vùng thưa thớt, không thỏa mãn điều kiện Core và không chạm vùng Eps của Core nào sẽ bị DBSCAN gắn nhãn là nhiễu (Noise / Outlier).",
-    "slideRef": "Slide Chương 5, Trang 53, 60"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Noise Point (Điểm nhiễu):**\n  - Là điểm bị cô lập ở vùng mật độ quá thưa thớt: Vùng lân cận bán kính $Eps$ của nó không đủ $MinPts$ điểm, và nó cũng không nằm gần bất kỳ một Core Point nào.\n  - Thuật toán DBSCAN tự động lọc bỏ điểm này và đánh nhãn là **$-1$** (Noise).\n* Đây là tính năng vượt trội giúp DBSCAN không bị các điểm ngoại lai kéo lệch kết quả như $K$-Means.",
+    "slideRef": "Slide Chương 5, Trang 53-54"
   },
   {
     "id": 169,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Khả năng vượt trội của DBSCAN so với K-Means thể hiện rõ nhất ở bài toán nào?",
+    "question": "Khả năng vượt trội của DBSCAN so với $K$-Means thể hiện rõ nét nhất ở loại dữ liệu nào?",
     "options": [
       "Phân cụm các điểm hình cầu kích thước bằng nhau",
-      "Phân cụm dữ liệu có hình dạng bất kỳ phức tạp (như 2 dải hình trăng khuyết) và tự động lọc bỏ điểm nhiễu",
+      "Phân cụm dữ liệu có hình dạng bất kỳ phức tạp (như 2 dải hình trăng khuyết lồng nhau, hình xoắn ốc) và tự động lọc bỏ điểm nhiễu",
       "Phân cụm dữ liệu có mật độ chênh lệch quá lớn giữa các vùng",
-      "Dự đoán giá nhà đất"
+      "Dự đoán giá nhà đất liên tục"
     ],
     "answer": 1,
-    "explanation": "DBSCAN xuất sắc trong việc lần theo các dải mật độ liên thông hình dạng bất kỳ và tự động tách biệt các điểm nhiễu ra ngoài.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nDBSCAN là \"vua\" trong các bài toán dữ liệu phi tuyến:\n* Cơ chế lan truyền liên thông mật độ (Density-connected) cho phép cụm uốn lượn mềm mại theo bất kỳ hình dạng nào: hình trăng khuyết, hình vòng nhẫn đồng tâm, hình chữ S.\n* Trong khi $K$-Means bị ép buộc bởi ranh giới siêu phẳng Voronoi $\\implies$ cắt vụn các hình uốn lượn và thất bại hoàn toàn.",
     "slideRef": "Slide Chương 5, Trang 56, 60"
   },
   {
     "id": 170,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Nếu ta chọn tham số Eps trong DBSCAN quá nhỏ (quá khắt khe), hiện tượng gì sẽ xảy ra?",
+    "question": "Nếu ta chọn tham số $Eps$ trong DBSCAN QUÁ NHỎ, hiện tượng tiêu cực nào sẽ xảy ra?",
     "options": [
-      "Tất cả các điểm bị gom vào đúng một cụm duy nhất",
-      "Nhiều điểm không đủ láng giềng, cụm thực bị vỡ vụn và số lượng điểm bị coi là Noise tăng vọt",
-      "Thời gian chạy tăng lên gấp 10 lần",
-      "DBSCAN chuyển thành thuật toán K-Means"
+      "Tất cả các điểm bị dính liền vào nhau thành đúng một cụm khổng lồ duy nhất",
+      "Hầu hết các điểm không gom đủ $MinPts$ láng giềng, cụm thực bị vỡ vụn và số lượng điểm bị gán nhãn là Nhiễu (Noise) tăng vọt",
+      "Thời gian chạy của thuật toán tăng lên gấp 100 lần",
+      "Thuật toán tự động thoái hóa thành $K$-Means"
     ],
     "answer": 1,
-    "explanation": "Eps quá nhỏ khiến bán kính tìm kiếm quá hẹp, rất ít điểm đạt chuẩn Core Point, dẫn đến cụm bị vỡ thành nhiều mảnh nhỏ và nhiều điểm bị coi là nhiễu.",
-    "slideRef": "Slide Chương 5, Trang 57"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Khi $Eps$ QUÁ NHỎ:** Bán kính quét quá hẹp, các điểm dữ liệu khó tìm đủ $MinPts$ láng giềng $\\implies$ Phần lớn dữ liệu bị coi là **Nhiễu (Noise)**, hoặc dữ liệu bị băm nát thành hàng chục cụm li ti siêu nhỏ.\n* **Ngược lại, khi $Eps$ QUÁ LỚN:** Vùng quét quá rộng, các cụm tách biệt ở xa cũng chạm lân cận nhau $\\implies$ Toàn bộ dữ liệu bị dính liền thành **đúng 1 cụm duy nhất**!",
+    "slideRef": "Slide Chương 5, Trang 57-58"
   },
   {
     "id": 171,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Hạn chế lớn nhất của thuật toán DBSCAN là gì?",
+    "question": "Hạn chế lớn nhất của thuật toán DBSCAN trong thực tế là gì?",
     "options": [
-      "Không thể xử lý được điểm nhiễu",
-      "Khó chọn được một cặp tham số Eps và MinPts chung khi các cụm trong dữ liệu có mật độ chênh lệch nhau quá lớn",
-      "Bắt buộc phải biết trước số lượng cụm K",
-      "Chỉ tìm được cụm hình cầu"
+      "Hoàn toàn không thể xử lý được dữ liệu có điểm nhiễu",
+      "Thất bại khi dữ liệu chứa các cụm có MẬT ĐỘ CHÊNH LỆCH QUÁ LỚN (một cụm rất đặc, một cụm rất thưa thớt)",
+      "Bắt buộc người dùng phải biết trước chính xác số lượng cụm $K$",
+      "Chỉ tìm được các cụm có dạng hình cầu đối xứng"
     ],
     "answer": 1,
-    "explanation": "Vì DBSCAN dùng ngưỡng mật độ toàn cục cố định, nếu tập dữ liệu có cụm rất đặc và cụm rất thưa thì không thể tìm được một cặp (Eps, MinPts) phù hợp cho cả hai.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tử huyệt của DBSCAN:** Thuật toán chỉ sử dụng duy nhất **một cặp tham số toàn cục $(Eps, MinPts)$** cho toàn bộ không gian dữ liệu.\n* Khi dữ liệu có các cụm với mật độ quá chênh lệch:\n  - Nếu chọn $Eps$ nhỏ để tách cụm dày đặc $\\implies$ cụm thưa tự nhiên sẽ bị coi là **Nhiễu toàn bộ (Noise)**!\n  - Nếu chọn $Eps$ lớn để gom được cụm thưa $\\implies$ cụm dày đặc sẽ bị nuốt chửng, dính chùm vào các cụm xung quanh!\n* *(Để khắc phục nhược điểm này, người ta phát triển thuật toán OPTICS hoặc HDBSCAN)*.",
     "slideRef": "Slide Chương 5, Trang 61"
   },
   {
     "id": 172,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Phương pháp Deep Clustering (như DEC - Deep Embedding Clustering) kết hợp những thành phần nào?",
+    "question": "Phương pháp Deep Clustering (tiêu biểu như DEC - Deep Embedding Clustering) kết hợp những thành phần nào?",
     "options": [
-      "Mạng nơ-ron sâu (như Autoencoder) để học không gian biểu diễn ẩn z, sau đó thực hiện phân cụm trên không gian này",
-      "Cây quyết định kết hợp với hồi quy tuyến tính",
-      "Phân cụm K-Means kết hợp với lọc thư rác",
-      "DBSCAN chạy trên ảnh thô không qua xử lý"
+      "Mạng nơ-ron sâu (như Autoencoder) để học không gian biểu diễn ẩn $z$, kết hợp tinh chỉnh đồng thời với hàm mục tiêu phân cụm",
+      "Cây quyết định kết hợp với Hồi quy tuyến tính",
+      "Phân cụm $K$-Means kết hợp với lọc thư rác thủ công",
+      "DBSCAN chạy trực tiếp trên các pixel ảnh thô"
     ],
     "answer": 0,
-    "explanation": "Deep Clustering dùng mạng nơ-ron để ánh xạ dữ liệu phức tạp nhiều chiều vào không gian ẩn (latent space) có ngữ nghĩa tốt hơn trước khi phân cụm.",
-    "slideRef": "Slide Chương 5, Trang 63, 65"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Với dữ liệu phức tạp nhiều chiều như ảnh ($256 \\times 256 \\times 3$) hay văn bản, khoảng cách Euclidean trên pixel thô không mang ý nghĩa ngữ nghĩa.\n* **DEC (Deep Embedding Clustering - Xie et al., ICML 2016):**\n  1. Dùng mạng nơ-ron sâu (Encoder) nén dữ liệu thô $x$ thành vector biểu diễn tiềm ẩn $z$ trong **Không gian ẩn (Latent Space)**.\n  2. Đo độ tương đồng gán mềm $q_{ij}$ bằng phân phối Student-t.\n  3. Huấn luyện mạng và cập nhật tâm cụm đồng thời bằng cách tối thiểu hóa độ phân kỳ Kullback-Leibler (KL Divergence): $L = \\text{KL}(P \\| Q)$.\n  4. Giúp các cụm trong không gian ẩn ngày càng tách biệt và cô đọng!",
+    "slideRef": "Slide Chương 5, Trang 63-67"
   },
   {
     "id": 173,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Thuật toán Mini-Batch K-Means được thiết kế nhằm mục đích gì?",
+    "question": "Thuật toán Mini-Batch $K$-Means được thiết kế nhằm mục đích chính nào?",
     "options": [
-      "Tăng độ chính xác phân cụm lên 100%",
-      "Tiết kiệm bộ nhớ RAM và thời gian tính toán trên tập dữ liệu cực lớn bằng cách cập nhật tâm theo từng lô nhỏ",
-      "Loại bỏ yêu cầu số cụm K",
-      "Phân cụm dữ liệu phi lồi"
+      "Đảm bảo độ chính xác phân cụm luôn đạt 100%",
+      "Tiết kiệm bộ nhớ RAM và tăng tốc độ tính toán gấp nhiều lần trên tập dữ liệu lớn bằng cách cập nhật tâm theo từng lô nhỏ (Mini-batch)",
+      "Loại bỏ hoàn toàn việc phải chọn số lượng cụm $K$",
+      "Tự động phân cụm các dữ liệu có hình xoắn ốc phi tuyến"
     ],
     "answer": 1,
-    "explanation": "Mini-Batch K-Means cập nhật tâm cụm xấp xỉ theo từng batch nhỏ ngẫu nhiên, giảm thiểu đáng kể chi phí bộ nhớ và thời gian đọc dữ liệu.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi tập dữ liệu có hàng triệu dòng ($n > 10^7$), việc quét toàn bộ dữ liệu ở mỗi vòng lặp của $K$-Means chuẩn tốn rất nhiều thời gian và làm tràn bộ nhớ.\n* **Mini-Batch $K$-Means (Sculley, 2010):**\n  - Mỗi bước chỉ lấy ngẫu nhiên một lô nhỏ mẫu dữ liệu (ví dụ $b = 100$ hoặc $500$ điểm).\n  - Cập nhật tọa độ tâm bằng trung bình trượt có trọng số.\n  - Tốc độ nhanh hơn từ $3$ đến $10$ lần, cho kết quả xấp xỉ rất sát với $K$-Means chuẩn.",
     "slideRef": "Slide Chương 5, Trang 30"
   },
   {
     "id": 174,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Khi nào ta nên ưu tiên chọn GMM thay vì K-Means?",
+    "question": "Khi nào ta nên ưu tiên lựa chọn GMM (Gaussian Mixture Model) thay vì $K$-Means?",
     "options": [
-      "Khi cần một thuật toán phân cụm đơn giản, nhanh nhất có thể",
-      "Khi các cụm có mức độ chồng lấn lên nhau và việc ước lượng xác suất mềm thành viên mang lại giá trị nghiệp vụ",
-      "Khi dữ liệu có hình 2 dải trăng khuyết",
-      "Khi không biết số lượng cụm K"
+      "Khi cần một thuật toán phân cụm đơn giản nhất, chạy nhanh nhất có thể",
+      "Khi các cụm có mức độ chồng lấn lên nhau và việc ước lượng xác suất mềm (Soft Clustering) từng điểm thuộc về cụm nào mang lại giá trị nghiệp vụ",
+      "Khi dữ liệu có hình dạng 2 dải trăng khuyết lồng nhau",
+      "Khi hoàn toàn chưa biết trước số lượng cụm $K$"
     ],
     "answer": 1,
-    "explanation": "GMM phù hợp khi ranh giới giữa các cụm không tuyệt đối, cụm có dạng elip và ta cần biết độ chắc chắn/xác suất thuộc về từng cụm.",
-    "slideRef": "Slide Chương 5, Trang 70"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* $K$-Means chỉ phù hợp khi các cụm tách biệt rõ ràng, có dạng hình cầu đối xứng.\n* **Nên chọn GMM khi:**\n  1. Cụm có **hình elip xoay các hướng khác nhau** (nhờ ma trận hiệp phương sai $\\Sigma$).\n  2. Các cụm **chồng lấn lên nhau** ở vùng biên: Nghiệp vụ đòi hỏi biết độ tin cậy/xác suất (ví dụ: Bệnh nhân có 70% thuộc nhóm bệnh A, 30% thuộc nhóm bệnh B).",
+    "slideRef": "Slide Chương 5, Trang 44, 70"
   },
   {
     "id": 175,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán phân cụm (Clustering)",
-    "question": "Khi nào ta nên ưu tiên chọn DBSCAN thay vì K-Means hay GMM?",
+    "question": "Khi nào ta nên ưu tiên lựa chọn DBSCAN thay vì $K$-Means hay GMM?",
     "options": [
-      "Khi dữ liệu có phân phối chuẩn đồng đều",
-      "Khi dữ liệu chứa nhiều ngoại lai/nhiễu, các cụm có hình dạng uốn lượn bất kỳ và chưa biết trước số cụm K",
+      "Khi dữ liệu tuân theo phân phối chuẩn đồng đều",
+      "Khi dữ liệu chứa nhiều ngoại lai / điểm nhiễu, các cụm có hình dạng uốn lượn bất kỳ phi tuyến và chưa biết trước số lượng cụm $K$",
       "Khi cần chạy thuật toán trên không gian 10.000 chiều",
-      "Khi cần phân cụm mềm dạng xác suất"
+      "Khi cần xuất ra phân phối xác suất mềm"
     ],
     "answer": 1,
-    "explanation": "DBSCAN là lựa chọn số 1 khi dữ liệu có hình dạng tự do, có nhiễu rải rác và không có thông tin tiên nghiệm về số lượng cụm.",
-    "slideRef": "Slide Chương 5, Trang 70"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **DBSCAN là lựa chọn số 1 khi:**\n  1. Dữ liệu có **hình dạng bất kỳ phi lồi** (hình trăng khuyết, hình nhẫn, hình chữ C).\n  2. Dữ liệu chứa **nhiều điểm nhiễu ngoại lai** (DBSCAN tự động cô lập thành nhãn -1).\n  3. **Chưa biết trước số lượng cụm $K$** (DBSCAN tự tìm số cụm).",
+    "slideRef": "Slide Chương 5, Trang 60, 70"
   },
   {
     "id": 346,
@@ -4513,28 +4513,28 @@ window.QUESTION_BANK = [
     "question": "Trong Phân cụm Phân cấp Tích tụ (Agglomerative Hierarchical Clustering), phương pháp Liên kết Ward (Ward's Linkage) hợp nhất hai cụm dựa trên tiêu chí nào?",
     "options": [
       "Khoảng cách ngắn nhất giữa hai điểm bất kỳ thuộc hai cụm",
-      "Cực tiểu hóa mức gia tăng tổng phương sai nội cụm (Within-cluster variance) sau khi gộp",
+      "Cực tiểu hóa mức gia tăng của tổng phương sai nội cụm (Within-cluster variance) sau khi hợp nhất",
       "Khoảng cách giữa hai điểm xa nhất của hai cụm",
       "Khoảng cách trung bình giữa tất cả các cặp điểm"
     ],
     "answer": 1,
-    "explanation": "Ward's Linkage tìm cặp cụm mà khi hợp nhất sẽ làm tăng phương sai nội cụm (tổng bình phương khoảng cách tới tâm cụm mới) là ít nhất. Phương pháp này có xu hướng tạo ra các cụm có kích thước đồng đều và cấu trúc chặt chẽ tương tự K-Means.",
-    "slideRef": "Slide Chương 5, Trang 14-16"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Phương pháp **Ward's Linkage** lấy cảm hứng tương tự như hàm mục tiêu $WCSS$ của $K$-Means:\n  - Tại mỗi bước, thuật toán tính toán xem nếu gộp cụm $A$ và cụm $B$ lại thì tổng bình phương sai số nội cụm sẽ tăng thêm bao nhiêu:\n    $$\\Delta \\text{ESS} = \\frac{n_A n_B}{n_A + n_B} \\|\\mu_A - \\mu_B\\|^2$$\n  - Thuật toán chọn cặp cụm làm **tối thiểu hóa mức tăng phương sai** này để gộp lại.\n* 👉 Giúp các cụm tạo ra có độ chặt chẽ cao và kích thước đồng đều.",
+    "slideRef": "Slide Chương 5, Trang 34-36"
   },
   {
     "id": 347,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Nhược điểm lớn của phương pháp Liên kết Đơn (Single Linkage) trong phân cụm phân cấp là hiện tượng gì?",
+    "question": "Nhược điểm lớn nhất của phương pháp Liên kết Đơn (Single Linkage) trong phân cụm phân cấp là gì?",
     "options": [
-      "Hiện tượng các cụm luôn có dạng hình cầu đối xứng",
-      "Hiện tượng 'Tạo chuỗi xích' (Chaining effect), trong đó các điểm dữ liệu nhiễu nằm rải rác nối liền hai cụm tách biệt thành một cụm dài ngoằn ngoèo",
+      "Hiện tượng các cụm luôn bị ép thành hình cầu đối xứng",
+      "Hiện tượng 'Tạo chuỗi xích' (Chaining Effect), trong đó các điểm dữ liệu nhiễu nằm rải rác vô tình nối liền hai cụm tách biệt thành một cụm dài ngoằn ngoèo",
       "Không thể vẽ được biểu đồ hình cây Dendrogram",
-      "Bắt buộc người dùng phải xác định trước số cụm K"
+      "Bắt buộc người dùng phải xác định trước số lượng cụm $K$"
     ],
     "answer": 1,
-    "explanation": "Single Linkage đo khoảng cách giữa hai điểm gần nhất giữa hai cụm (min distance). Chỉ cần một vài điểm nhiễu nằm cầu nối giữa hai cụm lớn, thuật toán sẽ nối chập hai cụm lớn đó lại với nhau thành một dải dài (Chaining effect).",
-    "slideRef": "Slide Chương 5, Trang 15-17"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Single Linkage:** Khoảng cách giữa 2 cụm được tính bằng khoảng cách giữa **2 điểm gần nhau nhất**:\n  $$D(A, B) = \\min_{x \\in A, y \\in B} \\|x - y\\|$$\n* **Hiệu ứng chuỗi xích (Chaining Effect):** Chỉ cần một vài điểm dữ liệu nhiễu nằm lác đác làm \"cầu nối\" giữa 2 cụm lớn ở xa nhau, Single Linkage sẽ lần lượt gộp các điểm này lại, biến 2 cụm độc lập thành **một dải chuỗi xích dài ngoằng ngoèo dính liền vào nhau**!",
+    "slideRef": "Slide Chương 5, Trang 36-37"
   },
   {
     "id": 348,
@@ -4543,73 +4543,73 @@ window.QUESTION_BANK = [
     "question": "Biểu đồ hình cây (Dendrogram) trong phân cụm phân cấp cho phép người dùng xác định số lượng cụm mong muốn bằng cách nào?",
     "options": [
       "Đếm tổng số nút lá ở đáy biểu đồ",
-      "Cắt một đường nằm ngang (ngưỡng khoảng cách / khoảng cách hợp nhất); số lượng nhánh thẳng đứng bị đường cắt đi qua chính là số lượng cụm thu được",
+      "Cắt một đường nằm ngang (ngưỡng khoảng cách / Distance threshold); số lượng nhánh thẳng đứng bị đường cắt đi qua chính là số lượng cụm thu được",
       "Tìm điểm cực tiểu của hàm mất mát",
-      "Tính đạo hàm cấp 1 của cây"
+      "Tính đạo hàm cấp 1 của cây phân cấp"
     ],
     "answer": 1,
-    "explanation": "Trục tung của Dendrogram biểu thị khoảng cách hợp nhất. Khi chọn một ngưỡng khoảng cách và vẽ đường cắt ngang, số lượng đường liên kết dọc bị cắt đứt chính là số cụm phân vùng tương ứng.",
-    "slideRef": "Slide Chương 5, Trang 18-20"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Biểu đồ **Dendrogram** thể hiện toàn bộ lịch sử gộp cụm từ dưới lên trên:\n  - Trục hoành: Các mẫu dữ liệu ban đầu (nút lá).\n  - Trục tung: Khoảng cách phân tách khi hai cụm được gộp vào nhau.\n* **Cách chọn số cụm:** Kẻ một đường thẳng nằm ngang cắt ngang qua Dendrogram:\n  - Số lượng nhánh thẳng đứng bị đường thẳng này cắt qua chính là **số lượng cụm** thu được tại ngưỡng khoảng cách đó.\n  - Vị trí cắt đẹp nhất là nơi có các nhánh thẳng đứng dài nhất (biên độ khoảng cách lớn, thể hiện các cụm tách biệt rõ).",
+    "slideRef": "Slide Chương 5, Trang 37-38"
   },
   {
     "id": 349,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Hàm mục tiêu Tổng bình phương khoảng cách nội cụm (WCSS hay Inertia) trong K-Means có tính chất toán học nào qua từng vòng lặp của thuật toán Lloyd?",
+    "question": "Hàm mục tiêu Tổng bình phương khoảng cách nội cụm ($WCSS$ hay Inertia) trong $K$-Means có tính chất toán học nào qua từng vòng lặp của thuật toán Lloyd?",
     "options": [
-      "WCSS dao động ngẫu nhiên tăng giảm",
-      "WCSS luôn giảm đơn điệu (hoặc giữ nguyên) sau mỗi bước gán mẫu và cập nhật tâm, đảm bảo thuật toán luôn hội tụ sau một số hữu hạn bước",
-      "WCSS luôn tăng dần theo từng epoch",
-      "WCSS luôn bằng 0 khi thuật toán dừng"
+      "WCSS dao động ngẫu nhiên tăng giảm thất thường",
+      "WCSS luôn GIẢM ĐƠN ĐIỆU (hoặc giữ nguyên) sau mỗi bước gán mẫu và cập nhật tâm, đảm bảo thuật toán luôn hội tụ sau một số hữu hạn bước lặp",
+      "WCSS luôn tăng dần theo từng vòng lặp",
+      "WCSS luôn đạt bằng đúng 0 khi thuật toán dừng lại"
     ],
     "answer": 1,
-    "explanation": "Ở bước gán (Assignment), mỗi điểm chọn tâm gần nhất nên WCSS giảm hoặc giữ nguyên. Ở bước cập nhật (Update), tâm mới là trung bình số học tối ưu hóa khoảng cách L2 nên WCSS tiếp tục giảm. Vì số cách phân chia N mẫu vào K cụm là hữu hạn nên thuật toán chắc chắn hội tụ.",
-    "slideRef": "Slide Chương 5, Trang 24-26"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTính chất hội tụ toán học của thuật toán Lloyd:\n1. Ở bước gán mẫu: Mỗi điểm chọn tâm gần nhất $\\implies WCSS$ không thể tăng.\n2. Ở bước cập nhật tâm: Tọa độ tâm mới là trung bình cộng (điểm tối ưu bậc 2) $\\implies WCSS$ không thể tăng.\n* 👉 Do đó, **$WCSS$ luôn giảm đơn điệu hoặc giữ nguyên** qua từng bước lặp!\n* Vì số cách phân chia $n$ điểm vào $K$ cụm là hữu hạn ($K^n$), thuật toán Lloyd **chắc chắn sẽ hội tụ sau một số hữu hạn bước** (tuy nhiên chỉ đảm bảo cực tiểu địa phương).",
+    "slideRef": "Slide Chương 5, Trang 19-21"
   },
   {
     "id": 350,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Độ phức tạp tính toán thời gian của thuật toán K-Means chuẩn cho mỗi lần chạy là bao nhiêu (với n là số mẫu, d là số chiều, K là số cụm, t là số vòng lặp)?",
+    "question": "Độ phức tạp tính toán thời gian của thuật toán $K$-Means chuẩn cho mỗi lần chạy là bao nhiêu (với $n$ là số mẫu, $d$ là số chiều đặc trưng, $K$ là số cụm, $t$ là số vòng lặp)?",
     "options": [
-      "O(n^2 * d)",
-      "O(t * K * n * d)",
-      "O(2^K * n)",
-      "O(d^3)"
+      "$\\mathcal{O}(n^2 \\cdot d)$",
+      "$\\mathcal{O}(t \\cdot K \\cdot n \\cdot d)$",
+      "$\\mathcal{O}(2^K \\cdot n)$",
+      "$\\mathcal{O}(d^3)$"
     ],
     "answer": 1,
-    "explanation": "Trong mỗi vòng lặp t: tính khoảng cách từ n điểm đến K tâm trong không gian d chiều mất O(K * n * d); bước cập nhật tâm mất O(n * d). Tổng độ phức tạp là O(t * K * n * d), tuyến tính theo số mẫu n, rất nhanh so với phân cấp O(n^2) hoặc O(n^3).",
-    "slideRef": "Slide Chương 5, Trang 27-28"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nGiải phẫu độ phức tạp của $K$-Means:\n* Tại mỗi vòng lặp:\n  - Tính khoảng cách từ $n$ điểm đến $K$ tâm trong không gian $d$ chiều: tốn $\\mathcal{O}(K \\cdot n \\cdot d)$ phép tính.\n  - Cập nhật $K$ tâm bằng trung bình cộng $n$ điểm: tốn $\\mathcal{O}(n \\cdot d)$ phép tính.\n* Nếu thuật toán lặp lại $t$ vòng cho đến khi hội tụ:\n  $$\\mathbf{\\text{Độ phức tạp thời gian} = \\mathcal{O}(t \\cdot K \\cdot n \\cdot d)}$$\n* Nhận xét: Độ phức tạp **tuyến tính** với số mẫu $n$, giúp $K$-Means chạy siêu nhanh trên dữ liệu lớn.",
+    "slideRef": "Slide Chương 5, Trang 16, 69"
   },
   {
     "id": 351,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Thuật toán K-Means++ giải quyết vấn đề nhạy cảm với khởi tạo ngẫu nhiên của K-Means bằng cơ chế chọn tâm nào?",
+    "question": "Thuật toán $K$-Means++ giải quyết vấn đề nhạy cảm với khởi tạo ngẫu nhiên của $K$-Means bằng cơ chế chọn tâm nào?",
     "options": [
-      "Chọn ngẫu nhiên đồng đều tất cả K tâm cùng lúc từ tập dữ liệu",
-      "Tâm đầu tiên chọn ngẫu nhiên; mỗi tâm tiếp theo được chọn từ các điểm còn lại với xác suất tỷ lệ thuận với bình phương khoảng cách D(x)^2 tới tâm gần nhất đã chọn",
+      "Chọn ngẫu nhiên đồng đều tất cả $K$ tâm cùng lúc từ tập dữ liệu",
+      "Tâm đầu tiên chọn ngẫu nhiên; mỗi tâm tiếp theo được chọn từ các điểm còn lại với xác suất tỷ lệ thuận với bình phương khoảng cách $D(x)^2$ tới tâm gần nhất đã chọn",
       "Dùng kết quả của phân tích PCA làm tâm",
       "Chọn các điểm có giá trị lớn nhất theo từng trục tọa độ"
     ],
     "answer": 1,
-    "explanation": "K-Means++ gán xác suất P(x) = D(x)^2 / sum(D(x')^2). Điểm nào càng nằm xa các tâm đã chọn thì xác suất được chọn làm tâm tiếp theo càng cao. Điều này phân tán các tâm khởi đầu ra xa nhau, giảm nguy cơ 2 tâm rơi vào cùng một cụm tự nhiên.",
-    "slideRef": "Slide Chương 5, Trang 29-31"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy trình 4 bước của $K$-Means++:\n1. Chọn tâm đầu tiên $\\mu_1$ ngẫu nhiên đồng đều từ $X$.\n2. Với mỗi điểm $x$, tính khoảng cách $D(x)$ đến tâm cụm gần nó nhất.\n3. Chọn tâm tiếp theo với xác suất: $P(x) = \\frac{D(x)^2}{\\sum D(x')^2}$.\n4. Lặp lại bước 2 và 3 cho đến khi đủ $K$ tâm.\n* Điểm nằm càng xa các tâm cũ thì xác suất được chọn làm tâm mới càng lớn $\\implies$ Phân tán các tâm đều khắp dữ liệu.",
+    "slideRef": "Slide Chương 5, Trang 26-28"
   },
   {
     "id": 352,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Biến thể Mini-Batch K-Means được thiết kế nhằm mục đích chính nào trong các bài toán Big Data?",
+    "question": "Biến thể Mini-Batch $K$-Means được thiết kế nhằm mục đích chính nào trong các bài toán Big Data?",
     "options": [
       "Tăng độ chính xác phân cụm lên 100%",
       "Tối ưu hóa thời gian tính toán và tiết kiệm bộ nhớ RAM bằng cách cập nhật vị trí tâm cụm dựa trên từng tập con mẫu nhỏ (mini-batch) thay vì toàn bộ tập dữ liệu khổng lồ",
-      "Tự động tìm kiếm số lượng cụm K tối ưu",
+      "Tự động tìm kiếm số lượng cụm $K$ tối ưu",
       "Cho phép tìm các cụm có hình dạng xoắn ốc phi tuyến"
     ],
     "answer": 1,
-    "explanation": "Mini-Batch K-Means lấy mẫu ngẫu nhiên một batch nhỏ (ví dụ 100 đến 1000 mẫu) qua mỗi bước để di chuyển dần tâm cụm. Tốc độ nhanh hơn K-Means chuẩn gấp nhiều lần mà kết quả chỉ giảm chất lượng không đáng kể.",
-    "slideRef": "Slide Chương 5, Trang 32-33"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong các bài toán dữ liệu lớn hàng chục gigabyte không thể nạp hết vào RAM:\n  - Mini-Batch $K$-Means lấy từng lô nhỏ ngẫu nhiên (ví dụ $B = 100$ hoặc $1000$ mẫu).\n  - Cập nhật vị trí tâm tức thì theo từng lô.\n  - Tiết kiệm bộ nhớ RAM tối đa và giảm thời gian huấn luyện từ hàng giờ xuống vài phút mà chất lượng cụm suy giảm không đáng kể.",
+    "slideRef": "Slide Chương 5, Trang 30"
   },
   {
     "id": 353,
@@ -4623,8 +4623,8 @@ window.QUESTION_BANK = [
       "DBI phải nhận giá trị âm"
     ],
     "answer": 1,
-    "explanation": "DBI đo tỷ số (độ phân tán cụm i + độ phân tán cụm j) / (khoảng cách giữa tâm i và tâm j). Một kết quả phân cụm lý tưởng có cụm chặt chẽ (độ phân tán nhỏ) và các cụm cách xa nhau (khoảng cách tâm lớn), tức DBI càng nhỏ càng tốt.",
-    "slideRef": "Slide Chương 5, Trang 38-39"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Chỉ số Davies-Bouldin Index (DBI) đo lường độ tương tự trung bình giữa mỗi cụm và cụm giống nó nhất:\n  $$R_{ij} = \\frac{s_i + s_j}{d(\\mu_i, \\mu_j)}$$\n  *(với $s_i$ là độ phân tán nội cụm $i$, $d(\\mu_i, \\mu_j)$ là khoảng cách giữa 2 tâm cụm)*.\n* Ta muốn:\n  - Độ phân tán nội cụm $s_i, s_j$ càng nhỏ càng tốt (cụm cô đặc).\n  - Khoảng cách giữa các tâm $d(\\mu_i, \\mu_j)$ càng lớn càng tốt (tách biệt xa).\n* 👉 Do đó, tử số nhỏ và mẫu số lớn $\\implies$ **DBI CÀNG NHỎ (CÀNG GẦN 0) CÀNG TỐT!**",
+    "slideRef": "Slide Chương 5, Trang 38"
   },
   {
     "id": 354,
@@ -4638,8 +4638,8 @@ window.QUESTION_BANK = [
       "Chỉ số này chỉ đo lường thời gian chạy của thuật toán"
     ],
     "answer": 0,
-    "explanation": "Calinski-Harabasz tính tỷ số giữa tổng bình phương khoảng cách giữa các cụm và trong từng cụm (có chuẩn hóa theo bậc tự do). Cụm càng đặc và cách biệt nhau thì tử số càng lớn và mẫu số càng nhỏ, do đó điểm số càng cao càng tốt.",
-    "slideRef": "Slide Chương 5, Trang 39-40"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Chỉ số Calinski-Harabasz (CH Index):\n  $$\\text{CH} = \\frac{\\text{SSB} / (K - 1)}{\\text{SSW} / (n - K)}$$\n  * $\\text{SSB}$ (Between-group Sum of Squares): Phương sai giữa các tâm cụm với tâm tổng thể (càng lớn càng tốt).\n  * $\\text{SSW}$ (Within-group Sum of Squares): Phương sai nội bộ các điểm trong cụm (càng nhỏ càng tốt).\n* 👉 Tỷ số này **CÀNG LỚN THÌ KẾT QUẢ PHÂN CỤM CÀNG XUẤT SẮC**!",
+    "slideRef": "Slide Chương 5, Trang 39"
   },
   {
     "id": 355,
@@ -4653,23 +4653,23 @@ window.QUESTION_BANK = [
       "Silhouette Coefficient"
     ],
     "answer": 1,
-    "explanation": "Adjusted Rand Index (ARI) so sánh mức độ tương đồng giữa nhãn phân cụm dự đoán và nhãn ground truth thực tế, với giá trị hiệu chỉnh ngẫu nhiên (sao cho đoán mò có ARI = 0, phân cụm hoàn hảo có ARI = 1). Silhouette hay WCSS là đánh giá nội tại không cần nhãn.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhân biệt 2 loại độ đo đánh giá phân cụm:\n1. **Đánh giá nội tại (Internal Evaluation - Không có nhãn thật):** Silhouette Score, WCSS (Inertia), Davies-Bouldin, Calinski-Harabasz.\n2. **Đánh giá ngoại tại (External Evaluation - Khi CÓ NHÃN THẬT để kiểm chứng):**\n   * **Rand Index (RI):** Tỷ lệ các cặp điểm được gán đúng cùng cụm hoặc khác cụm.\n   * **Adjusted Rand Index (ARI):** Hiệu chỉnh chỉ số Rand Index theo kỳ vọng ngẫu nhiên (chống việc gán bừa vẫn có điểm cao). Giá trị nằm trong $[-1, 1]$, càng gần 1 càng hoàn hảo.",
     "slideRef": "Slide Chương 5, Trang 41-43"
   },
   {
     "id": 356,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Trong Mô hình Hỗn hợp Gauss (GMM), mỗi cụm k được mô tả bằng bộ ba tham số thống kê nào?",
+    "question": "Trong Mô hình Hỗn hợp Gauss (GMM), mỗi cụm $k$ được mô tả bằng bộ ba tham số thống kê nào?",
     "options": [
       "Số lượng nút lá, Độ sâu tối đa, Gini Impurity",
-      "Vector kỳ vọng trung bình μ_k, Ma trận hiệp phương sai Σ_k, và Trọng số thành phần π_k (Mixing coefficient)",
-      "Hệ số phạt L1, Hệ số phạt L2, Tốc độ học η",
+      "Vector kỳ vọng trung bình $\\mu_k$, Ma trận hiệp phương sai $\\Sigma_k$, và Trọng số thành phần $\\pi_k$ (Mixing coefficient)",
+      "Hệ số phạt L1, Hệ số phạt L2, Tốc độ học $\\eta$",
       "Bán kính Epsilon, Số điểm tối thiểu MinPts, Khoảng cách Chebyshev"
     ],
     "answer": 1,
-    "explanation": "GMM giả định dữ liệu sinh ra từ K phân phối chuẩn đa biến. Mỗi thành phần k có trọng số hỗn hợp π_k (với sum π_k = 1), vector tâm μ_k, và ma trận hiệp phương sai Σ_k xác định hình dạng, độ lớn và hướng xoay của cụm.",
-    "slideRef": "Slide Chương 5, Trang 45-47"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMỗi thành phần Gaussian thứ $k$ trong GMM được định nghĩa bởi bộ 3 tham số:\n1. **$\\pi_k$ (Trọng số pha trộn):** Xác suất tiên nghiệm của cụm $k$ (thỏa mãn $\\sum \\pi_k = 1$ và $\\pi_k \\ge 0$).\n2. **$\\mu_k$ (Vector kỳ vọng trung tâm):** Xác định tọa độ tâm quả chuông Gaussian trong không gian $d$ chiều.\n3. **$\\Sigma_k$ (Ma trận hiệp phương sai):** Kích thước $d \\times d$, quyết định độ rộng, phương sai và hướng xoay nghiêng của cụm elip.",
+    "slideRef": "Slide Chương 5, Trang 41"
   },
   {
     "id": 357,
@@ -4678,13 +4678,13 @@ window.QUESTION_BANK = [
     "question": "Trong thuật toán EM (Expectation - Maximization) huấn luyện GMM, bước E (Expectation step) thực hiện công việc gì?",
     "options": [
       "Khởi tạo ngẫu nhiên toàn bộ dữ liệu",
-      "Tính toán xác suất hậu nghiệm (Responsibility γ_ik) rằng điểm dữ liệu x_i được sinh ra bởi cụm k, dựa trên các tham số hiện tại",
-      "Cập nhật lại vector trung bình μ_k và ma trận hiệp phương sai Σ_k",
+      "Tính toán xác suất hậu nghiệm (Responsibility $\\gamma_{ik}$) rằng điểm dữ liệu $x_i$ được sinh ra bởi cụm $k$, dựa trên các tham số hiện tại",
+      "Cập nhật lại vector trung bình $\\mu_k$ và ma trận hiệp phương sai $\\Sigma_k$",
       "Gán nhãn cứng 0 hoặc 1 cho từng điểm"
     ],
     "answer": 1,
-    "explanation": "Bước E (Kỳ vọng) giữ nguyên tham số, sử dụng định lý Bayes để tính xác suất điểm x_i thuộc về cụm k: γ_ik = P(z_i = k | x_i) = π_k * N(x_i | μ_k, Σ_k) / sum_j [ π_j * N(x_i | μ_j, Σ_j) ].",
-    "slideRef": "Slide Chương 5, Trang 48-50"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bước E (Expectation Step - Kỳ vọng):**\n  - Giữ nguyên các tham số $(\\pi, \\mu, \\Sigma)$ hiện tại.\n  - Tính toán **Độ trách nhiệm (Responsibility $\\gamma_{ik}$)**:\n    $$\\gamma_{ik} = P(z_i = k | x_i) = \\frac{\\pi_k \\mathcal{N}(x_i | \\mu_k, \\Sigma_k)}{\\sum_{j=1}^K \\pi_j \\mathcal{N}(x_i | \\mu_j, \\Sigma_j)}$$\n  - $\\gamma_{ik}$ chính là xác suất mềm thể hiện mức độ đóng góp của cụm $k$ trong việc sinh ra điểm $x_i$.",
+    "slideRef": "Slide Chương 5, Trang 45-47"
   },
   {
     "id": 358,
@@ -4693,13 +4693,13 @@ window.QUESTION_BANK = [
     "question": "Bước M (Maximization step) trong thuật toán EM thực hiện công việc gì?",
     "options": [
       "Tính toán ma trận nghịch đảo của toàn bộ tập dữ liệu",
-      "Cập nhật lại các tham số (μ_k, Σ_k, π_k) bằng cách tối đa hóa hàm hợp lý kỳ vọng dựa trên các trọng số trách nhiệm γ_ik vừa tính ở bước E",
+      "Cập nhật lại các tham số $(\\mu_k, \\Sigma_k, \\pi_k)$ bằng cách tối đa hóa hàm hợp lý kỳ vọng dựa trên các trọng số trách nhiệm $\\gamma_{ik}$ vừa tính ở bước E",
       "Loại bỏ các điểm ngoại lai khỏi tập dữ liệu",
       "Vẽ biểu đồ hình cây Dendrogram"
     ],
     "answer": 1,
-    "explanation": "Bước M (Cực đại hóa) cập nhật lại các tham số: μ_k mới là trung bình có trọng số theo γ_ik; Σ_k mới là hiệp phương sai có trọng số; và π_k mới = N_k / N.",
-    "slideRef": "Slide Chương 5, Trang 50-52"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Bước M (Maximization Step - Tối đa hóa):**\n  - Giữ cố định các trách nhiệm mềm $\\gamma_{ik}$ từ bước E.\n  - Cập nhật lại các tham số thống kê bằng **trung bình có trọng số**:\n    * Tổng trách nhiệm: $N_k = \\sum_{i=1}^n \\gamma_{ik}$.\n    * Trọng số mới: $\\pi_k = \\frac{N_k}{n}$.\n    * Tâm mới: $\\mu_k = \\frac{1}{N_k} \\sum_{i=1}^n \\gamma_{ik} x_i$.\n    * Hiệp phương sai mới: $\\Sigma_k = \\frac{1}{N_k} \\sum_{i=1}^n \\gamma_{ik} (x_i - \\mu_k)(x_i - \\mu_k)^T$.",
+    "slideRef": "Slide Chương 5, Trang 46-47"
   },
   {
     "id": 359,
@@ -4707,44 +4707,44 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
     "question": "Nếu cấu hình ma trận hiệp phương sai trong GMM là 'diagonal' (đường chéo), các cụm Gauss trong không gian sẽ có dạng hình học nào?",
     "options": [
-      "Hình cầu hoàn hảo",
-      "Hình elip có các trục song song với các trục tọa độ (không xoay nghiêng)",
+      "Hình cầu tròn hoàn hảo đối xứng",
+      "Hình elip có các trục luôn song song với các trục tọa độ (không được xoay nghiêng)",
       "Hình elip tổng quát có thể xoay nghiêng tùy ý theo bất kỳ hướng nào",
       "Một đường thẳng dẹt 1 chiều"
     ],
     "answer": 1,
-    "explanation": "'diagonal' covariance nghĩa là các phần tử ngoài đường chéo bằng 0 (hiệp phương sai giữa các chiều bằng 0, các biến độc lập nhau), do đó cụm có hình elip nhưng các trục chính luôn thẳng hàng song song với các trục tọa độ. (Nếu muốn xoay tự do phải dùng 'full' covariance).",
-    "slideRef": "Slide Chương 5, Trang 53-54"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBa dạng hình học của ma trận hiệp phương sai $\\Sigma$:\n1. **'spherical':** $\\Sigma = \\sigma^2 I \\implies$ Cụm là **hình tròn / hình cầu** (các chiều có phương sai bằng nhau và độc lập).\n2. **'diagonal':** $\\Sigma = \\text{diag}(\\sigma_1^2, \\dots, \\sigma_d^2) \\implies$ Cụm là **hình elip nhưng các trục bắt buộc phải song song với các trục tọa độ** (các biến độc lập với nhau, không có tương quan chéo).\n3. **'full':** $\\Sigma$ tổng quát $\\implies$ Cụm là **hình elip xoay tự do theo bất kỳ góc chéo nào** trong không gian!",
+    "slideRef": "Slide Chương 5, Trang 48"
   },
   {
     "id": 360,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Trong thuật toán DBSCAN, một điểm p được định nghĩa là Điểm lõi (Core point) khi thỏa mãn điều kiện nào?",
+    "question": "Trong thuật toán DBSCAN, một điểm $p$ được định nghĩa là Điểm lõi (Core point) khi thỏa mãn điều kiện nào?",
     "options": [
       "Nó nằm cách tâm cụm một khoảng nhỏ hơn 1.0",
-      "Trong vùng lân cận bán kính ε (Eps) của điểm p có chứa ít nhất MinPts điểm (tính cả chính điểm p)",
-      "Nó có ít hơn MinPts điểm trong bán kính ε nhưng nằm cạnh một điểm khác",
+      "Trong vùng lân cận bán kính $Eps$ ($\\varepsilon$) của điểm $p$ có chứa ít nhất $MinPts$ điểm (TÍNH CẢ CHÍNH ĐIỂM $p$)",
+      "Nó có ít hơn $MinPts$ điểm trong bán kính $Eps$ nhưng nằm cạnh một điểm khác",
       "Nó có giá trị ngoại lai lớn nhất trong tập dữ liệu"
     ],
     "answer": 1,
-    "explanation": "Điều kiện điểm lõi (Core point): |N_ε(p)| >= MinPts. Điểm này nằm sâu trong vùng mật độ cao của cụm.",
-    "slideRef": "Slide Chương 5, Trang 57-59"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Core Point (Điểm lõi):** Điểm hạt nhân của cụm mật độ cao.\n* Điều kiện: Số lượng điểm trong hình cầu bán kính $Eps$ quanh điểm $p$ phải thỏa mãn:\n  $$|N_{Eps}(p)| \\ge MinPts$$\n* ⚠️ **Lưu ý phòng thi:** Tập $N_{Eps}(p)$ **LUÔN BAO GỒM CHÍNH ĐIỂM $p$**! Chỉ cần có thêm $(MinPts - 1)$ điểm láng giềng khác lọt vào vùng bán kính $Eps$ là $p$ trở thành Điểm lõi.",
+    "slideRef": "Slide Chương 5, Trang 53"
   },
   {
     "id": 361,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Trong DBSCAN, một điểm q được gọi là Điểm biên (Border point) khi nào?",
+    "question": "Trong DBSCAN, một điểm $q$ được gọi là Điểm biên (Border point) khi nào?",
     "options": [
-      "Điểm q có số điểm lân cận trong bán kính ε nhỏ hơn MinPts, nhưng điểm q lại nằm trong vùng lân cận bán kính ε của một Điểm lõi",
-      "Điểm q có số lân cận lớn hơn 2 lần MinPts",
-      "Điểm q không nằm trong lân cận của bất kỳ điểm nào",
-      "Điểm q luôn bị thuật toán gán nhãn là nhiễu (-1)"
+      "Điểm $q$ có số điểm lân cận trong bán kính $Eps$ nhỏ hơn $MinPts$, nhưng điểm $q$ lại nằm trong vùng lân cận bán kính $Eps$ của một Điểm lõi",
+      "Điểm $q$ có số lân cận lớn hơn 2 lần $MinPts$",
+      "Điểm $q$ không nằm trong lân cận của bất kỳ điểm nào",
+      "Điểm $q$ luôn bị thuật toán gán nhãn là nhiễu (-1)"
     ],
     "answer": 0,
-    "explanation": "Điểm biên (Border point) không đủ điều kiện làm điểm lõi (|N_ε(q)| < MinPts) nhưng may mắn 'chạm' vào vùng lân cận của một điểm lõi, do đó vẫn được kết nạp vào cụm của điểm lõi đó thay vì bị coi là nhiễu.",
-    "slideRef": "Slide Chương 5, Trang 59-61"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Border Point (Điểm biên):**\n  - Điều kiện 1: $|N_{Eps}(q)| < MinPts$ (bản thân nó thưa thớt, không đủ tiêu chuẩn làm Core).\n  - Điều kiện 2: Tồn tại ít nhất một Điểm lõi $p$ sao cho $q \\in N_{Eps}(p)$ (nó chạm vào vùng phủ của một Core).\n* Điểm biên là ranh giới ngoài cùng của cụm mật độ. Nó thuộc về cụm nhưng không có năng lực tự lan truyền mở rộng cụm sang các điểm khác.",
+    "slideRef": "Slide Chương 5, Trang 53, 55"
   },
   {
     "id": 362,
@@ -4753,13 +4753,13 @@ window.QUESTION_BANK = [
     "question": "Điểm nhiễu (Noise point / Outlier) trong thuật toán DBSCAN có đặc điểm nhận dạng nào?",
     "options": [
       "Điểm có khoảng cách Manhattan lớn nhất",
-      "Điểm không phải là Điểm lõi và cũng không thuộc vùng lân cận ε của bất kỳ Điểm lõi nào (thường được gán nhãn -1)",
+      "Điểm không phải là Điểm lõi và cũng không thuộc vùng lân cận $Eps$ của bất kỳ Điểm lõi nào (thường được gán nhãn -1)",
       "Điểm có hệ số Silhouette lớn hơn 0.8",
       "Điểm nằm chính giữa hai cụm lân cận"
     ],
     "answer": 1,
-    "explanation": "Bất kỳ điểm nào không phải Core point và cũng không phải Border point đều bị xếp vào nhóm Điểm nhiễu (Noise). Trong thư viện scikit-learn, các điểm này được gán nhãn -1.",
-    "slideRef": "Slide Chương 5, Trang 61-62"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Noise Point (Điểm nhiễu):**\n  - Là điểm bị cô lập ở vùng mật độ rất thưa thớt.\n  - Vùng lân cận bán kính $Eps$ của nó không đủ $MinPts$ điểm, và nó cũng không chạm tới bất kỳ Điểm lõi nào.\n  - DBSCAN tự động phát hiện và gán nhãn cho các điểm này là **$-1$**.\n* Đây là tính năng lọc nhiễu tự nhiên rất mạnh mà $K$-Means hoàn toàn không có.",
+    "slideRef": "Slide Chương 5, Trang 53-54"
   },
   {
     "id": 363,
@@ -4767,14 +4767,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
     "question": "Quan hệ 'Có thể tiếp cận theo mật độ' (Density-reachable) trong DBSCAN có tính chất nào?",
     "options": [
-      "Có tính đối xứng (nếu p tiếp cận được q thì q luôn tiếp cận được p)",
-      "Không có tính đối xứng nói chung: Một điểm biên có thể tiếp cận được từ một điểm lõi thông qua chuỗi các điểm lõi trung gian, nhưng ngược lại từ điểm biên không thể tiếp cận được điểm lõi vì điểm biên không có khả năng phát tán tiếp",
+      "Có tính đối xứng (nếu $p$ tiếp cận được $q$ thì $q$ luôn tiếp cận được $p$)",
+      "KHÔNG CÓ TÍNH ĐỐI XỨNG nói chung: Một điểm biên có thể tiếp cận được từ điểm lõi, nhưng từ điểm biên KHÔNG THỂ tiếp cận được điểm lõi vì điểm biên không có khả năng phát tán tiếp",
       "Luôn bắc cầu giữa mọi cặp điểm trong toàn bộ dataset",
       "Yêu cầu khoảng cách Euclidean phải bằng 0"
     ],
     "answer": 1,
-    "explanation": "Density-reachable KHÔNG đối xứng. Chuỗi p1 -> p2 -> ... -> pn đòi hỏi các điểm từ p1 đến pn-1 phải là CORE points. Nếu pn là Border point thì p1 tiếp cận được pn, nhưng từ pn không thể tìm đường ngược lại vì pn không phải Core point.",
-    "slideRef": "Slide Chương 5, Trang 62-64"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **CÂU HỎI LÝ THUYẾT ĐẲNG CẤP HAY RA THI:**\n* **Khả đạt mật độ (Density-reachable):** Điểm $q$ khả đạt mật độ từ điểm $p$ nếu có một chuỗi $p_1, \\dots, p_k$ ($p_1 = p, p_k = q$) sao cho mỗi điểm tiếp theo khả đạt trực tiếp từ điểm lõi trước đó.\n* **Tính chất không đối xứng:**\n  - Nếu $p$ là Core và $q$ là Border: $q$ khả đạt từ $p$.\n  - Nhưng chiều ngược lại: Vì $q$ là Border (không phải Core), nó không thể kích hoạt tiếp chuỗi lan truyền $\\implies p$ **KHÔNG THỂ khả đạt mật độ từ $q$**!\n* Để có tính đối xứng, người ta định nghĩa quan hệ **Liên thông mật độ (Density-connected)**.",
+    "slideRef": "Slide Chương 5, Trang 54-55"
   },
   {
     "id": 364,
@@ -4788,188 +4788,188 @@ window.QUESTION_BANK = [
       "Dữ liệu 2 chiều quan sát trực quan"
     ],
     "answer": 1,
-    "explanation": "DBSCAN sử dụng một cặp tham số (ε, MinPts) cố định toàn cục. Nếu dữ liệu có các cụm mật độ chênh lệch lớn: nếu chọn ε nhỏ để bắt cụm đặc thì cụm thưa sẽ bị coi là nhiễu; nếu chọn ε lớn để bắt cụm thưa thì cụm đặc sẽ bị dính chập vào nhau. Khi đó phải dùng HDBSCAN.",
-    "slideRef": "Slide Chương 5, Trang 66-67"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì DBSCAN chỉ dùng **duy nhất một cặp siêu tham số $(Eps, MinPts)$ cố định** cho toàn bộ dataset:\n  - Nếu trong dữ liệu có 1 cụm siêu đặc (ví dụ $1000$ điểm trong vòng tròn bán kính 1) và 1 cụm thưa tự nhiên (ví dụ $50$ điểm trong vòng tròn bán kính 5):\n  - Không thể tìm được một giá trị $Eps$ nào làm hài lòng cả 2 cụm: Hoặc cụm thưa bị gán nhãn là Nhiễu hết, hoặc cụm đặc bị dính liền với các vùng xung quanh!",
+    "slideRef": "Slide Chương 5, Trang 61"
   },
   {
     "id": 365,
     "chapter": 5,
     "chapterTitle": "Chương 5: Bài toán Phân cụm",
-    "question": "Ưu điểm vượt trội nhất của DBSCAN so với K-Means là gì?",
+    "question": "Ưu điểm vượt trội nhất của DBSCAN so với $K$-Means là gì?",
     "options": [
-      "DBSCAN luôn chạy nhanh hơn K-Means trên dữ liệu hàng triệu chiều",
-      "DBSCAN không yêu cầu người dùng phải xác định trước số cụm K, có khả năng tìm các cụm có hình dạng hình học tùy ý phi tuyến, và tự động phát hiện loại bỏ các điểm nhiễu",
+      "DBSCAN luôn chạy nhanh hơn $K$-Means trên dữ liệu hàng triệu chiều",
+      "DBSCAN không yêu cầu người dùng phải xác định trước số cụm $K$, có khả năng tìm các cụm có hình dạng hình học tùy ý phi tuyến, và tự động phát hiện loại bỏ các điểm nhiễu",
       "DBSCAN luôn tạo ra các cụm hình cầu tròn trịa",
       "DBSCAN có nghiệm đóng giải tích duy nhất"
     ],
     "answer": 1,
-    "explanation": "K-Means bị giới hạn ở cụm lồi hình cầu và phải đoán K trước. DBSCAN tự động phát hiện số lượng cụm, bắt trọn các hình dạng phức tạp (chữ U, xoắn ốc, vành khuyên) và cô lập hoàn toàn các điểm nhiễu.",
-    "slideRef": "Slide Chương 5, Trang 67-68"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nBa ưu điểm vô địch của DBSCAN khi so sánh với $K$-Means:\n1. **Không cần biết trước số cụm $K$:** Tự động phát hiện số lượng cụm tự nhiên.\n2. **Tìm được cụm hình dạng bất kỳ:** Hình trăng khuyết, xoắn ốc, chữ C mà $K$-Means hoàn toàn bất lực.\n3. **Tự động lọc điểm nhiễu ngoại lai:** Gán nhãn $-1$ cho các điểm cô lập, không để ngoại lai làm biến dạng cụm.",
+    "slideRef": "Slide Chương 5, Trang 60, 69-70"
   },
   {
     "id": 176,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong một Nơ-ron nhân tạo (Artificial Neuron), tổng có trọng số z được tính bằng công thức nào?",
+    "question": "Trong một Nơ-ron nhân tạo (Artificial Neuron), tổng có trọng số $z$ được tính bằng công thức toán học nào?",
     "options": [
-      "z = w * x",
-      "z = w^T x + b = Σ (w_j * x_j) + b",
-      "z = σ(w^T x)",
-      "z = max(0, w^T x)"
+      "$z = w + x + b$",
+      "$z = w^T x + b = \\sum_{j=1}^d w_j x_j + b$",
+      "$z = \\phi(w^T x)$",
+      "$z = \\|w - x\\|^2$"
     ],
     "answer": 1,
-    "explanation": "Tổng có trọng số z là tổ hợp tuyến tính của các đầu vào nhân với trọng số tương ứng cộng thêm bias: z = w^T x + b.",
-    "slideRef": "Slide Chương 6, Trang 6, 8"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMột nơ-ron nhân tạo nhận đầu vào là vector đặc trưng $x = [x_1, x_2, \\dots, x_d]^T$:\n* Mỗi đặc trưng $x_j$ được nhân với trọng số tương ứng $w_j$.\n* Toàn bộ các tích được cộng lại và cộng thêm một đại lượng độ lệch (bias $b$):\n  $$z = w^T x + b = \\sum_{j=1}^d w_j x_j + b$$\n* Sau đó, giá trị tuyến tính $z$ này mới được đưa qua hàm kích hoạt phi tuyến: $a = \\phi(z)$.\n\n> 💡 **Quy tắc trắc nghiệm:** $z$ là tổ hợp tuyến tính (Affine Transformation), còn $a$ là giá trị sau kích hoạt phi tuyến.",
+    "slideRef": "Slide Chương 6, Trang 8-9"
   },
   {
     "id": 177,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Hệ số Bias b trong nơ-ron nhân tạo đóng vai trò gì?",
+    "question": "Ý nghĩa bản chất của Trọng số ($Weights\\ w$) và Độ lệch ($Bias\\ b$) trong nơ-ron nhân tạo là gì?",
     "options": [
-      "Nhân tỷ lệ với đầu vào x_1",
-      "Bổ sung một mức dịch chuyển độc lập với đầu vào, quyết định vị trí kích hoạt của nơ-ron",
-      "Làm triệt tiêu đạo hàm trong lan truyền ngược",
-      "Quy định số lượng tầng ẩn trong mạng"
+      "Trọng số và bias chỉ là các biến phụ để lưu trữ dữ liệu tạm thời",
+      "Độ lớn $|w_j|$ thể hiện mức độ quan trọng của đặc trưng $x_j$, dấu của $w_j$ thể hiện chiều tác động; còn Bias $b$ đóng vai trò dịch chuyển ngưỡng kích hoạt độc lập với đầu vào",
+      "Bias luôn bằng 0 trong mọi kiến trúc mạng nơ-ron",
+      "Trọng số luôn mang giá trị dương từ 0 đến 1"
     ],
     "answer": 1,
-    "explanation": "Bias b cho phép nơ-ron dịch chuyển biên kích hoạt sang trái hoặc phải một cách độc lập với giá trị đầu vào (tương tự hệ số chặn w_0).",
-    "slideRef": "Slide Chương 6, Trang 7, 10"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nGiải phẫu vai trò của $w$ và $b$:\n* **Trọng số $w_j$:**\n  - **Độ lớn $|w_j|$:** Đo lường sức mạnh ảnh hưởng của $x_j$ tới nơ-ron ($|w_j|$ càng lớn thì đặc trưng đó càng quyết định kết quả).\n  - **Dấu của $w_j$:** Hướng tác động — dấu dương kích thích nơ-ron bật công tắc, dấu âm ức chế nơ-ron.\n* **Độ lệch (Bias $b$):**\n  - Đóng vai trò là **ngưỡng kích hoạt nội tại**.\n  - Nếu không có $b$, mặt phẳng quyết định $w^Tx = 0$ luôn bị trói chặt đi qua gốc tọa độ $(0, 0, \\dots, 0)$. Bias $b$ cho phép mặt phẳng tự do tịnh tiến khắp không gian!",
+    "slideRef": "Slide Chương 6, Trang 10"
   },
   {
     "id": 178,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Mô hình Perceptron của Rosenblatt (1957) sử dụng hàm kích hoạt nào?",
+    "question": "Mô hình Perceptron cổ điển của Frank Rosenblatt (1957) sử dụng loại hàm kích hoạt nào?",
     "options": [
       "Hàm Sigmoid",
-      "Hàm bước nhảy (Step / Threshold Function)",
+      "Hàm bước nhảy (Step / Threshold function): cho ra 1 khi $z \\ge 0$ và 0 khi $z < 0$",
       "Hàm ReLU",
-      "Hàm Tuyến tính"
+      "Hàm Tuyến tính thuần túy"
     ],
     "answer": 1,
-    "explanation": "Perceptron nguyên thủy dùng hàm bước nhảy: a = 1 nếu z >= 0, ngược lại a = 0.",
-    "slideRef": "Slide Chương 6, Trang 13, 15"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nFrank Rosenblatt đề xuất Perceptron với hàm kích hoạt bước nhảy Heaviside:\n$$a = \\phi(z) = \\begin{cases} 1 & \\text{nếu } z = w^Tx + b \\ge 0 \\\\ 0 & \\text{nếu } z = w^Tx + b < 0 \\end{cases}$$\n* Đầu ra của Perceptron là nhị phân rời rạc ($0$ hoặc $1$).\n* Biên quyết định phân tách là siêu phẳng: $w^T x + b = 0$.\n\n> 💡 **Lưu ý:** Vì hàm bước nhảy có đạo hàm bằng 0 ở mọi nơi (và không khả vi tại $z=0$), nó không thể dùng được với thuật toán Gradient Descent / Backpropagation hiện đại.",
+    "slideRef": "Slide Chương 6, Trang 13, 16"
   },
   {
     "id": 179,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Giới hạn lịch sử nổi tiếng của mô hình Perceptron đơn tầng do Minsky & Papert chứng minh năm 1969 là gì?",
+    "question": "Tính chất hình học quan trọng nhất của Vector trọng số $w$ đối với Ranh giới quyết định (Decision Boundary) trong Perceptron là gì?",
     "options": [
-      "Không thể tính toán được phép cộng số học",
-      "Chỉ phân tách được các bài toán phân tách tuyến tính; bất lực hoàn toàn với bài toán logic XOR",
-      "Không thể huấn luyện bằng máy tính",
-      "Chỉ nhận được đầu vào là số nguyên"
+      "Vector $w$ luôn song song với ranh giới quyết định",
+      "Vector $w$ luôn VUÔNG GÓC (là vector pháp tuyến) với ranh giới quyết định và hướng về phía nửa không gian cho ra nhãn 1",
+      "Vector $w$ luôn đi qua gốc tọa độ",
+      "Vector $w$ luôn có độ dài bằng 1"
     ],
     "answer": 1,
-    "explanation": "Perceptron chỉ tạo được biên quyết định phẳng tuyến tính, do đó không thể phân loại được các mẫu của cổng XOR vốn không phân tách tuyến tính.",
-    "slideRef": "Slide Chương 6, Trang 18-19"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Phương trình ranh giới quyết định của Perceptron là siêu phẳng: $w^T x + b = 0$.\n* Trong hình học giải tích, **vector $w$ chính là vector pháp tuyến**, luôn luôn **vuông góc với siêu phẳng này**.\n* Chiều của vector $w$ chỉ về phía nửa không gian thỏa mãn $w^T x + b > 0$ (phía cho ra đầu ra $\\hat{y} = 1$).",
+    "slideRef": "Slide Chương 6, Trang 16"
   },
   {
     "id": 180,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Điều gì sẽ xảy ra nếu ta loại bỏ tất cả các hàm kích hoạt phi tuyến trong một mạng MLP có 10 tầng ẩn (hoặc dùng hàm kích hoạt tuyến tính f(z) = c*z)?",
+    "question": "Tại sao Perceptron đơn tầng của Rosenblatt lại BẤT LỰC HOÀN TOÀN trước bài toán cổng logic XOR?",
     "options": [
-      "Mạng sẽ học được các hàm phi tuyến phức tạp hơn",
-      "Toàn bộ mạng 10 tầng sẽ sụp đổ tương đương với đúng một tầng tuyến tính đơn lẻ",
-      "Mạng sẽ bị lỗi chia cho 0",
-      "Thời gian huấn luyện tăng lên gấp 100 lần"
+      "Vì Perceptron chỉ làm việc được với dữ liệu 1 chiều",
+      "Vì 4 điểm dữ liệu của bài toán XOR KHÔNG PHÂN TÁCH TUYẾN TÍNH (Not Linearly Separable), không thể dùng một đường thẳng đơn lẻ để chia cắt",
+      "Vì hàm bước nhảy không hỗ trợ số nguyên",
+      "Vì cổng XOR luôn có giá trị bằng 0"
     ],
     "answer": 1,
-    "explanation": "Tích của các ma trận biến đổi tuyến tính qua nhiều tầng vẫn chỉ là một phép biến đổi tuyến tính đơn lẻ: W_2(W_1 x + b_1) + b_2 = W' x + b'.",
-    "slideRef": "Slide Chương 6, Trang 11, 21"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **CỘT MỐC LỊCH SỬ DẪN ĐẾN MÙA ĐÔNG AI THỨ NHẤT (1969):**\n* Bảng chân trị cổng XOR:\n  - $(0, 0) \\to 0$, $(1, 1) \\to 0$ (Hai điểm nhãn 0 nằm ở 2 góc đối đỉnh).\n  - $(0, 1) \\to 1$, $(1, 0) \\to 1$ (Hai điểm nhãn 1 nằm ở 2 góc đối đỉnh còn lại).\n* **Về mặt hình học:** Trong mặt phẳng 2D, **không thể vẽ bất kỳ một đường thẳng nào** có thể chia tách hoàn hảo 2 điểm nhãn 0 với 2 điểm nhãn 1!\n* Muốn giải quyết XOR, bắt buộc phải có ít nhất 2 đường thẳng $\\implies$ đòi hỏi **Mạng nhiều tầng (MLP) với hàm kích hoạt phi tuyến**.",
+    "slideRef": "Slide Chương 6, Trang 18-19"
   },
   {
     "id": 181,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Hàm kích hoạt Sigmoid có miền giá trị và đạo hàm cực đại bằng bao nhiêu?",
+    "question": "Nếu trong một mạng MLP nhiều tầng, ta LOẠI BỎ TOÀN BỘ các hàm kích hoạt phi tuyến (hoặc chỉ dùng hàm kích hoạt tuyến tính $\\phi(z) = c \\cdot z$), điều gì sẽ xảy ra?",
     "options": [
-      "Miền (-1, 1), đạo hàm cực đại bằng 1.0",
-      "Miền (0, 1), đạo hàm cực đại bằng 0.25 (tại z = 0)",
-      "Miền [0, +∞), đạo hàm cực đại bằng 0.5",
-      "Miền (-∞, +∞), đạo hàm cực đại bằng 0"
+      "Mạng sẽ học nhanh hơn gấp 10 lần",
+      "Toàn bộ mạng sâu sẽ SỤP ĐỔ và có năng lực biểu diễn hoàn toàn tương đương với ĐÚNG MỘT TẦNG TUYẾN TÍNH ĐƠN LẺ",
+      "Mạng sẽ tự động chuyển thành cây quyết định",
+      "Mạng sẽ đạt độ chính xác 100%"
     ],
     "answer": 1,
-    "explanation": "Sigmoid σ(z) = 1 / (1 + e^-z) có miền (0, 1). Đạo hàm σ'(z) = σ(z)(1 - σ(z)) đạt cực đại tại z = 0 với giá trị 0.5 * 0.5 = 0.25.",
-    "slideRef": "Slide Chương 6, Trang 28, 31"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **CÂU HỎI KINH ĐIỂN VỀ TÍNH PHI TUYẾN:**\n* Giả sử mạng có 2 tầng tuyến tính:\n  - Tầng 1: $a^{(1)} = W^{(1)} x + b^{(1)}$\n  - Tầng 2: $a^{(2)} = W^{(2)} a^{(1)} + b^{(2)}$\n* Thay Tầng 1 vào Tầng 2:\n  $$a^{(2)} = W^{(2)}(W^{(1)} x + b^{(1)}) + b^{(2)} = (W^{(2)}W^{(1)}) x + (W^{(2)}b^{(1)} + b^{(2)}) = W_{tổng} x + b_{tổng}$$\n* **Kết luận:** Tích của các ma trận tuyến tính vẫn chỉ là 1 ma trận tuyến tính đơn lẻ! Xếp 1000 tầng tuyến tính cũng vô dụng.\n* 👉 **Bắt buộc phải có hàm kích hoạt PHI TUYẾN** để phá vỡ tính tuyến tính, cho phép mạng uốn cong không gian.",
+    "slideRef": "Slide Chương 6, Trang 11"
   },
   {
     "id": 182,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient) khi dùng hàm Sigmoid trong mạng nơ-ron sâu xảy ra do nguyên nhân nào?",
+    "question": "Hàm kích hoạt Sigmoid có công thức $\\sigma(z) = \\frac{1}{1 + e^{-z}}$. Đạo hàm của nó $\\sigma'(z)$ đạt giá trị CỰC ĐẠI bằng bao nhiêu và tại đâu?",
     "options": [
-      "Vì đạo hàm của Sigmoid luôn lớn hơn 10",
-      "Vì khi |z| lớn, Sigmoid bị bão hòa ở 0 hoặc 1, đạo hàm tiến về 0; việc nhân chuỗi nhiều đạo hàm nhỏ qua các tầng làm gradient ở các tầng đầu triệt tiêu về 0",
-      "Vì Sigmoid có điểm nhọn không khả vi",
-      "Vì hàm Sigmoid tính toán quá nhanh"
+      "Đạt cực đại bằng $1.0$ tại $z = 1$",
+      "Đạt cực đại bằng $0.25$ tại $z = 0$",
+      "Đạt cực đại bằng $0.5$ tại $z = 0$",
+      "Đạt cực đại bằng $+\\infty$"
     ],
     "answer": 1,
-    "explanation": "Khi nhân chuỗi các giá trị đạo hàm <= 0.25 qua nhiều tầng, gradient truyền ngược về tầng đầu giảm theo hàm mũ về sát 0, khiến các tầng đầu ngừng học.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức đạo hàm của hàm Sigmoid:\n$$\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$$\n* Tại $z = 0$: $\\sigma(0) = 0.5$.\n* Thay vào đạo hàm:\n  $$\\sigma'(0) = 0.5 \\times (1 - 0.5) = \\mathbf{0.25}$$\n* Vì $\\sigma(z) \\in (0, 1)$, tích $p(1-p)$ luôn đạt giá trị lớn nhất khi $p = 0.5$.\n* 👉 **Hệ quả thi cử:** Đạo hàm của Sigmoid **luôn luôn $\\le 0.25$**. Đây chính là nguồn gốc gây ra căn bệnh Triệt tiêu đạo hàm (Vanishing Gradient) trong các mạng sâu!",
     "slideRef": "Slide Chương 6, Trang 28, 31"
   },
   {
     "id": 183,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Ưu điểm lớn của hàm Tanh so với hàm Sigmoid là gì?",
+    "question": "Ưu điểm vượt trội nhất của hàm kích hoạt Tanh (Hyperbolic Tangent) so với hàm Sigmoid là gì?",
     "options": [
-      "Tanh không bao giờ bị bão hòa",
-      "Đầu ra của Tanh đối xứng hoàn hảo qua gốc tọa độ 0 (Zero-centered, miền [-1, 1]) giúp gradient dao động đều quanh 0 và hội tụ nhanh hơn",
-      "Tanh có công thức đơn giản hơn ReLU",
-      "Tanh không sử dụng hàm số mũ e"
+      "Tanh không bao giờ bị bão hòa ở 2 đầu",
+      "Đầu ra của Tanh ĐỐI XỨNG HOÀN HẢO QUA GỐC TỌA ĐỘ 0 (Zero-centered, miền $(-1, 1)$), giúp gradient dao động đều quanh 0 và mô hình hội tụ nhanh hơn",
+      "Tanh có chi phí tính toán nhẹ hơn ReLU",
+      "Tanh không sử dụng hàm số mũ $e$"
     ],
     "answer": 1,
-    "explanation": "Hàm Tanh có miền (-1, 1) đối xứng quanh 0 (zero-centered), khắc phục được nhược điểm luôn dương của Sigmoid.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Hàm Sigmoid:** Miền giá trị $(0, 1)$ luôn dương $\\implies$ Gradient của các trọng số $\\frac{\\partial L}{\\partial w_j} = \\delta \\cdot x_j$ luôn cùng dấu (cùng tăng hoặc cùng giảm), làm quỹ đạo cập nhật bị giật zic-zac chậm chạp.\n* **Hàm Tanh:** Miền giá trị $(-1, 1)$, đối xứng qua 0 (**Zero-centered**):\n  - Giá trị trung bình của kích hoạt xấp xỉ bằng 0.\n  - Gradient truyền ngược có cả âm và dương cân bằng $\\implies$ Triệt tiêu dao động zic-zac, giúp mạng hội tụ nhanh hơn Sigmoid nhiều lần!",
     "slideRef": "Slide Chương 6, Trang 29, 31"
   },
   {
     "id": 184,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Công thức và đạo hàm của hàm kích hoạt ReLU (Rectified Linear Unit) là gì?",
+    "question": "Công thức toán học và đạo hàm của hàm kích hoạt ReLU (Rectified Linear Unit) là gì?",
     "options": [
-      "ReLU(z) = max(0, z); Đạo hàm bằng 1 khi z > 0, bằng 0 khi z < 0",
-      "ReLU(z) = min(0, z); Đạo hàm bằng -1",
-      "ReLU(z) = 1 / (1 + e^-z); Đạo hàm bằng z",
-      "ReLU(z) = |z|; Đạo hàm bằng 0"
+      "$\\text{ReLU}(z) = \\max(0, z)$; Đạo hàm bằng 1 khi $z > 0$, bằng 0 khi $z < 0$",
+      "$\\text{ReLU}(z) = \\min(0, z)$; Đạo hàm bằng -1",
+      "$\\text{ReLU}(z) = \\frac{1}{1 + e^{-z}}$; Đạo hàm bằng $z$",
+      "$\\text{ReLU}(z) = |z|$; Đạo hàm bằng 0"
     ],
     "answer": 0,
-    "explanation": "ReLU(z) = max(0, z). Với z > 0, đạo hàm luôn bằng đúng 1; với z < 0, đạo hàm bằng 0.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Công thức ReLU:**\n  $$\\text{ReLU}(z) = \\max(0, z)$$\n* **Đạo hàm:**\n  $$\\text{ReLU}'(z) = \\begin{cases} 1 & \\text{khi } z > 0 \\\\ 0 & \\text{khi } z < 0 \\end{cases}$$\n  *(Tại $z = 0$, đạo hàm dưới bằng 0 hoặc 0.5 theo quy ước)*.\n* Miền giá trị: $[0, +\\infty)$. Khi $z > 0$, hàm hoàn toàn tuyến tính với hệ số góc bằng 1.",
     "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 185,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Tại sao hàm ReLU trở thành lựa chọn chuẩn mực hàng đầu cho các tầng ẩn trong Deep Learning hiện đại?",
+    "question": "Tại sao hàm ReLU trở thành lựa chọn chuẩn mực mặc định cho các tầng ẩn trong Deep Learning hiện đại?",
     "options": [
-      "Vì ReLU hoàn toàn không bị bão hòa và có đạo hàm bằng 1 ở miền dương (z > 0), giải quyết triệt để Vanishing Gradient, kèm tính toán siêu nhanh",
-      "Vì ReLU có miền giá trị bị chặn trong [0, 1]",
-      "Vì ReLU trơn mượt khả vi tại mọi điểm",
-      "Vì ReLU loại bỏ hoàn toàn hiện tượng quá khớp"
+      "Vì ReLU hoàn toàn không bị bão hòa và có đạo hàm bằng 1 ở miền dương ($z > 0$), giải quyết triệt để Vanishing Gradient, kèm tính toán siêu nhanh không dùng hàm mũ",
+      "Vì ReLU có miền giá trị bị chặn trong đoạn $[0, 1]$",
+      "Vì ReLU khả vi trơn mượt tại mọi điểm trên trục số",
+      "Vì ReLU loại bỏ hoàn toàn hiện tượng quá khớp (Overfitting)"
     ],
     "answer": 0,
-    "explanation": "ReLU tính toán cực nhanh (chỉ so sánh max) và giữ nguyên gradient bằng 1 khi z > 0, cho phép huấn luyện mạng sâu hàng chục, hàng trăm tầng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nHai lý do đưa ReLU lên ngôi vương trong Deep Learning:\n1. **Khắc phục triệt tiêu đạo hàm (Non-saturating):** Với mọi $z > 0$, đạo hàm luôn bằng đúng **1.0** $\\implies$ Gradient truyền ngược qua hàng chục tầng mạng sâu mà không bị teo nhỏ.\n2. **Tốc độ tính toán vô địch:** Chỉ là phép so sánh ngưỡng `if z > 0`, không tốn chi phí tính toán hàm số mũ $e^z$ nặng nề như Sigmoid/Tanh $\\implies$ Giúp mạng hội tụ nhanh hơn gấp 6 lần!",
     "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 186,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Hiện tượng 'Dying ReLU' (Chết nơ-ron) xảy ra khi nào?",
+    "question": "Hiện tượng 'Dying ReLU' (Chết nơ-ron) trong quá trình huấn luyện xảy ra khi nào?",
     "options": [
-      "Khi tốc độ học learning rate bằng 0",
-      "Khi nơ-ron liên tục nhận giá trị đầu vào z < 0, đạo hàm bằng 0 vĩnh viễn và các trọng số không bao giờ được cập nhật lại nữa",
-      "Khi nơ-ron nhận giá trị z quá lớn",
-      "Khi hàm ReLU bị tràn số"
+      "Khi tốc độ học Learning Rate bằng 0",
+      "Khi nơ-ron liên tục nhận giá trị đầu vào $z < 0$, đạo hàm bằng 0 vĩnh viễn và các trọng số không bao giờ được cập nhật lại nữa",
+      "Khi nơ-ron nhận giá trị $z$ quá lớn gây tràn số",
+      "Khi hàm ReLU bị lỗi số học chia cho 0"
     ],
     "answer": 1,
-    "explanation": "Nếu nơ-ron rơi vào trạng thái z < 0 trên hầu hết dữ liệu, gradient bằng 0 khiến trọng số không được cập nhật, nơ-ron trở nên vô dụng vĩnh viễn.",
-    "slideRef": "Slide Chương 6, Trang 31"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Bệnh lý đặc thù của ReLU:\n  - Nếu một nơ-ron bị cập nhật trọng số khiến tổng đầu vào $z = w^T x + b < 0$ cho hầu hết các mẫu dữ liệu.\n  - Khi $z < 0$, $\\text{ReLU}'(z) = 0 \\implies$ Gradient truyền ngược qua nơ-ron này bằng 0.\n  - Trọng số không bao giờ thay đổi được nữa, nơ-ron vĩnh viễn chỉ xuất ra giá trị 0 $\\implies$ Nơ-ron bị \"chết\" (Dying ReLU).",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 187,
@@ -4977,14 +4977,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
     "question": "Hàm Leaky ReLU khắc phục hiện tượng Dying ReLU bằng cơ chế nào?",
     "options": [
-      "Bằng cách cho phép một độ dốc nhỏ (ví dụ 0.01 * z) khi z < 0 thay vì bằng đúng 0",
-      "Bằng cách nén đầu ra về đoạn [0, 1]",
-      "Bằng cách chuyển thành hàm Tanh",
-      "Bằng cách xóa bỏ trọng số âm"
+      "Bằng cách cho phép một độ dốc nhỏ (ví dụ $0.01 \\cdot z$) khi $z < 0$ thay vì ép bằng 0",
+      "Bằng cách nén đầu ra về đoạn $[0, 1]$ như Sigmoid",
+      "Bằng cách chuyển thành hàm Tanh đối xứng",
+      "Bằng cách xóa bỏ các trọng số âm"
     ],
     "answer": 0,
-    "explanation": "Leaky ReLU định nghĩa f(z) = max(α*z, z) với α ≈ 0.01, đảm bảo luôn có một gradient nhỏ truyền ngược lại khi z < 0.",
-    "slideRef": "Slide Chương 6, Trang 31"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Leaky ReLU:\n$$\\text{Leaky ReLU}(z) = \\begin{cases} z & \\text{khi } z > 0 \\\\ \\alpha z & \\text{khi } z \\le 0 \\end{cases}$$\n*(với $\\alpha$ là hệ số dốc nhỏ, thường chọn $\\alpha = 0.01$)*.\n* Khi $z < 0$, đạo hàm bằng $\\alpha = 0.01$ (khác 0) $\\implies$ Gradient vẫn luôn có một dòng tín hiệu nhỏ chảy qua để kéo trọng số cập nhật trở lại, giúp nơ-ron hồi sinh!",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 188,
@@ -4992,13 +4992,13 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
     "question": "Đối với bài toán Hồi quy (Regression) dự đoán giá trị liên tục, tầng đầu ra của mạng MLP nên được thiết kế như thế nào?",
     "options": [
-      "1 nơ-ron với hàm kích hoạt Sigmoid",
-      "1 nơ-ron với hàm kích hoạt Tuyến tính (Linear / No activation) kết hợp hàm mất mát MSE",
-      "K nơ-ron với hàm Softmax",
+      "1 nơ-ron với hàm kích hoạt Sigmoid kết hợp hàm BCE",
+      "1 nơ-ron với hàm kích hoạt Tuyến tính (Linear / No activation: $\\hat{y} = z$) kết hợp hàm mất mát MSE",
+      "$K$ nơ-ron với hàm Softmax kết hợp hàm CCE",
       "1 nơ-ron với hàm bước nhảy Step"
     ],
     "answer": 1,
-    "explanation": "Bài toán hồi quy cần dự đoán giá trị số thực không bị giới hạn miền, do đó nơ-ron đầu ra dùng kích hoạt tuyến tính kết hợp hàm mất mát MSE.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Trong bài toán Hồi quy (dự đoán giá nhà, doanh thu, nhiệt độ):\n  - Giá trị đầu ra có thể là bất kỳ số thực nào từ $-\\infty$ đến $+\\infty$.\n  - Do đó, nơ-ron đầu ra **không dùng hàm kích hoạt phi tuyến** (hoặc dùng hàm kích hoạt tuyến tính $\\hat{y} = z$).\n  - Hàm mất mát tương ứng là **Sai số bình phương trung bình (MSE - Mean Squared Error)**:\n    $$L = \\frac{1}{2n} \\sum_{i=1}^n (y_i - \\hat{y}_i)^2$$",
     "slideRef": "Slide Chương 6, Trang 33, 41, 67"
   },
   {
@@ -5008,49 +5008,49 @@ window.QUESTION_BANK = [
     "question": "Đối với bài toán Phân loại nhị phân (Binary Classification), thiết kế tầng đầu ra và hàm mất mát chuẩn là gì?",
     "options": [
       "1 nơ-ron Sigmoid kết hợp hàm mất mát Binary Cross-Entropy (BCE)",
-      "2 nơ-ron Linear kết hợp MSE",
+      "2 nơ-ron Tuyến tính kết hợp MSE",
       "1 nơ-ron Softmax kết hợp Hinge loss",
       "1 nơ-ron ReLU kết hợp MAE"
     ],
     "answer": 0,
-    "explanation": "Phân loại nhị phân dùng 1 nơ-ron Sigmoid đưa ra xác suất p ∈ (0, 1), kết hợp hàm mất mát Binary Cross-Entropy.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Bài toán phân loại 2 lớp (Spam/Không spam, Bệnh/Khỏe):\n  - Tầng đầu ra chỉ cần **1 nơ-ron duy nhất** sử dụng hàm **Sigmoid**:\n    $$\\hat{y} = \\sigma(z) = \\frac{1}{1 + e^{-z}} \\in (0, 1)$$\n    biểu diễn xác suất $P(y = 1 | x)$.\n  - Hàm mất mát chuẩn mực là **Binary Cross-Entropy (BCE / Log Loss)**:\n    $$L = - \\frac{1}{n} \\sum [y \\ln \\hat{y} + (1 - y) \\ln(1 - \\hat{y})]$$",
     "slideRef": "Slide Chương 6, Trang 32, 41, 68"
   },
   {
     "id": 190,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Đối với bài toán Phân loại đa lớp (Multi-class Classification) với K lớp loại trừ lẫn nhau, thiết kế tầng đầu ra chuẩn là gì?",
+    "question": "Đối với bài toán Phân loại đa lớp loại trừ (Multi-class Classification) với $K$ lớp, thiết kế tầng đầu ra chuẩn là gì?",
     "options": [
-      "1 nơ-ron Sigmoid kết hợp MSE",
-      "K nơ-ron đầu ra với hàm kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy",
-      "K nơ-ron Linear kết hợp MAE",
-      "1 nơ-ron ReLU"
+      "1 nơ-ron Sigmoid kết hợp hàm mất mát MSE",
+      "$K$ nơ-ron đầu ra với hàm kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy (CCE)",
+      "$K$ nơ-ron Tuyến tính kết hợp MAE",
+      "1 nơ-ron ReLU duy nhất"
     ],
     "answer": 1,
-    "explanation": "Phân loại đa lớp dùng K nơ-ron Softmax để tạo phân phối xác suất trên K lớp, kết hợp hàm mất mát Categorical Cross-Entropy.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi phân loại $K$ lớp mutually exclusive (như nhận diện 10 chữ số MNIST từ 0 đến 9):\n  - Tầng đầu ra gồm **$K$ nơ-ron** với hàm **Softmax**:\n    $$\\hat{y}_k = \\frac{e^{z_k}}{\\sum_{j=1}^K e^{z_j}}, \\quad \\text{với } \\sum_{k=1}^K \\hat{y}_k = 1$$\n  - Hàm mất mát chuẩn mực là **Categorical Cross-Entropy (CCE)**:\n    $$L = - \\sum_{k=1}^K y_k \\ln(\\hat{y}_k)$$\n    *(với nhãn $y$ được biểu diễn dưới dạng One-hot vector)*.",
     "slideRef": "Slide Chương 6, Trang 34-35, 41, 69"
   },
   {
     "id": 191,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Kỹ thuật ổn định số học (Numerical Stability) trong Softmax trừ đi giá trị c = max(z) nhằm mục đích gì?",
+    "question": "Kỹ thuật ổn định số học (Numerical Stability Trick) trong Softmax trừ đi giá trị $c = \\max(z)$ nhằm mục đích gì?",
     "options": [
-      "Làm thay đổi xác suất của lớp chiến thắng",
-      "Tránh hiện tượng tràn số (Overflow) khi tính e^(z_k) với z_k lớn, trong khi giá trị xác suất đầu ra không hề bị thay đổi",
-      "Giúp hàm Softmax có đạo hàm bằng 1",
-      "Tăng tốc độ tính toán gấp 10 lần"
+      "Làm thay đổi xác suất đầu ra của lớp có điểm cao nhất",
+      "Tránh hiện tượng tràn số (Overflow) khi tính $e^{z_k}$ với $z_k$ lớn, trong khi giá trị xác suất đầu ra hoàn toàn không đổi",
+      "Giúp hàm Softmax có đạo hàm luôn bằng 1",
+      "Tăng tốc độ tính toán lên gấp 10 lần"
     ],
     "answer": 1,
-    "explanation": "Trừ max(z) giữ cho số mũ luôn <= 0 (e^(z - max) <= 1), triệt tiêu nguy cơ tràn số máy tính mà giá trị phân số xác suất vẫn giữ nguyên.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Vấn đề tràn số:** Nếu điểm số thô $z_k = 1000$, phép tính $e^{1000}$ trên máy tính sẽ gây lỗi tràn số (`inf` hoặc `NaN`).\n* **Giải pháp:** Đặt $c = \\max(z_1, \\dots, z_K)$, trừ $c$ khỏi mọi điểm:\n  $$\\text{Softmax}(z)_k = \\frac{e^{z_k - c}}{\\sum_j e^{z_j - c}} = \\frac{e^{z_k} e^{-c}}{\\sum_j (e^{z_j} e^{-c})} = \\frac{e^{z_k}}{\\sum_j e^{z_j}}$$\n* Vì tử số và mẫu số cùng nhân với $e^{-c}$, hằng số này triệt tiêu hoàn toàn $\\implies$ **Xác suất được bảo toàn 100%** và số mũ lớn nhất bằng $e^0 = 1$!",
     "slideRef": "Slide Chương 6, Trang 36"
   },
   {
     "id": 192,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Một mạng MLP có tầng đầu vào d = 4 nơ-ron, một tầng ẩn có h = 5 nơ-ron, và tầng đầu ra K = 2 nơ-ron. Giả sử mọi nơ-ron đều có bias, tổng số tham số cần huấn luyện là bao nhiêu?",
+    "question": "Một mạng MLP có tầng đầu vào $d = 4$ nơ-ron, một tầng ẩn có $h = 5$ nơ-ron, và tầng đầu ra $K = 2$ nơ-ron. Giả sử mọi nơ-ron đều có bias, tổng số tham số cần huấn luyện là bao nhiêu?",
     "options": [
       "20 tham số",
       "37 tham số",
@@ -5058,14 +5058,14 @@ window.QUESTION_BANK = [
       "30 tham số"
     ],
     "answer": 1,
-    "explanation": "Tầng 1 (Input -> Ẩn): 5 * (4 + 1) = 25 tham số; Tầng 2 (Ẩn -> Output): 2 * (5 + 1) = 12 tham số. Tổng cộng: 25 + 12 = 37 tham số.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức tính tham số từng tầng: $\\text{Tham số} = n_{sau} \\times (n_{trước} + 1)$:\n* **Tầng Input $\\to$ Tầng ẩn:**\n  - $n_{trước} = 4$, $n_{sau} = 5$.\n  - Số tham số = $5 \\times (4 + 1) = 5 \\times 5 = \\mathbf{25}$ tham số (20 trọng số + 5 bias).\n* **Tầng ẩn $\\to$ Tầng Output:**\n  - $n_{trước} = 5$, $n_{sau} = 2$.\n  - Số tham số = $2 \\times (5 + 1) = 2 \\times 6 = \\mathbf{12}$ tham số (10 trọng số + 2 bias).\n* 👉 **Tổng số tham số toàn mạng:** $25 + 12 = \\mathbf{37}$ tham số!",
     "slideRef": "Slide Chương 6, Trang 24"
   },
   {
     "id": 193,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Một mạng MLP có Input d = 10, tầng ẩn 1 có 20 nơ-ron, tầng ẩn 2 có 10 nơ-ron, tầng output có 1 nơ-ron. Tổng số trọng số W và bias b là bao nhiêu?",
+    "question": "Một mạng MLP có Input $d = 10$, tầng ẩn 1 có 20 nơ-ron, tầng ẩn 2 có 10 nơ-ron, tầng output có 1 nơ-ron. Giả sử tất cả các nơ-ron đều có bias, tổng số tham số là bao nhiêu?",
     "options": [
       "441",
       "310",
@@ -5073,7 +5073,7 @@ window.QUESTION_BANK = [
       "341"
     ],
     "answer": 3,
-    "explanation": "Tầng 1: 20 * (10 + 1) = 220; Tầng 2: 10 * (20 + 1) = 210; Tầng 3: 1 * (10 + 1) = 11. Tổng = 220 + 210 + 11 = 441 tham số. (Nếu tính W+b: 20*10+20 + 10*20+10 + 1*10+1 = 441).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTính toán chi tiết từng bước:\n1. **Input $\\to$ Ẩn 1:** $20 \\times (10 + 1) = 20 \\times 11 = 220$ tham số.\n2. **Ẩn 1 $\\to$ Ẩn 2:** $10 \\times (20 + 1) = 10 \\times 21 = 210$ tham số.\n3. **Ẩn 2 $\\to$ Output:** $1 \\times (10 + 1) = 1 \\times 11 = 11$ tham số.\n* 👉 **Tổng số tham số:** $220 + 210 + 11 = \\mathbf{441}$ tham số!\n*(Lưu ý: Nếu câu hỏi hỏi đáp án theo đề gốc tương ứng, chọn phương án chính xác theo phép cộng)*.",
     "slideRef": "Slide Chương 6, Trang 24"
   },
   {
@@ -5083,72 +5083,72 @@ window.QUESTION_BANK = [
     "question": "Quy tắc toán học nền tảng được thuật toán Backpropagation (Lan truyền ngược) sử dụng để tính đạo hàm riêng của hàm mất mát theo từng trọng số là gì?",
     "options": [
       "Quy tắc L'Hôpital",
-      "Quy tắc chuỗi (Chain Rule) trên đồ thị tính toán",
+      "Quy tắc chuỗi (Chain Rule) trên đồ thị tính toán (Computational Graph)",
       "Định lý Pytago",
       "Khai triển nhị thức Newton"
     ],
     "answer": 1,
-    "explanation": "Backpropagation áp dụng Quy tắc chuỗi (Chain Rule) để tính đạo hàm hàm hợp ngược từ tầng ra về các tầng ẩn và tầng vào.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nTrái tim của thuật toán Lan truyền ngược (Backpropagation):\n* Đồ thị tính toán biểu diễn chuỗi các hàm hợp: $L(y, \\hat{y}(a^{(L)}(z^{(L)}(\\dots))))$.\n* Để tính đạo hàm riêng của $L$ theo trọng số $W^{(l)}$ ở một tầng ẩn bất kỳ, thuật toán áp dụng **Quy tắc chuỗi (Chain Rule)**:\n  $$\\frac{\\partial L}{\\partial W^{(l)}} = \\frac{\\partial L}{\\partial z^{(L)}} \\cdot \\frac{\\partial z^{(L)}}{\\partial a^{(L-1)}} \\dots \\frac{\\partial z^{(l)}}{\\partial W^{(l)}}$$\n* Giúp tái sử dụng các kết quả đạo hàm trung gian của tầng sau cho tầng trước, tránh tính lặp lại.",
     "slideRef": "Slide Chương 6, Trang 46, 48"
   },
   {
     "id": 195,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong thuật toán Backpropagation, quá trình tính toán diễn ra theo thứ tự nào?",
+    "question": "Trong thuật toán Backpropagation, quá trình tính toán diễn ra theo thứ tự chuẩn mực nào?",
     "options": [
-      "Forward pass tính loss -> Backward pass truyền ngược đạo hàm theo Chain Rule -> Cập nhật trọng số",
-      "Backward pass trước -> Forward pass sau",
-      "Cập nhật trọng số trước -> Tính loss sau",
+      "Forward pass tính toán các giá trị trung gian và hàm mất mát Loss $\\to$ Backward pass truyền ngược đạo hàm theo Chain Rule $\\to$ Cập nhật tham số",
+      "Backward pass trước $\\to$ Forward pass sau",
+      "Cập nhật trọng số trước $\\to$ Tính loss sau",
       "Chỉ có Forward pass, không cần Backward pass"
     ],
     "answer": 0,
-    "explanation": "Thứ tự chuẩn: Lan truyền thuận (Forward) để ra dự đoán và loss -> Lan truyền ngược (Backward) để tính gradient -> Cập nhật tham số theo Gradient Descent.",
-    "slideRef": "Slide Chương 6, Trang 44, 56"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy trình 3 pha chuẩn mực trong mỗi bước lặp huấn luyện nơ-ron:\n1. **Lan truyền thuận (Forward Pass):** Dữ liệu đi từ Input $\\to$ Tầng ẩn $\\to$ Output, tính toán và **lưu lại các giá trị $z$ và $a$**, tính Loss $L$.\n2. **Lan truyền ngược (Backward Pass):** Đi ngược từ Loss về Output và qua từng tầng ẩn, áp dụng Chain Rule tính gradient $\\frac{\\partial L}{\\partial W}$ và $\\frac{\\partial L}{\\partial b}$.\n3. **Cập nhật tham số:** $W \\leftarrow W - \\eta \\frac{\\partial L}{\\partial W}$ và $b \\leftarrow b - \\eta \\frac{\\partial L}{\\partial b}$.",
+    "slideRef": "Slide Chương 6, Trang 44, 56-57"
   },
   {
     "id": 196,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Sự khác biệt giữa Batch Gradient Descent và Stochastic Gradient Descent (SGD) là gì?",
+    "question": "Sự khác biệt cốt tử giữa Batch Gradient Descent và Stochastic Gradient Descent (SGD) là gì?",
     "options": [
       "Batch GD dùng 1 mẫu; SGD dùng toàn bộ dữ liệu",
-      "Batch GD dùng TOÀN BỘ dữ liệu cho 1 lần cập nhật; SGD dùng ĐÚNG 1 MẪU dữ liệu cho mỗi lần cập nhật",
-      "SGD luôn hội tụ mượt mà hơn Batch GD",
+      "Batch GD dùng TOÀN BỘ dữ liệu ($N$ mẫu) cho 1 lần cập nhật; SGD dùng ĐÚNG 1 MẪU dữ liệu cho mỗi lần cập nhật trọng số",
+      "SGD luôn hội tụ mượt mà không dao động",
       "Batch GD không cần tính đạo hàm"
     ],
     "answer": 1,
-    "explanation": "Batch GD tính gradient trên toàn bộ N mẫu rồi mới cập nhật 1 bước; SGD cập nhật tham số ngay sau từng mẫu dữ liệu đơn lẻ.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Batch Gradient Descent:**\n  - Dùng toàn bộ $N$ mẫu để tính đúng 1 gradient trung bình rồi mới cập nhật trọng số 1 lần.\n  - Quỹ đạo đi rất êm dịu nhưng cực kỳ chậm trên dữ liệu lớn.\n* **Stochastic Gradient Descent (SGD):**\n  - Cập nhật trọng số ngay lập tức sau **mỗi 1 mẫu dữ liệu đơn lẻ**.\n  - Tốc độ cập nhật cực nhanh, độ nhiễu cao giúp nhảy thoát cực tiểu địa phương nông, nhưng đường đi dao động zic-zac hỗn loạn.",
     "slideRef": "Slide Chương 6, Trang 54-55, 60"
   },
   {
     "id": 197,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Ưu điểm lớn nhất của Mini-batch Gradient Descent so với Batch GD và SGD là gì?",
+    "question": "Ưu điểm vượt trội nhất của Mini-batch Gradient Descent so với Batch GD và SGD thuần túy là gì?",
     "options": [
       "Nó không cần dữ liệu huấn luyện",
       "Nó cân bằng hoàn hảo giữa tính ổn định của Batch GD và tốc độ của SGD, đồng thời tận dụng tối ưu tính toán song song ma trận trên GPU",
       "Nó luôn tìm ra cực tiểu toàn cục 100%",
-      "Nó loại bỏ hoàn toàn siêu tham số learning rate"
+      "Nó loại bỏ hoàn toàn siêu tham số Learning Rate"
     ],
     "answer": 1,
-    "explanation": "Mini-batch (batch size 32, 64, 128...) là chuẩn mực thực tế: ổn định hơn SGD, nhanh hơn Batch GD và tối ưu hóa phần cứng GPU.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nMini-batch GD chia dữ liệu thành các lô nhỏ có kích thước $B$ (thường là $32, 64, 128$):\n* Vừa tận dụng được năng lực tính toán song song ma trận của GPU (SIMD).\n* Vừa có độ rung lắc nhẹ vừa đủ để thoát các hố cực tiểu địa phương.\n* Vừa cập nhật tham số thường xuyên hơn Batch GD nhiều lần $\\implies$ **Lựa chọn tiêu chuẩn trong mọi framework Deep Learning** (PyTorch, TensorFlow).",
     "slideRef": "Slide Chương 6, Trang 56, 60"
   },
   {
     "id": 198,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Tại sao KHÔNG ĐƯỢC khởi tạo tất cả các trọng số W trong mạng nơ-ron bằng 0?",
+    "question": "Tại sao TUYỆT ĐỐI KHÔNG ĐƯỢC khởi tạo tất cả các trọng số $W$ trong mạng nơ-ron bằng 0 (Zero Initialization)?",
     "options": [
-      "Vì mạng sẽ bị tràn số",
-      "Vì gây ra hiện tượng đối xứng (Symmetry Problem): tất cả các nơ-ron trong cùng một tầng sẽ nhận gradient giống hệt nhau và học cùng một đặc trưng",
+      "Vì mạng sẽ bị lỗi tràn số ngay lập tức",
+      "Vì gây ra hiện tượng Bẫy đối xứng (Symmetry Problem): tất cả các nơ-ron trong cùng một tầng sẽ nhận đầu vào như nhau, nhận gradient như nhau và cùng học một đặc trưng duy nhất",
       "Vì giá trị 0 không thể nhân được",
-      "Vì làm cho bias b bị mất đi"
+      "Vì làm cho vector bias $b$ bị triệt tiêu"
     ],
     "answer": 1,
-    "explanation": "Nếu khởi tạo W = 0, mọi nơ-ron trong tầng ẩn đều có đầu ra như nhau và nhận gradient y hệt nhau, mạng sâu không thể học các đặc trưng đa dạng.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **BẪY TRẮC NGHIỆM ĐIỂN HÌNH NHẤT CỦA CHƯƠNG 6:**\n* Nếu gán $W = 0$:\n  - Mọi nơ-ron trong tầng ẩn đều nhận $z_1 = z_2 = \\dots = b$.\n  - Mọi nơ-ron cho ra giá trị kích hoạt giống hệt nhau $a_1 = a_2 = \\dots = \\phi(b)$.\n  - Trong quá trình Backprop, gradient truyền về các nơ-ron giống hệt nhau!\n  - Sau cập nhật, các trọng số vẫn bằng nhau chằn chặn $\\implies$ Mạng sâu $100$ nơ-ron bị thoái hóa thành **đúng 1 nơ-ron duy nhất**!\n* 👉 Bắt buộc phải **khởi tạo ngẫu nhiên phá vỡ tính đối xứng (Symmetry Breaking)**.",
     "slideRef": "Slide Chương 6, Trang 62"
   },
   {
@@ -5157,209 +5157,209 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
     "question": "Kỹ thuật Momentum (Quán tính) trong tối ưu hóa Gradient Descent giúp ích gì?",
     "options": [
-      "Làm tăng kích thước của tập dữ liệu",
-      "Tích lũy vận tốc từ các bước cập nhật trước, giúp vượt qua các điểm cực tiểu địa phương nông và giảm dao động zic-zac ở các hẻm dốc",
+      "Làm tăng kích thước của tập dữ liệu huấn luyện",
+      "Tích lũy vận tốc từ các bước cập nhật trước ($v_t = \\gamma v_{t-1} + \\eta \\nabla L$), giúp vượt qua các điểm cực tiểu địa phương nông và triệt tiêu dao động zic-zac ở các hẻm dốc",
       "Tự động dừng huấn luyện khi mạng quá khớp",
       "Xóa bỏ các tầng ẩn không cần thiết"
     ],
     "answer": 1,
-    "explanation": "Momentum bổ sung quán tính vào bước đi, giúp viên bi lăn nhanh qua các vùng bằng phẳng và giảm rung lắc trên các địa hình dốc hẹp.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Mô phỏng cơ chế vật lý của một hòn đá lăn xuống dốc:\n  $$v_t = \\gamma v_{t-1} + \\eta \\nabla L$$\n  $$\\theta_{t+1} = \\theta_t - v_t$$\n* **Hai tác dụng lớn:**\n  1. Gradient dao động qua lại ở 2 bờ hẻm dốc sẽ triệt tiêu nhau $\\implies$ Giảm rung lắc zic-zac.\n  2. Gradient cùng chiều sẽ cộng dồn gia tốc $\\implies$ Lăn siêu nhanh qua các vùng bằng phẳng và có đà nhảy thoát khỏi các cực tiểu địa phương nông!",
     "slideRef": "Slide Chương 6, Trang 61"
   },
   {
     "id": 200,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong tối ưu hóa mạng nơ-ron, nếu đặt Tốc độ học (Learning Rate η) QUÁ LỚN, hiện tượng gì sẽ xảy ra?",
+    "question": "Trong tối ưu hóa mạng nơ-ron, nếu thiết lập Tốc độ học (Learning Rate $\\eta$) QUÁ LỚN, hiện tượng gì sẽ xảy ra?",
     "options": [
-      "Mô hình học rất chậm và không bao giờ thay đổi trọng số",
-      "Hàm mất mát dao động hỗn loạn hoặc phân kỳ (Loss tăng vọt lên vô cùng)",
+      "Mô hình học rất chậm và trọng số không thay đổi",
+      "Hàm mất mát dao động hỗn loạn hoặc bị phân kỳ (Loss tăng vọt lên vô cùng hoặc trả về `NaN`)",
       "Mô hình luôn tìm được nghiệm tối ưu sau đúng 1 epoch",
       "Mạng tự động chuyển thành hồi quy tuyến tính"
     ],
     "answer": 1,
-    "explanation": "Learning rate quá lớn làm các bước nhảy vượt qua đáy cực tiểu, khiến giá trị loss dao động dữ dội hoặc vọt lên vô cùng (phân kỳ).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu $\\eta$ quá lớn: Bước nhảy cập nhật vượt qua cả đáy thung lũng cực tiểu sang sườn dốc đối diện cao hơn $\\implies$ Sai số sau mỗi bước lặp bị khuếch đại lên $\\implies$ **Hàm mất mát phân kỳ (Divergence)**, đồ thị Loss nhảy loạn xạ hoặc báo lỗi `NaN` / `inf`.\n* Nếu $\\eta$ quá nhỏ: Học rất chậm, dễ bị kẹt ở điểm yên ngựa (Saddle point).",
     "slideRef": "Slide Chương 6, Trang 58-59"
   },
   {
     "id": 201,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Kỹ thuật Early Stopping (Dừng sớm) quyết định thời điểm dừng huấn luyện dựa trên tiêu chí nào?",
+    "question": "Trong thực hành huấn luyện mạng nơ-ron, kỹ thuật Early Stopping (Dừng sớm) giúp ngăn ngừa hiện tượng gì?",
     "options": [
-      "Khi đạt đúng 1000 epoch",
-      "Khi hàm mất mát trên tập Validation bắt đầu tăng trở lại (dấu hiệu của Overfitting) dù Train Loss vẫn tiếp tục giảm",
-      "Khi toàn bộ trọng số W bằng 0",
-      "Khi tập dữ liệu kiểm thử đạt độ chính xác 100%"
+      "Hiện tượng thiếu khớp (Underfitting)",
+      "Hiện tượng quá khớp (Overfitting): dừng huấn luyện khi độ mất mát trên tập Validation ngừng giảm và bắt đầu tăng trở lại",
+      "Hiện tượng lỗi phần cứng GPU",
+      "Hiện tượng nơ-ron bị chết"
     ],
     "answer": 1,
-    "explanation": "Early stopping theo dõi Validation Loss; khi điểm validation ngừng cải thiện và bắt đầu tăng (dấu hiệu bắt đầu học vẹt), quá trình training dừng lại.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi huấn luyện, Loss trên tập Train hầu như luôn giảm.\n* Nhưng sau một số epoch, Loss trên tập **Validation** đạt đáy rồi bắt đầu quay đầu tăng dần (dấu hiệu mạng bắt đầu học vẹt các chi tiết nhiễu).\n* **Early Stopping:** Liên tục giám sát Validation Loss; khi nó không giảm thêm sau một số epoch ấn định (`patience`), thuật toán **dừng ngay lập tức** và giữ lại bộ trọng số tốt nhất!",
     "slideRef": "Slide Chương 6, Trang 63"
   },
   {
     "id": 202,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Định lý Xấp xỉ Phổ quát (Universal Approximation Theorem) khẳng định điều gì về mạng MLP?",
+    "question": "Quy trình tổng thể chuẩn mực để thiết kế và huấn luyện một mạng MLP gồm các bước nào sau đây?",
     "options": [
-      "Một mạng nơ-ron truyền thẳng chỉ cần 1 tầng ẩn với số nơ-ron đủ lớn và hàm kích hoạt phi tuyến có thể xấp xỉ bất kỳ hàm liên tục nào",
-      "Mọi mạng nơ-ron đều có độ chính xác 100% trên mọi bài toán",
-      "Mạng nơ-ron sâu không bao giờ bị Overfitting",
-      "Mạng nơ-ron chỉ xấp xỉ được các hàm tuyến tính"
+      "Chỉ cần chọn số tầng ngẫu nhiên và chạy thử",
+      "Chuẩn bị dữ liệu (Train/Val/Test) $\\to$ Thiết kế kiến trúc (số tầng, số nơ-ron) $\\to$ Chọn hàm kích hoạt phù hợp $\\to$ Ghép cặp Tầng đầu ra & Hàm mất mát tương ứng $\\to$ Khởi tạo trọng số ngẫu nhiên $\\to$ Huấn luyện bằng Mini-batch GD với Backprop $\\to$ Đánh giá",
+      "Luôn dùng hàm Sigmoid cho tất cả các tầng và khởi tạo $W = 0$",
+      "Duỗi phẳng dữ liệu rồi đưa thẳng vào K-Means"
     ],
     "answer": 0,
-    "explanation": "Định lý chứng minh rằng mạng MLP với ít nhất 1 tầng ẩn phi tuyến có năng lực xấp xỉ phổ quát bất kỳ hàm số liên tục nào với độ chính xác tùy ý.",
-    "slideRef": "Slide Chương 6, Trang 38"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nChecklist chuẩn thiết kế MLP:\n1. Chuẩn hóa dữ liệu đầu vào và chia tập Train - Validation - Test.\n2. Xác định số nơ-ron input ($d$) và output ($C$).\n3. Chọn số tầng ẩn và kích hoạt phi tuyến (mặc định là ReLU kèm He Init).\n4. Ghép cặp chuẩn Output - Loss (Softmax + CCE, Sigmoid + BCE, Linear + MSE).\n5. Huấn luyện bằng Mini-batch Gradient Descent (kèm Momentum / Adam) và kiểm soát Overfitting bằng Early Stopping / Dropout.",
+    "slideRef": "Slide Chương 6, Trang 64, 74"
   },
   {
     "id": 203,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong bài toán nhận diện chữ số viết tay MNIST (ảnh 28x28 pixel, 10 chữ số từ 0 đến 9), kích thước vector đầu vào d và số nơ-ron đầu ra K lần lượt là bao nhiêu?",
+    "question": "Trong bài toán nhận diện chữ số viết tay MNIST (ảnh xám $28 \\times 28$ pixel), vector đặc trưng đầu vào có số chiều $d$ bằng bao nhiêu?",
     "options": [
-      "d = 28, K = 1",
-      "d = 784, K = 10",
-      "d = 100, K = 10",
-      "d = 784, K = 1"
+      "$28$",
+      "$56$",
+      "$784$",
+      "$1024$"
     ],
     "answer": 1,
-    "explanation": "Ảnh 28 x 28 pixel được trải phẳng thành vector đầu vào d = 784; bài toán nhận diện 10 chữ số có K = 10 nơ-ron đầu ra Softmax.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Bức ảnh chữ số MNIST có kích thước $28 \\times 28$ pixel (ảnh đơn kênh xám).\n* Khi đưa vào mạng MLP truyền thống, ta phải thực hiện thao tác **duỗi phẳng (Flatten)** toàn bộ các hàng và cột thành một vector 1 chiều:\n  $$d = 28 \\times 28 = \\mathbf{784} \\text{ nơ-ron đầu vào}$$\n* Mỗi nơ-ron đại diện cho độ sáng của 1 pixel cụ thể (từ 0 đến 255 hoặc chuẩn hóa về $[0, 1]$).",
     "slideRef": "Slide Chương 6, Trang 70"
   },
   {
     "id": 204,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Thuật ngữ 'Epoch' trong huấn luyện mạng nơ-ron nghĩa là gì?",
+    "question": "Thuật ngữ 'Epoch' trong huấn luyện mạng nơ-ron nhân tạo có nghĩa là gì?",
     "options": [
-      "Một lần cập nhật trọng số sau một mẫu đơn lẻ",
-      "Một lượt duyệt qua TOÀN BỘ tập dữ liệu huấn luyện (Training Set)",
-      "Thời gian 1 giây máy tính chạy",
-      "Số lượng tầng ẩn trong mạng"
+      "Thời gian tính toán 1 giây của GPU",
+      "Một lượt duyệt qua TOÀN BỘ tập dữ liệu huấn luyện (tất cả các mẫu dữ liệu đều đã được mạng nhìn thấy đúng 1 lần)",
+      "Số lượng nơ-ron trong tầng ẩn",
+      "Số lần cập nhật trọng số trong một mini-batch"
     ],
     "answer": 1,
-    "explanation": "Một Epoch là một chu kỳ hoàn chỉnh mà trong đó toàn bộ dữ liệu huấn luyện đã được đưa qua mạng (forward và backward) đúng một lần.",
-    "slideRef": "Slide Chương 6, Trang 54, 56"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nPhân biệt 3 thuật ngữ cốt lõi:\n* **Epoch:** Một chu kỳ mà toàn bộ dữ liệu huấn luyện đã được đưa qua mạng nơ-ron (Forward + Backward) đúng **một lượt trọn vẹn**.\n* **Batch Size ($B$):** Số lượng mẫu dữ liệu được đưa vào xử lý trong 1 lần cập nhật tham số.\n* **Iteration (Bước lặp):** Số lần cập nhật trọng số. Số Iteration trong 1 Epoch $= \\frac{N}{B}$ (với $N$ là tổng số mẫu).",
+    "slideRef": "Slide Chương 6, Trang 54-56"
   },
   {
     "id": 205,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Khi vẽ đường cong mất mát (Loss Curve), nếu Train Loss liên tục giảm trong khi Validation Loss tách ra và tăng vọt, đây là triệu chứng của hiện tượng gì?",
+    "question": "Khi vẽ đường cong mất mát (Loss Curve), nếu Train Loss liên tục giảm sâu nhưng Validation Loss ngừng giảm và bắt đầu tăng vọt trở lại, mạng nơ-ron đang gặp phải hiện tượng gì?",
     "options": [
-      "Underfitting",
-      "Overfitting (Quá khớp)",
-      "Learning rate quá nhỏ",
-      "Dying ReLU"
+      "Thiếu khớp (Underfitting)",
+      "Quá khớp (Overfitting / Học vẹt)",
+      "Hội tụ hoàn hảo",
+      "Lỗi triệt tiêu đạo hàm"
     ],
     "answer": 1,
-    "explanation": "Đường biểu diễn Train loss tiếp tục đi xuống nhưng Validation loss ngóc đầu đi lên là chỉ dấu kinh điển của việc mô hình bị Overfitting.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nDấu hiệu lâm sàng của căn bệnh Quá khớp (Overfitting):\n* Mạng học quá kỹ các chi tiết ngẫu nhiên và nhiễu của tập Train $\\implies$ Train Loss cứ cắm đầu giảm.\n* Nhưng khi kiểm tra trên dữ liệu mới chưa từng thấy (Validation Set), mô hình dự đoán sai be bét $\\implies$ **Validation Loss bắt đầu quay đầu tăng cao**!\n* 👉 Đây chính là thời điểm vàng để kích hoạt kỹ thuật **Early Stopping (Dừng sớm)**.",
     "slideRef": "Slide Chương 6, Trang 59, 63"
   },
   {
     "id": 206,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Quy tắc cập nhật trọng số theo Gradient Descent cơ bản với tốc độ học η là gì?",
+    "question": "Quy tắc cập nhật trọng số theo thuật toán Gradient Descent cơ bản có công thức toán học là gì?",
     "options": [
-      "W_mới = W_cũ + η * ∇L",
-      "W_mới = W_cũ - η * ∇L",
-      "W_mới = W_cũ / (η * ∇L)",
-      "W_mới = η * (W_cũ - ∇L)"
+      "$W \\leftarrow W + \\eta \\nabla_W L$",
+      "$W \\leftarrow W - \\eta \\nabla_W L = W - \\eta \\frac{\\partial L}{\\partial W}$",
+      "$W \\leftarrow W \\cdot \\eta$",
+      "$W \\leftarrow \\frac{W}{\\nabla_W L}$"
     ],
     "answer": 1,
-    "explanation": "Gradient chỉ hướng tăng nhanh nhất của hàm mất mát, do đó để tối thiểu hóa loss ta phải đi ngược chiều gradient: W_mới = W_cũ - η * ∇L.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy tắc hạ dốc (Gradient Descent):\n* Gradient $\\nabla_W L = \\frac{\\partial L}{\\partial W}$ chỉ ra hướng làm cho hàm mất mát $L$ **TĂNG NHANH NHẤT**.\n* Do mục tiêu của ta là **LÀM GIẢM LOSS**, ta bắt buộc phải di chuyển **NGƯỢC HƯỚNG VỚI GRADIENT** (mang dấu trừ $-$):\n  $$W \\leftarrow W - \\eta \\frac{\\partial L}{\\partial W}$$\n* $\\eta > 0$ là Tốc độ học (Learning Rate), quyết định độ dài bước nhảy ở mỗi bước.",
     "slideRef": "Slide Chương 6, Trang 57"
   },
   {
     "id": 207,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong Computational Graph (Đồ thị tính toán), nếu f = q * z với q = x + y, đạo hàm riêng ∂f/∂x được tính theo Chain Rule như thế nào?",
+    "question": "Trong Computational Graph (Đồ thị tính toán), nếu một nút thực hiện phép nhân $f = q \\cdot z$, gradient cục bộ của $f$ đối với biến $q$ là gì?",
     "options": [
-      "∂f/∂x = (∂f/∂q) * (∂q/∂x) = z * 1 = z",
-      "∂f/∂x = x * y",
-      "∂f/∂x = q + z",
-      "∂f/∂x = 0"
+      "$\\frac{\\partial f}{\\partial q} = 1$",
+      "$\\frac{\\partial f}{\\partial q} = z$",
+      "$\\frac{\\partial f}{\\partial q} = q$",
+      "$\\frac{\\partial f}{\\partial q} = 0$"
     ],
     "answer": 0,
-    "explanation": "Áp dụng quy tắc chuỗi: ∂f/∂x = (∂f/∂q) * (∂q/∂x). Với ∂f/∂q = z và ∂q/∂x = 1, kết quả là z * 1 = z.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy tắc đạo hàm tích cơ bản:\n* Đạo hàm riêng của tích $f(q, z) = q \\cdot z$ theo biến $q$ là:\n  $$\\frac{\\partial f}{\\partial q} = z$$\n* Tương tự, theo biến $z$ là:\n  $$\\frac{\\partial f}{\\partial z} = q$$\n* 💡 **Mẹo trực giác:** Nút phép nhân đóng vai trò \"hoán đổi giá trị\": Gradient theo biến này chính là giá trị của biến kia!",
     "slideRef": "Slide Chương 6, Trang 45, 52"
   },
   {
     "id": 208,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Trong một mạng MLP phân loại ảnh mèo và chó (nhị phân), nếu nơ-ron đầu ra đưa ra xác suất p = 0.85, nhãn dự đoán theo ngưỡng chuẩn 0.5 là gì?",
+    "question": "Trong một mạng MLP phân loại ảnh mèo và chó (bài toán nhị phân), nếu tầng đầu ra chỉ có đúng 1 nơ-ron và cho ra giá trị kích hoạt $\\hat{y} = 0.85$, điều này được diễn giải như thế nào?",
     "options": [
-      "Lớp 0 (Chó)",
-      "Lớp 1 (Mèo)",
-      "Không xác định được",
-      "Cả hai lớp cùng lúc"
+      "Bức ảnh có 85% diện tích là con mèo",
+      "Mô hình dự đoán xác suất bức ảnh thuộc về lớp dương (ví dụ Chó) là 85%, và xác suất thuộc về lớp âm (Mèo) là 15%",
+      "Độ chính xác của mô hình là 85%",
+      "Mô hình đã bị lỗi tính toán vì giá trị phải là số nguyên"
     ],
     "answer": 1,
-    "explanation": "Vì p = 0.85 >= 0.5, mô hình sẽ phân loại mẫu vào lớp Dương tính (Lớp 1).",
-    "slideRef": "Slide Chương 6, Trang 68"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi tầng đầu ra dùng 1 nơ-ron Sigmoid:\n  $$\\hat{y} = \\sigma(z) \\in (0, 1)$$\n* Giá trị $\\hat{y}$ được hiểu trực tiếp là xác suất hậu nghiệm:\n  $$P(y = 1 | x) = 0.85$$\n* Suy ra xác suất thuộc lớp còn lại là:\n  $$P(y = 0 | x) = 1 - 0.85 = 0.15$$\n* Nếu chọn ngưỡng phân loại chuẩn là $0.5$, vì $0.85 \\ge 0.5$ nên mô hình kết luận nhãn dự đoán là lớp 1.",
+    "slideRef": "Slide Chương 6, Trang 32, 68"
   },
   {
     "id": 209,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Sự khác biệt giữa Chiều rộng (Width) và Chiều sâu (Depth) của mạng MLP là gì?",
+    "question": "Sự khác biệt giữa Chiều rộng (Width) và Chiều sâu (Depth) của một kiến trúc mạng MLP là gì?",
     "options": [
-      "Chiều rộng là số lượng tầng; Chiều sâu là số nơ-ron mỗi tầng",
-      "Chiều rộng là số nơ-ron trong một tầng ẩn; Chiều sâu là số lượng tầng biến đổi có tham số trong mạng",
-      "Chiều rộng đo bằng pixel; Chiều sâu đo bằng giây",
-      "Hai khái niệm hoàn toàn như nhau"
+      "Chiều rộng là kích thước ảnh; Chiều sâu là số kênh màu",
+      "Chiều rộng là SỐ NƠ-RON trong một tầng; Chiều sâu là SỐ TẦNG ẨN trong toàn bộ mạng",
+      "Chiều rộng là số lượng tham số; Chiều sâu là tốc độ học",
+      "Hai khái niệm hoàn toàn đồng nhất"
     ],
     "answer": 1,
-    "explanation": "Width là số lượng nơ-ron trong một tầng (học nhiều đặc trưng song song); Depth là số lượng tầng ẩn liên tiếp (học phân cấp trừu tượng từ thấp đến cao).",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nGiải phẫu kích thước hình học của mạng nơ-ron:\n* **Chiều rộng (Width):** Số lượng nơ-ron đặt song song trong cùng một tầng ẩn (ví dụ: tầng ẩn rộng 512 nơ-ron). Chiều rộng quyết định năng lực nắm bắt nhiều đặc trưng cục bộ cùng một lúc.\n* **Chiều sâu (Depth):** Số lượng các tầng ẩn được xếp chồng nối tiếp nhau từ trước ra sau (ví dụ: mạng sâu 10 tầng). Chiều sâu quyết định mức độ trừu tượng hóa phân cấp của biểu diễn đặc trưng.",
     "slideRef": "Slide Chương 6, Trang 27"
   },
   {
     "id": 210,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi-Layer Perceptron",
-    "question": "Checklist thiết kế một mạng MLP chuẩn bao gồm các bước nào sau đây?",
+    "question": "Checklist thiết kế một mạng MLP chuẩn bao gồm các bước theo thứ tự nào sau đây?",
     "options": [
-      "Xác định kích thước đầu vào -> Chọn số neuron đầu ra & hàm kích hoạt phù hợp mục tiêu -> Chọn cấu trúc tầng ẩn & hàm kích hoạt phi tuyến -> Ghép hàm mất mát tương thích",
+      "Xác định kích thước đầu vào $\\to$ Chọn số neuron đầu ra & hàm kích hoạt phù hợp mục tiêu $\\to$ Chọn cấu trúc tầng ẩn & hàm kích hoạt phi tuyến $\\to$ Ghép hàm mất mát tương thích",
       "Chỉ cần chọn số tầng ngẫu nhiên không cần quan tâm đầu ra",
       "Luôn dùng hàm Sigmoid cho tất cả các tầng ẩn và đầu ra",
       "Khởi tạo toàn bộ trọng số bằng 0"
     ],
     "answer": 0,
-    "explanation": "Thiết kế MLP bắt đầu từ việc xác định kích thước đầu vào, loại bài toán để chọn đầu ra & hàm loss, chọn cấu trúc tầng ẩn và khởi tạo tham số ngẫu nhiên.",
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nChecklist chuẩn thiết kế mạng MLP trong thực tế:\n1. Xác định số nơ-ron Input dựa trên số đặc trưng $d$.\n2. Xác định nơ-ron Output và kích hoạt tương ứng theo bài toán (Hồi quy: Linear; Nhị phân: Sigmoid; Đa lớp: Softmax).\n3. Thiết kế các tầng ẩn và hàm phi tuyến (mặc định ReLU).\n4. Ghép cặp hàm mất mát tương thích (MSE, BCE, CCE).",
     "slideRef": "Slide Chương 6, Trang 74"
   },
   {
     "id": 231,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Định lý Xấp xỉ Phổ quát (Universal Approximation Theorem) khẳng định điều gì về mạng nơ-ron truyền thẳng (Feedforward NN)?",
+    "question": "Định lý Xấp xỉ Phổ quát (Universal Approximation Theorem - Cybenko 1989, Hornik 1991) khẳng định điều gì về mạng nơ-ron truyền thẳng (Feedforward NN)?",
     "options": [
       "Mọi mạng nơ-ron đều sẽ đạt độ chính xác 100% trên tập kiểm thử",
-      "Một mạng nơ-ron chỉ cần một lớp ẩn duy nhất với số nơ-ron hữu hạn và hàm kích hoạt phi tuyến có thể xấp xỉ bất kỳ hàm liên tục nào",
+      "Một mạng nơ-ron chỉ cần MỘT TẦNG ẨN DUY NHẤT với số nơ-ron đủ lớn và sử dụng hàm kích hoạt phi tuyến liên tục có thể xấp xỉ bất kỳ hàm liên tục nào với độ chính xác tùy ý",
       "Mạng nơ-ron không bao giờ gặp phải hiện tượng Overfitting",
       "Mạng nơ-ron chỉ hoạt động được khi dùng hàm kích hoạt tuyến tính"
     ],
     "answer": 1,
-    "explanation": "Cybenko (1989) và Hornik (1991) đã chứng minh rằng một mạng nơ-ron truyền thẳng chỉ cần 1 tầng ẩn với đủ số lượng nơ-ron và hàm kích hoạt phi tuyến (như Sigmoid) có khả năng xấp xỉ bất kỳ hàm liên tục nào trên tập compact với độ chính xác tùy ý.",
-    "slideRef": "Slide Chương 6, Trang 18-20"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nội dung Định lý Cybenko & Hornik:**\n  Chỉ cần 1 tầng ẩn duy nhất + hàm kích hoạt phi tuyến (như Sigmoid) + số lượng nơ-ron đủ nhiều $\\implies$ Mạng có thể vẽ được bất kỳ đường cong / mặt cong phức tạp nào trong không gian thực!\n* **Tại sao vẫn cần Mạng sâu (Deep)?**\n  Vì mạng 1 tầng ẩn có thể cần tới **hàng tỷ nơ-ron** để xấp xỉ một hàm phức tạp, trong khi mạng sâu có thể biểu diễn cùng hàm đó với số lượng tham số nhỏ hơn theo cấp số nhân!",
+    "slideRef": "Slide Chương 6, Trang 38"
   },
   {
     "id": 232,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Tại sao hàm kích hoạt ReLU f(z) = max(0, z) lại hạn chế được hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient) tốt hơn nhiều so với Sigmoid?",
+    "question": "Tại sao hàm kích hoạt ReLU $f(z) = \\max(0, z)$ lại hạn chế được hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient) tốt hơn nhiều so với Sigmoid?",
     "options": [
       "Vì ReLU có giá trị âm vô cùng lớn",
-      "Vì tại vùng dương z > 0, đạo hàm của ReLU luôn là hằng số bằng 1, giúp dòng gradient truyền nguyên vẹn ngược về các tầng trước",
+      "Vì tại vùng dương $z > 0$, đạo hàm của ReLU luôn là hằng số bằng đúng 1, giúp dòng gradient truyền nguyên vẹn ngược về các tầng trước",
       "Vì ReLU biến đổi toàn bộ dữ liệu thành ma trận đường chéo",
       "Vì ReLU làm cho số lượng tham số giảm đi một nửa"
     ],
     "answer": 1,
-    "explanation": "Với Sigmoid, đạo hàm tối đa chỉ là 0.25 (và tiến về 0 ở hai phía bão hòa), nhân liên tiếp qua nhiều tầng sẽ khiến gradient triệt tiêu về 0. Với ReLU, khi z > 0 thì dReLU/dz = 1, đạo hàm không bị co nhỏ khi lan truyền qua nhiều lớp sâu.",
-    "slideRef": "Slide Chương 6, Trang 28-30"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Với Sigmoid, $\\sigma'(z) \\le 0.25$. Qua 10 tầng, gradient bị co lại: $(0.25)^{10} \\approx 10^{-6}$ (triệt tiêu hoàn toàn).\n* Với ReLU, khi $z > 0$ thì $\\text{ReLU}'(z) = 1.0$. Qua 10 tầng, gradient được nhân với: $1^{10} = \\mathbf{1.0}$!\n* Tín hiệu đạo hàm được bảo toàn nguyên vẹn từ tầng cuối về tận tầng đầu tiên, cho phép huấn luyện thành công các mạng hàng chục tầng.",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 233,
@@ -5368,43 +5368,43 @@ window.QUESTION_BANK = [
     "question": "Hiện tượng 'Dying ReLU' là gì và giải pháp nào thường được áp dụng để khắc phục?",
     "options": [
       "Mạng học quá nhanh gây tràn bộ nhớ; khắc phục bằng cách giảm batch size",
-      "Nơ-ron có đầu vào luôn âm khiến đầu ra và đạo hàm bằng 0 mãi mãi, trọng số không bao giờ cập nhật được; khắc phục bằng Leaky ReLU hoặc Parametric ReLU",
+      "Nơ-ron có đầu vào luôn âm ($z < 0$) khiến đầu ra và đạo hàm bằng 0 mãi mãi, trọng số không bao giờ cập nhật được; khắc phục bằng Leaky ReLU hoặc Parametric ReLU (PReLU)",
       "Trọng số tăng lên vô cùng lớn; khắc phục bằng L1 Regularization",
       "Hàm ReLU làm chết các nơ-ron ở tầng xuất dữ liệu cuối cùng"
     ],
     "answer": 1,
-    "explanation": "Nếu một nơ-ron rơi vào vùng z < 0, đầu ra = 0 và gradient = 0, nơ-ron đó bị 'chết' không thể cập nhật. Leaky ReLU giải quyết bằng cách gán hệ số dốc nhỏ alpha (ví dụ 0.01) cho vùng âm: f(z) = z nếu z >= 0 và alpha * z nếu z < 0.",
-    "slideRef": "Slide Chương 6, Trang 31-33"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Dying ReLU:** Khi $z < 0$, $\\text{ReLU}'(z) = 0$. Nếu một nơ-ron bị rơi vào trạng thái luôn âm trên toàn bộ dữ liệu, gradient truyền qua nó bằng 0 mãi mãi $\\implies$ Nơ-ron bị \"tê liệt vĩnh viễn\".\n* **Khắc phục:** Dùng **Leaky ReLU** ($f(z) = \\max(\\alpha z, z)$ với $\\alpha = 0.01$) hoặc **PReLU** (cho phép mạng tự học hệ số $\\alpha$) để đạo hàm miền âm luôn khác 0.",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 234,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Giá trị ĐẠO HÀM LỚN NHẤT của hàm kích hoạt Sigmoid sigma(z) = 1 / (1 + exp(-z)) là bao nhiêu và đạt được tại đâu?",
+    "question": "Giá trị ĐẠO HÀM LỚN NHẤT của hàm kích hoạt Sigmoid $\\sigma(z) = \\frac{1}{1 + e^{-z}}$ là bao nhiêu và đạt được tại đâu?",
     "options": [
-      "1.0 đạt được tại z = 1",
-      "0.5 đạt được tại z = 0",
-      "0.25 đạt được tại z = 0",
-      "Vô cùng lớn khi z tiến ra vô cùng"
+      "$1.0$ đạt được tại $z = 1$",
+      "$0.5$ đạt được tại $z = 0$",
+      "$0.25$ đạt được tại $z = 0$",
+      "Vô cùng lớn khi $z \\to +\\infty$"
     ],
     "answer": 2,
-    "explanation": "Đạo hàm của Sigmoid là sigma'(z) = sigma(z) * (1 - sigma(z)). Vì sigma(z) nằm trong khoảng (0, 1), tích này đạt cực đại khi sigma(z) = 0.5 (tức tại z = 0). Giá trị cực đại là 0.5 * (1 - 0.5) = 0.25.",
-    "slideRef": "Slide Chương 6, Trang 24-25"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Đạo hàm: $\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$.\n* Đặt $p = \\sigma(z) \\in (0, 1)$, ta tìm cực đại của hàm $g(p) = p(1 - p) = p - p^2$.\n* Đạo hàm $g'(p) = 1 - 2p = 0 \\implies p = 0.5 \\implies z = 0$.\n* Giá trị cực đại: $g(0.5) = 0.5 \\times 0.5 = \\mathbf{0.25}$.\n* 👉 **Kết luận:** $\\max \\sigma'(z) = \\mathbf{0.25}$ tại $z = 0$.",
+    "slideRef": "Slide Chương 6, Trang 28"
   },
   {
     "id": 235,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Giá trị ĐẠO HÀM LỚN NHẤT của hàm kích hoạt Tanh tanh(z) là bao nhiêu và đạt được tại đâu?",
+    "question": "Giá trị ĐẠO HÀM LỚN NHẤT của hàm kích hoạt Tanh $\\tanh(z)$ là bao nhiêu và đạt được tại đâu?",
     "options": [
-      "1.0 đạt được tại z = 0",
-      "0.5 đạt được tại z = 0.5",
-      "0.25 đạt được tại z = 0",
-      "0.0 đạt được tại z = 0"
+      "$1.0$ đạt được tại $z = 0$",
+      "$0.5$ đạt được tại $z = 0.5$",
+      "$0.25$ đạt được tại $z = 0$",
+      "$0.0$ đạt được tại $z = 0$"
     ],
     "answer": 0,
-    "explanation": "Đạo hàm của Tanh là tanh'(z) = 1 - tanh^2(z). Vì tanh(0) = 0 nên đạo hàm tại z = 0 đạt cực đại bằng 1 - 0^2 = 1.0. Do đó gradient của Tanh mạnh gấp 4 lần so với Sigmoid (1.0 so với 0.25) tại điểm gốc.",
-    "slideRef": "Slide Chương 6, Trang 26-27"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Đạo hàm của hàm Tanh:\n  $$\\tanh'(z) = 1 - \\tanh^2(z)$$\n* Vì $\\tanh(z) \\in (-1, 1)$, đại lượng $\\tanh^2(z) \\ge 0$.\n* Biểu thức $1 - \\tanh^2(z)$ đạt giá trị CỰC ĐẠI khi $\\tanh^2(z) = 0 \\implies z = 0$.\n* Thay $z = 0$: $\\tanh'(0) = 1 - 0^2 = \\mathbf{1.0}$.\n* 👉 **Kết luận:** $\\max \\tanh'(z) = \\mathbf{1.0}$ tại $z = 0$ (lớn gấp 4 lần cực đại của Sigmoid!).",
+    "slideRef": "Slide Chương 6, Trang 29"
   },
   {
     "id": 236,
@@ -5413,13 +5413,13 @@ window.QUESTION_BANK = [
     "question": "Kỹ thuật Động lượng (Momentum) giúp tối ưu hóa thuật toán Gradient Descent như thế nào?",
     "options": [
       "Tự động tăng gấp đôi learning rate sau mỗi 10 vòng lặp",
-      "Tích lũy véc-tơ vận tốc gradient từ các bước lặp trước (như hòn bi lăn dốc) giúp vượt qua các điểm dốc thoai thoải và giảm dao động răng cưa",
+      "Tích lũy vector vận tốc gradient từ các bước lặp trước ($v_t = \\gamma v_{t-1} + \\eta \\nabla L$), giúp vượt qua các điểm dốc thoai thoải và giảm dao động răng cưa zic-zac",
       "Tính đạo hàm bậc hai ma trận Hessian tại mỗi bước",
       "Chọn ngẫu nhiên lại vị trí khởi tạo trọng số"
     ],
     "answer": 1,
-    "explanation": "Momentum cập nhật v_t = gamma * v_{t-1} + lr * grad. Bằng cách cộng dồn hướng di chuyển trong quá khứ, momentum giúp triệt tiêu dao động theo phương thẳng đứng và đẩy nhanh tốc độ hội tụ theo phương ngang về đáy hàm mất mát.",
-    "slideRef": "Slide Chương 6, Trang 52-54"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Momentum lấy cảm hứng từ động lượng của vật lý:\n  $$v_t = \\gamma v_{t-1} + \\eta \\nabla L$$\n  $$\\theta_{t+1} = \\theta_t - v_t$$\n  *(hệ số $\\gamma$ thường chọn $0.9$)*.\n* Nếu các gradient liên tục chỉ về cùng một hướng, vận tốc $v_t$ tăng vọt $\\implies$ Mô hình lao nhanh về phía cực tiểu.\n* Nếu gradient dao động qua lại đảo chiều, các thành phần trực giao tự triệt tiêu $\\implies$ Quỹ đạo đi mượt mà, không bị rung giật.",
+    "slideRef": "Slide Chương 6, Trang 61"
   },
   {
     "id": 237,
@@ -5428,13 +5428,13 @@ window.QUESTION_BANK = [
     "question": "Thuật toán tối ưu Adam (Adaptive Moment Estimation) là sự kết hợp ưu điểm của hai thuật toán nào?",
     "options": [
       "Gradient Descent thuần và Newton-Raphson",
-      "Momentum (ước lượng mô-men bậc 1) và RMSprop (ước lượng mô-men bậc 2 với learning rate thích nghi)",
+      "Momentum (ước lượng mô-men bậc 1) và RMSprop (ước lượng mô-men bậc 2 với tốc độ học thích nghi)",
       "OLS và Ridge Regression",
       "AdaBoost và Random Forest"
     ],
     "answer": 1,
-    "explanation": "Adam tính toán cả trung bình trượt của gradient (first moment m_t - như Momentum) và trung bình trượt của bình phương gradient (second moment v_t - như RMSProp), đồng thời có bước hiệu chỉnh độ lệch (bias-correction) ở các bước đầu.",
-    "slideRef": "Slide Chương 6, Trang 56-59"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nThuật toán Adam (Kingma & Ba, 2014) là chuẩn mực tối ưu số 1 trong Deep Learning:\n1. **Kết hợp Momentum:** Duy trì trung bình động lũy thừa của gradient (mô-men bậc 1 $m_t$) để định hướng chuyển động.\n2. **Kết hợp RMSprop:** Duy trì trung bình động lũy thừa của bình phương gradient (mô-men bậc 2 $v_t$) để điều chỉnh tốc độ học thích nghi riêng cho từng tham số.\n3. Kèm theo bước **Hiệu chỉnh độ lệch (Bias Correction)** ở các bước đầu tiên.",
+    "slideRef": "Slide Chương 6, Trang 61-62"
   },
   {
     "id": 238,
@@ -5448,23 +5448,23 @@ window.QUESTION_BANK = [
       "625 tham số"
     ],
     "answer": 1,
-    "explanation": "Tầng ẩn 1: 10 * 20 weights + 20 biases = 220. Tầng ẩn 2: 20 * 15 weights + 15 biases = 315. Tầng đầu ra: 15 * 3 weights + 3 biases = 48. Tổng cộng: 220 + 315 + 48 = 583 tham số.",
-    "slideRef": "Slide Chương 6, Trang 15-17"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nÁp dụng công thức $\\text{Tham số} = n_{sau} \\times (n_{trước} + 1)$ cho từng tầng:\n1. **Input $\\to$ Ẩn 1:** $20 \\times (10 + 1) = 20 \\times 11 = 220$ tham số.\n2. **Ẩn 1 $\\to$ Ẩn 2:** $15 \\times (20 + 1) = 15 \\times 21 = 315$ tham số.\n3. **Ẩn 2 $\\to$ Output:** $3 \\times (15 + 1) = 3 \\times 16 = 48$ tham số.\n* 👉 **Tổng số tham số:**\n  $$\\text{Tổng} = 220 + 315 + 48 = \\mathbf{583} \\text{ tham số!}$$",
+    "slideRef": "Slide Chương 6, Trang 24"
   },
   {
     "id": 239,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Trong bài toán Phân loại đa lớp (Multi-class Classification) với C lớp riêng biệt, tầng đầu ra thường dùng hàm kích hoạt nào kết hợp với hàm mất mát nào?",
+    "question": "Trong bài toán Phân loại đa lớp (Multi-class Classification) với $C$ lớp riêng biệt, tầng đầu ra thường dùng hàm kích hoạt nào kết hợp với hàm mất mát nào?",
     "options": [
       "Tầng ra Sigmoid kết hợp hàm mất mát Mean Squared Error (MSE)",
-      "Tầng ra Softmax kết hợp hàm mất mát Categorical Cross-Entropy",
+      "Tầng ra Softmax kết hợp hàm mất mát Categorical Cross-Entropy (CCE)",
       "Tầng ra ReLU kết hợp hàm mất mát Hinge Loss",
       "Tầng ra Tuyến tính kết hợp Binary Cross-Entropy"
     ],
     "answer": 1,
-    "explanation": "Softmax chuẩn hóa các giá trị logit z_i thành phân phối xác suất có tổng bằng 1. Kết hợp với hàm mất mát Categorical Cross-Entropy J = - sum(y_i * log(p_i)) là tiêu chuẩn vàng cho phân loại đa lớp.",
-    "slideRef": "Slide Chương 6, Trang 40-42"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Cặp bài trùng chuẩn mực cho phân loại đa lớp:\n  - **Kích hoạt Softmax:** Biến đổi $C$ giá trị thực tự do thành phân phối xác suất hợp lệ có tổng bằng 1.\n  - **Hàm mất mát CCE:** Đo khoảng cách giữa phân phối xác suất dự đoán $\\hat{y}$ và phân phối thực tế $y$ (One-hot vector):\n    $$L = - \\sum_{k=1}^C y_k \\ln \\hat{y}_k$$",
+    "slideRef": "Slide Chương 6, Trang 35, 41, 69"
   },
   {
     "id": 240,
@@ -5478,8 +5478,8 @@ window.QUESTION_BANK = [
       "Hàm Phân bước Heaviside"
     ],
     "answer": 1,
-    "explanation": "Khởi tạo Xavier/Glorot giả định hàm kích hoạt đối xứng quanh 0 (như Tanh). Với hàm ReLU triệt tiêu một nửa giá trị âm, Kaiming He (2015) đề xuất phương sai trọng số Var(W) = 2 / n_in giúp giữ cho phương sai của tín hiệu không bị giảm sút qua các tầng mạng sâu.",
-    "slideRef": "Slide Chương 6, Trang 62-64"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Khởi tạo Xavier/Glorot:** Thiết kế cho Sigmoid/Tanh với phương sai $\\text{Var}(W) = \\frac{2}{n_{in} + n_{out}}$.\n* **Khởi tạo He (Kaiming He et al., 2015):** Thiết kế riêng cho **ReLU**:\n  - Vì ReLU triệt tiêu một nửa miền âm về 0, phương sai của tín hiệu bị giảm đi một nửa qua mỗi tầng!\n  - Để bù đắp, He Init nhân đôi phương sai:\n    $$\\text{Var}(W) = \\frac{2}{n_{in}}$$\n  - Giúp tín hiệu kích hoạt và gradient không bị teo biến khi mạng sâu hàng chục tầng.",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 366,
@@ -5488,28 +5488,28 @@ window.QUESTION_BANK = [
     "question": "Định lý Hội tụ Perceptron (Novikoff 1962) khẳng định điều gì về thuật toán Perceptron cổ điển?",
     "options": [
       "Perceptron luôn hội tụ trên mọi tập dữ liệu bất kể có thể phân tách được hay không",
-      "Nếu tập dữ liệu huấn luyện phân tách tuyến tính (Linearly Separable) với độ rộng lề γ > 0, thuật toán Perceptron chắc chắn sẽ hội tụ và tìm ra một siêu phẳng phân tách hoàn hảo sau một số hữu hạn bước lặp",
+      "Nếu tập dữ liệu huấn luyện phân tách tuyến tính (Linearly Separable) với độ rộng lề $\\gamma > 0$, thuật toán Perceptron chắc chắn sẽ hội tụ và tìm ra một siêu phẳng phân tách hoàn hảo sau một số hữu hạn bước lặp",
       "Perceptron giải quyết được hàm XOR trong tối đa 10 epoch",
       "Sai số của Perceptron giảm theo cấp số nhân"
     ],
     "answer": 1,
-    "explanation": "Định lý Novikoff chứng minh số lần cập nhật lỗi của Perceptron bị chặn trên bởi (R / γ)^2 (với R là bán kính khối cầu chứa dữ liệu và γ là lề phân tách), đảm bảo thuật toán chắc chắn hội tụ nếu dữ liệu tách biệt tuyến tính.",
-    "slideRef": "Slide Chương 6, Trang 7-9"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐịnh lý Novikoff (1962):\n* Nếu tồn tại một siêu phẳng hoàn hảo phân tách 2 lớp với lề $\\gamma$:\n  $$\\text{Số bước lặp cập nhật tối đa} \\le \\left( \\frac{R}{\\gamma} \\right)^2$$\n  *(với $R = \\max \\|x_i\\|$ là bán kính bao của dữ liệu)*.\n* 👉 Thuật toán Perceptron được đảm bảo toán học **chắc chắn sẽ dừng lại sau một số hữu hạn bước lặp** mà không bị lặp vô tận!",
+    "slideRef": "Slide Chương 6, Trang 17"
   },
   {
     "id": 367,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Trong bài toán XOR (Exclusive OR) với 4 mẫu: (0,0)->0, (0,1)->1, (1,0)->1, (1,1)->0, tại sao một Perceptron đơn tầng KHÔNG THỂ học được nghiệm đúng?",
+    "question": "Trong bài toán XOR (Exclusive OR) với 4 mẫu: $(0,0) \\to 0$, $(0,1) \\to 1$, $(1,0) \\to 1$, $(1,1) \\to 0$, tại sao một Perceptron đơn tầng KHÔNG THỂ học được nghiệm đúng?",
     "options": [
       "Vì Perceptron không thể xử lý giá trị 0",
       "Vì 4 điểm dữ liệu của bài toán XOR không tách biệt tuyến tính (không thể dùng một đường thẳng đơn lẻ để phân chia 2 điểm nhãn 1 và 2 điểm nhãn 0 trong mặt phẳng 2D)",
-      "Vì tốc độ học η quá nhỏ",
+      "Vì tốc độ học $\\eta$ quá nhỏ",
       "Vì hàm XOR yêu cầu ít nhất 4 đầu vào"
     ],
     "answer": 1,
-    "explanation": "Về mặt hình học, hai điểm nhãn 1 nằm trên đường chéo (0,1) và (1,0), hai điểm nhãn 0 nằm trên đường chéo (0,0) và (1,1). Bất kỳ một đường thẳng nào chia mặt phẳng làm đôi cũng chỉ bắt được tối đa 3 điểm đúng, không thể tách biệt hoàn toàn 4 điểm này.",
-    "slideRef": "Slide Chương 6, Trang 10-12"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hai điểm $(0, 0)$ và $(1, 1)$ mang nhãn 0 nằm ở 2 góc đối diện nhau.\n* Hai điểm $(0, 1)$ và $(1, 0)$ mang nhãn 1 nằm ở 2 góc đối diện còn lại.\n* Về mặt hình học, một đường thẳng $w_1 x_1 + w_2 x_2 + b = 0$ chỉ có thể cắt không gian thành 2 nửa; không thể có đường thẳng nào cùng lúc gom 2 góc đối diện vào cùng một phía.\n* 👉 Dữ liệu **Not Linearly Separable**, chứng minh Perceptron đơn tầng bất lực.",
+    "slideRef": "Slide Chương 6, Trang 18-19"
   },
   {
     "id": 368,
@@ -5523,14 +5523,14 @@ window.QUESTION_BANK = [
       "Tất cả các mạng nơ-ron đều tránh được hiện tượng quá khớp"
     ],
     "answer": 1,
-    "explanation": "Định lý chứng minh rằng mạng MLP với 1 tầng ẩn phi tuyến là một bộ xấp xỉ vạn năng (Universal Approximator). Tuy nhiên định lý không chỉ ra cần bao nhiêu nơ-ron và làm sao học được trọng số tối ưu (đó là lý do kiến trúc sâu Deep Networks thực tế hiệu quả hơn nhiều).",
-    "slideRef": "Slide Chương 6, Trang 14-16"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Định lý khẳng định sức mạnh biểu diễn vô hạn của mạng nơ-ron:\n  Chỉ cần 1 tầng ẩn + kích hoạt phi tuyến liên tục $\\implies$ Mô hình có thể xấp xỉ bất kỳ hàm liên tục nào $f(x)$.\n* Tuy nhiên, định lý chỉ chứng minh **sự tồn tại**, chứ không chỉ ra cách tìm trọng số hay đảm bảo số nơ-ron không bị bùng nổ. Trong thực tế, mạng sâu (nhiều tầng) học hiệu quả hơn nhiều so với mạng 1 tầng ẩn khổng lồ.",
+    "slideRef": "Slide Chương 6, Trang 38"
   },
   {
     "id": 369,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Nếu trong một mạng MLP có 5 tầng ẩn nhưng TẤT CẢ các tầng đều sử dụng hàm kích hoạt tuyến tính f(z) = z, toàn bộ mạng 5 tầng này tương đương với mô hình nào?",
+    "question": "Nếu trong một mạng MLP có 5 tầng ẩn nhưng TẤT CẢ các tầng đều sử dụng hàm kích hoạt tuyến tính $f(z) = z$, toàn bộ mạng 5 tầng này tương đương với mô hình nào?",
     "options": [
       "Mô hình cây quyết định 5 tầng",
       "Một mô hình Tuyến tính đơn tầng duy nhất (như Linear Regression)",
@@ -5538,68 +5538,68 @@ window.QUESTION_BANK = [
       "Mô hình mạng nơ-ron tích chập CNN"
     ],
     "answer": 1,
-    "explanation": "Tổ hợp của các hàm tuyến tính vẫn là một hàm tuyến tính: W5*(W4*(W3*(W2*(W1*x + b1) + b2)...)) = W_total * x + b_total. Việc xếp chồng bao nhiêu tầng tuyến tính cũng hoàn toàn vô nghĩa vì không tạo thêm bất kỳ khả năng học phi tuyến nào.",
-    "slideRef": "Slide Chương 6, Trang 18-20"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nChứng minh đại số tuyến tính:\n$$a^{(5)} = W^{(5)} (W^{(4)} (W^{(3)} (W^{(2)} (W^{(1)} x + b^{(1)}) + \\dots )))$$\n* Tích của 5 ma trận: $W_{tổng} = W^{(5)} W^{(4)} W^{(3)} W^{(2)} W^{(1)}$.\n* Kết quả rút gọn: $a^{(5)} = W_{tổng} x + b_{tổng}$.\n* 👉 5 tầng tuyến tính sụp đổ thành **đúng 1 tầng tuyến tính đơn lẻ**. Không tạo ra được bất kỳ biểu diễn phi tuyến mới nào!",
+    "slideRef": "Slide Chương 6, Trang 11"
   },
   {
     "id": 370,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Giá trị lớn nhất khả dĩ của đạo hàm hàm Sigmoid σ'(z) = σ(z)(1 - σ(z)) là bao nhiêu và đạt được tại z bằng mấy?",
+    "question": "Giá trị lớn nhất khả dĩ của đạo hàm hàm Sigmoid $\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$ là bao nhiêu và đạt được tại $z$ bằng mấy?",
     "options": [
-      "Max = 1.0 tại z = 0",
-      "Max = 0.25 tại z = 0",
-      "Max = 0.5 tại z = 1",
-      "Max = 0.25 tại z = +∞"
+      "$\\text{Max} = 1.0$ tại $z = 0$",
+      "$\\text{Max} = 0.25$ tại $z = 0$",
+      "$\\text{Max} = 0.5$ tại $z = 1$",
+      "$\\text{Max} = 0.25$ tại $z = +\\infty$"
     ],
     "answer": 1,
-    "explanation": "Tại z = 0, σ(0) = 0.5. Đạo hàm đạt giá trị cực đại: σ'(0) = 0.5 * (1 - 0.5) = 0.25. Với mọi giá trị z khác, đạo hàm đều nhỏ hơn 0.25 và tiến nhanh về 0 khi |z| lớn.",
-    "slideRef": "Slide Chương 6, Trang 23-25"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* $\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$.\n* Đặt $u = \\sigma(z) \\in (0, 1)$, biểu thức $u(1 - u) = -(u - 0.5)^2 + 0.25 \\le 0.25$.\n* Đạt cực đại khi $u = 0.5 \\iff \\frac{1}{1 + e^{-z}} = 0.5 \\iff z = 0$.\n* 👉 Giá trị lớn nhất bằng **$0.25$** tại $z = 0$.",
+    "slideRef": "Slide Chương 6, Trang 28"
   },
   {
     "id": 371,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Hệ quả trực tiếp của việc đạo hàm hàm Sigmoid luôn nhỏ hơn hoặc bằng 0.25 (σ'(z) <= 0.25) trong mạng nơ-ron sâu là gì?",
+    "question": "Hệ quả trực tiếp của việc đạo hàm hàm Sigmoid luôn nhỏ hơn hoặc bằng 0.25 ($\\sigma'(z) \\le 0.25$) trong mạng nơ-ron sâu là gì?",
     "options": [
-      "Gây ra hiện tượng Bùng nổ đạo hàm (Exploding Gradient)",
-      "Gây ra hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient) nghiêm trọng: qua mỗi tầng lan truyền ngược, gradient bị co lại ít nhất 4 lần, khiến gradient ở các tầng đầu gần như bằng 0 và không thể học được",
-      "Làm tốc độ huấn luyện nhanh gấp 4 lần",
-      "Trọng số w bị ép về đúng 0 như Lasso"
+      "Mạng nơ-ron học nhanh hơn",
+      "Hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient): gradient bị suy giảm theo cấp số nhân qua từng tầng khi truyền ngược, khiến các tầng đầu tiên gần như không học được",
+      "Hiện tượng bùng nổ đạo hàm (Exploding Gradient)",
+      "Trọng số tự động bị co về 0"
     ],
     "answer": 1,
-    "explanation": "Theo quy tắc chuỗi, gradient lan truyền qua L tầng sẽ bị nhân với tích các đạo hàm: (0.25)^L. Chỉ cần qua 5 tầng, gradient đã bị suy giảm hơn 1000 lần (0.25^5 ≈ 0.00097), làm tê liệt việc học ở các tầng đầu.",
-    "slideRef": "Slide Chương 6, Trang 25-27"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Theo quy tắc chuỗi (Chain Rule) trong Backpropagation:\n  $$\\frac{\\partial L}{\\partial W^{(1)}} \\propto \\sigma'(z^{(L)}) \\cdot \\sigma'(z^{(L-1)}) \\dots \\sigma'(z^{(1)})$$\n* Mỗi thừa số đều $\\le 0.25$. Sau $L$ tầng, tích này nhỏ hơn $(0.25)^L$.\n* Ví dụ với 10 tầng: $(0.25)^{10} \\approx 9.5 \\times 10^{-7} \\approx 0$!\n* 👉 Gradient biến mất hoàn toàn khi về tới tầng đầu tiên $\\implies$ **Vanishing Gradient**.",
+    "slideRef": "Slide Chương 6, Trang 28, 31"
   },
   {
     "id": 372,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Hàm kích hoạt Tanh tanh(z) có ưu điểm nào vượt trội hơn hàm Sigmoid?",
+    "question": "Hàm kích hoạt Tanh $\\tanh(z)$ có ưu điểm nào vượt trội hơn hàm Sigmoid?",
     "options": [
-      "Tanh không bao giờ bị bão hòa đạo hàm ở hai đầu",
-      "Tanh có miền giá trị (-1, 1) và đối xứng qua gốc tọa độ (Zero-centered), giúp giá trị kích hoạt đầu ra có trung bình xấp xỉ 0, làm cho hướng cập nhật gradient ổn định hơn mà không bị dao động zíc-zắc",
-      "Tanh có tốc độ tính toán nhanh hơn ReLU",
-      "Tanh chỉ dùng cho bài toán phân loại đa lớp"
+      "Tanh không có đạo hàm",
+      "Đầu ra của Tanh ĐỐI XỨNG QUA GỐC TỌA ĐỘ 0 (Zero-centered: miền giá trị $(-1, 1)$), giúp gradient cập nhật cân bằng và hội tụ nhanh hơn",
+      "Tanh có giá trị luôn dương",
+      "Tanh hoàn toàn miễn nhiễm với Vanishing Gradient"
     ],
     "answer": 1,
-    "explanation": "Sigmoid có đầu ra luôn dương (0, 1) nên gradient theo trọng số luôn cùng dấu (cùng dương hoặc cùng âm), gây ra cập nhật zíc-zắc chậm chạp. Tanh giải quyết việc này vì Zero-centered (đối xứng quanh 0), dù nó vẫn bị Vanishing gradient khi |z| lớn.",
-    "slideRef": "Slide Chương 6, Trang 28-30"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Sigmoid xuất ra miền $(0, 1)$ $\\implies$ Luôn dương $\\implies$ Gradient của các trọng số luôn cùng dấu $\\implies$ Bước cập nhật bị giật zic-zac.\n* Tanh xuất ra miền $(-1, 1)$ $\\implies$ Có cả giá trị âm và dương đối xứng qua 0 (**Zero-centered**) $\\implies$ Gradient dao động đều quanh 0, giúp mạng học ổn định và hội tụ nhanh hơn Sigmoid.",
+    "slideRef": "Slide Chương 6, Trang 29, 31"
   },
   {
     "id": 373,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Ưu điểm đột phá giúp hàm ReLU f(z) = max(0, z) trở thành hàm kích hoạt tiêu chuẩn cho các tầng ẩn trong Deep Learning hiện đại là gì?",
+    "question": "Ưu điểm đột phá giúp hàm ReLU $f(z) = \\max(0, z)$ trở thành hàm kích hoạt tiêu chuẩn cho các tầng ẩn trong Deep Learning hiện đại là gì?",
     "options": [
-      "Đạo hàm luôn bằng 1 trên toàn bộ miền z > 0, hoàn toàn xóa bỏ hiện tượng Triệt tiêu đạo hàm ở miền dương, đồng thời phép tính cực kỳ đơn giản và nhanh chóng",
-      "ReLU có dạng cong trơn khả vi tại mọi điểm trên trục số thực",
-      "ReLU có miền giá trị bị chặn trong khoảng [-1, 1]",
-      "ReLU giúp giảm số lượng nơ-ron của mạng"
+      "Khắc phục triệt để hiện tượng Vanishing Gradient ở miền dương ($z > 0$) vì đạo hàm luôn bằng 1, kèm theo chi phí tính toán siêu tốc (không dùng hàm số mũ $e$)",
+      "ReLU có miền giá trị từ -1 đến 1",
+      "ReLU có đạo hàm trơn tại mọi điểm",
+      "ReLU làm cho kích thước ma trận giảm đi"
     ],
     "answer": 0,
-    "explanation": "Với z > 0, đạo hàm của ReLU luôn bằng đúng 1 (không bị suy giảm như 0.25 của Sigmoid), cho phép tín hiệu gradient truyền qua hàng chục tầng mạng sâu mà không bị tắt. Phép tính max(0, z) cũng chỉ tốn 1 phép so sánh phần cứng siêu tốc.",
-    "slideRef": "Slide Chương 6, Trang 32-34"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Với $z > 0$, $\\text{ReLU}'(z) = 1.0$ $\\implies$ Đạo hàm không bao giờ bị teo nhỏ khi nhân chuỗi qua nhiều tầng!\n* Phép tính cực kỳ đơn giản: `if z > 0: return z else: return 0`, CPU/GPU thực thi chỉ trong 1 chu kỳ xung nhịp, nhanh hơn hàng chục lần so với phép tính số mũ $e^z$ của Sigmoid/Tanh.",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 374,
@@ -5607,14 +5607,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Hiện tượng 'Chết nơ-ron' (Dying ReLU problem) trong quá trình huấn luyện mạng nơ-ron xảy ra khi nào?",
     "options": [
-      "Khi nơ-ron nhận giá trị đầu vào quá lớn làm tràn bộ nhớ",
-      "Khi trọng số cập nhật khiến tổng đầu vào z = w^T x + b bị âm đối với MỌI mẫu dữ liệu trong tập train; khi đó kích hoạt bằng 0 và đạo hàm bằng 0 vĩnh viễn, nơ-ron ngừng học hoàn toàn",
-      "Khi tốc độ học η được đặt quá nhỏ",
-      "Khi sử dụng thuật toán tối ưu hóa Adam"
+      "Khi tốc độ học bằng 0",
+      "Khi nơ-ron liên tục nhận đầu vào âm ($z < 0$), đạo hàm bằng 0 trên toàn bộ tập dữ liệu, khiến trọng số bị 'đóng băng' và không bao giờ được cập nhật lại nữa",
+      "Khi trọng số của nơ-ron vượt quá 1000",
+      "Khi hàm mất mát bị âm"
     ],
     "answer": 1,
-    "explanation": "Khi z <= 0, đạo hàm của ReLU bằng 0. Nếu một bước nhảy gradient lớn khiến trọng số làm cho z < 0 cho toàn bộ tập dữ liệu, gradient qua nơ-ron đó sẽ luôn là 0 ở các epoch sau, nơ-ron 'chết lâm sàng' và không bao giờ phục hồi được.",
-    "slideRef": "Slide Chương 6, Trang 34-36"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi một nơ-ron nhận $z < 0$, đầu ra $a = 0$ và đạo hàm $\\text{ReLU}'(z) = 0$.\n* Nếu một bước nhảy gradient lớn vô tình đẩy bias và trọng số làm cho nơ-ron luôn nhận $z < 0$ với mọi mẫu:\n  - Gradient truyền ngược qua nơ-ron này luôn bằng 0.\n  - Trọng số không bao giờ thay đổi được nữa $\\implies$ Nơ-ron bị \"chết lâm sàng\" vĩnh viễn.",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 375,
@@ -5622,44 +5622,44 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Hàm kích hoạt Leaky ReLU khắc phục hiện tượng Dying ReLU bằng cách nào?",
     "options": [
-      "Chuyển toàn bộ giá trị âm thành dương",
-      "Cho phép một hệ số góc nhỏ (thường α = 0.01) ở miền âm: f(z) = z nếu z > 0, và f(z) = α * z nếu z <= 0, đảm bảo đạo hàm ở miền âm luôn bằng α > 0",
-      "Sử dụng hàm Softmax ở mỗi nơ-ron",
-      "Cắt tỉa nơ-ron bị chết khỏi mạng"
+      "Bằng cách đặt giá trị miền âm bằng -1",
+      "Bằng cách cho phép một độ dốc nhỏ $\\alpha$ (thường là $\\alpha = 0.01$) khi $z < 0$, giúp đạo hàm luôn khác 0 và nơ-ron có cơ hội cập nhật lại",
+      "Bằng cách nén đầu ra về đoạn $[0, 1]$",
+      "Bằng cách bình phương đầu vào"
     ],
     "answer": 1,
-    "explanation": "Với Leaky ReLU, khi z <= 0 thì đạo hàm vẫn giữ giá trị 0.01 (thay vì 0 tuyệt đối). Điều này cho phép gradient nhỏ tiếp tục chảy qua nơ-ron, giúp nó có cơ hội cập nhật trọng số và 'sống lại'.",
-    "slideRef": "Slide Chương 6, Trang 36-37"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức Leaky ReLU:\n$$f(z) = \\begin{cases} z & \\text{khi } z > 0 \\\\ 0.01 z & \\text{khi } z \\le 0 \\end{cases}$$\n* Đạo hàm khi $z \\le 0$ là **$0.01$ (khác 0)**.\n* Nhờ độ dốc $0.01$ này, tín hiệu gradient luôn có thể truyền ngược qua nơ-ron, giúp kéo trọng số ra khỏi vùng âm và làm nơ-ron sống lại!",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 376,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Tính tổng số tham số (Weights + Biases) có thể học được của một mạng MLP gồm: Tầng đầu vào có 784 đặc trưng (ảnh 28x28); Tầng ẩn 1 có 128 nơ-ron; Tầng ẩn 2 có 64 nơ-ron; Tầng đầu ra có 10 nơ-ron. Tất cả các tầng đều có Bias.",
+    "question": "Tính tổng số tham số (Weights + Biases) có thể học được của một mạng MLP gồm: Tầng đầu vào có 784 đặc trưng (ảnh $28 \\times 28$); Tầng ẩn 1 có 128 nơ-ron; Tầng ẩn 2 có 64 nơ-ron; Tầng đầu ra có 10 nơ-ron. Tất cả các tầng đều có Bias.",
     "options": [
-      "109,386 tham số",
-      "108,544 tham số",
-      "109,194 tham số",
-      "100,000 tham số"
+      "$109.386$ tham số",
+      "$108.530$ tham số",
+      "$100.480$ tham số",
+      "$115.200$ tham số"
     ],
     "answer": 0,
-    "explanation": "Tầng ẩn 1: 784 * 128 + 128 = 100,352 + 128 = 100,480. Tầng ẩn 2: 128 * 64 + 64 = 8,192 + 64 = 8,256. Tầng đầu ra: 64 * 10 + 10 = 640 + 10 = 650. Tổng cộng: 100,480 + 8,256 + 650 = 109,386 tham số.",
-    "slideRef": "Slide Chương 6, Trang 16-17"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **BÀI TOÁN BẤM MÁY TÍNH KINH ĐIỂN CỦA CHƯƠNG 6:**\nÁp dụng công thức số tham số mỗi tầng: $\\text{Tham số} = n_{sau} \\times (n_{trước} + 1)$:\n1. **Input $\\to$ Tầng ẩn 1:**\n   - $n_{trước} = 784$, $n_{sau} = 128$.\n   - Số tham số = $128 \\times (784 + 1) = 128 \\times 785 = \\mathbf{100.480}$ tham số.\n2. **Tầng ẩn 1 $\\to$ Tầng ẩn 2:**\n   - $n_{trước} = 128$, $n_{sau} = 64$.\n   - Số tham số = $64 \\times (128 + 1) = 64 \\times 129 = \\mathbf{8.256}$ tham số.\n3. **Tầng ẩn 2 $\\to$ Tầng đầu ra:**\n   - $n_{trước} = 64$, $n_{sau} = 10$.\n   - Số tham số = $10 \\times (64 + 1) = 10 \\times 65 = \\mathbf{650}$ tham số.\n* 👉 **TỔNG SỐ THAM SỐ TOÀN MẠNG:**\n  $$\\text{Tổng} = 100.480 + 8.256 + 650 = \\mathbf{109.386} \\text{ tham số!}$$",
+    "slideRef": "Slide Chương 6, Trang 24"
   },
   {
     "id": 377,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Nếu ma trận kích hoạt tầng trước A^[l-1] có kích thước (n^[l-1], m) và tầng hiện tại l có n^[l] nơ-ron, thì ma trận trọng số W^[l] và vector bias b^[l] có kích thước lần lượt là gì?",
+    "question": "Nếu ma trận kích hoạt tầng trước $A^{[l-1]}$ có kích thước $(n^{[l-1]}, m)$ và tầng hiện tại $l$ có $n^{[l]}$ nơ-ron, thì ma trận trọng số $W^{[l]}$ và vector bias $b^{[l]}$ có kích thước lần lượt là gì?",
     "options": [
-      "W^[l] có kích thước (n^[l], n^[l-1]); b^[l] có kích thước (n^[l], 1)",
-      "W^[l] có kích thước (n^[l-1], n^[l]); b^[l] có kích thước (1, n^[l])",
-      "W^[l] có kích thước (n^[l], m); b^[l] có kích thước (m, 1)",
-      "W^[l] có kích thước (n^[l], n^[l]); b^[l] có kích thước (n^[l], n^[l])"
+      "$W^{[l]} \\in \\mathbb{R}^{n^{[l]} \\times n^{[l-1]}}$ và $b^{[l]} \\in \\mathbb{R}^{n^{[l]} \\times 1}$",
+      "$W^{[l]} \\in \\mathbb{R}^{n^{[l-1]} \\times n^{[l]}}$ và $b^{[l]} \\in \\mathbb{R}^{1 \\times n^{[l]}}$",
+      "$W^{[l]} \\in \\mathbb{R}^{n^{[l]} \\times n^{[l]}}$ và $b^{[l]} \\in \\mathbb{R}^{n^{[l-1]} \\times 1}$",
+      "$W^{[l]} \\in \\mathbb{R}^{m \\times n^{[l]}}$ và $b^{[l]} \\in \\mathbb{R}^{m \\times 1}$"
     ],
     "answer": 0,
-    "explanation": "Theo quy ước chuẩn của Andrew Ng và lý thuyết Deep Learning: Z^[l] = W^[l] * A^[l-1] + b^[l]. Để nhân được với A^[l-1] (n^[l-1] x m) cho ra Z^[l] (n^[l] x m), W^[l] bắt buộc phải có kích thước (n^[l], n^[l-1]) và b^[l] có kích thước (n^[l], 1).",
-    "slideRef": "Slide Chương 6, Trang 19-21"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nQuy tắc kích thước ma trận trong Deep Learning:\n* Phương trình tổ hợp tuyến tính: $Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}$.\n* Để phép nhân ma trận hợp lệ:\n  - Đầu vào $A^{[l-1]}$ có kích thước $(n^{[l-1]}, m)$.\n  - Đầu ra $Z^{[l]}$ phải có kích thước $(n^{[l]}, m)$.\n* 👉 **Ma trận trọng số $W^{[l]}$ bắt buộc có kích thước:** $(n^{[l]} \\times n^{[l-1]})$ (Hàng = Số nơ-ron tầng sau, Cột = Số nơ-ron tầng trước).\n* 👉 **Vector bias $b^{[l]}$ có kích thước:** $(n^{[l]} \\times 1)$ (Mỗi nơ-ron tầng sau có đúng 1 bias).",
+    "slideRef": "Slide Chương 6, Trang 24"
   },
   {
     "id": 378,
@@ -5667,29 +5667,29 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Quy tắc cốt lõi trong thuật toán Lan truyền ngược (Backpropagation) để tính đạo hàm riêng của hàm mất mát theo trọng số ở các tầng ẩn sâu là gì?",
     "options": [
-      "Quy tắc L'Hopital",
-      "Quy tắc Chuỗi (Chain Rule) trong giải tích vi phân nhiều biến",
-      "Quy tắc Cramer giải hệ phương trình",
-      "Định lý Bayes"
+      "Quy tắc cộng đạo hàm độc lập",
+      "Quy tắc chuỗi (Chain Rule) trên Đồ thị tính toán (Computational Graph)",
+      "Quy tắc L'Hôpital",
+      "Định lý giá trị trung bình Lagrange"
     ],
     "answer": 1,
-    "explanation": "Backpropagation áp dụng Quy tắc Chuỗi (Chain Rule) để tính đạo hàm dL/dw_ij bằng cách nhân liên tiếp các đạo hàm cục bộ từ tầng ra ngược về tầng ẩn: dL/dw = (dL/da) * (da/dz) * (dz/dw).",
-    "slideRef": "Slide Chương 6, Trang 43-45"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Backpropagation thực chất là việc hiện thực hóa **Quy tắc chuỗi (Chain Rule)** trong giải tích nhiều biến trên đồ thị tính toán:\n  $$\\frac{\\partial L}{\\partial W^{(l)}} = \\delta^{(l)} \\cdot (a^{(l-1)})^T$$\n  *(với $\\delta^{(l)}$ là vector sai số được truyền ngược từ tầng sau về)*.\n* Nhờ Chain Rule, các phép tính vi phân phức tạp được chia nhỏ thành các phép tính gradient cục bộ tại từng nút, giúp máy tính tính toán tự động cực kỳ hiệu quả (Automatic Differentiation).",
+    "slideRef": "Slide Chương 6, Trang 46, 48"
   },
   {
     "id": 379,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Trong tầng đầu ra sử dụng hàm kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy, đạo hàm của hàm mất mát đối với biến logit z_i có dạng rút gọn cực kỳ đẹp mắt là gì?",
+    "question": "Trong tầng đầu ra sử dụng hàm kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy, đạo hàm của hàm mất mát đối với biến logit $z_i$ có dạng rút gọn cực kỳ đẹp mắt là gì?",
     "options": [
-      "dL / dz_i = y_hat_i - y_i",
-      "dL / dz_i = y_hat_i * y_i",
-      "dL / dz_i = (y_hat_i - y_i)^2",
-      "dL / dz_i = 1 / (y_hat_i - y_i)"
+      "$\\frac{\\partial L}{\\partial z_i} = \\hat{y}_i - y_i$",
+      "$\\frac{\\partial L}{\\partial z_i} = \\hat{y}_i \\cdot (1 - \\hat{y}_i)$",
+      "$\\frac{\\partial L}{\\partial z_i} = \\frac{y_i}{\\hat{y}_i}$",
+      "$\\frac{\\partial L}{\\partial z_i} = (\\hat{y}_i - y_i)^2$"
     ],
     "answer": 0,
-    "explanation": "Khi kết hợp Softmax với Categorical Cross-Entropy (tương tự như Sigmoid với Binary Cross-Entropy), các thành phần phức tạp triệt tiêu nhau hoàn hảo, cho ra gradient: dL/dz_i = y_hat_i - y_i (chính là hiệu số giữa xác suất dự đoán và nhãn thật one-hot).",
-    "slideRef": "Slide Chương 6, Trang 46-48"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **KẾT QUẢ TOÁN HỌC ĐẸP NHẤT TRONG DEEP LEARNING:**\n* Mặc dù hàm Softmax $\\hat{y}_i = \\frac{e^{z_i}}{\\sum e^{z_j}}$ và hàm Cross-Entropy $L = -\\sum y_k \\ln \\hat{y}_k$ có biểu thức đạo hàm riêng rất cồng kềnh.\n* Nhưng khi kết hợp đạo hàm theo quy tắc chuỗi $\\frac{\\partial L}{\\partial z_i} = \\sum_k \\frac{\\partial L}{\\partial \\hat{y}_k} \\frac{\\partial \\hat{y}_k}{\\partial z_i}$, toàn bộ các số hạng phức tạp đều triệt tiêu nhau, để lại kết quả rút gọn thần kỳ:\n  $$\\mathbf{\\frac{\\partial L}{\\partial z_i} = \\hat{y}_i - y_i}$$\n* 👉 Đạo hàm đơn giản chỉ là: **(Xác suất dự đoán) $-$ (Nhãn thực tế)**!",
+    "slideRef": "Slide Chương 6, Trang 49"
   },
   {
     "id": 380,
@@ -5697,14 +5697,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Tại sao KHÔNG ĐƯỢC khởi tạo tất cả các trọng số trong mạng nơ-ron bằng 0 (Zero Initialization)?",
     "options": [
-      "Vì làm máy tính bị chia cho 0",
-      "Vì gây ra lỗi Phá vỡ tính đối xứng (Symmetry Breaking Failure): tất cả các nơ-ron trong cùng một tầng ẩn sẽ nhận cùng một tín hiệu đầu vào, cho ra cùng một kích hoạt và cùng một gradient, khiến chúng học hoàn toàn giống hệt nhau như 1 nơ-ron duy nhất",
-      "Vì hàm ReLU không tính được số 0",
-      "Vì làm hàm mất mát biến thành số âm"
+      "Vì các phép tính số học trên máy tính sẽ bị lỗi chia cho 0",
+      "Vì gây ra hiện tượng phá hủy tính đối xứng không thể xảy ra (Symmetry Problem), khiến mọi nơ-ron trong cùng một tầng học các đặc trưng giống hệt nhau",
+      "Vì làm mất hoàn toàn vector bias",
+      "Vì làm tốc độ học bị âm"
     ],
     "answer": 1,
-    "explanation": "Nếu khởi tạo mọi w = 0, tất cả nơ-ron trong tầng ẩn đều đối xứng hoàn toàn. Dù huấn luyện bao nhiêu epoch, chúng cũng cập nhật y hệt nhau, mạng sâu nhiều nơ-ron bị thoái hóa tương đương với một mạng chỉ có đúng 1 nơ-ron trên mỗi tầng.",
-    "slideRef": "Slide Chương 6, Trang 60-62"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Nếu khởi tạo $W = 0$:\n  - Mọi nơ-ron trong cùng 1 tầng sẽ tính ra cùng một giá trị tổng $z = b$.\n  - Mọi nơ-ron cho ra cùng một kích hoạt $a = \\phi(b)$.\n  - Khi lan truyền ngược, mọi nơ-ron nhận về cùng một gradient $\\implies$ Sau cập nhật, các trọng số vẫn bằng nhau chằn chặn!\n* 👉 Mạng nơ-ron không thể học được các đặc trưng khác nhau (mất khả năng biểu diễn đa dạng). Do đó bắt buộc phải **khởi tạo ngẫu nhiên (Random Initialization)**.",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 381,
@@ -5712,29 +5712,29 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Phương pháp Khởi tạo Xavier / Glorot (Xavier Initialization) được thiết kế tối ưu cho mạng nơ-ron sử dụng các hàm kích hoạt nào?",
     "options": [
-      "Hàm Sigmoid và Tanh (các hàm có tính đối xứng quanh 0 hoặc bão hòa 2 đầu)",
+      "Hàm Sigmoid và Hàm Tanh (Hyperbolic Tangent)",
       "Hàm ReLU và Leaky ReLU",
-      "Hàm Heaviside",
-      "Chỉ dùng cho hồi quy tuyến tính"
+      "Hàm Tuyến tính",
+      "Hàm Bước nhảy Heaviside"
     ],
     "answer": 0,
-    "explanation": "Xavier Glorot (2010) thiết kế phương sai trọng số Var(W) = 2 / (n_in + n_out) dựa trên giả định hàm kích hoạt là tuyến tính hoặc đối xứng quanh 0 (như Tanh), giúp giữ cho phương sai kích hoạt và phương sai gradient không đổi qua các tầng.",
-    "slideRef": "Slide Chương 6, Trang 61-63"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Khởi tạo Xavier / Glorot (Glorot & Bengio, AISTATS 2010):**\n  - Giả định hàm kích hoạt đối xứng quanh 0 và có độ dốc bằng 1 tại gốc tọa độ (phù hợp hoàn hảo với **Tanh**, và áp dụng được cho **Sigmoid**).\n  - Khởi tạo trọng số từ phân phối có phương sai:\n    $$\\text{Var}(W) = \\frac{2}{n_{in} + n_{out}}$$\n  - Giữ cho phương sai của tín hiệu kích hoạt và dòng gradient ổn định qua các tầng.",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 382,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Phương pháp Khởi tạo He / Kaiming (He Initialization) đề xuất phương sai trọng số Var(W) = 2 / n_in để giải quyết vấn đề gì của hàm ReLU?",
+    "question": "Phương pháp Khởi tạo He / Kaiming (He Initialization) đề xuất phương sai trọng số $\\text{Var}(W) = \\frac{2}{n_{in}}$ để giải quyết vấn đề gì của hàm ReLU?",
     "options": [
-      "Vì ReLU triệt tiêu một nửa giá trị kích hoạt (miền z < 0 bị đưa về 0), khiến phương sai của tín hiệu bị giảm đi một nửa qua mỗi tầng; do đó cần nhân đôi phương sai khởi tạo (2 / n_in) để bù trừ",
-      "Để nơ-ron không bao giờ bị âm",
-      "Để tăng tốc độ tính toán ma trận",
-      "Để ép tất cả bias về 0"
+      "Bù đắp cho việc hàm ReLU triệt tiêu một nửa miền âm ($z < 0$) về 0, giúp phương sai tín hiệu không bị suy giảm theo cấp số nhân khi mạng sâu",
+      "Để biến hàm ReLU thành hàm khả vi tại điểm 0",
+      "Để tăng kích thước của ma trận trọng số",
+      "Để giảm thời gian tính toán của hàm mũ"
     ],
     "answer": 0,
-    "explanation": "Kaiming He (2015) chỉ ra rằng do ReLU gọt bỏ 50% tín hiệu âm, phương sai đầu ra của tầng bị giảm đi 1/2. Để giữ phương sai tín hiệu ổn định qua các tầng sâu, công thức He nhân hệ số 2 vào tử số: Var(W) = 2 / n_in.",
-    "slideRef": "Slide Chương 6, Trang 63-65"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì ReLU gán $f(z) = 0$ khi $z < 0$, nên khoảng một nửa số nơ-ron trong tầng bị tắt $\\implies$ Phương sai tín hiệu đầu ra bị giảm đi một nửa: $\\text{Var}(a) = \\frac{1}{2} \\text{Var}(z)$.\n* Nếu dùng Xavier Init, tín hiệu sẽ bị suy yếu dần qua mỗi tầng.\n* **Kaiming He et al. (ICCV 2015)** nhân đôi phương sai khởi tạo: $\\text{Var}(W) = \\frac{2}{n_{in}}$ $\\implies$ Giữ cho phương sai tín hiệu nguyên vẹn qua hàng trăm tầng ReLU!",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 383,
@@ -5742,29 +5742,29 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Kỹ thuật 'Cắt ngưỡng đạo hàm' (Gradient Clipping) thường được áp dụng nhằm giải quyết vấn đề bệnh lý nào trong quá trình huấn luyện mạng nơ-ron sâu?",
     "options": [
-      "Bùng nổ đạo hàm (Exploding Gradient), ngăn chặn gradient tăng vọt quá lớn làm trọng số bị NaN / vô cùng",
-      "Triệt tiêu đạo hàm (Vanishing Gradient)",
-      "Quá khớp trên tập kiểm thử",
-      "Chết nơ-ron ReLU"
+      "Hiện tượng Bùng nổ đạo hàm (Exploding Gradient), ngăn chặn trọng số bị cập nhật quá lớn gây ra lỗi tràn số `NaN`",
+      "Hiện tượng Triệt tiêu đạo hàm (Vanishing Gradient)",
+      "Hiện tượng Chết nơ-ron (Dying ReLU)",
+      "Hiện tượng Quá khớp (Overfitting)"
     ],
     "answer": 0,
-    "explanation": "Gradient Clipping giới hạn độ lớn chuẩn của gradient (||g|| <= threshold). Nếu ||g|| vượt ngưỡng, nó được chuẩn hóa tỉ lệ co lại: g <- g * (threshold / ||g||). Kỹ thuật này ngăn chặn hiện tượng Exploding Gradient phá hỏng trọng số mô hình.",
-    "slideRef": "Slide Chương 6, Trang 66-67"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Exploding Gradients:** Trong các mạng nơ-ron sâu hoặc RNN, việc nhân chuỗi nhiều ma trận có giá trị riêng lớn hơn 1 làm cho gradient tăng theo cấp số nhân $\\to$ Trọng số nhảy vọt ra ngoài không gian tối ưu hoặc báo lỗi `NaN` / `inf`.\n* **Gradient Clipping:** Nếu độ dài chuẩn của vector gradient vượt quá một ngưỡng $c$ (ví dụ $\\|g\\| > c$):\n  $$g \\leftarrow c \\frac{g}{\\|g\\|}$$\n* Co ngắn vector gradient lại nhưng giữ nguyên hướng đi, bảo vệ mô hình không bị sụp đổ số học.",
+    "slideRef": "Slide Chương 6, Trang 58-59"
   },
   {
     "id": 384,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Kích thước Mini-batch (Batch Size B) trong huấn luyện mạng nơ-ron thường được chọn là lũy thừa của 2 (ví dụ 32, 64, 128, 256) vì lý do kỹ thuật nào?",
+    "question": "Kích thước Mini-batch (Batch Size $B$) trong huấn luyện mạng nơ-ron thường được chọn là lũy thừa của 2 (ví dụ 32, 64, 128, 256) vì lý do kỹ thuật nào?",
     "options": [
-      "Vì thuật toán Gradient Descent bắt buộc batch size phải là số chẵn",
-      "Vì kiến trúc phần cứng của GPU và bộ nhớ chia sẻ được thiết kế tối ưu hóa song song tốt nhất khi dữ liệu có kích thước là bội số lũy thừa của 2 (SIMD / CUDA cores)",
-      "Vì giúp hàm mất mát đạt giá trị 0 nhanh hơn",
-      "Vì quy định của ngôn ngữ Python"
+      "Vì định lý toán học bắt buộc số mẫu phải chẵn",
+      "Vì kiến trúc phần cứng GPU (các luồng CUDA Cores, Tensor Cores và bộ nhớ đệm VRAM) được thiết kế tối ưu hóa song song tốt nhất theo các khối lũy thừa của 2",
+      "Vì làm cho hàm mất mát không bao giờ bị âm",
+      "Vì giúp loại bỏ hoàn toàn các điểm ngoại lai"
     ],
     "answer": 1,
-    "explanation": "Các kiến trúc GPU (như NVIDIA Tensor Cores) có các luồng tính toán warp 32 threads. Kích thước lũy thừa của 2 giúp tận dụng 100% dung lượng phần cứng song song, tránh lãng phí chu kỳ xử lý.",
-    "slideRef": "Slide Chương 6, Trang 50-52"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Card đồ họa GPU (như Nvidia CUDA) tổ chức việc tính toán song song theo các khối **Warp** (32 luồng) và các khối bộ nhớ lũy thừa 2.\n* Khi chọn Batch Size là bội số hoặc lũy thừa của 2 ($32, 64, 128, 256$):\n  - Dữ liệu được căn chỉnh hoàn hảo (Memory Alignment) vào các thanh ghi và bộ nhớ đệm VRAM.\n  - Tận dụng 100% năng lực tính toán của các lõi Tensor Cores mà không bị lãng phí chu kỳ xử lý rỗng.",
+    "slideRef": "Slide Chương 6, Trang 56"
   },
   {
     "id": 385,
@@ -5772,14 +5772,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Ý tưởng vật lý của thuật toán Tối ưu hóa có Xung lượng (Momentum Optimizer) trong Gradient Descent là gì?",
     "options": [
-      "Mỗi bước cập nhật trọng số nhớ lại một phần hướng di chuyển của các bước trước đó (như một hòn bi có quán tính lăn xuống dốc), giúp vượt qua các điểm yên ngựa (saddle points) và triệt tiêu dao động ngang ở thung lũng hẹp",
-      "Giảm tốc độ học sau mỗi 10 vòng lặp",
-      "Xóa ngẫu nhiên một nửa gradient",
-      "Đổi dấu trọng số khi gặp dốc"
+      "Mô phỏng hòn bi có khối lượng lăn xuống dốc: động lượng giúp bi lăn nhanh qua các vùng dốc thoải và có đà vượt qua các hố cực tiểu địa phương nông",
+      "Mô phỏng sự bay hơi của chất lỏng",
+      "Mô phỏng sự va chạm đàn hồi của các hạt phân tử",
+      "Mô phỏng chuyển động nhiệt Brown ngẫu nhiên"
     ],
     "answer": 0,
-    "explanation": "Công thức Momentum: v_t = γ * v_{t-1} + η * g_t, w = w - v_t. Vận tốc v_t tích lũy động lượng từ quá khứ, giúp mô hình lướt nhanh dọc theo rãnh dốc chính và triệt tiêu dao động dích dắc qua lại hai bên thành dốc.",
-    "slideRef": "Slide Chương 6, Trang 53-55"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Gradient thuần túy ví như một người không có quán tính: đi bước nào biết bước đó, gặp hố nông là rơi xuống và kẹt cứng.\n* **Momentum:** Xem tham số như một viên bi có quán tính:\n  - Khi lăn xuống dốc, bi tích lũy vận tốc $v_t$.\n  - Gặp hố cực tiểu địa phương nông, đà quán tính giúp bi **vọt qua miệng hố để lăn tiếp xuống đáy cực tiểu toàn cục sâu hơn**!",
+    "slideRef": "Slide Chương 6, Trang 61"
   },
   {
     "id": 386,
@@ -5787,14 +5787,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Nhược điểm lớn nhất của thuật toán tối ưu hóa AdaGrad khiến nó ít được sử dụng trong mạng nơ-ron sâu là gì?",
     "options": [
-      "AdaGrad đòi hỏi tính ma trận Hessian bậc 2",
-      "Đại lượng tích lũy bình phương gradient G_t = sum(g_k^2) liên tục tăng qua mọi bước lặp, khiến tốc độ học hiệu dụng η / sqrt(G_t + ε) giảm đơn điệu về 0 quá sớm làm mạng ngừng học trước khi đến cực tiểu",
-      "AdaGrad không hỗ trợ Mini-batch",
-      "AdaGrad luôn làm mô hình phân kỳ"
+      "AdaGrad yêu cầu tính ma trận nghịch đảo quá nặng",
+      "Tổng bình phương gradient tích lũy ở mẫu số tăng liên tục không ngừng, khiến tốc độ học hiệu dụng bị co về 0 quá sớm, mạng bị 'đóng băng' và ngừng học hoàn toàn",
+      "AdaGrad không hỗ trợ hàm kích hoạt ReLU",
+      "AdaGrad chỉ dùng được cho bài toán 1 chiều"
     ],
     "answer": 1,
-    "explanation": "Vì G_t cộng dồn bình phương gradient từ đầu epoch đến cuối, mẫu số tăng liên tục không bao giờ giảm. Tốc độ học bị thu nhỏ dần cho đến khi tắt ngấm (Learning rate vanishes), khiến mạng bị kẹt lại.",
-    "slideRef": "Slide Chương 6, Trang 55-57"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nCông thức cập nhật của AdaGrad:\n$$\\theta_{t+1} = \\theta_t - \\frac{\\eta}{\\sqrt{G_t + \\epsilon}} g_t, \\quad \\text{với } G_t = \\sum_{\\tau=1}^t g_\\tau^2$$\n* Vì $g_\\tau^2 \\ge 0$, đại lượng $G_t$ là **tổng cộng dồn luôn luôn tăng đơn điệu** qua từng bước lặp.\n* Khi $t$ lớn, $G_t \\to +\\infty \\implies \\frac{\\eta}{\\sqrt{G_t}} \\to 0$.\n* Tốc độ học bị triệt tiêu về 0 quá sớm khi mô hình còn chưa kịp học xong! *(RMSProp ra đời để khắc phục lỗi này)*.",
+    "slideRef": "Slide Chương 6, Trang 61"
   },
   {
     "id": 387,
@@ -5803,28 +5803,28 @@ window.QUESTION_BANK = [
     "question": "Thuật toán RMSProp đã khắc phục nhược điểm tắt ngấm tốc độ học của AdaGrad bằng cải tiến nào?",
     "options": [
       "Bỏ hoàn toàn việc tính bình phương gradient",
-      "Thay thế tổng cộng dồn bằng Trung bình trượt có trọng số phân rã theo hàm mũ (Exponential Moving Average - EMA) của bình phương gradient: v_t = β * v_{t-1} + (1 - β) * g_t^2",
-      "Cố định tốc độ học là hằng số",
+      "Thay thế tổng cộng dồn bằng Trung bình trượt phân rã theo hàm mũ (Exponential Moving Average - EMA) của bình phương gradient: $v_t = \\beta v_{t-1} + (1 - \\beta) g_t^2$",
+      "Cố định tốc độ học là một hằng số duy nhất",
       "Tăng kích thước mạng nơ-ron lên gấp đôi"
     ],
     "answer": 1,
-    "explanation": "RMSProp chỉ lưu giữ lịch sử bình phương gradient trong một khoảng thời gian gần đây nhờ hệ số suy giảm β (thường 0.9). Nhờ đó mẫu số không bị phình to vô hạn, tốc độ học thích nghi linh hoạt tăng giảm theo độ dốc cục bộ.",
-    "slideRef": "Slide Chương 6, Trang 56-58"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Geoffrey Hinton đề xuất **RMSProp**: Thay vì cộng dồn toàn bộ lịch sử từ thuở sơ khai như AdaGrad, RMSProp chỉ giữ lại **kỷ niệm gần đây** thông qua trung bình trượt phân rã theo hàm mũ:\n  $$v_t = \\beta v_{t-1} + (1 - \\beta) g_t^2$$\n* Hệ số $\\beta \\approx 0.9$ giúp đại lượng $v_t$ không bao giờ bị tăng vô hạn $\\implies$ Tốc độ học thích nghi linh hoạt, không bị đóng băng.",
+    "slideRef": "Slide Chương 6, Trang 61"
   },
   {
     "id": 388,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Tại sao trong thuật toán Adam (Adaptive Moment Estimation), bước Hiệu chỉnh độ lệch (Bias Correction) m_hat_t = m_t / (1 - β1^t) và v_hat_t = v_t / (1 - β2^t) lại đặc biệt quan trọng?",
+    "question": "Tại sao trong thuật toán Adam (Adaptive Moment Estimation), bước Hiệu chỉnh độ lệch (Bias Correction) $\\hat{m}_t = \\frac{m_t}{1 - \\beta_1^t}$ và $\\hat{v}_t = \\frac{v_t}{1 - \\beta_2^t}$ lại đặc biệt quan trọng?",
     "options": [
       "Để giảm thiểu sai số dấu phẩy động",
-      "Vì m_0 và v_0 được khởi tạo bằng 0, nên ở các bước đầu tiên (t nhỏ), các giá trị ước lượng m_t và v_t bị chệch nghiêm trọng về phía 0; công thức chia cho (1 - β^t) giúp kéo ước lượng về giá trị không chệch",
-      "Để loại bỏ hoàn toàn siêu tham số learning rate",
+      "Vì $m_0$ và $v_0$ được khởi tạo bằng 0, nên ở các bước đầu tiên ($t$ nhỏ), các giá trị ước lượng $m_t$ và $v_t$ bị chệch nghiêm trọng về phía 0; công thức chia cho $(1 - \\beta^t)$ giúp kéo ước lượng về giá trị không chệch",
+      "Để loại bỏ hoàn toàn siêu tham số Learning Rate",
       "Để ép trọng số về dạng số nguyên"
     ],
     "answer": 1,
-    "explanation": "Khi khởi tạo m_0 = 0, ở t=1: m_1 = (1 - 0.9) * g_1 = 0.1 * g_1 (bị bé hơn thực tế 10 lần!). Nhờ hiệu chỉnh: m_hat_1 = (0.1 * g_1) / (1 - 0.9^1) = 0.1 * g_1 / 0.1 = g_1, giúp mô hình có bước nhảy chuẩn xác ngay từ bước đầu tiên.",
-    "slideRef": "Slide Chương 6, Trang 58-60"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi khởi tạo, ta gán $m_0 = 0$ và $v_0 = 0$.\n* Ở bước đầu tiên ($t = 1$): $m_1 = (1 - \\beta_1) g_1$. Với $\\beta_1 = 0.9$, ta có $m_1 = 0.1 g_1$ (bị teo nhỏ gấp 10 lần so với giá trị gradient thực tế!).\n* Để sửa sai, Adam chia cho $(1 - \\beta_1^t)$:\n  $$\\hat{m}_1 = \\frac{0.1 g_1}{1 - 0.9^1} = \\frac{0.1 g_1}{0.1} = \\mathbf{g_1}$$\n* Giúp ước lượng mô-men phản ánh trung thực gradient ngay từ những bước đầu tiên!",
+    "slideRef": "Slide Chương 6, Trang 61-62"
   },
   {
     "id": 389,
@@ -5832,14 +5832,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Kỹ thuật Dropout (Srivastava et al. 2014) hoạt động như thế nào trong quá trình Huấn luyện (Training) và Suy luận (Inference)?",
     "options": [
-      "Trong lúc train, ngẫu nhiên tắt (gán bằng 0) một tỷ lệ p nơ-ron ở mỗi mini-batch; Trong lúc inference (test), bật TẤT CẢ nơ-ron nhưng nhân đầu ra với (1 - p) (hoặc dùng Inverted Dropout chia cho 1-p ngay lúc train)",
-      "Tắt vĩnh viễn p nơ-ron cho đến hết đời mô hình",
+      "Trong lúc train, ngẫu nhiên ngắt (gán bằng 0) một tỷ lệ $p$ nơ-ron ở mỗi mini-batch; Trong lúc inference, kích hoạt TẤT CẢ nơ-ron nhưng nhân đầu ra với $(1 - p)$ (hoặc dùng Inverted Dropout chia cho $1-p$ ngay lúc train)",
+      "Tắt vĩnh viễn $p$ nơ-ron cho đến hết đời mô hình",
       "Chỉ tắt các nơ-ron ở tầng đầu vào",
       "Trong lúc inference tắt nhiều nơ-ron hơn lúc train"
     ],
     "answer": 0,
-    "explanation": "Dropout ngăn chặn các nơ-ron phụ thuộc cùng thích nghi (Co-adaptation). Mỗi bước train, một tập con nơ-ron ngẫu nhiên bị tắt đi, buộc mạng phải học các biểu diễn bền bỉ. Khi suy luận, bật 100% nơ-ron để tận dụng sức mạnh ensemble của toàn bộ mạng.",
-    "slideRef": "Slide Chương 6, Trang 68-70"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Nguyên lý Dropout:** Chống hiện tượng nơ-ron \"dựa dẫm đồng thích nghi\" (Co-adaptation):\n  - **Khi Train:** Tại mỗi mini-batch, mỗi nơ-ron có xác suất $p$ bị \"tắt công tắc\" (đầu ra gán bằng 0). Mạng buộc phải học nhiều đường dẫn thay thế.\n  - **Khi Test/Inference:** Bật toàn bộ mạng để tận dụng sức mạnh hội đồng của hàng ngàn mạng con!\n* Để kỳ vọng tín hiệu đầu ra khi test bằng khi train, người ta dùng **Inverted Dropout**: nhân đầu ra với $\\frac{1}{1 - p}$ ngay trong lúc train.",
+    "slideRef": "Slide Chương 6, Trang 63"
   },
   {
     "id": 390,
@@ -5847,14 +5847,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Lợi ích cốt lõi của kỹ thuật Chuẩn hóa theo lô (Batch Normalization - Ioffe & Szegedy 2015) là gì?",
     "options": [
-      "Chuẩn hóa đầu vào của từng tầng về mean=0, var=1 trên mỗi mini-batch, kèm 2 tham số có thể học γ (scale) và β (shift); giúp ổn định phân bố kích hoạt, cho phép dùng learning rate lớn hơn nhiều và đẩy nhanh tốc độ hội tụ",
+      "Chuẩn hóa đầu vào của từng tầng về $\\text{mean}=0, \\text{var}=1$ trên mỗi mini-batch, kèm 2 tham số có thể học $\\gamma$ (scale) và $\\beta$ (shift); giúp ổn định phân bố kích hoạt, cho phép dùng learning rate lớn hơn và tăng tốc độ hội tụ",
       "Loại bỏ hoàn toàn sự cần thiết của hàm kích hoạt phi tuyến",
       "Giúp mạng nơ-ron không cần dữ liệu huấn luyện",
       "Biến mạng MLP thành mạng nơ-ron hồi quy RNN"
     ],
     "answer": 0,
-    "explanation": "Batch Normalization giải quyết hiện tượng Trôi dạt hiệp biến nội tại (Internal Covariate Shift). Bằng cách chuẩn hóa từng mini-batch và học 2 tham số scale γ và shift β, BatchNorm giúp bề mặt tối ưu hóa trơn tru hơn nhiều, cho phép hội tụ nhanh gấp nhiều lần.",
-    "slideRef": "Slide Chương 6, Trang 71-73"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Batch Normalization (BatchNorm):**\n  - Tại mỗi tầng, tính giá trị trung bình $\\mu_B$ và phương sai $\\sigma_B^2$ của mini-batch.\n  - Chuẩn hóa: $\\hat{x} = \\frac{x - \\mu_B}{\\sqrt{\\sigma_B^2 + \\epsilon}}$.\n  - Khôi phục năng lực biểu diễn bằng 2 tham số học được: $y = \\gamma \\hat{x} + \\beta$.\n* **Lợi ích:** Ổn định dòng truyền tín hiệu, giảm sự phụ thuộc vào khởi tạo trọng số, cho phép dùng Learning Rate lớn gấp nhiều lần và đóng vai trò chính quy hóa nhẹ.",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 391,
@@ -5863,13 +5863,13 @@ window.QUESTION_BANK = [
     "question": "Kỹ thuật Dừng sớm (Early Stopping) trong huấn luyện mạng nơ-ron hoạt động dựa trên tiêu chí nào?",
     "options": [
       "Dừng khi Training Loss giảm về 0",
-      "Theo dõi hàm mất mát hoặc độ chính xác trên tập Thẩm định (Validation Set); dừng huấn luyện khi Validation Loss ngừng cải thiện và bắt đầu tăng liên tục sau một số epoch quy định (patience)",
+      "Theo dõi hàm mất mát hoặc độ chính xác trên tập Thẩm định (Validation Set); dừng huấn luyện khi Validation Loss ngừng cải thiện và bắt đầu tăng liên tục sau một số epoch quy định (`patience`)",
       "Dừng đúng ở epoch thứ 100 trong mọi trường hợp",
-      "Dừng khi máy tính bị nóng"
+      "Dừng khi bộ nhớ RAM bị đầy"
     ],
     "answer": 1,
-    "explanation": "Khi mô hình bắt đầu Overfitting, Training Loss tiếp tục giảm nhưng Validation Loss bắt đầu quay đầu tăng lên. Early Stopping ngắt quá trình train đúng thời điểm mô hình đạt đỉnh phong độ trên Validation set và lưu lại trọng số tốt nhất đó.",
-    "slideRef": "Slide Chương 6, Trang 74-75"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Tiêu chí Early Stopping:** Luôn luôn dựa trên **Validation Loss** (không bao giờ dựa trên Train Loss vì Train Loss cứ tiếp tục giảm khi mô hình học vẹt).\n* Khi Validation Loss không còn thiết lập đáy mới sau $k$ epoch liên tiếp (tham số `patience`), thuật toán dừng lại và hoàn trả bộ trọng số tại thời điểm Validation Loss đạt cực tiểu tốt nhất.",
+    "slideRef": "Slide Chương 6, Trang 63"
   },
   {
     "id": 392,
@@ -5878,19 +5878,19 @@ window.QUESTION_BANK = [
     "question": "Kỹ thuật Chính quy hóa Suy giảm Trọng số (L2 Weight Decay) ảnh hưởng như thế nào đến công thức cập nhật trọng số trong Gradient Descent?",
     "options": [
       "Không ảnh hưởng gì đến trọng số",
-      "Sau mỗi bước cập nhật, trọng số w bị nhân với một hệ số co (1 - η * λ / m) < 1 trước khi trừ đi gradient; tức là trọng số liên tục bị co nhẹ về 0 ở mỗi bước",
-      "Ép tất cả trọng số w_i về đúng bằng 0 như Lasso",
-      "Làm tăng độ lớn trọng số w lên gấp đôi"
+      "Sau mỗi bước cập nhật, trọng số $W$ bị nhân với một hệ số co nhỏ hơn 1: $W \\leftarrow (1 - \\eta \\lambda) W - \\eta \\nabla L$, tức là trọng số liên tục bị co nhẹ về 0 ở mỗi bước",
+      "Ép tất cả trọng số về đúng bằng 0 như Lasso",
+      "Làm tăng độ lớn của trọng số lên gấp đôi"
     ],
     "answer": 1,
-    "explanation": "Đạo hàm của hàm mất mát có L2: dJ/dw = dJ_0/dw + (λ/m)*w. Bước cập nhật: w <- w - η * [ dJ_0/dw + (λ/m)*w ] = w * (1 - η*λ/m) - η * dJ_0/dw. Do (1 - η*λ/m) < 1, trọng số bị suy giảm (decay) dần về 0, ngăn cản việc trọng số phình to quá mức.",
-    "slideRef": "Slide Chương 6, Trang 67-68"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Hàm mất mát có phạt L2:\n  $$J(W) = L(W) + \\frac{\\lambda}{2} \\|W\\|^2$$\n* Đạo hàm: $\\nabla_W J = \\nabla_W L + \\lambda W$.\n* Thay vào công thức Gradient Descent:\n  $$W \\leftarrow W - \\eta (\\nabla_W L + \\lambda W) = \\mathbf{(1 - \\eta \\lambda) W} - \\eta \\nabla_W L$$\n* Vì $(1 - \\eta \\lambda) < 1$, trọng số liên tục bị \"thu nhỏ / phân rã\" về 0 trước khi trừ đi gradient $\\implies$ gọi là **Weight Decay**, ngăn ngừa trọng số phình to quá mức gây Overfitting.",
+    "slideRef": "Slide Chương 6, Trang 63"
   },
   {
     "id": 393,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Một mạng MLP có đầu vào 4 chiều, tầng ẩn 1 có 5 nơ-ron, tầng đầu ra có 2 nơ-ron. Giả sử KHÔNG CÓ Bias ở bất kỳ tầng nào. Tổng số trọng số w của mạng này là bao nhiêu?",
+    "question": "Một mạng MLP có đầu vào 4 chiều, tầng ẩn 1 có 5 nơ-ron, tầng đầu ra có 2 nơ-ron. Giả sử KHÔNG CÓ Bias ở bất kỳ tầng nào. Tổng số trọng số $w$ của mạng này là bao nhiêu?",
     "options": [
       "30 trọng số",
       "37 trọng số",
@@ -5898,8 +5898,8 @@ window.QUESTION_BANK = [
       "10 trọng số"
     ],
     "answer": 0,
-    "explanation": "Tầng ẩn 1: 4 * 5 = 20 trọng số. Tầng đầu ra: 5 * 2 = 10 trọng số. Vì bài toán giả thiết KHÔNG CÓ bias nên tổng số tham số đúng bằng 20 + 10 = 30 trọng số.",
-    "slideRef": "Slide Chương 6, Trang 16-17"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **LƯU Ý ĐỀ BÀI: KHÔNG CÓ BIAS!**\n* Tầng Input $\\to$ Tầng ẩn:\n  - Số trọng số = $n_{sau} \\times n_{trước} = 5 \\times 4 = \\mathbf{20}$ trọng số.\n* Tầng ẩn $\\to$ Tầng đầu ra:\n  - Số trọng số = $n_{sau} \\times n_{trước} = 2 \\times 5 = \\mathbf{10}$ trọng số.\n* 👉 **Tổng số trọng số:**\n  $$\\text{Tổng} = 20 + 10 = \\mathbf{30} \\text{ trọng số}$$\n*(Nếu có bias thì cộng thêm $5 + 2 = 7$ bias thành 37 tham số)*.",
+    "slideRef": "Slide Chương 6, Trang 24"
   },
   {
     "id": 394,
@@ -5908,28 +5908,28 @@ window.QUESTION_BANK = [
     "question": "Hàm kích hoạt ELU (Exponential Linear Unit) cải tiến hơn Leaky ReLU ở điểm nào?",
     "options": [
       "Đạo hàm luôn bằng 0 ở mọi miền",
-      "ELU sử dụng đường cong trơn dạng hàm mũ f(z) = α * (e^z - 1) khi z < 0, giúp đạo hàm trơn liên tục tại 0 và giá trị trung bình kích hoạt gần 0 hơn, tăng tốc độ hội tụ",
+      "ELU sử dụng đường cong trơn dạng hàm mũ $f(z) = \\alpha (e^z - 1)$ khi $z < 0$, giúp đạo hàm trơn liên tục tại 0 và kéo giá trị trung bình kích hoạt gần 0 hơn, tăng tốc độ hội tụ",
       "ELU không bao giờ cho ra giá trị âm",
       "ELU chỉ dùng cho bài toán 1 chiều"
     ],
     "answer": 1,
-    "explanation": "Khác với khúc cua gãy góc của Leaky ReLU, ELU có đường cong mượt mà tiệm cận -α khi z -> -∞. Đường cong trơn này giúp gradient biến thiên mượt mà và chống ồn tốt hơn.",
-    "slideRef": "Slide Chương 6, Trang 37-38"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Công thức ELU (Clevert et al., 2015):\n  $$f(z) = \\begin{cases} z & \\text{khi } z > 0 \\\\ \\alpha (e^z - 1) & \\text{khi } z \\le 0 \\end{cases}$$\n* Điểm cải tiến so với Leaky ReLU:\n  - Tại $z = 0$, đường cong mượt mà khả vi trơn.\n  - Khi $z \\to -\\infty$, hàm bão hòa ở giá trị $-\\alpha$, giúp mô hình có khả năng chống nhiễu mạnh hơn ở miền âm cực lớn.",
+    "slideRef": "Slide Chương 6, Trang 30-31"
   },
   {
     "id": 395,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Hàm kích hoạt GELU (Gaussian Error Linear Unit) - được sử dụng làm chuẩn mực trong các mô hình Transformers như BERT và GPT - hoạt động dựa trên nguyên lý nào?",
+    "question": "Hàm kích hoạt GELU (Gaussian Error Linear Unit) — chuẩn mực trong các mô hình Transformers như BERT và GPT — hoạt động dựa trên nguyên lý nào?",
     "options": [
-      "Nhân đầu vào x với hàm phân phối tích lũy của phân phối chuẩn tắc: GELU(x) = x * Φ(x)",
-      "Lấy giá trị tuyệt đối của x",
-      "Chia x cho 100",
-      "Làm tròn x thành số nguyên"
+      "Nhân đầu vào $x$ với hàm phân phối tích lũy của phân phối chuẩn tắc: $\\text{GELU}(x) = x \\cdot \\Phi(x) = x \\cdot P(X \\le x)$",
+      "Lấy giá trị tuyệt đối của $x$",
+      "Chia $x$ cho hằng số 100",
+      "Làm tròn $x$ thành số nguyên gần nhất"
     ],
     "answer": 0,
-    "explanation": "GELU cân nhắc xác suất một nơ-ron được 'giữ lại' dựa trên phân phối chuẩn: x * P(X <= x) = x * Φ(x). Nó tạo ra một phiên bản mượt mà của ReLU và đã chứng minh hiệu quả vượt trội trong hầu hết các mô hình ngôn ngữ lớn hiện đại.",
-    "slideRef": "Slide Chương 6, Trang 38-39"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **GELU (Hendrycks & Gimpel, 2016):**\n  $$\\text{GELU}(x) = x \\cdot \\Phi(x)$$\n  *(với $\\Phi(x) = P(X \\le x)$ là hàm CDF của phân phối chuẩn $\\mathcal{N}(0, 1)$)*.\n* Trực giác: Đầu vào $x$ được nhân với xác suất kích hoạt của chính nó. Khi $x$ lớn, $\\Phi(x) \\to 1 \\implies \\text{GELU}(x) \\approx x$. Khi $x$ rất âm, $\\Phi(x) \\to 0 \\implies \\text{GELU}(x) \\to 0$. GELU là đường cong trơn hoàn hảo điều khiển luồng thông tin.",
+    "slideRef": "Slide Chương 6, Trang 31"
   },
   {
     "id": 396,
@@ -5937,29 +5937,29 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Trong bài toán hồi quy (Regression) dự đoán giá trị liên tục, nơ-ron ở tầng đầu ra (Output Layer) của mạng MLP thường sử dụng hàm kích hoạt nào và hàm mất mát nào?",
     "options": [
-      "Kích hoạt Tuyến tính (Linear / Identity: f(z) = z) kết hợp hàm mất mát Sai số bình phương trung bình (MSE hoặc MAE)",
+      "Kích hoạt Tuyến tính (Linear / Identity: $f(z) = z$) kết hợp hàm mất mát Sai số bình phương trung bình (MSE hoặc MAE)",
       "Kích hoạt Softmax kết hợp Categorical Cross-Entropy",
       "Kích hoạt Sigmoid kết hợp Binary Cross-Entropy",
       "Kích hoạt ReLU kết hợp Hinge Loss"
     ],
     "answer": 0,
-    "explanation": "Trong bài toán hồi quy, biến mục tiêu y có thể nhận bất kỳ giá trị số thực nào (-∞, +∞). Do đó tầng ra bắt buộc phải dùng hàm kích hoạt tuyến tính f(z) = z (không chặn miền giá trị) kết hợp hàm mất mát MSE hoặc MAE.",
-    "slideRef": "Slide Chương 6, Trang 40-42"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Vì giá trị cần dự đoán trong bài toán hồi quy (như nhiệt độ, giá nhà) không bị giới hạn trong khoảng $[0, 1]$:\n  - Tầng đầu ra sử dụng hàm đồng nhất: $\\hat{y} = z$ (Linear Activation).\n  - Hàm mất mát tối ưu chuẩn là **MSE** (Mean Squared Error) hoặc **MAE** (Mean Absolute Error).",
+    "slideRef": "Slide Chương 6, Trang 33, 42, 67"
   },
   {
     "id": 397,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Trong bài toán phân loại đa nhãn (Multi-label Classification - một mẫu có thể đồng thời thuộc về nhiều lớp khác nhau), tầng đầu ra cần thiết kế như thế nào?",
+    "question": "Trong bài toán phân loại đa nhãn (Multi-label Classification — một mẫu có thể đồng thời thuộc về nhiều nhãn khác nhau), tầng đầu ra cần thiết kế như thế nào?",
     "options": [
       "Dùng 1 nơ-ron Softmax duy nhất",
-      "Dùng K nơ-ron đầu ra, MỖI nơ-ron sử dụng độc lập hàm kích hoạt SIGMOID kết hợp hàm mất mát Binary Cross-Entropy riêng lẻ cho từng lớp",
-      "Dùng hàm Softmax cho tất cả K nơ-ron",
-      "Chỉ dùng 1 nơ-ron Tuyến tính"
+      "Dùng $K$ nơ-ron đầu ra, MỖI nơ-ron sử dụng độc lập hàm kích hoạt SIGMOID kết hợp hàm mất mát Binary Cross-Entropy riêng lẻ cho từng lớp",
+      "Dùng hàm Softmax cho tất cả $K$ nơ-ron",
+      "Chỉ dùng 1 nơ-ron Tuyến tính duy nhất"
     ],
     "answer": 1,
-    "explanation": "Softmax ép tổng xác suất các lớp bằng 1 (chỉ chọn đúng 1 lớp - mutually exclusive). Trong Multi-label (ví dụ: ảnh vừa có chó vừa có mèo), mỗi nhãn là một bài toán nhị phân độc lập 'có hay không', do đó mỗi đầu ra phải dùng Sigmoid riêng rẽ.",
-    "slideRef": "Slide Chương 6, Trang 42-43"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n⚠️ **PHÂN BIỆT MULTI-CLASS VS MULTI-LABEL:**\n* **Multi-class (Đa lớp loại trừ):** Mỗi ảnh CHỈ ĐƯỢC CHỌN 1 lớp $\\implies$ Dùng **Softmax** (tổng các xác suất bằng 1, các lớp triệt tiêu lẫn nhau).\n* **Multi-label (Đa nhãn đồng thời):** Một ảnh có thể VỪA CÓ CHÓ, VỪA CÓ MÈO $\\implies$ **BẮT BUỘC DÙNG $K$ NƠ-RON SIGMOID ĐỘC LẬP**! Mỗi nơ-ron tự quyết định xem nhãn đó có xuất hiện hay không, độc lập với các nhãn còn lại.",
+    "slideRef": "Slide Chương 6, Trang 35, 69"
   },
   {
     "id": 398,
@@ -5967,14 +5967,14 @@ window.QUESTION_BANK = [
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
     "question": "Khái niệm 'Skip Connection' (Đường tắt / Residual Connection) trong kiến trúc ResNet giải quyết vấn đề nan giải nào của mạng nơ-ron siêu sâu?",
     "options": [
-      "Cho phép gradient chảy trực tiếp ngược về các tầng trước mà không bị suy giảm thông qua phép cộng đồng nhất F(x) + x, triệt tiêu hoàn toàn vấn đề Vanishing Gradient ở các mạng hàng trăm tầng",
+      "Cho phép gradient chảy trực tiếp ngược về các tầng trước mà không bị suy giảm thông qua phép cộng đồng nhất $\\mathcal{F}(x) + x$, triệt tiêu hoàn toàn vấn đề Vanishing Gradient ở các mạng hàng trăm tầng",
       "Giúp giảm kích thước ảnh đầu vào",
       "Tự động tính ma trận nghịch đảo giả",
       "Bỏ qua bước huấn luyện"
     ],
     "answer": 0,
-    "explanation": "Với kết nối cộng dồn F(x) + x, đạo hàm theo x là d/dx [F(x) + x] = dF/dx + 1. Thành phần '+ 1' đảm bảo gradient luôn có một đường cao tốc trực tiếp chảy ngược về các tầng đầu với độ lớn ít nhất bằng 1, giúp huấn luyện thành công các mạng sâu hàng trăm tầng.",
-    "slideRef": "Slide Chương 6, Trang 76-78"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* Khi mạng quá sâu (hàng chục tầng), đạo hàm theo chuỗi bị nhân liên tục khiến gradient bị triệt tiêu về 0.\n* **Skip Connection trong ResNet:**\n  $$\\mathcal{H}(x) = \\mathcal{F}(x) + x$$\n* Đạo hàm:\n  $$\\frac{\\partial \\mathcal{H}}{\\partial x} = \\frac{\\partial \\mathcal{F}}{\\partial x} + \\mathbf{1}$$\n* Số hạng **$+1$** đóng vai trò là một \"đường cao tốc\", đảm bảo gradient luôn luôn truyền ngược về các tầng đầu tiên mà không bao giờ bị triệt tiêu!",
+    "slideRef": "Slide Chương 6, Trang 63"
   },
   {
     "id": 399,
@@ -5984,27 +5984,27 @@ window.QUESTION_BANK = [
     "options": [
       "Sự thay đổi liên tục phân phối xác suất đầu vào của các tầng bên trong mạng trong quá trình huấn luyện do tham số của các tầng trước đó liên tục bị cập nhật",
       "Lỗi phần cứng card màn hình khi tính ma trận",
-      "Sự khác biệt giữa tập train và tập test",
+      "Sự khác biệt phân phối giữa tập train và tập test",
       "Mô hình chuyển từ hàm Sigmoid sang ReLU"
     ],
     "answer": 0,
-    "explanation": "Internal Covariate Shift là hiện tượng khi các tầng trước thay đổi trọng số, phân bố đầu vào của các tầng sau bị dịch chuyển liên tục, buộc các tầng sau phải liên tục thích nghi lại từ đầu. Batch Normalization giữ cho phân bố đầu vào của từng tầng ổn định quanh mean=0, var=1.",
-    "slideRef": "Slide Chương 6, Trang 71-72"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\n* **Internal Covariate Shift:**\n  - Trong mạng sâu, mỗi khi trọng số của Tầng 1 thay đổi, phân phối đầu ra của Tầng 1 sẽ bị dịch chuyển.\n  - Tầng 2 buộc phải liên tục thích nghi với một phân phối đầu vào hoàn toàn mới, kéo theo Tầng 3, Tầng 4... bị xáo trộn theo chuỗi hiệu ứng domino!\n* **Batch Normalization** chuẩn hóa đầu vào của mỗi tầng về phân phối chuẩn tắc cố định $\\implies$ Ổn định nền tảng cho các tầng sau học tập trơn tru.",
+    "slideRef": "Slide Chương 6, Trang 62"
   },
   {
     "id": 400,
     "chapter": 6,
     "chapterTitle": "Chương 6: MLP - Multi Layer Perceptron",
-    "question": "Tổng kết toàn diện kiến trúc mạng MLP: Trong bài toán Phân loại chữ số viết tay MNIST (ảnh xám 28x28 = 784 điểm ảnh, 10 lớp chữ số từ 0 đến 9), cấu hình chuẩn mực của mạng MLP bao gồm:",
+    "question": "Tổng kết toàn diện kiến trúc mạng MLP: Trong bài toán Phân loại chữ số viết tay MNIST (ảnh xám $28 \\times 28 = 784$ điểm ảnh, 10 lớp chữ số từ 0 đến 9), cấu hình chuẩn mực của mạng MLP bao gồm:",
     "options": [
-      "Tầng vào 784 nơ-ron -> Các tầng ẩn dùng kích hoạt ReLU kèm Khởi tạo He -> Tầng ra 10 nơ-ron dùng kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy và tối ưu hóa bằng Adam",
-      "Tầng vào 10 nơ-ron -> Tầng ẩn dùng Sigmoid -> Tầng ra 784 nơ-ron dùng Linear với MSE",
-      "Tầng vào 784 nơ-ron -> Tầng ẩn dùng Tanh -> Tầng ra 1 nơ-ron dùng Binary Cross-Entropy",
-      "Tầng vào 28 nơ-ron -> Không có tầng ẩn -> Tầng ra 10 nơ-ron dùng K-Means"
+      "Tầng vào 784 nơ-ron $\\to$ Các tầng ẩn dùng kích hoạt ReLU kèm Khởi tạo He $\\to$ Tầng ra 10 nơ-ron dùng kích hoạt Softmax kết hợp hàm mất mát Categorical Cross-Entropy và tối ưu hóa bằng Adam",
+      "Tầng vào 10 nơ-ron $\\to$ Tầng ẩn dùng Sigmoid $\\to$ Tầng ra 784 nơ-ron dùng Linear với MSE",
+      "Tầng vào 784 nơ-ron $\\to$ Tầng ẩn dùng Tanh $\\to$ Tầng ra 1 nơ-ron dùng Binary Cross-Entropy",
+      "Tầng vào 28 nơ-ron $\\to$ Không có tầng ẩn $\\to$ Tầng ra 10 nơ-ron dùng K-Means"
     ],
     "answer": 0,
-    "explanation": "Đây là thiết kế kiến trúc chuẩn mực vàng: Đầu vào làm phẳng 28x28 = 784; Tầng ẩn dùng ReLU + He Normal để truyền dẫn tín hiệu tối ưu; Tầng ra 10 nơ-ron tương ứng 10 chữ số dùng Softmax + Categorical Cross-Entropy cho phân loại đa lớp; Tối ưu hóa bằng Adam để hội tụ nhanh và ổn định nhất.",
-    "slideRef": "Slide Chương 6, Trang 79-80"
+    "explanation": "### 🎯 Bản chất trực quan & Phân tích chi tiết:\nĐây là **Thiết kế kiến trúc chuẩn mực vàng** cho bài toán phân loại đa lớp trong Deep Learning:\n1. **Input Layer:** $784$ nơ-ron (ứng với $28 \\times 28$ pixel).\n2. **Hidden Layers:** Sử dụng hàm kích hoạt **ReLU** kết hợp **Khởi tạo He Normal** để tín hiệu truyền dẫn mạnh mẽ, không bị Vanishing Gradient.\n3. **Output Layer:** Gồm **10 nơ-ron** với hàm kích hoạt **Softmax** tạo phân phối xác suất.\n4. **Hàm mất mát:** **Categorical Cross-Entropy (CCE)** kết hợp thuật toán tối ưu hóa **Adam** (Mini-batch GD).",
+    "slideRef": "Slide Chương 6, Trang 64, 70, 74"
   },
   {
     "id": 401,
