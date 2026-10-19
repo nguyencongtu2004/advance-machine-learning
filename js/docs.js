@@ -19,7 +19,7 @@
       window.DOCS_MANIFEST.forEach(doc => {
         const opt = document.createElement('option');
         opt.value = doc.id;
-        opt.textContent = `${doc.category}: ${doc.title}`;
+        opt.textContent = `${doc.title} ${doc.badge ? '(' + doc.badge + ')' : ''}`;
         selectEl.appendChild(opt);
       });
       selectEl.addEventListener('change', (e) => {
@@ -35,7 +35,7 @@
         btn.dataset.id = doc.id;
         btn.innerHTML = `
           <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${doc.title}</span>
-          ${doc.badge ? `<span class="doc-badge-tag">${doc.badge}</span>` : ''}
+          ${doc.badge ? `<span class="doc-badge-tag ${doc.badgeClass || ''}">${doc.badge}</span>` : ''}
         `;
         btn.addEventListener('click', () => {
           loadDoc(doc.id);
@@ -94,7 +94,7 @@
     if (filenameTag) filenameTag.textContent = doc.filename;
 
     const activeTitle = document.getElementById('doc-active-title');
-    if (activeTitle) activeTitle.textContent = doc.title;
+    if (activeTitle) activeTitle.textContent = doc.fullTitle || doc.title;
 
     // Reset ô tìm kiếm khi đổi file
     const searchInput = document.getElementById('docs-search-input');
